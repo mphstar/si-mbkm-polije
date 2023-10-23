@@ -27,7 +27,7 @@ class MbkmCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Mbkm::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/mbkm');
+        CRUD::setRoute('admin/mbkm');
         CRUD::setEntityNameStrings('mbkm', 'mbkms');
     }
 
