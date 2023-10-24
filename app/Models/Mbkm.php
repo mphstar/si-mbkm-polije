@@ -23,11 +23,10 @@ class Mbkm extends Model
     // protected $hidden = [];
     // protected $dates = [];
 
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
+    public function partner()
+    {
+        return $this->belongsTo(\App\Models\Partner::class, 'partner_id');
+    }
 
     /*
     |--------------------------------------------------------------------------

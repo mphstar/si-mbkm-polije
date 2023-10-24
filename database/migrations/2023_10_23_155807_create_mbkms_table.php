@@ -21,8 +21,8 @@ class CreateMbkmsTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->text('info')->nullable();
-            $table->enum('status_acc', ['accepted', 'rejected', 'pending']);
-            $table->enum('is_active', ['active', 'inactive']);
+            $table->enum('status_acc', ['accepted', 'rejected', 'pending'])->default('pending');
+            $table->enum('is_active', ['active', 'inactive'])->default('inactive');
             $table->timestamps();
         });
     }

@@ -23,11 +23,12 @@ class Partner extends Model
     // protected $hidden = [];
     // protected $dates = [];
 
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
+    //FUNCTIONS
+    public function mbkms()
+{
+    return $this->hasMany('App\Models\Mbkm', 'partner_id', 'id');
+}
+ 
 
     /*
     |--------------------------------------------------------------------------
