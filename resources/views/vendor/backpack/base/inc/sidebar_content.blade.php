@@ -4,3 +4,4 @@
 <!-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('students') }}'><i class='nav-icon la la-question'></i> Students</a></li> -->
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm') }}'><i class='nav-icon la la-question'></i> Mbkms</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('partner') }}'><i class='nav-icon la la-handshake'></i> Partners</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('acctive-account-mitra') }}'><i class='nav-icon la la-question'></i> Acctive account mitras</a></li>
