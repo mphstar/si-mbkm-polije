@@ -19,5 +19,10 @@ Route::group([
     Route::crud('tags', 'TagsCrudController');
     Route::crud('mbkm', 'MbkmCrudController');
     Route::crud('partner', 'PartnerCrudController');
+<<<<<<< HEAD
     Route::crud('acctive-account-mitra', 'AcctiveAccountMitraCrudController');
+=======
+ 
+    Route::crud('validasi-mbkm', 'ValidasiMbkmCrudController');
+>>>>>>> d98b0d03faf09c36d75ba661f8224b46837e76a6
 }); // this should be the absolute last line of this file
