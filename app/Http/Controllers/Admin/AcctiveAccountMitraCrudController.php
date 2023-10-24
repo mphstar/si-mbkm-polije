@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\TagsRequest;
+use App\Http\Requests\AcctiveAccountMitraRequest;
+use App\Models\AcctiveAccountMitra;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use App\Models\Partner;
 
 /**
- * Class TagsCrudController
+ * Class AcctiveAccountMitraCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class TagsCrudController extends CrudController
+class AcctiveAccountMitraCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +28,9 @@ class TagsCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Tags::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/tags');
-        CRUD::setEntityNameStrings('tags', 'tags');
+        CRUD::setModel(\App\Models\Partner::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/acctive-account-mitra');
+        CRUD::setEntityNameStrings('acctive account mitra', 'validasi account mitra');
     }
 
     /**
@@ -39,10 +41,12 @@ class TagsCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-
-        CRUD::column('email');
-        CRUD::column('id');
-        CRUD::column('name');
+        CRUD::column("partner_name");
+        CRUD::column("address");
+        CRUD::column("phone");
+        CRUD::column("email");
+        CRUD::column("status");
+        CRUD::column("jenis_mitra");
 
 
         /**
@@ -60,13 +64,9 @@ class TagsCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(TagsRequest::class);
+        CRUD::setValidation(AcctiveAccountMitraRequest::class);
 
 
-        CRUD::field('email');
-        CRUD::field('id');
-        CRUD::field('name');
-       
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -83,6 +83,24 @@ class TagsCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        // $this->setupCreateOperation();
+        CRUD::setValidation(AcctiveAccountMitraRequest::class);
+
+        CRUD::field('partner_name');
+        CRUD::field('address');
+        CRUD::field('phone');
+        CRUD::field('email');
+        CRUD::addField([
+            'name' => 'status',
+            'label' => 'Status',
+            'type' => 'select_from_array',
+            'options' => [
+                'accepted' => 'Accepted',
+                'rejected' => 'Rejected',
+                'pending' => 'Pending',
+            ],
+        ]);
+        CRUD::field("jenis_mitra");
     }
+
 }
