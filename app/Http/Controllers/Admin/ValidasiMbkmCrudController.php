@@ -41,6 +41,8 @@ class ValidasiMbkmCrudController extends CrudController
     {
         $this->crud->setColumns(['partner.partner_name', 'start_date', 'end_date', 'info', 'status_acc', 'is_active']);
         $this->crud->setColumnLabel('Partner.partner_name', 'NAMA MITRA'); 
+        CRUD::addClause('where', 'status_acc', '=', 'pending');
+        CRUD::addClause('where', 'is_active', '=', 'inactiveg');
           
 
         /**
