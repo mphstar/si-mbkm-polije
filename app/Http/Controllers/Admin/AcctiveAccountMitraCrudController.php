@@ -47,7 +47,7 @@ class AcctiveAccountMitraCrudController extends CrudController
         CRUD::column("email");
         CRUD::column("status");
         CRUD::column("jenis_mitra");
-
+        CRUD::addClause('where', 'status', '=', 'pending');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

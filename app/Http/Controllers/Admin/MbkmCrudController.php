@@ -46,6 +46,7 @@ private function getFieldsData()  {
         //     'name' => 'partner.partner_name',
         //     'label' => 'Nama Mitra',
         // ]);
+        
         $this->crud->setColumns(['partner.partner_name', 'start_date', 'end_date', 'info', 'status_acc', 'is_active']);
         $this->crud->setColumnLabel('Partner.partner_name', 'NAMA MITRA'); 
         /**
