@@ -5,7 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Mbkm extends Model
+class ValidasiMbkm extends Model
 {
     use CrudTrait;
 
@@ -23,17 +23,21 @@ class Mbkm extends Model
     // protected $hidden = [];
     // protected $dates = [];
 
-    public function partner()
-    {
-        return $this->belongsTo(\App\Models\Partner::class, 'partner_id');
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
 
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
+    public function partner()
+    {
+        return $this->belongsTo(\App\Models\Partner::class, 'partner_id');
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

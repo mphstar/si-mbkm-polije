@@ -5,7 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Mbkm extends Model
+class Partner extends Model
 {
     use CrudTrait;
 
@@ -15,7 +15,7 @@ class Mbkm extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'mbkms';
+    protected $table = 'partners';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
@@ -23,10 +23,12 @@ class Mbkm extends Model
     // protected $hidden = [];
     // protected $dates = [];
 
-    public function partner()
-    {
-        return $this->belongsTo(\App\Models\Partner::class, 'partner_id');
-    }
+    //FUNCTIONS
+    public function mbkms()
+{
+    return $this->hasMany('App\Models\Mbkm', 'partner_id', 'id');
+}
+ 
 
     /*
     |--------------------------------------------------------------------------
