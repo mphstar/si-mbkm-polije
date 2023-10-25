@@ -28,7 +28,10 @@ class Students extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
+    public function regs()
+    {
+        return $this->hasMany(RegisterMbkm::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

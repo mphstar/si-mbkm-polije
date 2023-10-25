@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\LectureRequest;
+use App\Http\Requests\LecturerRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -11,7 +11,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class LectureCrudController extends CrudController
+class LecturerCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -21,19 +21,19 @@ class LectureCrudController extends CrudController
 
     public function setup()
     {
-        $this->crud->setModel('App\Models\Lecture');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/lecture');
-        $this->crud->setEntityNameStrings('lecture', 'lectures');
+        $this->crud->setModel('App\Models\Lecturer');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/lecturer');
+        $this->crud->setEntityNameStrings('lecturer', 'lecturers');
     }
 
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['nip', 'nama_dosen','email','alamat','no_telfon','username','password','status']);
+        $this->crud->setColumns(['nip', 'lecturer_name','email','alamat','no_telfon','username','password','status']);
     }
 
     protected function setupCreateOperation()
     {
-        $this->crud->setValidation(LectureRequest::class);
+        $this->crud->setValidation(LecturerRequest::class);
         $this->crud->addField([
             'name' => 'nip',
             'type' => 'number',

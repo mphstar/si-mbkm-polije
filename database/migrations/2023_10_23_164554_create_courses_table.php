@@ -18,6 +18,7 @@ class CreateCoursesTable extends Migration
             $table->unsignedBigInteger('program_id');
             $table->foreign('program_id')->references('id')->on('study_programs')->onDelete('cascade');
             $table->string('name');
+            $table->integer("semester");
             $table->timestamps();
         });
     }
