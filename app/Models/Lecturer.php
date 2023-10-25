@@ -5,7 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Mbkm extends Model
+class Lecturer extends Model
 {
     use CrudTrait;
 
@@ -15,22 +15,22 @@ class Mbkm extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'mbkms';
+    protected $table = 'lecturers';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    //protected $fillable = ['nip','nama_dosen','email','alamat','no_telfon','username','password','status'];
     // protected $hidden = [];
     // protected $dates = [];
-
-    public function partner()
-    {
-        return $this->belongsTo(Partner::class);
-    }
     public function regs()
     {
         return $this->hasMany(RegisterMbkm::class);
     }
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
 
     /*
     |--------------------------------------------------------------------------

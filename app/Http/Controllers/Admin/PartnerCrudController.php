@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\PartnerRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use Backpack\CRUD\app\Library\CrudPanel\CrudButton;
 /**
  * Class PartnerCrudController
  * @package App\Http\Controllers\Admin
@@ -136,7 +136,6 @@ class PartnerCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-    
         CRUD::setValidation(PartnerRequest::class);
 
     $this->crud->addField([

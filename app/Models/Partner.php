@@ -26,7 +26,7 @@ class Partner extends Model
     //FUNCTIONS
     public function mbkms()
 {
-    return $this->hasMany('App\Models\Mbkm', 'partner_id', 'id');
+    return $this->hasMany(Mbkm::class);
 }
  
 
