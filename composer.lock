@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
     "content-hash": "e6b6a36c051a7e52ec9e867b60741efa",
-=======
-    "content-hash": "61abe9c9ab89ac92e53e2a0a0c098602",
->>>>>>> e918c433e036c036a83b7c6c3317e8bb2ef03b10
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -597,7 +593,6 @@
         },
         {
             "name": "doctrine/dbal",
-<<<<<<< HEAD
             "version": "2.13.9",
             "source": {
                 "type": "git",
@@ -627,34 +622,6 @@
                 "symfony/cache": "^4.4",
                 "symfony/console": "^2.0.5|^3.0|^4.0|^5.0",
                 "vimeo/psalm": "4.22.0"
-=======
-            "version": "2.12.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/dbal.git",
-                "reference": "adce7a954a1c2f14f85e94aed90c8489af204086"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/adce7a954a1c2f14f85e94aed90c8489af204086",
-                "reference": "adce7a954a1c2f14f85e94aed90c8489af204086",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/cache": "^1.0",
-                "doctrine/event-manager": "^1.0",
-                "ext-pdo": "*",
-                "php": "^7.3 || ^8"
-            },
-            "require-dev": {
-                "doctrine/coding-standard": "^8.1",
-                "jetbrains/phpstorm-stubs": "^2019.1",
-                "phpstan/phpstan": "^0.12.40",
-                "phpunit/phpunit": "^9.4",
-                "psalm/plugin-phpunit": "^0.10.0",
-                "symfony/console": "^2.0.5|^3.0|^4.0|^5.0",
-                "vimeo/psalm": "^3.17.2"
->>>>>>> e918c433e036c036a83b7c6c3317e8bb2ef03b10
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
@@ -720,11 +687,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-<<<<<<< HEAD
                 "source": "https://github.com/doctrine/dbal/tree/2.13.9"
-=======
-                "source": "https://github.com/doctrine/dbal/tree/2.12.1"
->>>>>>> e918c433e036c036a83b7c6c3317e8bb2ef03b10
             },
             "funding": [
                 {
@@ -740,11 +703,7 @@
                     "type": "tidelift"
                 }
             ],
-<<<<<<< HEAD
             "time": "2022-05-02T20:28:55+00:00"
-=======
-            "time": "2020-11-14T20:26:58+00:00"
->>>>>>> e918c433e036c036a83b7c6c3317e8bb2ef03b10
         },
         {
             "name": "doctrine/deprecations",
@@ -6021,7 +5980,6 @@
     "packages-dev": [
         {
             "name": "backpack/generators",
-<<<<<<< HEAD
             "version": "4.1.x-dev",
             "source": {
                 "type": "git",
@@ -6036,22 +5994,6 @@
             },
             "require": {
                 "backpack/crud": "4.1.*"
-=======
-            "version": "v3.1.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Laravel-Backpack/Generators.git",
-                "reference": "ca7f840d43de6e649fd2b22ef9a37cb2459dbc21"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/Generators/zipball/ca7f840d43de6e649fd2b22ef9a37cb2459dbc21",
-                "reference": "ca7f840d43de6e649fd2b22ef9a37cb2459dbc21",
-                "shasum": ""
-            },
-            "require": {
-                "backpack/crud": "^4.1|^5.0"
->>>>>>> e918c433e036c036a83b7c6c3317e8bb2ef03b10
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.0||^7.0",
@@ -6079,15 +6021,6 @@
             ],
             "authors": [
                 {
-<<<<<<< HEAD
-=======
-                    "name": "Cristian Tabacitu",
-                    "email": "tabacitu@backpackforlaravel.com",
-                    "homepage": "https://backpackforlaravel.com",
-                    "role": "Lead Developer & Maintainer"
-                },
-                {
->>>>>>> e918c433e036c036a83b7c6c3317e8bb2ef03b10
                     "name": "Cristian Tone",
                     "email": "cristitone@outlook.com",
                     "homepage": "http://updivision.com",
@@ -6105,15 +6038,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Backpack/Generators/issues",
-<<<<<<< HEAD
                 "source": "https://github.com/Laravel-Backpack/Generators/tree/4.1"
             },
             "time": "2020-05-08T08:39:07+00:00"
-=======
-                "source": "https://github.com/Laravel-Backpack/Generators/tree/v3.1.13"
-            },
-            "time": "2022-02-28T11:33:07+00:00"
->>>>>>> e918c433e036c036a83b7c6c3317e8bb2ef03b10
         },
         {
             "name": "doctrine/instantiator",
