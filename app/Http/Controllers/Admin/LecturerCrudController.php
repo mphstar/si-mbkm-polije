@@ -7,7 +7,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class LectureCrudController
+ * Class LecturerCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
@@ -19,65 +19,80 @@ class LecturerCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
+    /**
+     * Configure the CrudPanel object. Apply settings to all operations.
+     * 
+     * @return void
+     */
     public function setup()
     {
-        $this->crud->setModel('App\Models\Lecturer');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/lecturer');
-        $this->crud->setEntityNameStrings('lecturer', 'lecturers');
+        CRUD::setModel(\App\Models\Lecturer::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/lecturer');
+        CRUD::setEntityNameStrings('lecturer', 'lecturers');
     }
 
+    /**
+     * Define what happens when the List operation is loaded.
+     * 
+     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     * @return void
+     */
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['nip', 'lecturer_name','email','alamat','no_telfon','username','password','status']);
+        CRUD::column('address');
+        CRUD::column('created_at');
+        CRUD::column('email');
+        CRUD::column('id');
+        CRUD::column('lecturer_name');
+        CRUD::column('nip');
+        CRUD::column('password');
+        CRUD::column('phone');
+        CRUD::column('status');
+        CRUD::column('updated_at');
+        CRUD::column('username');
+
+        /**
+         * Columns can be defined using the fluent syntax or array syntax:
+         * - CRUD::column('price')->type('number');
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         */
     }
 
+    /**
+     * Define what happens when the Create operation is loaded.
+     * 
+     * @see https://backpackforlaravel.com/docs/crud-operation-create
+     * @return void
+     */
     protected function setupCreateOperation()
     {
-        $this->crud->setValidation(LecturerRequest::class);
-        $this->crud->addField([
-            'name' => 'nip',
-            'type' => 'number',
-            'label' => "masukkan nip"
-          ]);
-          $this->crud->addField([
-            'name' => 'nama_dosen',
-            'type' => 'text',
-            'label' => "masukkan nama dosen"
-          ]);
-          $this->crud->addField([
-            'name' => 'email',
-            'type' => 'text',
-            'label' => "masukkan email dosen"
-          ]);
-          $this->crud->addField([
-            'name' => 'alamat',
-            'type' => 'text',
-            'label' => "masukkan nama alamat"
-          ]);
-          $this->crud->addField([
-            'name' => 'no_telfon',
-            'type' => 'number',
-            'label' => "masukkan  no telfon"
-          ]);
-          $this->crud->addField([
-            'name' => 'username',
-            'type' => 'text',
-            'label' => "masukkan username dosen"
-          ]);
-          $this->crud->addField([
-            'name' => 'password',
-            'type' => 'text',
-            'label' => "masukkan password"
-          ]);
-          $this->crud->addField([
-            'name' => 'status',
-            'type' => 'select_from_array',
-            'label' => 'Status',
-            'options' => ['dosen pembimbing' => 'Dosen Pembimbing', 'admin prodi' => 'Admin Prodi','kaprodi' => 'Kaprodi'],
-          
-        ]);
+        CRUD::setValidation(LecturerRequest::class);
+
+        CRUD::field('address');
+        CRUD::field('created_at');
+        CRUD::field('email');
+        CRUD::field('id');
+        CRUD::field('lecturer_name');
+        CRUD::field('nip');
+        CRUD::field('password');
+        CRUD::field('phone');
+        CRUD::field('status');
+        CRUD::field('updated_at');
+        CRUD::field('username');
+
+        /**
+         * Fields can be defined using the fluent syntax or array syntax:
+         * - CRUD::field('price')->type('number');
+         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         */
     }
 
+    /**
+     * Define what happens when the Update operation is loaded.
+     * 
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     * @return void
+     */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\RegisterMbkmRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use Backpack\CRUD\app\Library\Validation\Rules\ValidUpload;
 /**
  * Class RegisterMbkmCrudController
  * @package App\Http\Controllers\Admin
@@ -28,7 +28,7 @@ class RegisterMbkmCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\RegisterMbkm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/register-mbkm');
-        CRUD::setEntityNameStrings('register mbkm', 'register MBKM');
+        CRUD::setEntityNameStrings('register mbkm', 'register mbkms');
     }
 
     /**
@@ -39,8 +39,13 @@ class RegisterMbkmCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['student.name', 'mbkm.info', 'status', 'lecturer.lecturer_name']);
+        $this->crud->setColumns(['student.name', 'mbkm.info', 'status']);
 
+        /**
+         * Columns can be defined using the fluent syntax or array syntax:
+         * - CRUD::column('price')->type('number');
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         */
     }
 
     /**
@@ -52,6 +57,7 @@ class RegisterMbkmCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(RegisterMbkmRequest::class);
+
         $this->crud->addField([
             'name' => 'student_id', // Nama kolom dalam tabel "MBKM" yang akan menyimpan ID mitra
             'label' => 'Pilih Mahasiswa',
@@ -68,11 +74,20 @@ class RegisterMbkmCrudController extends CrudController
             'attribute' => 'info', // Atribut yang ingin ditampilkan dalam combo box
             'model' => 'App\Models\mbkm', // Model yang digunakan untuk mendapatkan data mitra
         ]);
-        $this->crud->addField([
-            'name' => 'requirement_files',
-            'label' => 'File Persyaratan',
-            'type' => 'upload',
-        ]);
+        CRUD::field('requirements_file')
+        ->type('upload')
+        ->withFiles([
+            'disk' => 'public', // the disk where file will be stored
+            'path' => 'uploads', // the path inside the disk where file will be stored
+    ]);
+    
+
+        
+        /**
+         * Fields can be defined using the fluent syntax or array syntax:
+         * - CRUD::field('price')->type('number');
+         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         */
     }
 
     /**

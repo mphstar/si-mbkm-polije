@@ -19,13 +19,10 @@ class Lecturer extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    //protected $fillable = ['nip','nama_dosen','email','alamat','no_telfon','username','password','status'];
+    // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
-    public function regs()
-    {
-        return $this->hasMany(RegisterMbkm::class);
-    }
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

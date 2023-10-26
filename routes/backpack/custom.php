@@ -24,4 +24,8 @@ Route::group([
 
  
     Route::crud('validasi-mbkm', 'ValidasiMbkmCrudController');
+
+    Route::crud('departmen', 'DepartmenCrudController');
+    Route::crud('register-mbkm', 'RegisterMbkmCrudController');
+    Route::crud('lecturer', 'LecturerCrudController');
 }); // this should be the absolute last line of this file

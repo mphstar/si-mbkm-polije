@@ -22,7 +22,10 @@ class Students extends Model
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
-
+    public function regs()
+    {
+        return $this->hasMany(RegisterMbkm::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

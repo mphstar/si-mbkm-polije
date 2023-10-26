@@ -8,3 +8,7 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('register-mbkm') }}'><i class='nav-icon la la-question'></i> Register MBKM</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('acctive-account-mitra') }}'><i class='nav-icon la la-user-check'></i>validasi Partners</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi-mbkm') }}'><i class='nav-icon la la-book-check'></i> Validasi mbkms</a></li>
+
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('departmen') }}'><i class='nav-icon la la-question'></i> Departmens</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('register-mbkm') }}'><i class='nav-icon la la-question'></i> Register mbkms</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('lecturer') }}'><i class='nav-icon la la-question'></i> Lecturers</a></li>
