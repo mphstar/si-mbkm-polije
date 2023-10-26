@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ValidasiMbkmRequest;
+use App\Http\Requests\DepartmenRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class ValidasiMbkmCrudController
+ * Class DepartmenCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class ValidasiMbkmCrudController extends CrudController
+class DepartmenCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
@@ -26,9 +26,9 @@ class ValidasiMbkmCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\ValidasiMbkm::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/validasi-mbkm');
-        CRUD::setEntityNameStrings('validasi mbkm', 'validasi mbkms');
+        CRUD::setModel(\App\Models\Departmen::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/departmen');
+        CRUD::setEntityNameStrings('departmen', 'departmens');
     }
 
     /**
@@ -39,11 +39,7 @@ class ValidasiMbkmCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['partner.partner_name', 'start_date', 'end_date', 'info', 'status_acc', 'is_active']);
-        $this->crud->setColumnLabel('Partner.partner_name', 'NAMA MITRA'); 
-        CRUD::addClause('where', 'status_acc', '=', 'pending');
-        CRUD::addClause('where', 'is_active', '=', 'inactive');
-          
+        $this->crud->setColumns(['id', 'name']);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -60,7 +56,7 @@ class ValidasiMbkmCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(ValidasiMbkmRequest::class);
+        CRUD::setValidation(DepartmenRequest::class);
 
         
 
@@ -79,29 +75,6 @@ class ValidasiMbkmCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        
-   
-        $this->crud->addField([
-            'name' => 'status_acc',
-            'type' => 'select_from_array',
-            'label' => 'Status ACC',
-            'options' => ['accepted' => 'Accepted', 'rejected' => 'Rejected'],
-           
-        ]);
-        $this->crud->addField([
-            'name' => 'is_active',
-            'type' => 'select_from_array',
-            'label' => 'Status MBKM',
-            'options' => ['active' => 'Active', 'inactive' => 'Inactive'],
-           
-        ]);
-        $this->crud->addField([
-            'name' => 'id',
-            'label' => 'Department',
-            'type' => 'select',
-            'entity' => 'department',
-            'attribute' => 'name',
-            'model' => 'App\Models\Department', // Gantilah sesuai dengan model Anda
-        ]);
+        $this->setupCreateOperation();
     }
 }

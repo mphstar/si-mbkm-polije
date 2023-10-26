@@ -17,6 +17,7 @@ class CreateMbkmsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('partner_id');
             $table->foreign('partner_id')->references('id')->on('partners')->onDelete('cascade');
+            $table->string("program_name");
             $table->integer('capacity');
             $table->date('start_date');
             $table->date('end_date');

@@ -5,7 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Students extends Model
+class Departmen extends Model
 {
     use CrudTrait;
 
@@ -15,16 +15,17 @@ class Students extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'students';
+    protected $table = 'departments';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
-    public function regs()
+    protected function getJurusanOptions()
     {
-        return $this->hasMany(RegisterMbkm::class);
+        $jurusan = Departmen::all();
+        return $jurusan->pluck('name', 'id');
     }
     /*
     |--------------------------------------------------------------------------

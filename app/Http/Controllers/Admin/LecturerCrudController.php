@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ValidasiMbkmRequest;
+use App\Http\Requests\LecturerRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class ValidasiMbkmCrudController
+ * Class LecturerCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class ValidasiMbkmCrudController extends CrudController
+class LecturerCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
@@ -26,9 +26,9 @@ class ValidasiMbkmCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\ValidasiMbkm::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/validasi-mbkm');
-        CRUD::setEntityNameStrings('validasi mbkm', 'validasi mbkms');
+        CRUD::setModel(\App\Models\Lecturer::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/lecturer');
+        CRUD::setEntityNameStrings('lecturer', 'lecturers');
     }
 
     /**
@@ -39,11 +39,17 @@ class ValidasiMbkmCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['partner.partner_name', 'start_date', 'end_date', 'info', 'status_acc', 'is_active']);
-        $this->crud->setColumnLabel('Partner.partner_name', 'NAMA MITRA'); 
-        CRUD::addClause('where', 'status_acc', '=', 'pending');
-        CRUD::addClause('where', 'is_active', '=', 'inactive');
-          
+        CRUD::column('address');
+        CRUD::column('created_at');
+        CRUD::column('email');
+        CRUD::column('id');
+        CRUD::column('lecturer_name');
+        CRUD::column('nip');
+        CRUD::column('password');
+        CRUD::column('phone');
+        CRUD::column('status');
+        CRUD::column('updated_at');
+        CRUD::column('username');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -60,9 +66,19 @@ class ValidasiMbkmCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(ValidasiMbkmRequest::class);
+        CRUD::setValidation(LecturerRequest::class);
 
-        
+        CRUD::field('address');
+        CRUD::field('created_at');
+        CRUD::field('email');
+        CRUD::field('id');
+        CRUD::field('lecturer_name');
+        CRUD::field('nip');
+        CRUD::field('password');
+        CRUD::field('phone');
+        CRUD::field('status');
+        CRUD::field('updated_at');
+        CRUD::field('username');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -79,29 +95,6 @@ class ValidasiMbkmCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        
-   
-        $this->crud->addField([
-            'name' => 'status_acc',
-            'type' => 'select_from_array',
-            'label' => 'Status ACC',
-            'options' => ['accepted' => 'Accepted', 'rejected' => 'Rejected'],
-           
-        ]);
-        $this->crud->addField([
-            'name' => 'is_active',
-            'type' => 'select_from_array',
-            'label' => 'Status MBKM',
-            'options' => ['active' => 'Active', 'inactive' => 'Inactive'],
-           
-        ]);
-        $this->crud->addField([
-            'name' => 'id',
-            'label' => 'Department',
-            'type' => 'select',
-            'entity' => 'department',
-            'attribute' => 'name',
-            'model' => 'App\Models\Department', // Gantilah sesuai dengan model Anda
-        ]);
+        $this->setupCreateOperation();
     }
 }
