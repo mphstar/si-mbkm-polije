@@ -5,7 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Tags extends Model
+class AcctiveAccountMitra extends Model
 {
     use CrudTrait;
 
@@ -14,15 +14,14 @@ class Tags extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-    public $timestamps = false;
-    protected $table = 'tags';
+
+    protected $table = 'partners';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
-
 
     /*
     |--------------------------------------------------------------------------

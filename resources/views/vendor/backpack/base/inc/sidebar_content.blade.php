@@ -6,3 +6,5 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('partner') }}'><i class='nav-icon la la-handshake'></i> Partners</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi-mbkm') }}'><i class='nav-icon la la-book-check'></i> Validasi MBKM</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('register-mbkm') }}'><i class='nav-icon la la-question'></i> Register MBKM</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('acctive-account-mitra') }}'><i class='nav-icon la la-user-check'></i>validasi Partners</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi-mbkm') }}'><i class='nav-icon la la-book-check'></i> Validasi mbkms</a></li>

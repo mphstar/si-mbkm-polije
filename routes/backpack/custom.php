@@ -19,7 +19,9 @@ Route::group([
     Route::crud('tag', 'TagCrudController');
     Route::crud('lecturer', 'LecturerCrudController');
     Route::crud('partner', 'PartnerCrudController');
-    Route::crud('mbkm', 'MbkmCrudController');
+   Route::crud('mbkm', 'MbkmCrudController');
+    Route::crud('acctive-account-mitra', 'AcctiveAccountMitraCrudController');
+
+ 
     Route::crud('validasi-mbkm', 'ValidasiMbkmCrudController');
-    Route::crud('register-mbkm', 'RegisterMbkmCrudController');
 }); // this should be the absolute last line of this file
