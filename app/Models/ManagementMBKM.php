@@ -5,7 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class ValidasiMbkm extends Model
+class ManagementMBKM extends Model
 {
     use CrudTrait;
 
@@ -28,16 +28,20 @@ class ValidasiMbkm extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class);
+    }
+    public function regs()
+    {
+        return $this->hasMany(RegisterMbkm::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function partner()
-    {
-        return $this->belongsTo(\App\Models\Partner::class, 'partner_id');
-    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -55,16 +59,4 @@ class ValidasiMbkm extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-    public function getStatusSpan() {
-        $status = $this->attributes['status_acc'];
-        
-        if ($status == 'accepted') {
-            return '<span class="badge bg-success">Accept</span>';
-        } elseif ($status == 'rejected') {
-            return '<span class="badge bg-danger">Rejected</span>';
-        } else {
-            return '<span class="badge bg-warning">Pending</span>';
-        }
-    }
-    
 }

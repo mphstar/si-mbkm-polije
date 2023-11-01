@@ -49,12 +49,12 @@ class AcctiveAccountMitraCrudController extends CrudController
         // CRUD::column("email");
 
         // CRUD::column("jenis_mitra");
-        $this->crud->setColumns(['partner_name', 'address','phone','email','jenis_mitra', [
+        $this->crud->setColumns(['partner_name', 'address','phone','email','jenis_mitra',[
             'name'  => 'status',
-            'label' => 'Status', // Table column heading
-            'type'  => 'model_function',
-            'function_name' => 'getStatusSpan ', // the method in your Model
-        ],
+   'label' => 'status ACC', // Table column heading
+   'type'  => 'model_function',
+   'function_name' => 'getStatusSpan'
+        ]
     ]);
         // CRUD::addClause('where', 'status', '=', 'pending');
 

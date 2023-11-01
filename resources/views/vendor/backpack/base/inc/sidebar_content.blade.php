@@ -13,3 +13,4 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm') }}'><i class='nav-icon la la-book'></i> Program MBKM</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm-report') }}'><i class='nav-icon la la-notes'></i> Laporan</a></li>
     </ul>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('management-m-b-k-m') }}'><i class='nav-icon la la-question'></i> Management m b k ms</a></li>
