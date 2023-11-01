@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\MbkmRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use App\Models\Mbkm;
+use App\Models\RegisterMbkm;
+use Illuminate\Http\Request;
+use Validator;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class MbkmCrudController
@@ -30,7 +35,7 @@ private function getFieldsData()  {
     {
         CRUD::setModel(\App\Models\Mbkm::class);
         CRUD::setRoute('admin/mbkm');
-        CRUD::setEntityNameStrings('mbkm', 'mbkms');
+        CRUD::setEntityNameStrings('MBKM', 'Program MBKM');
     }
 
     /**
@@ -40,15 +45,24 @@ private function getFieldsData()  {
      * @return void
      */
     protected function setupListOperation()
-    {
-        
-        // $this->crud->addColumn([
-        //     'name' => 'partner.partner_name',
-        //     'label' => 'Nama Mitra',
-        // ]);
-        
-        $this->crud->setColumns(['partner.partner_name', 'start_date', 'end_date', 'info', 'status_acc', 'is_active']);
-        $this->crud->setColumnLabel('partner.partner_name', 'NAMA MITRA'); 
+    { 
+        $this->crud->setColumns([[
+            'name' => 'program_name',
+            'label' => 'Nama Program',
+        ], [
+            'name' => 'partner.partner_name',
+            'label' => 'Nama Mitra',
+        ], [
+            'name' => 'start_date',
+            'label' => 'Tanggal Mulai',
+        ], [
+            'name' => 'end_date',
+            'label' => 'Tanggal Selesai',
+        ],[
+            'name' => 'capacity',
+            'label' => 'Kuota',
+        ], 'info', 'status', 'is_active']);
+        $this->crud->addButtonFromView('line', 'reg_mbkm', 'reg_mbkm', 'end');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -67,22 +81,34 @@ private function getFieldsData()  {
         CRUD::setValidation(MbkmRequest::class);
 
         $this->crud->addField([
-            'name' => 'student_id', // Nama kolom dalam tabel "MBKM" yang akan menyimpan ID mitra
-            'label' => 'Pilih mahasiswa',
+            'name' => 'partner_id', // Nama kolom dalam tabel "MBKM" yang akan menyimpan ID mitra
+            'label' => 'Pilih Mitra',
             'type' => 'select',
-            'entity' => 'student', // Nama relasi dalam model "MBKM"
-            'attribute' => 'name', // Atribut yang ingin ditampilkan dalam combo box
-            'model' => 'App\Models\student', // Model yang digunakan untuk mendapatkan data mitra
+            'entity' => 'partner', // Nama relasi dalam model "MBKM"
+            'attribute' => 'partner_name', // Atribut yang ingin ditampilkan dalam combo box
+            'model' => 'App\Models\Partner', // Model yang digunakan untuk mendapatkan data mitra
         ]);
         $this->crud->addField([
-            'name' => 'mbkm_id', // Nama kolom dalam tabel "MBKM" yang akan menyimpan ID mitra
-            'label' => 'Pilih mbkm',
-            'type' => 'select',
-            'entity' => 'mbkm', // Nama relasi dalam model "MBKM"
-            'attribute' => 'capacity', // Atribut yang ingin ditampilkan dalam combo box
-            'model' => 'App\Models\mbkm', // Model yang digunakan untuk mendapatkan data mitra
+            'name' => 'program_name', // Nama kolom dalam tabel "MBKM" yang akan menyimpan ID mitra
+            'label' => 'Masukkan Nama Program',
+            'type' => 'text',
         ]);
-        
+        $this->crud->addField([
+            'name' => 'capacity',
+            'type' => 'number',
+            'label' => "Masukkan Kapasitas mbkm"
+          ]);
+          $this->crud->addField([
+              'name' => 'start_date',
+              'type' => 'date',
+              'label' => "Masukkan tanggal awal mbkm"
+            ]);
+            
+            $this->crud->addField([
+                'name' => 'end_date',
+                'type' => 'date',
+                'label' => "Masukkan tanggal awal mbkm"
+            ]);
             $this->crud->addField([
                 'name' => 'info',
                 'type' => 'text',
@@ -95,7 +121,37 @@ private function getFieldsData()  {
          * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
          */
     }
+    public function register($id) 
+    {
+        $mbkm = Mbkm::with('partner')->where('mbkms.id', $id)->get();
+        $crud = $this->crud;
+        $user = backpack_auth()->user();
+        return view('vendor.backpack.crud.register_mbkm', compact('mbkm', 'crud', 'user'));
+    }
 
+    public function addreg(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|file|mimes:zip,rar'
+        ]);
+
+        if ($validator->fails()) {
+            $messages = $validator->errors()->all();
+            \Alert::error($messages[0])->flash();
+            return back()->withInput();
+        }
+        $input = $request->all();
+
+        $file = $request->file('file')->getClientOriginalName();
+        $fileName = time().'.'.$request->file('file')->getClientOriginalExtension();
+
+        $request->file('file')->move(public_path('storage/uploads'), $fileName);
+        $input['requirements_files'] = "storage/uploads/$fileName";
+        $user = RegisterMbkm::create($input);
+
+        return redirect('admin/mbkm');
+
+    }
     /**
      * Define what happens when the Update operation is loaded.
      * 
