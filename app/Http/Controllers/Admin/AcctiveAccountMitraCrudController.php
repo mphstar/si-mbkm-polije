@@ -17,9 +17,9 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class AcctiveAccountMitraCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
@@ -111,5 +111,58 @@ class AcctiveAccountMitraCrudController extends CrudController
         ]);
         // CRUD::field("jenis_mitra");
     }
+    protected function setupShowOperation()
+    {
+        // by default the Show operation will try to show all columns in the db table,
+        // but we can easily take over, and have full control of what columns are shown,
+        // by changing this config for the Show operation 
+        $this->crud->set('show.setFromDb', false);
 
+      
+ 
+        $this->crud->addColumn( [
+            'name' => 'partner_name',
+            'label' => 'Nama Mitra',
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'phone',
+            'label' => 'No telfon',
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'address',
+            'label' => 'Alamat',
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'email',
+            'label' => 'Email',
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'jenis_mitra',
+            'label' => 'Jenis Mitra',
+        ]);
+        $this->crud->addColumn( [
+            'name'  => 'status',
+            'label' => 'Status ACC', // Table column heading
+            'type'  => 'model_function',
+            'function_name' => 'getStatusSpan'
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'username',
+            'label' => 'Username',
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'password',
+            'label' => 'Password',
+        ]);
+    
+  
+        
+        // $this->crud->removeColumn('date');
+        // $this->crud->removeColumn('extras');
+
+        // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work
+        // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
+        // and we plan to change behaviour in the next version; see this Github issue for more details
+        // https://github.com/Laravel-Backpack/CRUD/issues/3108
+    }
 }

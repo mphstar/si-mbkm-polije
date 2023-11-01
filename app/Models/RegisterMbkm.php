@@ -55,7 +55,13 @@ class RegisterMbkm extends Model
     | SCOPES
     |--------------------------------------------------------------------------
     */
+    public function Download($crud = false)
+    {
+        $url = str_replace(' ', '', $this->requirements_files);
+$url = str_replace('/ ', '/', $url);
+return '<a class="btn btn-sm btn-link" target="_blank" href="/' . $url . '" data-toggle="tooltip" title="Just a demo custom button."><i class="fa fa-search"></i> Download</a>';
 
+    }
     /*
     |--------------------------------------------------------------------------
     | ACCESSORS
@@ -67,4 +73,17 @@ class RegisterMbkm extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+    public function getStatusSpan() {
+        $status = $this->attributes['status'];
+        
+        if ($status == 'accepted') {
+            return '<span class="badge bg-success">Accept</span>';
+        } elseif ($status == 'rejected') {
+            return '<span class="badge bg-danger">Rejected</span>';
+        } elseif($status == 'pending'){
+            return '<span class="badge bg-warning">Pending</span>';
+        }else {
+            return '<span class="badge bg-success">Done</span>';
+        }
+    }
 }

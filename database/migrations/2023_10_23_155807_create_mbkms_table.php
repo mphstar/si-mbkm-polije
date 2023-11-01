@@ -20,6 +20,8 @@ class CreateMbkmsTable extends Migration
             $table->string('program_name');
             $table->integer('capacity');
             $table->date('start_date');
+            $table->date('start_reg');
+            $table->date('end_reg');
             $table->date('end_date');
             $table->integer('task_count');
             $table->integer('semester');

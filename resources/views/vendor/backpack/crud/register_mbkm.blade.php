@@ -59,7 +59,7 @@
 						<input required class="form-control" type="file" name="file" value="" >
 					</div>
 					<input required class="" type="hidden" name="mbkm_id" value="{{ $mbkm[0]->id }}" >
-					<input required class="" type="hidden" name="student_id" value="{{ $user->id }}" >
+					<input required class="" type="hidden" name="student_id" value="1" >
 				</div>
 			</div>
 

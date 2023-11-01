@@ -40,15 +40,15 @@ class LecturerCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('address');
-        CRUD::column('created_at');
+ ;
         CRUD::column('email');
-        CRUD::column('id');
+   
         CRUD::column('lecturer_name');
         CRUD::column('nip');
         CRUD::column('password');
         CRUD::column('phone');
         CRUD::column('status');
-        CRUD::column('updated_at');
+      ;
         CRUD::column('username');
 
         /**
@@ -71,13 +71,19 @@ class LecturerCrudController extends CrudController
         CRUD::field('address');
         CRUD::field('created_at');
         CRUD::field('email');
-        CRUD::field('id');
+   
         CRUD::field('lecturer_name');
         CRUD::field('nip');
         CRUD::field('password');
         CRUD::field('phone');
-        CRUD::field('status');
-        CRUD::field('updated_at');
+        
+        $this->crud->addField([
+            'name' => 'status',
+            'type' => 'select_from_array',
+            'label' => 'Status ACC',
+            'options' => ['dosen pembimbing' => 'Dosen Pembimbing', 'admin prodi' => 'Admin Prodi','kaprodi' => 'Kaprodi'],
+           
+        ]);
         CRUD::field('username');
 
         /**

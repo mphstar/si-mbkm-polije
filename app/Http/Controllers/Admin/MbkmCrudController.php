@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Validator;
 class MbkmCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 private function getFieldsData()  {
     
@@ -63,6 +63,7 @@ private function getFieldsData()  {
             'label' => 'Kuota',
         ], 'info', 'status', 'is_active']);
         $this->crud->addButtonFromView('line', 'reg_mbkm', 'reg_mbkm', 'end');
+
         CRUD::addClause('where', 'capacity', '>', '0');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -81,40 +82,40 @@ private function getFieldsData()  {
     {
         CRUD::setValidation(MbkmRequest::class);
 
-        $this->crud->addField([
-            'name' => 'partner_id', // Nama kolom dalam tabel "MBKM" yang akan menyimpan ID mitra
-            'label' => 'Pilih Mitra',
-            'type' => 'select',
-            'entity' => 'partner', // Nama relasi dalam model "MBKM"
-            'attribute' => 'partner_name', // Atribut yang ingin ditampilkan dalam combo box
-            'model' => 'App\Models\Partner', // Model yang digunakan untuk mendapatkan data mitra
-        ]);
-        $this->crud->addField([
-            'name' => 'program_name', // Nama kolom dalam tabel "MBKM" yang akan menyimpan ID mitra
-            'label' => 'Masukkan Nama Program',
-            'type' => 'text',
-        ]);
-        $this->crud->addField([
-            'name' => 'capacity',
-            'type' => 'number',
-            'label' => "Masukkan Kapasitas mbkm"
-          ]);
-          $this->crud->addField([
-              'name' => 'start_date',
-              'type' => 'date',
-              'label' => "Masukkan tanggal awal mbkm"
-            ]);
+        // $this->crud->addField([
+        //     'name' => 'partner_id', // Nama kolom dalam tabel "MBKM" yang akan menyimpan ID mitra
+        //     'label' => 'Pilih Mitra',
+        //     'type' => 'select',
+        //     'entity' => 'partner', // Nama relasi dalam model "MBKM"
+        //     'attribute' => 'partner_name', // Atribut yang ingin ditampilkan dalam combo box
+        //     'model' => 'App\Models\Partner', // Model yang digunakan untuk mendapatkan data mitra
+        // ]);
+        // $this->crud->addField([
+        //     'name' => 'program_name', // Nama kolom dalam tabel "MBKM" yang akan menyimpan ID mitra
+        //     'label' => 'Masukkan Nama Program',
+        //     'type' => 'text',
+        // ]);
+        // $this->crud->addField([
+        //     'name' => 'capacity',
+        //     'type' => 'number',
+        //     'label' => "Masukkan Kapasitas mbkm"
+        //   ]);
+        //   $this->crud->addField([
+        //       'name' => 'start_date',
+        //       'type' => 'date',
+        //       'label' => "Masukkan tanggal awal mbkm"
+        //     ]);
             
-            $this->crud->addField([
-                'name' => 'end_date',
-                'type' => 'date',
-                'label' => "Masukkan tanggal awal mbkm"
-            ]);
-            $this->crud->addField([
-                'name' => 'info',
-                'type' => 'text',
-                'label' => "Masukkan keterangan mbkm"
-              ]);
+        //     $this->crud->addField([
+        //         'name' => 'end_date',
+        //         'type' => 'date',
+        //         'label' => "Masukkan tanggal awal mbkm"
+        //     ]);
+        //     $this->crud->addField([
+        //         'name' => 'info',
+        //         'type' => 'text',
+        //         'label' => "Masukkan keterangan mbkm"
+        //       ]);
         
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -156,7 +157,7 @@ private function getFieldsData()  {
 
         $file = $request->file('file')->getClientOriginalName();
         $fileName = time().'.'.$request->file('file')->getClientOriginalExtension();
-
+ 
         $request->file('file')->move(public_path('storage/uploads'), $fileName);
         $input['requirements_files'] = "storage/uploads/$fileName";
         $user = RegisterMbkm::create($input);

@@ -102,4 +102,66 @@ class ValidasiMbkmCrudController extends CrudController
         ]);
 
     }
+    protected function setupShowOperation()
+    {
+        // by default the Show operation will try to show all columns in the db table,
+        // but we can easily take over, and have full control of what columns are shown,
+        // by changing this config for the Show operation 
+        $this->crud->set('show.setFromDb', false);
+
+      
+ 
+        $this->crud->addColumn( [
+            'name' => 'partner.partner_name',
+            'label' => 'Nama Mitra',
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'program_name',
+            'label' => 'Nama Program',
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'start_date',
+            'label' => 'Tanggal Mulai program MBKM',
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'end_date',
+            'label' => 'Tanggal Selesai Program MBKM ',
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'start_reg',
+            'label' => 'Tanggal awal pendaftaran',
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'end_reg',
+            'label' => 'Tanggal terakhir pendaftaran',
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'info',
+            'label' => 'Keterangan MBKM'
+        ]);
+        $this->crud->addColumn( [
+            'name' => 'semester',
+            'label' => 'Berlaku Bagi semester'
+        ]);
+        $this->crud->addColumn( [
+            'name'  => 'status_acc',
+            'label' => 'Status ACC', // Table column heading
+            'type'  => 'model_function',
+            'function_name' => 'getStatusSpan'
+        ]);
+        $this->crud->addColumn( [
+            'name'  => 'is_active',
+            'label' => 'Status Active', // Table column heading
+            'type'  => 'model_function',
+            'function_name' => 'getIsactiveSpan'
+        ]);
+        
+        // $this->crud->removeColumn('date');
+        // $this->crud->removeColumn('extras');
+
+        // Note: if you HAVEN'T set show.setFromDb to false, the removeColumn() calls won't work
+        // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
+        // and we plan to change behaviour in the next version; see this Github issue for more details
+        // https://github.com/Laravel-Backpack/CRUD/issues/3108
+    }
 }
