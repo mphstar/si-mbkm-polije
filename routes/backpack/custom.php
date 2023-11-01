@@ -30,5 +30,8 @@ Route::group([
     Route::crud('lecturer', 'LecturerCrudController');
     Route::get('mbkm/{id}/reg-mbkm', 'MbkmCrudController@register');
     Route::post('mbkm/{id}/addreg', 'MbkmCrudController@addreg');
-    Route::crud('mbkm-report', 'MbkmReportCrudController');
+    Route::get('mbkm-report', 'MbkmReportCrudController@viewReport');
+    // Route::get('mbkm-report', function () {
+    //     return view('vendor/backpack/crud/report_mbkm');
+    // });
 }); // this should be the absolute last line of this file
