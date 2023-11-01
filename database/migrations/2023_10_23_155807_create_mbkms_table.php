@@ -22,6 +22,7 @@ class CreateMbkmsTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('task_count');
+            $table->integer('semester');
             $table->text('info')->nullable();
             $table->enum('status_acc', ['accepted', 'rejected', 'pending'])->default('pending');
             $table->enum('is_active', ['active', 'inactive'])->default('inactive');
