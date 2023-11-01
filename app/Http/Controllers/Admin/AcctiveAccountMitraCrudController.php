@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AcctiveAccountMitraRequest;
-use App\Models\AcctiveAccountMitra;
+
+
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use App\Models\Partner;
+
 
 /**
  * Class AcctiveAccountMitraCrudController
@@ -28,7 +29,7 @@ class AcctiveAccountMitraCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Partner::class);
+        CRUD::setModel(\App\Models\AcctiveAccountMitra::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/acctive-account-mitra');
         CRUD::setEntityNameStrings('acctive account mitra', 'validasi account mitra');
     }
@@ -41,13 +42,21 @@ class AcctiveAccountMitraCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column("partner_name");
-        CRUD::column("address");
-        CRUD::column("phone");
-        CRUD::column("email");
-        CRUD::column("status");
-        CRUD::column("jenis_mitra");
-        CRUD::addClause('where', 'status', '=', 'pending');
+        // CRUD::setValidation(AcctiveAccountMitraRequest::class);
+        // CRUD::column("partner_name");
+        // CRUD::column("address");
+        // CRUD::column("phone");
+        // CRUD::column("email");
+
+        // CRUD::column("jenis_mitra");
+        $this->crud->setColumns(['partner_name', 'address','phone','email','jenis_mitra', [
+            'name'  => 'status',
+            'label' => 'Status', // Table column heading
+            'type'  => 'model_function',
+            'function_name' => 'getStatusSpan ', // the method in your Model
+        ],
+    ]);
+        // CRUD::addClause('where', 'status', '=', 'pending');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -86,10 +95,10 @@ class AcctiveAccountMitraCrudController extends CrudController
         // $this->setupCreateOperation();
         CRUD::setValidation(AcctiveAccountMitraRequest::class);
 
-        CRUD::field('partner_name');
-        CRUD::field('address');
-        CRUD::field('phone');
-        CRUD::field('email');
+        // CRUD::field('partner_name');
+        // CRUD::field('address');
+        // CRUD::field('phone');
+        // CRUD::field('email');
         CRUD::addField([
             'name' => 'status',
             'label' => 'Status',
@@ -100,7 +109,7 @@ class AcctiveAccountMitraCrudController extends CrudController
                 'pending' => 'Pending',
             ],
         ]);
-        CRUD::field("jenis_mitra");
+        // CRUD::field("jenis_mitra");
     }
 
 }

@@ -78,7 +78,11 @@ class DatabaseSeeder extends Seeder
             'status_acc' => 'pending',
             'is_active' => 'inactive',
             'task_count' => 5,
+<<<<<<< HEAD
+            'semester' => 6,
+=======
             'semester' => 5,
+>>>>>>> 6c31936cf873805959ff59924f5ab4fbcc56bdc5
             'created_at' => now(),
             'updated_at' => now()
         ]);

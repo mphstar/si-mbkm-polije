@@ -95,13 +95,6 @@ class ValidasiMbkmCrudController extends CrudController
             'options' => ['active' => 'Active', 'inactive' => 'Inactive'],
            
         ]);
-        $this->crud->addField([
-            'name' => 'id',
-            'label' => 'Department',
-            'type' => 'select',
-            'entity' => 'department',
-            'attribute' => 'name',
-            'model' => 'App\Models\Department', // Gantilah sesuai dengan model Anda
-        ]);
+
     }
 }

@@ -52,4 +52,15 @@ class AcctiveAccountMitra extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+    public function getStatusSpan() {
+        $status = $this->attributes["status"];
+        
+        if ($status == 'accepted') {
+            return '<span class="badge bg-success">Accept</span>';
+        } elseif ($status == 'rejected') {
+            return '<span class="badge bg-danger">Rejected</span>';
+        } else {
+            return '<span class="badge bg-warning">Pending</span>';
+        }
+    }
 }
