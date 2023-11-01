@@ -30,30 +30,23 @@
 
 @section('content')
 <div class="col-lg-8">
-	
-	<form class="form" action="{{ 'addreg' }}" enctype="multipart/form-data" method="post">
-
+	<form class="form" action="{{'addreg'}}" enctype="multipart/form-data" method="post">
 		{!! csrf_field() !!}
-
 		<div class="card padding-10">
-
 			<div class="card-header">
 				<h4>Pendaftaran MBKM</h4>
 				{{-- {{ trans('backpack::base.update_account_info') }} --}}
 			</div>
-
 			<div class="card-body backpack-profile-form bold-labels">
 				<div class="row">
 					<div class="col-md-6 form-group">
 						<label class="required">Nama Instansi</label>
 						<input required class="form-control" type="text" name="" value="{{ $mbkm[0]->partner->partner_name }}" readonly>
 					</div>
-
 					<div class="col-md-6 form-group">
 						<label class="required">Nama Program</label>
 						<input required class="form-control" type="text" name="mbkm" value="{{ $mbkm[0]->program_name }}" readonly>
 					</div>
-					
 					<div class="col-md-6 form-group">
 						<label class="required">File Persyaratan</label>
 						<input required class="form-control" type="file" name="file" value="" >
@@ -62,13 +55,11 @@
 					<input required class="" type="hidden" name="student_id" value="{{ $user->id }}" >
 				</div>
 			</div>
-
 			<div class="card-footer">
 				<button type="submit" class="btn btn-success"><i class="la la-save"></i> {{ trans('backpack::base.save') }}</button>
 				<a href="{{ backpack_url() }}" class="btn">{{ trans('backpack::base.cancel') }}</a>
 			</div>
 		</div>
-
 	</form>
 </div>
 @endsection

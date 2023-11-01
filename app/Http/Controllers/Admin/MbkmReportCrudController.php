@@ -5,7 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\MbkmReportRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use App\Models\MbkmReport;
+use App\Models\RegisterMbkm;
+use App\Models\Mbkm;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Validator;
 /**
  * Class MbkmReportCrudController
  * @package App\Http\Controllers\Admin
@@ -22,8 +27,90 @@ class MbkmReportCrudController extends CrudController
     
     public function viewReport() {
         $crud = $this->crud;
-        return view('vendor/backpack/crud/report_mbkm', compact('crud'));
+
+        $mbkmId = RegisterMbkm::with('mbkm')
+        ->where('student_id', backpack_auth()->user()->id)
+        ->where('status',  'accepted')
+        ->whereHas('mbkm', function ($query) {
+            $now = Carbon::now();
+            $query->whereDate('start_date', '<=', $now)
+                  ->whereDate('end_date', '>=', $now);
+        })->orderBy('id', 'desc')->get();
+
+        $reports = MbkmReport::with('regMbkm')
+        ->whereHas('regMbkm', function ($query) use ($mbkmId) {
+            $query->where('student_id', backpack_auth()->user()->id)
+                ->where('mbkm_id', $mbkmId[0]->id);
+        })->get();
+        $acceptedCount = $reports->where('status', 'accepted')->count();
+        $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
+
+        $count = ($acceptedCount / $targetCount) * 100;
+        // return dd($count);
+        $today = Carbon::now()->toDateString();
+        
+        return view('vendor/backpack/crud/report_mbkm', compact('crud', 'reports', 'today', 'count'));
     }
+    public function upReport(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|file|mimes:pdf'
+        ]);
+
+        if ($validator->fails()) {
+            $messages = $validator->errors()->all();
+            \Alert::warning($messages[0])->flash();
+            return back()->withInput();
+        }
+        $input = $request->all();
+
+        $file = $request->file('file')->getClientOriginalName();
+        $fileName = time().'.'.$request->file('file')->getClientOriginalExtension();
+
+        $request->file('file')->move(public_path('storage/uploads'), $fileName);
+        $input['file'] = "storage/uploads/$fileName";
+        $user = MbkmReport::create($input);
+        \Alert::success('Berhasil upload laporan!')->flash();
+        return back();
+    }
+
+    public function revReport(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|file|mimes:pdf'
+        ]);
+    
+        if ($validator->fails()) {
+            $messages = $validator->errors()->all();
+            \Alert::warning($messages[0])->flash();
+            return back()->withInput();
+        }
+        $report = MbkmReport::where('id', $request->id)->first();
+        
+        // Hapus file yang ada
+        $existingFilePath = $report->file;
+        if (file_exists(public_path($existingFilePath))) {
+            unlink(public_path($existingFilePath));
+        }
+    
+        // Simpan file yang baru
+        $file = $request->file('file')->getClientOriginalName();
+        $fileName = time().'.'.$request->file('file')->getClientOriginalExtension();
+    
+        $request->file('file')->move(public_path('storage/uploads'), $fileName);
+        $report->file = "storage/uploads/$fileName";
+        $report->save();
+    
+        \Alert::success('Berhasil mengupdate laporan!')->flash();
+        return back();
+    }
+
+    public function downloadFile(Request $request) {
+        $filePath = public_path($request->file);
+        $headers = [
+            'Content-Type' => 'application/pdf', // Ganti sesuai tipe file yang ingin Anda unduh
+        ];
+        return Response::download($filePath, $fileName, $headers);
+    }
+    
     public function setup()
     {
         CRUD::setModel(\App\Models\MbkmReport::class);

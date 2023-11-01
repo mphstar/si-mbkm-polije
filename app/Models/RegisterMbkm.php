@@ -36,7 +36,7 @@ class RegisterMbkm extends Model
     }
     public function reports()
     {
-        return $this->hasMany(MbkmReport::class);
+        return $this->belongsTo(MbkmReport::class);
     }
     /*
     |--------------------------------------------------------------------------

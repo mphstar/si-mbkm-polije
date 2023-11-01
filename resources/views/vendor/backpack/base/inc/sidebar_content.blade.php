@@ -11,5 +11,5 @@
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon las la-level-down-alt"></i>Mahasiswa</a>
     <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm') }}'><i class='nav-icon la la-book'></i> Program MBKM</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm-report') }}'><i class='nav-icon la la-notes'></i> Laporan</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm-report') }}'><i class='nav-icon la la-file'></i> Laporan</a></li>
     </ul>
