@@ -21,6 +21,8 @@ class CreateStudentsTable extends Migration
             $table->string("nim")->unique();
             $table->string("email")->unique();
             $table->string("username")->unique();
+            $table->unsignedBigInteger('study_program_id');
+            $table->foreign('study_program_id')->references('id')->on('study_programs')->onDelete('cascade');
             $table->string("password");
             $table->timestamps();
         });

@@ -17,10 +17,11 @@ class CreateMbkmsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('partner_id');
             $table->foreign('partner_id')->references('id')->on('partners')->onDelete('cascade');
-            $table->string("program_name");
+            $table->string('program_name');
             $table->integer('capacity');
             $table->date('start_date');
             $table->date('end_date');
+            $table->integer('task_count');
             $table->text('info')->nullable();
             $table->enum('status_acc', ['accepted', 'rejected', 'pending'])->default('pending');
             $table->enum('is_active', ['active', 'inactive'])->default('inactive');

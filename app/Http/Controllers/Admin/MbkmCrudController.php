@@ -63,6 +63,7 @@ private function getFieldsData()  {
             'label' => 'Kuota',
         ], 'info', 'status', 'is_active']);
         $this->crud->addButtonFromView('line', 'reg_mbkm', 'reg_mbkm', 'end');
+        CRUD::addClause('where', 'capacity', '>', '0');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -123,9 +124,20 @@ private function getFieldsData()  {
     }
     public function register($id) 
     {
+        $user = backpack_auth()->user();
+        $accReg = RegisterMbkm::where('student_id', backpack_auth()->user()->id)->where('status',  'accepted')->get();
+        $pendingReg = RegisterMbkm::where('student_id', backpack_auth()->user()->id)->where('status', 'pending', )->get();
+        // return dd($sudahReg);
+        if($accReg->count() > 0){
+            \Alert::error('Anda sudah daftar')->flash();
+            return back();
+        }
+        if($pendingReg->count() > 0){
+            \Alert::warning('Anda tidak dapat mendaftar jika status pendaftaran sebelumnya masih pending')->flash();
+            return back();
+        }
         $mbkm = Mbkm::with('partner')->where('mbkms.id', $id)->get();
         $crud = $this->crud;
-        $user = backpack_auth()->user();
         return view('vendor.backpack.crud.register_mbkm', compact('mbkm', 'crud', 'user'));
     }
 
@@ -148,9 +160,8 @@ private function getFieldsData()  {
         $request->file('file')->move(public_path('storage/uploads'), $fileName);
         $input['requirements_files'] = "storage/uploads/$fileName";
         $user = RegisterMbkm::create($input);
-
+        \Alert::success('Berhasil Mendaftar!')->flash();
         return redirect('admin/mbkm');
-
     }
     /**
      * Define what happens when the Update operation is loaded.

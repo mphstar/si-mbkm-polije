@@ -30,4 +30,5 @@ Route::group([
     Route::crud('lecturer', 'LecturerCrudController');
     Route::get('mbkm/{id}/reg-mbkm', 'MbkmCrudController@register');
     Route::post('mbkm/{id}/addreg', 'MbkmCrudController@addreg');
+    Route::crud('mbkm-report', 'MbkmReportCrudController');
 }); // this should be the absolute last line of this file

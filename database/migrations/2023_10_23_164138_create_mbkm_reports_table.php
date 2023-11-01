@@ -15,8 +15,8 @@ class CreateMbkmReportsTable extends Migration
     {
         Schema::create('mbkm_reports', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('report_mbkm_id');
-            $table->foreign('report_mbkm_id')->references('id')->on('reg_mbkms')->onDelete('cascade');
+            $table->unsignedBigInteger('reg_mbkm_id');
+            $table->foreign('reg_mbkm_id')->references('id')->on('reg_mbkms')->onDelete('cascade');
             $table->string('file');
             $table->enum('status', ['accepted', 'rejected', 'pending']);
             $table->date('upload_date');

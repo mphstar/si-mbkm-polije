@@ -13,10 +13,12 @@ class CreateMbkmGradesTable extends Migration
      */
     public function up()
     {
-        Schema::create('mbkm_grades', function (Blueprint $table) {
+        Schema::create('involved course', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('reg_mbkm_id');
             $table->foreign('reg_mbkm_id')->references('id')->on('reg_mbkms')->onDelete('cascade');
+            $table->unsignedBigInteger('course_id');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->integer('grade');
             $table->timestamps();
         });

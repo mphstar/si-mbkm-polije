@@ -34,6 +34,10 @@ class RegisterMbkm extends Model
     {
         return $this->belongsTo(Lecturer::class);
     }
+    public function reports()
+    {
+        return $this->hasMany(MbkmReport::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
