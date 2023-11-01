@@ -31,6 +31,8 @@ Route::group([
     Route::get('mbkm/{id}/reg-mbkm', 'MbkmCrudController@register');
     Route::post('mbkm/{id}/addreg', 'MbkmCrudController@addreg');
     Route::get('mbkm-report', 'MbkmReportCrudController@viewReport');
+    Route::crud('management-m-b-k-m', 'ManagementMBKMCrudController');
+    Route::crud('penilaian-mitra', 'PenilaianMitraCrudController');
     Route::post('mbkm-report-upload', 'MbkmReportCrudController@upReport');
     Route::post('mbkm-report-rev', 'MbkmReportCrudController@revReport');
 }); // this should be the absolute last line of this file

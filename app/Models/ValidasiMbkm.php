@@ -55,4 +55,27 @@ class ValidasiMbkm extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+    public function getIsactiveSpan() {
+        $status = $this->attributes['is_active'];
+        
+        if ($status == 'active') {
+            return '<span class="badge bg-success">Active</span>';
+        } elseif ($status == 'inactive') {
+            return '<span class="badge bg-danger">Inactive</span>';
+        } else {
+            return '<span class="badge bg-warning">Pending</span>';
+        }
+    }
+    public function getStatusSpan() {
+        $status = $this->attributes['status_acc'];
+        
+        if ($status == 'accepted') {
+            return '<span class="badge bg-success">Accept</span>';
+        } elseif ($status == 'rejected') {
+            return '<span class="badge bg-danger">Rejected</span>';
+        } else {
+            return '<span class="badge bg-warning">Pending</span>';
+        }
+    }
+    
 }

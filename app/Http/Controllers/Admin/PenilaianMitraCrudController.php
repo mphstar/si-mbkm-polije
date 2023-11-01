@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\RegisterMbkmRequest;
+use App\Http\Requests\PenilaianMitraRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Backpack\CRUD\app\Library\Validation\Rules\ValidUpload;
+
 /**
- * Class RegisterMbkmCrudController
+ * Class PenilaianMitraCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class RegisterMbkmCrudController extends CrudController
+class PenilaianMitraCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -26,9 +26,9 @@ class RegisterMbkmCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\RegisterMbkm::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/register-mbkm');
-        CRUD::setEntityNameStrings('register mbkm', 'Validasi Peserta MBKM');
+        CRUD::setModel(\App\Models\PenilaianMitra::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/penilaian-mitra');
+        CRUD::setEntityNameStrings('penilaian mitra', 'penilaian mitras');
     }
 
     /**
@@ -39,13 +39,13 @@ class RegisterMbkmCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        
         $this->crud->setColumns(['student.name', 'mbkm.info', [
             'name'  => 'status',
    'label' => 'Status ACC', // Table column heading
    'type'  => 'model_function',
    'function_name' => 'getStatusSpan'
         ] ]);
-        $this->crud->addButtonFromModelFunction('line', 'download', 'Download', 'beginning');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -61,11 +61,10 @@ class RegisterMbkmCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(RegisterMbkmRequest::class);
-
-
+        CRUD::setValidation(PenilaianMitraRequest::class);
 
         
+
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -82,12 +81,22 @@ class RegisterMbkmCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->crud->addField([
-            'name' => 'status',
-            'type' => 'select_from_array',
-            'label' => 'Status ACC',
-            'options' => ["accepted" => 'Accepted', "rejected" => 'Rejected'],
+            // [   // Browse
+                'name'      => 'partner_grade',
+                'label'     => 'mitra',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'uploads', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                // optional:
+                'temporary' => 10 
+
            
         ]);
+        // CRUD::field('nilai_mitra')
+        // ->type('upload')
+        // ->withFiles([
+        //     'disk' => 'public', // the disk where file will be stored
+        //     'path' => 'uploads', // the path inside the disk where file will be stored
+        // ]);
     }
-
 }

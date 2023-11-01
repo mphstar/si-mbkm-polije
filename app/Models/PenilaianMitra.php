@@ -5,7 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class RegisterMbkm extends Model
+class PenilaianMitra extends Model
 {
     use CrudTrait;
 
@@ -22,6 +22,12 @@ class RegisterMbkm extends Model
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
     public function student()
     {
         return $this->belongsTo(Students::class);
@@ -36,14 +42,8 @@ class RegisterMbkm extends Model
     }
     public function reports()
     {
-        return $this->belongsTo(MbkmReport::class);
+        return $this->hasMany(MbkmReport::class);
     }
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
-
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -55,13 +55,7 @@ class RegisterMbkm extends Model
     | SCOPES
     |--------------------------------------------------------------------------
     */
-    public function Download($crud = false)
-    {
-        $url = str_replace(' ', '', $this->requirements_files);
-$url = str_replace('/ ', '/', $url);
-return '<a class="btn btn-sm btn-link" target="_blank" href="/' . $url . '" data-toggle="tooltip" title="Just a demo custom button."><i class="fa fa-search"></i> Download</a>';
 
-    }
     /*
     |--------------------------------------------------------------------------
     | ACCESSORS
@@ -73,6 +67,16 @@ return '<a class="btn btn-sm btn-link" target="_blank" href="/' . $url . '" data
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+    public function setNilaiMitraAttribute($value)
+    {
+        $attribute_name = "partner_grade";
+        $disk = "public";
+        $destination_path = "uploads";
+
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+
+    // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
+    }
     public function getStatusSpan() {
         $status = $this->attributes['status'];
         

@@ -26,7 +26,7 @@ class Partner extends Model
     //FUNCTIONS
     public function mbkms()
 {
-    return $this->hasMany(Mbkm::class);
+    return $this->hasMany('App\Models\Mbkm', 'partner_id', 'id');
 }
  
 
@@ -53,4 +53,15 @@ class Partner extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+    public function getStatusSpan() {
+        $status = $this->attributes["status"];
+        
+        if ($status == 'accepted') {
+            return '<span class="badge bg-success">Accept</span>';
+        } elseif ($status == 'rejected') {
+            return '<span class="badge bg-danger">Rejected</span>';
+        } else {
+            return '<span class="badge bg-warning">Pending</span>';
+        }
+    }
 }
