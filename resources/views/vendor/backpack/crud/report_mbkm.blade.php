@@ -48,7 +48,7 @@
                                 <th class="text-center">File</th>
                                 <th class="text-center">Keterangan Prodi</th>
                                 <th class="text-center"><button @if($count >= 100)
-                                    disabled @endif type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal" data-backdrop="false">Upload</button></th>
+                                    disabled @endif type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">Upload</button></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -80,7 +80,7 @@
                                     <span>
                                         <button @if($report->status === 'accepted')
                                             disabled @endif
-                                            type="button" class="btn btn-warning" data-toggle="modal" data-target="#modaledit{{$report->id}}" data-backdrop="false">
+                                            type="button" class="btn btn-warning" data-toggle="modal" data-target="#modaledit{{$report->id}}">
                                             <i class="nav-icon la la-pencil-alt" style="color:white"></i>
                                         </button>
                                     </span>
@@ -161,4 +161,13 @@
 @section('after_styles')
     {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> --}}
 	{{-- <link rel="stylesheet" href="{{ asset('packages/backpack/crud/css/show.css').'?v='.config('backpack.base.cachebusting_string') }}"> --}}
+@endsection
+@section('after_scripts')
+    <script>
+        $(document).on('show.bs.modal', '.modal', function() {
+            $(this).appendTo('body');
+       });
+    </script>
+	<script src="{{ asset('packages/backpack/crud/js/crud.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
+	<script src="{{ asset('packages/backpack/crud/js/show.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
 @endsection

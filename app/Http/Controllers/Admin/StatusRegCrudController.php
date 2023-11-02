@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\RegisterMbkmRequest;
+use App\Http\Requests\StatusRegRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Backpack\CRUD\app\Library\Validation\Rules\ValidUpload;
+
 /**
- * Class RegisterMbkmCrudController
+ * Class StatusRegCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class RegisterMbkmCrudController extends CrudController
+class StatusRegCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -27,8 +27,8 @@ class RegisterMbkmCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\RegisterMbkm::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/register-mbkm');
-        CRUD::setEntityNameStrings('register mbkm', 'Validasi Peserta MBKM');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/status-reg');
+        CRUD::setEntityNameStrings('status reg', 'Program Saya');
     }
 
     /**
@@ -39,18 +39,25 @@ class RegisterMbkmCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['student.name', 'mbkm.info', [
+        $this->crud->setColumns([[
+            'name' => 'mbkm.partner.partner_name',
+            'label' => 'Nama Instansi',
+        ],[
+            'name' => 'mbkm.program_name',
+            'label' => 'Nama Program',
+        ], [
+            'name' => 'mbkm.start_date',
+            'label' => 'Tanggal Mulai',
+        ], [
+            'name' => 'mbkm.end_date',
+            'label' => 'Tanggal Selesai',
+        ],[
             'name'  => 'status',
-            'label' => 'Status ACC', // Table column heading
+            'label' => 'Status', // Table column heading
             'type'  => 'model_function',
             'function_name' => 'getStatusSpan'
-        ] ]);
-        $this->crud->addButtonFromModelFunction('line', 'download', 'Download', 'beginning');
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
-         */
+        ],]);
+        CRUD::addClause('where', 'student_id', '=', backpack_auth()->user()->id);
     }
 
     /**
@@ -61,11 +68,10 @@ class RegisterMbkmCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(RegisterMbkmRequest::class);
-
-
+        CRUD::setValidation(StatusRegRequest::class);
 
         
+
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -81,13 +87,6 @@ class RegisterMbkmCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->crud->addField([
-            'name' => 'status',
-            'type' => 'select_from_array',
-            'label' => 'Status ACC',
-            'options' => ["accepted" => 'Accepted', "rejected" => 'Rejected'],
-           
-        ]);
+        $this->setupCreateOperation();
     }
-
 }

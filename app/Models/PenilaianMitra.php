@@ -67,7 +67,7 @@ class PenilaianMitra extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-    public function setNilaiMitraAttribute($value)
+    public function setPartnerGradeAttribute($value)
     {
         $attribute_name = "partner_grade";
         $disk = "public";

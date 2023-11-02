@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Validator;
 class MbkmCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
@@ -61,9 +61,9 @@ private function getFieldsData()  {
         ],[
             'name' => 'capacity',
             'label' => 'Kuota',
-        ], 'info', 'status', 'is_active']);
-        $this->crud->addButtonFromView('line', 'reg_mbkm', 'reg_mbkm', 'end');
-
+        ], 'info']);
+        $this->crud->addButtonFromView('line', 'reg_mbkm', 'reg_mbkm', 'beginning');
+        // CRUD::removeButtonFromStack('sho', 'line');
         CRUD::addClause('where', 'capacity', '>', '0');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
