@@ -71,6 +71,11 @@
 @endsection
 
 @section('after_scripts')
+	<script>
+		$(document).on('show.bs.modal', '.modal', function() {
+			$(this).appendTo('body');
+	   });
+	</script>
 	<script src="{{ asset('packages/backpack/crud/js/crud.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
 	<script src="{{ asset('packages/backpack/crud/js/show.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
 @endsection

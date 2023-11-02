@@ -39,4 +39,5 @@ Route::group([
     Route::crud('validasilaporan', 'ValidasilaporanCrudController');
     Route::get('penilaian-mitra/{id}/updating', 'PenilaianMitraCrudController@updating')->name("grader_partner");
     Route::post('penilaian-mitra/{id}/penilaian ', 'PenilaianMitraCrudController@penilaian');
+    Route::crud('status-reg', 'StatusRegCrudController');
 }); // this should be the absolute last line of this file

@@ -11,7 +11,8 @@
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon las la-level-down-alt"></i>Mahasiswa</a>
     <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm') }}'><i class='nav-icon la la-book'></i> Program MBKM</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm-report') }}'><i class='nav-icon la la-file'></i> Laporan</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm-report') }}'><i class='nav-icon la la-file-alt'></i> Laporan</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('status-reg') }}'><i class='nav-icon la la-user-tag'></i> Program Saya</a></li>
     </ul>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('management-m-b-k-m') }}'><i class='nav-icon la la-question'></i> Management m b k ms</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('penilaian-mitra') }}'><i class='nav-icon la la-question'></i> Penilaian mitras</a></li>
