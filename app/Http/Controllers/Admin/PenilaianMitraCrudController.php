@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PenilaianMitraRequest;
+use App\Models\PenilaianMitra;
+use App\Models\RegisterMbkm;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class PenilaianMitraCrudController
@@ -15,7 +20,7 @@ class PenilaianMitraCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
@@ -51,6 +56,7 @@ class PenilaianMitraCrudController extends CrudController
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
          */
+        $this->crud->addButtonFromView('line', 'partner_grade', 'partner_grade', 'beginning');
     }
 
     /**
@@ -81,17 +87,13 @@ class PenilaianMitraCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->crud->addField([
-            // [   // Browse
-                'name'      => 'partner_grade',
-                'label'     => 'mitra',
-                'type'      => 'upload',
-                'upload'    => true,
-                'disk'      => 'uploads', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-                // optional:
-                'temporary' => 10 
+   
+  
 
-           
+
         ]);
+       
+        
         // CRUD::field('nilai_mitra')
         // ->type('upload')
         // ->withFiles([
@@ -99,4 +101,34 @@ class PenilaianMitraCrudController extends CrudController
         //     'path' => 'uploads', // the path inside the disk where file will be stored
         // ]);
     }
+    public function updating($id) 
+{
+    $regmbkm = RegisterMbkm::where('id', $id)->get();
+    $crud = $this->crud;
+    return view('vendor.backpack.crud.partner_grading', compact( 'crud'));
+// show a form that does something
+}
+public function penilaian(Request $request, $id) {
+    $post = PenilaianMitra::find($id);
+
+    if ($request->hasFile('file')) {
+        // Hapus file lama jika ada
+        if ($post->file_path) {
+            Storage::delete($post->file_path);
+        }
+
+        // Simpan file yang diunggah ke penyimpanan yang sesuai
+        $file = $request->file('file')->getClientOriginalName();
+        $fileName = time().'.'.$request->file('file')->getClientOriginalExtension();
+ 
+        $request->file('file')->move(public_path('storage/uploads'), $fileName);
+        $input['partner_grade'] = "storage/uploads/$fileName";
+     
+    }
+   
+    $user = PenilaianMitra::where('id',$id)->update($input);
+    Alert::success('Berhasil Mendaftar!')->flash();
+    return redirect("admin/penilaian-mitra");
+}
+
 }
