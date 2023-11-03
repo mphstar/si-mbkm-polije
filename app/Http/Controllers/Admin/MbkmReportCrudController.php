@@ -37,19 +37,21 @@ class MbkmReportCrudController extends CrudController
                   ->whereDate('end_date', '>=', $now);
         })->orderBy('id', 'desc')->get();
         if(isset($mbkmId[0])) {
-                $reports = MbkmReport::with('regMbkm')
-            ->whereHas('regMbkm', function ($query) use ($mbkmId) {
+            $reports = MbkmReport::with('regMbkm')
+                ->whereHas('regMbkm', function ($query) use ($mbkmId) {
                 $query->where('student_id', backpack_auth()->user()->id)
-                    ->where('mbkm_id', $mbkmId[0]->id);
-            })->get();
+                ->where('mbkm_id', $mbkmId[0]->mbkm_id);})->get();
+
+            // $regMbkmId = RegisterMbkm::where('student_id', backpack_auth()->user()->id)
+            //     ->where('mbkm_id', $mbkmId[0]->id)->get();
+                // return dd($reports);
             $acceptedCount = $reports->where('status', 'accepted')->count();
             $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
 
             $count = ($acceptedCount / $targetCount) * 100;
-            // return dd($count);
             $today = Carbon::now()->toDateString();
             
-            return view('vendor/backpack/crud/report_mbkm', compact('crud', 'reports', 'today', 'count'));
+            return view('vendor/backpack/crud/report_mbkm', compact('crud', 'reports', 'today', 'count', 'mbkmId'));
         }else{
             \Alert::error('Anda tidak terdaftar di program MBKM')->flash();
             return back();

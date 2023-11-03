@@ -146,8 +146,8 @@
                         <input required name="file" type="file" class="form-control-file" id="fileInput">
                     </div>
                 </div>
-                <input  type="hidden" name="reg_mbkm_id" class="form-control-file" id="fileInput" value="{{$report->reg_mbkm_id}}">
-                <input  type="hidden" name="upload_date" class="form-control-file" id="fileInput" value="{{$today}}">
+                    <input  type="hidden" name="reg_mbkm_id" class="form-control-file" id="fileInput" value="{{$mbkmId->first()->id}}">
+                    <input  type="hidden" name="upload_date" class="form-control-file" id="fileInput" value="{{$today}}">
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">{{ trans('backpack::base.save') }}</button>
