@@ -10,7 +10,9 @@ use App\Models\RegisterMbkm;
 use App\Models\Mbkm;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
+use Prologue\Alerts\Facades\Alert;
 /**
  * Class MbkmReportCrudController
  * @package App\Http\Controllers\Admin
@@ -53,7 +55,7 @@ class MbkmReportCrudController extends CrudController
             
             return view('vendor/backpack/crud/report_mbkm', compact('crud', 'reports', 'today', 'count', 'mbkmId'));
         }else{
-            \Alert::error('Anda tidak terdaftar di program MBKM')->flash();
+            Alert::error('Anda tidak terdaftar di program MBKM')->flash();
             return back();
         }
         
@@ -65,7 +67,7 @@ class MbkmReportCrudController extends CrudController
 
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
-            \Alert::warning($messages[0])->flash();
+            Alert::warning($messages[0])->flash();
             return back()->withInput();
         }
         $input = $request->all();
@@ -78,7 +80,7 @@ class MbkmReportCrudController extends CrudController
         $input['status'] = 'pending';
         
         $user = MbkmReport::create($input);
-        \Alert::success('Berhasil upload laporan!')->flash();
+        Alert::success('Berhasil upload laporan!')->flash();
         return back();
     }
 
@@ -89,7 +91,7 @@ class MbkmReportCrudController extends CrudController
     
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
-            \Alert::warning($messages[0])->flash();
+            Alert::warning($messages[0])->flash();
             return back()->withInput();
         }
         $report = MbkmReport::where('id', $request->id)->first();
@@ -109,10 +111,9 @@ class MbkmReportCrudController extends CrudController
         $report->status = 'pending';
         $report->save();
     
-        \Alert::success('Berhasil mengupdate laporan!')->flash();
+        Alert::success('Berhasil mengupdate laporan!')->flash();
         return back();
     }
-
     public function setup()
     {
         CRUD::setModel(\App\Models\MbkmReport::class);

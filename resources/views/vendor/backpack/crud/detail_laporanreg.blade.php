@@ -25,13 +25,18 @@
 
 @section('content')
 <div class="row">
-<div class="card">
+<div class="col-md-12" style="margin-top: 20px;">
+        <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Progresmu</h4>
+                <h4 class="card-title">Progres dari mahasiswa</h4>
                 <div class="progress" style="height: 15px">
-                    <div class="progress-bar bg-primary active progress-bar-striped" style= "width:{{$count}} %;" role="progressbar">{{$count}}%</div>
+                    <div class="progress-bar bg-primary active progress-bar-striped" style="width: {{$count}}%;" role="progressbar">{{$count}}%</div>
                 </div>
             </div>
+        </div>
+    </div>
+<div class="card">
+        
         </div>
     <div class="col-md-12">
         <div class="card">
