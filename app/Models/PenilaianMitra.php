@@ -67,16 +67,35 @@ class PenilaianMitra extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-    public function setPartnerGradeAttribute($value)
-    {
-        $attribute_name = "partner_grade";
-        $disk = "public";
-        $destination_path = "uploads";
+    // public function setImageAttribute($value)
+    // {
+    //     $attribute_name = "partner_grade";
+    //     $disk = "public";
+    //     $destination_path = "upload";
 
-        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    //     $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+
+    // // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
+    // }
+   
+        public function setPartnergradeAttribute($value)
+        {
+            $attribute_name = "partnergrade";
+            $disk = "public";
+            $destination_path = 'uploads';
+    
+            $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    
+        // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
+        }
+        // $attribute_name = "partner_grade";
+        // $disk = "public";
+        // $destination_path = "uploads";
+
+        // $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
 
     // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
-    }
+    
     public function getStatusSpan() {
         $status = $this->attributes['status'];
         

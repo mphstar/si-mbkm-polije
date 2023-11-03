@@ -30,7 +30,7 @@
 
 @section('content')
 <div class="col-lg-8">
-	<form class="form" action="{{'addreg'}}" enctype="multipart/form-data" method="post">
+	<form class="form" action="{{'penilaian'}}" enctype="multipart/form-data" method="post">
 		{!! csrf_field() !!}
 		<div class="card padding-10">
 			<div class="card-header">
@@ -39,20 +39,12 @@
 			</div>
 			<div class="card-body backpack-profile-form bold-labels">
 				<div class="row">
+					
 					<div class="col-md-6 form-group">
-						<label class="required">Nama Instansi</label>
-						<input required class="form-control" type="text" name="" value="{{ $mbkm[0]->partner->partner_name }}" readonly>
+						<label class="required">File Penilaian</label>
+						<input required class="form-control" type="file" name="file" value="" >
 					</div>
-					<div class="col-md-6 form-group">
-						<label class="required">Nama Program</label>
-						<input required class="form-control" type="text" name="mbkm" value="{{ $mbkm[0]->program_name }}" readonly>
-					</div>
-					<div class="col-md-6 form-group">
-						<label class="required">File Persyaratan       </label>
-						<input required class="form-control" type="file" name="file"placeholder="file harus berupa zip" value="" >
-					</div>
-					<input required class="" type="hidden" name="mbkm_id" value="{{ $mbkm[0]->id }}" >
-					<input required class="" type="hidden" name="student_id" value="1" >
+					
 				</div>
 			</div>
 			<div class="card-footer">
@@ -62,20 +54,4 @@
 		</div>
 	</form>
 </div>
-@endsection
-
-
-@section('after_styles')
-	<link rel="stylesheet" href="{{ asset('packages/backpack/crud/css/crud.css').'?v='.config('backpack.base.cachebusting_string') }}">
-	<link rel="stylesheet" href="{{ asset('packages/backpack/crud/css/show.css').'?v='.config('backpack.base.cachebusting_string') }}">
-@endsection
-
-@section('after_scripts')
-	<script>
-		$(document).on('show.bs.modal', '.modal', function() {
-			$(this).appendTo('body');
-	   });
-	</script>
-	<script src="{{ asset('packages/backpack/crud/js/crud.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
-	<script src="{{ asset('packages/backpack/crud/js/show.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
 @endsection

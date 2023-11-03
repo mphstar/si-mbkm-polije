@@ -16,3 +16,4 @@
     </ul>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('management-m-b-k-m') }}'><i class='nav-icon la la-question'></i> Management m b k ms</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('penilaian-mitra') }}'><i class='nav-icon la la-question'></i> Penilaian mitras</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasilaporan') }}'><i class='nav-icon la la-question'></i> Validasilaporans</a></li>

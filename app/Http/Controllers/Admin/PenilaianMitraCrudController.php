@@ -3,8 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PenilaianMitraRequest;
+use App\Models\Mbkm;
+use App\Models\MbkmReport;
+use App\Models\PenilaianMitra;
+use App\Models\RegisterMbkm;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class PenilaianMitraCrudController
@@ -15,7 +23,7 @@ class PenilaianMitraCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
@@ -51,6 +59,7 @@ class PenilaianMitraCrudController extends CrudController
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
          */
+        $this->crud->addButtonFromView('line', 'partner_grade', 'partner_grade', 'beginning');
     }
 
     /**
@@ -81,17 +90,13 @@ class PenilaianMitraCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->crud->addField([
-            // [   // Browse
-                'name'      => 'partner_grade',
-                'label'     => 'mitra',
-                'type'      => 'upload',
-                'upload'    => true,
-                'disk'      => 'uploads', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-                // optional:
-                'temporary' => 10 
+   
+  
 
-           
+
         ]);
+       
+        
         // CRUD::field('nilai_mitra')
         // ->type('upload')
         // ->withFiles([
@@ -99,4 +104,61 @@ class PenilaianMitraCrudController extends CrudController
         //     'path' => 'uploads', // the path inside the disk where file will be stored
         // ]);
     }
+    public function updating($id) 
+{
+    $regmbkm = RegisterMbkm::where('id', $id)->get();
+    $mbkmId = RegisterMbkm::with('mbkm')
+    ->where('student_id', $regmbkm[0]->student_id)
+    ->where('status',  'accepted')
+    ->whereHas('mbkm', function ($query) {
+        $now = Carbon::now();
+        $query->whereDate('start_date', '<=', $now)
+              ->whereDate('end_date', '>=', $now);
+    })->orderBy('id', 'desc')->get();
+    $laporan=MbkmReport::where('reg_mbkm_id',$id)->get();
+    $acceptedCount = $laporan->where('status', 'accepted')->count();
+    $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
+    if ($laporan->isEmpty()) {
+    $count=0;
+    }elseif ($acceptedCount==0) {
+        $count="0";
+    }else{
+        $count = ($acceptedCount / $targetCount) * 100;
+        // return dd($count);
+     
+    }
+    if (($count <=100)||($count==0)) {
+        Alert::error('Tidak bisa upload nilai karna task dari peserta belum lengkap')->flash();
+        return redirect('admin/penilaian-mitra');
+    }else {
+        $regmbkm = RegisterMbkm::where('id', $id)->get();
+        $crud = $this->crud;
+        return view('vendor.backpack.crud.partner_grading', compact( 'crud'));
+    }
+ 
+// show a form that does something
+}
+public function penilaian(Request $request, $id) {
+    $post = PenilaianMitra::find($id);
+
+    if ($request->hasFile('file')) {
+        // Hapus file lama jika ada
+        if ($post->file_path) {
+            Storage::delete($post->file_path);
+        }
+
+        // Simpan file yang diunggah ke penyimpanan yang sesuai
+        $file = $request->file('file')->getClientOriginalName();
+        $fileName = time().'.'.$request->file('file')->getClientOriginalExtension();
+ 
+        $request->file('file')->move(public_path('storage/uploads'), $fileName);
+        $input['partner_grade'] = "storage/uploads/$fileName";
+     
+    }
+   
+    $user = PenilaianMitra::where('id',$id)->update($input);
+    Alert::success('Berhasil upload nilai')->flash();
+    return redirect("admin/penilaian-mitra");
+}
+
 }

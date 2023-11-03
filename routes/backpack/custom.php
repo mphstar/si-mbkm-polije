@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -35,5 +36,10 @@ Route::group([
     Route::crud('penilaian-mitra', 'PenilaianMitraCrudController');
     Route::post('mbkm-report-upload', 'MbkmReportCrudController@upReport');
     Route::post('mbkm-report-rev', 'MbkmReportCrudController@revReport');
+    Route::crud('validasilaporan', 'ValidasilaporanCrudController');
+    Route::get('penilaian-mitra/{id}/updating', 'PenilaianMitraCrudController@updating')->name("grader_partner");
+    Route::post('penilaian-mitra/{id}/penilaian ', 'PenilaianMitraCrudController@penilaian');
+    Route::get('validasilaporan/{id}/detail_laporan ', 'ValidasilaporanCrudController@detail_laporan')->name("detail_laporan");
     Route::crud('status-reg', 'StatusRegCrudController');
+    Route::post('validasilaporan/{id}/approve-laporan', 'ValidasilaporanCrudController@validasilaporan');
 }); // this should be the absolute last line of this file

@@ -5,7 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Mbkm extends Model
+class Validasilaporan extends Model
 {
     use CrudTrait;
 
@@ -15,7 +15,7 @@ class Mbkm extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'mbkms';
+    protected $table = 'mbkm_reports';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
@@ -23,13 +23,14 @@ class Mbkm extends Model
     // protected $hidden = [];
     // protected $dates = [];
 
-    public function partner()
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
+    public function regMbkm()
     {
-        return $this->belongsTo(Partner::class);
-    }
-    public function regs()
-    {
-        return $this->hasMany(RegisterMbkm::class);
+        return $this->belongsTo(RegisterMbkm::class);
     }
 
     /*
@@ -43,25 +44,20 @@ class Mbkm extends Model
     | SCOPES
     |--------------------------------------------------------------------------
     */
+    public function Download($crud = false)
+    {
+        $url = str_replace(' ', '', $this->file);
+$url = str_replace('/ ', '/', $url);
+return '<a class="btn btn-sm btn-link" target="_blank" href="/' . $url . '" data-toggle="tooltip" title="Just a demo custom button."><i class="fa fa-search"></i> Download</a>';
 
+    }
     /*
     |--------------------------------------------------------------------------
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
-    public function getIsactiveSpan() {
-        $status = $this->attributes['is_active'];
-        
-        if ($status == 'active') {
-            return '<span class="badge bg-success">Active</span>';
-        } elseif ($status == 'inactive') {
-            return '<span class="badge bg-danger">Inactive</span>';
-        } else {
-            return '<span class="badge bg-warning">Pending</span>';
-        }
-    }
     public function getStatusSpan() {
-        $status = $this->attributes['status_acc'];
+        $status = $this->attributes['status'];
         
         if ($status == 'accepted') {
             return '<span class="badge bg-success">Accept</span>';

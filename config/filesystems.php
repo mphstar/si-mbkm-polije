@@ -40,7 +40,10 @@ return [
     | Supported Drivers: "local", "ftp", "sftp", "s3"
     |
     */
-
+    'uploads' => [
+        'driver' => 'local',
+        'root' => storage_path('app/public/uploads'), // Adjust the path as needed
+    ],
     'disks' => [
 
         'local' => [
