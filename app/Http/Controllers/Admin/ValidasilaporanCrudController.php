@@ -110,6 +110,7 @@ class ValidasilaporanCrudController extends CrudController
          */
     }
 public function validasilaporan(Request $request) {
+    
     $data = [
         'status' => $request->input('status'),
         'notes' => $request->input('notes')
