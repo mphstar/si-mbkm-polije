@@ -10,8 +10,9 @@ use App\Models\RegisterMbkm;
 use App\Models\Mbkm;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use Prologue\Alerts\Facades\Alert;
-use Validator;
 /**
  * Class MbkmReportCrudController
  * @package App\Http\Controllers\Admin
@@ -76,6 +77,7 @@ class MbkmReportCrudController extends CrudController
 
         $request->file('file')->move(public_path('storage/uploads'), $fileName);
         $input['file'] = "storage/uploads/$fileName";
+        $input['status'] = 'pending';
         $user = MbkmReport::create($input);
         Alert::success('Berhasil upload laporan!')->flash();
         return back();
@@ -110,14 +112,6 @@ class MbkmReportCrudController extends CrudController
     
         Alert::success('Berhasil mengupdate laporan!')->flash();
         return back();
-    }
-
-    public function downloadFile(Request $request) {
-        $filePath = public_path($request->file);
-        $headers = [
-            'Content-Type' => 'application/pdf', // Ganti sesuai tipe file yang ingin Anda unduh
-        ];
-        return Response::download($filePath, $fileName, $headers);
     }
     
     public function setup()
