@@ -43,10 +43,10 @@
                             @foreach ($data->involved as $item)
                                 <div class="form-group">
                                     <label for="{{ $item->course->id }}">{{ $item->course->name }}</label>
-                                    <input oninput="conversiNilai(this)" class="form-control" id="{{ $item->course->id }}"
+                                    <input oninput="conversiNilai(this, 'result_konversi_{{ $item->course->id }}')" class="form-control" id="{{ $item->course->id }}"
                                         type="number" name="{{ $item->course->id }}" value="{{ $item->grade }}"
                                         placeholder="Masukkan nilai">
-                                    <p class="help-block">Hasil Konversi: <span id="result_konversi">
+                                    <p class="help-block">Hasil Konversi: <span id="result_konversi_{{ $item->course->id }}">
                                             @if ($item->grade >= 0 && $item->grade < 60)
                                                 C
                                             @elseif($item->grade >= 60 && $item->grade < 75)
@@ -74,9 +74,8 @@
         </div>
     </div>
     <script>
-        const res = document.getElementById('result_konversi')
 
-        const conversiNilai = (e) => {
+        const conversiNilai = (e, id_span) => {
             var nilai = ''
             if (e.value == '') {
                 nilai = '-'
@@ -94,7 +93,7 @@
                 }
             }
 
-            res.innerHTML = nilai
+            document.getElementById(id_span).innerHTML = nilai
         }
     </script>
 @endsection
