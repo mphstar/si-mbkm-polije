@@ -23,7 +23,7 @@ class MbkmCrudController extends CrudController
     // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 private function getFieldsData()  {
     
 }
@@ -63,20 +63,6 @@ private function getFieldsData()  {
             'name' => 'capacity',
             'label' => 'Kuota',
         ], 'info']);
-        $this->crud->addColumn([
-            'name'  => 'status_acc',
-   'label' => 'Status ACC', // Table column heading
-   'type'  => 'model_function',
-   'function_name' => 'getStatusSpan'
-        
-        ])->afterColumn('capacity');
-        $this->crud->addColumn([
-            'name'  => 'is_active',
-   'label' => 'Status Active', // Table column heading
-   'type'  => 'model_function',
-   'function_name' => 'getIsactiveSpan'
-        
-        ])->afterColumn('status_acc');
         $this->crud->addButtonFromView('line', 'reg_mbkm', 'reg_mbkm', 'end');
 
         // CRUD::addClause('where', 'capacity', '>', '0');

@@ -18,8 +18,8 @@ class CreateMbkmReportsTable extends Migration
             $table->unsignedBigInteger('reg_mbkm_id');
             $table->foreign('reg_mbkm_id')->references('id')->on('reg_mbkms')->onDelete('cascade');
             $table->string('file');
-            $table->enum('status', ['accepted', 'rejected', 'pending'])->default('pending');
-            $table->string('notes')->nullable();
+            $table->string('notes');
+            $table->enum('status', ['accepted', 'rejected', 'pending']);
             $table->date('upload_date');
             $table->timestamps();
         });

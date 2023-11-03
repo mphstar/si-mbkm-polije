@@ -42,4 +42,18 @@ Route::group([
     Route::get('validasilaporan/{id}/detail_laporan ', 'ValidasilaporanCrudController@detail_laporan')->name("detail_laporan");
     Route::crud('status-reg', 'StatusRegCrudController');
     Route::post('validasilaporan/{id}/approve-laporan', 'ValidasilaporanCrudController@validasilaporan');
+    Route::crud('manage-student', 'ManageStudentCrudController');
+    
+    Route::get('manage-student/{id}/edit', 'ManageStudentCrudController@formEdit');
+    Route::post('manage-student/{id}/editDosen', 'ManageStudentCrudController@editDosen');
+    Route::post('manage-student/{id}/editMatkul', 'ManageStudentCrudController@editMatkul');
+
+    Route::crud('nilaimbkm', 'NilaimbkmCrudController');
+
+    Route::crud('nilaimbkm', 'NilaimbkmCrudController');
+    Route::get('/nilaimbkm/{id}/inputnilai', 'NilaimbkmCrudController@inputNilai');
+    Route::post('/nilaimbkm/{id}/prosesNilai', 'NilaimbkmCrudController@prosesNilai');
+
+    Route::get('/download/{name}', 'DownloadController@download');
+    Route::crud('progress-mahasiswa', 'ProgressMahasiswaCrudController');
 }); // this should be the absolute last line of this file

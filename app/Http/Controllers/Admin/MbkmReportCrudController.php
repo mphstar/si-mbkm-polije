@@ -75,6 +75,7 @@ class MbkmReportCrudController extends CrudController
 
         $request->file('file')->move(public_path('storage/uploads'), $fileName);
         $input['file'] = "storage/uploads/$fileName";
+        $input['status'] = 'pending';
         $user = MbkmReport::create($input);
         \Alert::success('Berhasil upload laporan!')->flash();
         return back();
