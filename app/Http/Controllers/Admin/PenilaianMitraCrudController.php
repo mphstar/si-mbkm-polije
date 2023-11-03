@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PenilaianMitraRequest;
+use App\Models\Mbkm;
+use App\Models\MbkmReport;
 use App\Models\PenilaianMitra;
 use App\Models\RegisterMbkm;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Prologue\Alerts\Facades\Alert;
@@ -104,8 +107,35 @@ class PenilaianMitraCrudController extends CrudController
     public function updating($id) 
 {
     $regmbkm = RegisterMbkm::where('id', $id)->get();
-    $crud = $this->crud;
-    return view('vendor.backpack.crud.partner_grading', compact( 'crud'));
+    $mbkmId = RegisterMbkm::with('mbkm')
+    ->where('student_id', $regmbkm[0]->student_id)
+    ->where('status',  'accepted')
+    ->whereHas('mbkm', function ($query) {
+        $now = Carbon::now();
+        $query->whereDate('start_date', '<=', $now)
+              ->whereDate('end_date', '>=', $now);
+    })->orderBy('id', 'desc')->get();
+    $laporan=MbkmReport::where('reg_mbkm_id',$id)->get();
+    $acceptedCount = $laporan->where('status', 'accepted')->count();
+    $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
+    if ($laporan->isEmpty()) {
+    $count=0;
+    }elseif ($acceptedCount==0) {
+        $count="0";
+    }else{
+        $count = ($acceptedCount / $targetCount) * 100;
+        // return dd($count);
+     
+    }
+    if (($count <=100)||($count==0)) {
+        Alert::error('Tidak bisa upload nilai karna task dari peserta belum lengkap')->flash();
+        return redirect('admin/penilaian-mitra');
+    }else {
+        $regmbkm = RegisterMbkm::where('id', $id)->get();
+        $crud = $this->crud;
+        return view('vendor.backpack.crud.partner_grading', compact( 'crud'));
+    }
+ 
 // show a form that does something
 }
 public function penilaian(Request $request, $id) {
@@ -127,7 +157,7 @@ public function penilaian(Request $request, $id) {
     }
    
     $user = PenilaianMitra::where('id',$id)->update($input);
-    Alert::success('Berhasil Mendaftar!')->flash();
+    Alert::success('Berhasil upload nilai')->flash();
     return redirect("admin/penilaian-mitra");
 }
 

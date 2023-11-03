@@ -10,6 +10,7 @@ use App\Models\RegisterMbkm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class MbkmCrudController
@@ -78,7 +79,9 @@ private function getFieldsData()  {
         ])->afterColumn('status_acc');
         $this->crud->addButtonFromView('line', 'reg_mbkm', 'reg_mbkm', 'end');
 
-        CRUD::addClause('where', 'capacity', '>', '0');
+        // CRUD::addClause('where', 'capacity', '>', '0');
+        // CRUD::addClause('where', 'status_acc', '=', 'accepted');
+        // CRUD::addClause('where', 'is_ active', '=', 'active');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -144,11 +147,11 @@ private function getFieldsData()  {
         $pendingReg = RegisterMbkm::where('student_id', backpack_auth()->user()->id)->where('status', 'pending', )->get();
         // return dd($sudahReg);
         if($accReg->count() > 0){
-            \Alert::error('Anda sudah daftar')->flash();
+            Alert::error('Anda sudah daftar')->flash();
             return back();
         }
         if($pendingReg->count() > 0){
-            \Alert::warning('Anda tidak dapat mendaftar jika status pendaftaran sebelumnya masih pending')->flash();
+            Alert::warning('Anda tidak dapat mendaftar jika status pendaftaran sebelumnya masih pending')->flash();
             return back();
         }
         $mbkm = Mbkm::with('partner')->where('mbkms.id', $id)->get();
