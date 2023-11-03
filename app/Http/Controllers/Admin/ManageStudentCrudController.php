@@ -51,7 +51,7 @@ class ManageStudentCrudController extends CrudController
             ],
         ]);
 
-        $this->crud->addClause('where', 'status', '=', 'accepted');
+        $this->crud->addClause('where', 'status', '=', 'done');
         // $this->crud->addClause('where', 'nilai_mitra', '!=', 'null');
     }
 

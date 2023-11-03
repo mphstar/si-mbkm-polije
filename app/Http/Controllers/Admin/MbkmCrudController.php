@@ -64,10 +64,9 @@ private function getFieldsData()  {
             'label' => 'Kuota',
         ], 'info']);
         $this->crud->addButtonFromView('line', 'reg_mbkm', 'reg_mbkm', 'end');
-
-        // CRUD::addClause('where', 'capacity', '>', '0');
-        // CRUD::addClause('where', 'status_acc', '=', 'accepted');
-        // CRUD::addClause('where', 'is_ active', '=', 'active');
+        CRUD::addClause('where', 'capacity', '>', '0');
+        CRUD::addClause('where', 'status_acc', '=', 'accepted');
+        CRUD::addClause('where', 'is_active', '=', 'active');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -153,7 +152,7 @@ private function getFieldsData()  {
 
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
-            \Alert::error($messages[0])->flash();
+            Alert::error($messages[0])->flash();
             return back()->withInput();
         }
         $input = $request->all();
@@ -164,7 +163,7 @@ private function getFieldsData()  {
         $request->file('file')->move(public_path('storage/uploads'), $fileName);
         $input['requirements_files'] = "storage/uploads/$fileName";
         $user = RegisterMbkm::create($input);
-        \Alert::success('Berhasil Mendaftar!')->flash();
+        Alert::success('Berhasil Mendaftar!')->flash();
         return redirect('admin/mbkm');
     }
     /**

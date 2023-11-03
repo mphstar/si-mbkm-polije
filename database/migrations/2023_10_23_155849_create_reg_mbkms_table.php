@@ -23,7 +23,7 @@ class CreateRegMbkmsTable extends Migration
             // $table->string('requirements_file');
             $table->unsignedBigInteger('pembimbing')->nullable();
             $table->string('requirements_files')->nullable();
-            $table->string('nilai_mitra')->nullable();
+            $table->string('partner_grade')->nullable();
 
             $table->foreign('pembimbing')->references('id')->on('lecturers')->onDelete('cascade');
             $table->timestamps();

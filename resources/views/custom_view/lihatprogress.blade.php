@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <ul class="list-group">
                             @foreach ($data as $index => $item)
-                                <a href="/admin/download/storage/{{ $item->file }}">
+                                <a href="/{{ $item->file }}">
                                     <li
                                         class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">
                                         Laporan {{ $index + 1 }}<span

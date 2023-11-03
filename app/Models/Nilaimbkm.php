@@ -37,7 +37,7 @@ class Nilaimbkm extends Model
     }
     public function download_nilai($crud = false)
     {
-        return '<a class="btn btn-sm btn-link px-0" href="/'. $this->nilai_mitra . '" data-toggle="tooltip" title="Lihat Nilai dari Mitra."><i class="la la-file mt-2"></i> Nilai Mitra</a>';
+        return '<a class="btn btn-sm btn-link px-0" href="/'. $this->partner_grade . '" data-toggle="tooltip" title="Lihat Nilai dari Mitra."><i class="la la-file mt-2"></i> Nilai Mitra</a>';
     }
 
     public function lihatProgress($crud = false)

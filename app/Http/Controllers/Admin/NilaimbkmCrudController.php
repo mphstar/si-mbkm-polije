@@ -50,7 +50,7 @@ class NilaimbkmCrudController extends CrudController
         ]);
 
         $this->crud->addClause('where', 'pembimbing', '!=', 'null');
-        $this->crud->addClause('where', 'nilai_mitra', '!=', 'null');
+        $this->crud->addClause('where', 'partner_grade', '!=', 'null');
     }
 
     /**
