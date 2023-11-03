@@ -106,7 +106,17 @@ class PenilaianMitraCrudController extends CrudController
     }
     public function updating($id) 
 {
+    
     $regmbkm = RegisterMbkm::where('id', $id)->get();
+  
+    
+foreach ($regmbkm as $item) {
+    if ($item->status == 'done') {
+        Alert::warning('Tidak bisa upload nilai karna anda sudah upload nilaiS')->flash();
+        return back();
+        }
+    }
+  
     $mbkmId = RegisterMbkm::with('mbkm')
     ->where('student_id', $regmbkm[0]->student_id)
     ->where('status',  'accepted')
@@ -124,16 +134,19 @@ class PenilaianMitraCrudController extends CrudController
         $count="0";
     }else{
         $count = ($acceptedCount / $targetCount) * 100;
-        // return dd($count);
+    
      
     }
-    if (($count <=100)||($count==0)) {
-        Alert::error('Tidak bisa upload nilai karna task dari peserta belum lengkap')->flash();
-        return redirect('admin/penilaian-mitra');
-    }else {
+
+if (($count ==100)) {
         $regmbkm = RegisterMbkm::where('id', $id)->get();
         $crud = $this->crud;
         return view('vendor.backpack.crud.partner_grading', compact( 'crud'));
+    }else {
+       
+
+        Alert::error('Tidak bisa upload nilai karna task dari peserta belum lengkap')->flash();
+        return redirect('admin/penilaian-mitra');
     }
  
 // show a form that does something
@@ -153,10 +166,11 @@ public function penilaian(Request $request, $id) {
  
         $request->file('file')->move(public_path('storage/uploads'), $fileName);
         $input['partner_grade'] = "storage/uploads/$fileName";
-     
+     $input['status']="done";
     }
    
     $user = PenilaianMitra::where('id',$id)->update($input);
+
     Alert::success('Berhasil upload nilai')->flash();
     return redirect("admin/penilaian-mitra");
 }
