@@ -59,7 +59,7 @@ class DepartmenCrudController extends CrudController
         CRUD::setValidation(DepartmenRequest::class);
 
         
-
+        
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

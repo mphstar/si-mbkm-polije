@@ -75,6 +75,8 @@ class MbkmReportCrudController extends CrudController
 
         $request->file('file')->move(public_path('storage/uploads'), $fileName);
         $input['file'] = "storage/uploads/$fileName";
+        $input['status'] = 'pending';
+        
         $user = MbkmReport::create($input);
         \Alert::success('Berhasil upload laporan!')->flash();
         return back();
@@ -104,20 +106,13 @@ class MbkmReportCrudController extends CrudController
     
         $request->file('file')->move(public_path('storage/uploads'), $fileName);
         $report->file = "storage/uploads/$fileName";
+        $report->status = 'pending';
         $report->save();
     
         \Alert::success('Berhasil mengupdate laporan!')->flash();
         return back();
     }
 
-    public function downloadFile(Request $request) {
-        $filePath = public_path($request->file);
-        $headers = [
-            'Content-Type' => 'application/pdf', // Ganti sesuai tipe file yang ingin Anda unduh
-        ];
-        return Response::download($filePath, $fileName, $headers);
-    }
-    
     public function setup()
     {
         CRUD::setModel(\App\Models\MbkmReport::class);

@@ -118,6 +118,7 @@
                     </div>
                     <input  type="hidden" name="id" class="form-control-file" id="fileInput" value="{{$item->id}}">
                     <input  type="hidden" name="upload_date" class="form-control-file" id="fileInput" value="{{$today}}">
+                    <input  type="hidden" name="status" class="form-control-file" value="pending">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>

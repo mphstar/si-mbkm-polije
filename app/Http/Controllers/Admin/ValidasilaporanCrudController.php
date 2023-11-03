@@ -47,12 +47,7 @@ class ValidasilaporanCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['student.name', 'mbkm.info', [
-            'name'  => 'status',
-            'label' => 'Status ACC', // Table column heading
-            'type'  => 'model_function',
-            'function_name' => 'getStatusSpan'
-        ] ]);
+        $this->crud->setColumns(['student.name','mbkm.program_name', 'mbkm.info']);
         $this->crud->addButtonFromView('line', 'detail_laporan', 'detail_laporan', 'beginning');
         
      
