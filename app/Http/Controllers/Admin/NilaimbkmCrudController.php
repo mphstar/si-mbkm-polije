@@ -110,7 +110,7 @@ class NilaimbkmCrudController extends CrudController
         return view('vendor.backpack.crud.inputNilai', compact('crud', 'data'));
     }
 
-    protected function prosesNilai(Request $request)
+    protected function prosesNilai(Request $request, $id)
     {
         $data = $request->all();
 
@@ -119,7 +119,10 @@ class NilaimbkmCrudController extends CrudController
         }
 
         foreach ($data as $key => $value) {
-            InvolvedCourse::updateOrInsert(['reg_mbkm_id' => $key], ['grade' => $value]);
+            // InvolvedCourse::updateOrInsert(['reg_mbkm_id' => $key], ['grade' => $value]);
+            InvolvedCourse::where('reg_mbkm_id', $id)->where('course_id', $key)->update([
+                "grade" => $value
+            ]);
         }
 
         Alert::success('Berhasil Menyimpan')->flash();
