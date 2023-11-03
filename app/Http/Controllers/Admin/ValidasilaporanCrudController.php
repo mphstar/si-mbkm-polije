@@ -36,7 +36,7 @@ class ValidasilaporanCrudController extends CrudController
         CRUD::setModel(\App\Models\RegisterMbkm::class);
         // CRUD::setModel(\App\Models\RegisterMbkm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/validasilaporan');
-        CRUD::setEntityNameStrings('validasilaporan', 'validasilaporans');
+        CRUD::setEntityNameStrings('validasilaporan', 'validasi Laporan Mahasiswa');
     }
 
     /**
@@ -47,7 +47,17 @@ class ValidasilaporanCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['student.name','mbkm.program_name', 'mbkm.info']);
+        $this->crud->setColumns([[
+            'name' => 'mbkm.program_name',
+            'label' => 'Program MBKM',
+        ],[
+            'name' => 'student.name',
+            'label' => 'Nama Mahasiswa',
+        ],[
+            'name' => 'mbkm.info',
+            'label' => 'Informasi MBKM',
+        ]]);
+
         $this->crud->addButtonFromView('line', 'detail_laporan', 'detail_laporan', 'beginning');
         
      

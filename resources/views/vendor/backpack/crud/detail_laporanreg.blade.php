@@ -25,8 +25,8 @@
 
 @section('content')
 <div class="row">
-<div class="col-md-12" style="margin-top: 20px;">
-        <div class="card">
+    <div class="col-md-12" style="margin-top: 20px;">
+        <div class="card" style="margin-bottom: 0.8rem;">
             <div class="card-body">
                 <h4 class="card-title">Progres dari mahasiswa</h4>
                 <div class="progress" style="height: 15px">
@@ -35,22 +35,21 @@
             </div>
         </div>
     </div>
-<div class="card">
-        
-        </div>
+
     <div class="col-md-12">
         <div class="card">
-            <div class="card-body">
+            <div style="padding: 0px" class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">Tanggal Upload</th>
+                                <th class="text-center">Informasi Laporan</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">File</th>
-                                <th class="text-center">Keteragan dari mitra</th>
-                               
+                                <th class="text-center">Keterangan Mitra</th>
+                                <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,8 +58,9 @@
                             @endphp
                             @foreach($laporan as $report)
                             <tr>
-                                <th class="text-center">{{ $index }}</th>
-                                <th class="text-center">{{ $report->upload_date }}</th>
+                                <th class="text-center font-weight-normal">{{ $index }}</th>
+                                <th class="text-center font-weight-normal">{{ $report->upload_date }}</th>
+                                <th class="text-center font-weight-normal">{{ $report->file_info }}</th>
                                 <td class="text-center">
                                     @if($report->status === 'accepted')
                                         <span class="badge badge-success px-2">{{ $report->status }}</span>
@@ -77,7 +77,7 @@
                                         </a>
                                     </span>
                                 </td>
-                                <td class="text-center">{{$report->notes}}</td>
+                                <td class="text-center font-weight-normal">{{$report->notes}}</td>
                                 <td class="text-center">
                                     <span>
                                         <button @if($report->status === 'accepted')
@@ -110,26 +110,24 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    </div>
+                </div>
+                <div class="modal-body">
                     <div class="form-group">
                         <label for="status">Status Laporan</label>
-                        <select class="form-control" id="status"name="status">
-                            <option value="{{$item->status}}">{{$item->status}}</option>
-                            <option value="accepted">accepted</option>
-                            <option value="pending">pending</option>
-                            <option value="rejected">rejected</option>
+                        <select class="form-control" id="status"name="status" value="{{$item->status}}">
+                            <option value="accepted" {{ $item->status == 'accepted' ? 'selected' : '' }}>Accepted</option>
+                            <option value="pending" {{ $item->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="rejected" {{ $item->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        
                         <input type="textarea" class="form-control" id="notes"name="notes" placeholder="Komentar mitra"required>
                     </div>
-                        <input  type="hidden" name="id" class="form-control-file" id="fileInput" value="{{$item->id}}">
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
+                </div>
+                <input  type="hidden" name="id" class="form-control-file" id="fileInput" value="{{$item->id}}">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </form>
