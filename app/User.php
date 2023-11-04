@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Partner;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,7 +21,8 @@ class User extends Authenticatable
         'email',
         'email_verified_at',
         'password',
-        'remember_token'
+        'remember_token',
+        'level'
     ];
 
     /**
@@ -40,4 +42,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function partner(){
+        return $this->hasOne(Partner::class, 'users_id', 'id');
+    }
 }

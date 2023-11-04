@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
 //     return view('welcome');
-// });
+// });s
 
-// Route::get('/', function () {
-//     return view('tes');
-// });
+Route::get('/', function () {
+    return backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
+        return $query->where('users_id', backpack_auth()->user()->id);
+    })->first();
+});

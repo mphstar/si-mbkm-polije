@@ -18,11 +18,9 @@ class CreatePartnersTable extends Migration
             $table->string("partner_name");
             $table->string("address");
             $table->string("phone");
-            $table->string("email")->unique();
             $table->enum('status', ['accepted', 'rejected', 'pending'])->default('pending');
-            $table->enum('jenis_mitra', ['luar kampus', 'dalam kampus'])->default('dalam kampus');
-            $table->string("username")->unique();
-            $table->string("password");
+            $table->enum('jenis_mitra', ['luar kampus', 'dalam kampus']);
+            $table->foreignId('users_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
