@@ -1,1 +1,1 @@
-<a href="{{ url($crud->route.'/'.$entry->getKey().'/detail_laporan') }} " class="btn btn-xs btn-default"><i class="fa fa-ban"></i> Detail peserta laporan </a>
+<a href="{{ url($crud->route.'/'.$entry->getKey().'/detail_laporan') }} " class="btn btn-xs btn-primary"><i class="fa fa-user"></i> Detail  laporan peserta </a>

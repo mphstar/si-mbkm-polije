@@ -20,7 +20,7 @@ class CreatePartnersTable extends Migration
             $table->string("phone");
             $table->string("email")->unique();
             $table->enum('status', ['accepted', 'rejected', 'pending'])->default('pending');
-            $table->enum('jenis_mitra', ['luar kampus', 'dalam kampus']);
+            $table->enum('jenis_mitra', ['luar kampus', 'dalam kampus'])->default('dalam kampus');
             $table->string("username")->unique();
             $table->string("password");
             $table->timestamps();

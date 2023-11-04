@@ -28,12 +28,14 @@ Route::group([
 
     Route::crud('departmen', 'DepartmenCrudController');
     Route::crud('register-mbkm', 'RegisterMbkmCrudController');
+    Route::get('validasi_pendaftar', 'RegisterMbkmCrudController@validasipendaftar');
     Route::crud('lecturer', 'LecturerCrudController');
     Route::get('mbkm/{id}/reg-mbkm', 'MbkmCrudController@register');
     Route::post('mbkm/{id}/addreg', 'MbkmCrudController@addreg');
     Route::get('mbkm-report', 'MbkmReportCrudController@viewReport');
     Route::crud('management-m-b-k-m', 'ManagementMBKMCrudController');
-    Route::crud('penilaian-mitra', 'PenilaianMitraCrudController');
+    
+    Route::get('penilaian-mitra', 'PenilaianMitraCrudController@penilaianmitra');
     Route::post('mbkm-report-upload', 'MbkmReportCrudController@upReport');
     Route::post('mbkm-report-rev', 'MbkmReportCrudController@revReport');
     Route::crud('validasilaporan', 'ValidasilaporanCrudController');
@@ -56,4 +58,7 @@ Route::group([
 
     Route::get('/download/{name}', 'DownloadController@download');
     Route::crud('progress-mahasiswa', 'ProgressMahasiswaCrudController');
+    Route::post('validasi-peserta', 'RegisterMbkmCrudController@validasipeserta');
+    Route::get('management-m-b-k-m/tambah_mbkm', 'ManagementMBKMCrudController@tambah_mbkm');
+    Route::post('management-m-b-k-m/tambahdatambkm', 'ManagementMBKMCrudController@storeData');
 }); // this should be the absolute last line of this file

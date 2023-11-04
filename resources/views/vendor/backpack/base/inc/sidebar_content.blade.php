@@ -24,7 +24,7 @@
 <li class="nav-title">Mitra</li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('partner') }}'><i class='nav-icon la la-handshake'></i> Partners</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('management-m-b-k-m') }}'><i class='nav-icon la la-edit'></i> Register MBKM</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('register-mbkm') }}'><i class='nav-icon la la-random'></i> Valdasi Pendaftar</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi_pendaftar') }}'><i class='nav-icon la la-random'></i> Validasi Pendaftar</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasilaporan') }}'><i class='nav-icon la la-folder'></i> Validasi Laporan</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('penilaian-mitra') }}'><i class='nav-icon la la-calculator'></i> Penilaian Mitra</a></li>
 <li class="nav-title">Admin / Kaprodi</li>
