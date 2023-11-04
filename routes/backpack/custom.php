@@ -5,6 +5,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DosenMiddleware;
 use App\Http\Middleware\KaprodiMiddleware;
 use App\Http\Middleware\PartnerMiddleware;
+use App\Http\Middleware\StudentMiddleware;
 use Illuminate\Support\Facades\Route;
 
 // --------------------------
@@ -51,6 +52,9 @@ Route::group([
         Route::get('/nilaimbkm/{id}/inputnilai', 'NilaimbkmCrudController@inputNilai');
         Route::post('/nilaimbkm/{id}/prosesNilai', 'NilaimbkmCrudController@prosesNilai');
         Route::crud('progress-mahasiswa', 'ProgressMahasiswaCrudController');
+        
+    });
+    Route::middleware([StudentMiddleware::class])->group(function () {
         Route::get('mbkm/{id}/reg-mbkm', 'MbkmCrudController@register');
         Route::post('mbkm/{id}/addreg', 'MbkmCrudController@addreg');
         Route::get('mbkm-report', 'MbkmReportCrudController@viewReport');
@@ -59,9 +63,8 @@ Route::group([
         Route::get('validasilaporan/{id}/detail_laporan ', 'ValidasilaporanCrudController@detail_laporan')->name("detail_laporan");
         Route::crud('status-reg', 'StatusRegCrudController');
         Route::post('validasilaporan/{id}/approve-laporan', 'ValidasilaporanCrudController@validasilaporan');
-        
     });
-
+    
     Route::get('/download/{name}', 'DownloadController@download');
     Route::crud('progress-mahasiswa', 'ProgressMahasiswaCrudController');
     Route::post('validasi-peserta', 'RegisterMbkmCrudController@validasipeserta');
