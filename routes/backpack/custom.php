@@ -24,7 +24,7 @@ Route::group([
 ], function () { // custom admin routes
     Route::crud('tags', 'TagsCrudController');
     Route::crud('mbkm', 'MbkmCrudController');
-
+    
     Route::middleware([PartnerMiddleware::class])->group(function () {
         Route::crud('partner', 'PartnerCrudController');
         Route::crud('management-m-b-k-m', 'ManagementMBKMCrudController');
@@ -33,6 +33,9 @@ Route::group([
         Route::crud('penilaian-mitra', 'PenilaianMitraCrudController');
         Route::get('penilaian-mitra/{id}/updating', 'PenilaianMitraCrudController@updating')->name("grader_partner");
         Route::post('penilaian-mitra/{id}/penilaian ', 'PenilaianMitraCrudController@penilaian');
+        Route::post('validasi-peserta', 'RegisterMbkmCrudController@validasipeserta');
+        Route::get('management-m-b-k-m/tambah_mbkm', 'ManagementMBKMCrudController@tambah_mbkm');
+        Route::post('management-m-b-k-m/tambahdatambkm', 'ManagementMBKMCrudController@storeData');
     });
      
     Route::middleware([KaprodiMiddleware::class])->group(function () {
@@ -66,8 +69,4 @@ Route::group([
     });
     
     Route::get('/download/{name}', 'DownloadController@download');
-    Route::crud('progress-mahasiswa', 'ProgressMahasiswaCrudController');
-    Route::post('validasi-peserta', 'RegisterMbkmCrudController@validasipeserta');
-    Route::get('management-m-b-k-m/tambah_mbkm', 'ManagementMBKMCrudController@tambah_mbkm');
-    Route::post('management-m-b-k-m/tambahdatambkm', 'ManagementMBKMCrudController@storeData');
 }); // this should be the absolute last line of this file
