@@ -49,7 +49,9 @@
 					</div>
 					<div class="col-md-6 form-group">
 						<label class="required">File Persyaratan       </label>
-						<input required class="form-control" type="file" name="file"placeholder="file harus berupa zip" value="" >
+						<input required class="form-control" type="file" name="file" placeholder="file harus berupa zip" value="" >
+						<div class="text-danger">*Jenis file yang diizinkan: .zip.</div>
+
 					</div>
 					<input required class="" type="hidden" name="mbkm_id" value="{{ $mbkm[0]->id }}" >
 					<input required class="" type="hidden" name="student_id" value="1" >

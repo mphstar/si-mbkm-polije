@@ -51,6 +51,17 @@ class NilaimbkmCrudController extends CrudController
 
         $this->crud->addClause('where', 'pembimbing', '!=', 'null');
         $this->crud->addClause('where', 'partner_grade', '!=', 'null');
+
+        $id_dosen = backpack_auth()->user()->with('lecturer')->whereHas('lecturer', function ($query) {
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+
+        $this->crud->addClause('whereHas', 'lecturers', function($query) use($id_dosen){
+            return $query->where('users_id', $id_dosen->id);
+        });
+
+
+
     }
 
     /**

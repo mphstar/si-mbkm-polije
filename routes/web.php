@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 // });s
 
 Route::get('/', function () {
-    return backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
+    return backpack_auth()->user()->with('student')->whereHas('student', function($query){
         return $query->where('users_id', backpack_auth()->user()->id);
     })->first();
 });

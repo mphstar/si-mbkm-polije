@@ -39,6 +39,14 @@ class PenilaianMitraCrudController extends CrudController
         CRUD::setModel(\App\Models\PenilaianMitra::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/penilaian-mitra');
         CRUD::setEntityNameStrings('penilaian mitra', 'penilaian mitras');
+
+        $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+
+        $this->crud->addClause('whereHas', 'mbkm', function ($query) use ($id_partner) {
+            return $query->where('partner_id', $id_partner->partner->id);
+        });
     }
 
     /**
@@ -67,7 +75,12 @@ class PenilaianMitraCrudController extends CrudController
     {
         $crud = $this->crud;
 
-        $pendaftar = RegisterMbkm::with('student')->with('mbkm')->get();
+
+        // return $id_partner;
+
+        // $pendaftar = RegisterMbkm::with('student')->with('mbkm')->whereHas('mbkm', function($query) use($id_partner){
+        //     return $query->where('partner_id', $id_partner->partner->id);
+        // })->get();
 
         return view('vendor/backpack/crud/viewpenilaianmitra', compact('pendaftar', 'crud'));
     }
@@ -134,7 +147,9 @@ class PenilaianMitraCrudController extends CrudController
         $acceptedCount = $laporan->where('status', 'accepted')->count();
         $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
 
-        
+
+
+        // return $laporan;
         if ($laporan->isEmpty()) {
             $count = 0;
 
@@ -143,7 +158,7 @@ class PenilaianMitraCrudController extends CrudController
         } elseif ($acceptedCount == 0) {
             $count = "0";
         } else {
-            $count = ($acceptedCount / $targetCount) * 100;
+            $count = round(($acceptedCount / $targetCount) * 100, 2) > 100 ? 100 : round(($acceptedCount / $targetCount) * 100, 2) > 100;
         }
 
         if (($count == 100)) {

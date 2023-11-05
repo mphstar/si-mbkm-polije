@@ -66,7 +66,7 @@ private function getFieldsData()  {
         $this->crud->addButtonFromView('line', 'reg_mbkm', 'reg_mbkm', 'end');
         CRUD::addClause('where', 'capacity', '>', '0');
         CRUD::addClause('where', 'status_acc', '=', 'accepted');
-        CRUD::addClause('where', 'is_active', '=', 'active');
+        // CRUD::addClause('where', 'is_active', '=', 'active');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -127,9 +127,12 @@ private function getFieldsData()  {
     }
     public function register($id) 
     {
-        $user = backpack_auth()->user();
-        $accReg = RegisterMbkm::where('student_id', backpack_auth()->user()->id)->where('status',  'accepted')->get();
-        $pendingReg = RegisterMbkm::where('student_id', backpack_auth()->user()->id)->where('status', 'pending', )->get();
+        $user = backpack_auth()->user()->with('student')->whereHas('student', function($query){
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+        
+        $accReg = RegisterMbkm::where('student_id', $user->student->id)->where('status',  'accepted')->get();
+        $pendingReg = RegisterMbkm::where('student_id', $user->student->id)->where('status', 'pending', )->get();
         // return dd($sudahReg);
         if($accReg->count() > 0){
             Alert::error('Anda sudah daftar')->flash();

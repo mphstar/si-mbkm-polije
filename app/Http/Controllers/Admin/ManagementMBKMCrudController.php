@@ -34,6 +34,12 @@ class ManagementMBKMCrudController extends CrudController
         CRUD::setModel(\App\Models\ManagementMBKM::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/management-m-b-k-m');
         CRUD::setEntityNameStrings('management MBKM', 'management MBKMS');
+
+        $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+
+        $this->crud->addClause('where', 'partner_id', '=', $id_partner);
     }
 
     /**
@@ -83,7 +89,7 @@ class ManagementMBKMCrudController extends CrudController
     {
         $crud = $this->crud;
 
-        $mitra = Partner::get();
+        $mitra = Partner::where('status', 'accepted')->get();
 
         return view('vendor/backpack/crud/view_tambahmbkm', compact('mitra', 'crud'));
     }
@@ -167,7 +173,7 @@ class ManagementMBKMCrudController extends CrudController
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
             Alert::warning($messages[0])->flash();
-            return back()->withInput();
+            return back()->withErrors($validator)->withInput();
         }
         // Simpan data ke database
         ManagementMBKM::create($request->all());

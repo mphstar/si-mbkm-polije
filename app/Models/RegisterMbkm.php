@@ -28,7 +28,7 @@ class RegisterMbkm extends Model
     }
     public function mbkm()
     {
-        return $this->belongsTo(Mbkm::class);
+        return $this->belongsTo(Mbkm::class, 'mbkm_id', 'id');
     }
     public function lecturer()
     {
