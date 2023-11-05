@@ -33,6 +33,12 @@ class RegisterMbkmCrudController extends CrudController
         CRUD::setModel(\App\Models\RegisterMbkm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/register-mbkm');
         CRUD::setEntityNameStrings('register mbkm', 'Validasi Peserta MBKM');
+
+        $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+
+        $this->crud->addClause('where', 'mbkm.partner_id', '=', $id_partner);
     }
 
     /**
@@ -48,7 +54,7 @@ class RegisterMbkmCrudController extends CrudController
             'label' => 'Status ACC', // Table column heading
             'type'  => 'model_function',
             'function_name' => 'getStatusSpan'
-        ] ]);
+        ]]);
         $this->crud->addButtonFromModelFunction('line', 'download', 'Download', 'beginning');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -56,25 +62,38 @@ class RegisterMbkmCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
          */
     }
-public function validasipendaftar() {
-    $pendaftar = RegisterMbkm::with('student')->with('mbkm')->get();
-    $crud = $this->crud;
-    return view('vendor/backpack/crud/validasipeserta', compact('pendaftar', 'crud'));
-}
+    public function validasipendaftar()
+    {
+        $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
 
-public function validasipeserta(Request $request) {
-    
-    $data = [
-        'status' => $request->input('status')
-        // tambahkan kolom lain sesuai kebutuhan
 
-        
-    ]; 
-    $id=  $request->input('id');
-    RegisterMbkm::where('id', $id)->update($data);
-    Alert::success('Berhasil Validasi Laporan')->flash();
-    return back();
-}
+
+        $pendaftar = RegisterMbkm::with(['student', 'mbkm'])->whereHas('mbkm', function($query) use($id_partner){
+            return $query->where('partner_id', '=', $id_partner->partner->id);
+        })->get();
+
+        // return $pendaftar;
+
+        $crud = $this->crud;
+        return view('vendor/backpack/crud/validasipeserta', compact('pendaftar', 'crud'));
+    }
+
+    public function validasipeserta(Request $request)
+    {
+
+        $data = [
+            'status' => $request->input('status')
+            // tambahkan kolom lain sesuai kebutuhan
+
+
+        ];
+        $id =  $request->input('id');
+        RegisterMbkm::where('id', $id)->update($data);
+        Alert::success('Berhasil Validasi Peserta')->flash();
+        return back();
+    }
     /**
      * Define what happens when the Create operation is loaded.
      * 
@@ -87,7 +106,7 @@ public function validasipeserta(Request $request) {
 
 
 
-        
+
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -108,8 +127,7 @@ public function validasipeserta(Request $request) {
             'type' => 'select_from_array',
             'label' => 'Status ACC',
             'options' => ["accepted" => 'Accepted', "rejected" => 'Rejected'],
-           
+
         ]);
     }
-
 }

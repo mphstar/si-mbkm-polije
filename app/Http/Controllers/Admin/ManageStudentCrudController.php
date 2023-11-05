@@ -106,12 +106,15 @@ class ManageStudentCrudController extends CrudController
     protected function formEdit($id)
     {
         $crud = $this->crud;
-        $dosen = Lecturer::all();
+        $dosen = Lecturer::where('status', 'dosen pembimbing')->get();
 
         $data = Nilaimbkm::with(['involved.course.semester', 'students.program_study', 'mbkm'])->where('id', $id)->first();
-        $course = Course::where('program_id', $data->students->study_program_id)->whereHas('semester', function ($query) use ($data) {
-            return $query->where('semester', $data->mbkm->semester);
-        })->get();
+
+        $nim = $data->students->nim;
+        $A = substr($nim, 1, 1);  // Mengambil karakter pada posisi 1 (indeks 0) untuk variabel A
+        $B = substr($nim, 3, 2);  // Mengambil karakter pada posisi 3 (indeks 2) untuk variabel B
+
+        $course = Course::where('program_id', $data->students->study_program_id)->where('tahun_kurikulum', "20{$B}")->where('semester', $data->mbkm->semester)->get();
 
         // return $data;
 
@@ -132,10 +135,10 @@ class ManageStudentCrudController extends CrudController
 
     protected function editMatkul(Request $request, $id)
     {
-        
+
         InvolvedCourse::where('reg_mbkm_id', $id)->delete();
         if ($request->ids) {
-            
+
             # code...
             for ($i = 0; $i < count($request->ids); $i++) {
                 InvolvedCourse::create([

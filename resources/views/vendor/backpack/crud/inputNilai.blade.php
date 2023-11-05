@@ -43,20 +43,26 @@
                             @foreach ($data->involved as $item)
                                 <div class="form-group">
                                     <label for="{{ $item->course->id }}">{{ $item->course->name }}</label>
-                                    <input oninput="conversiNilai(this, 'result_konversi_{{ $item->course->id }}')" class="form-control" id="{{ $item->course->id }}"
-                                        type="number" name="{{ $item->course->id }}" value="{{ $item->grade }}"
+                                    <input oninput="conversiNilai(this, 'result_konversi_{{ $item->course->id }}')"
+                                        class="form-control" id="{{ $item->course->id }}" type="number"
+                                        name="{{ $item->course->id }}" value="{{ $item->grade }}"
                                         placeholder="Masukkan nilai">
-                                    <p class="help-block">Hasil Konversi: <span id="result_konversi_{{ $item->course->id }}">
-                                            @if ($item->grade >= 0 && $item->grade < 60)
-                                                C
-                                            @elseif($item->grade >= 60 && $item->grade < 75)
-                                                B
-                                            @elseif($item->grade >= 75 && $item->grade < 87)
-                                                B+
-                                            @elseif($item->grade >= 87 && $item->grade <= 100)
-                                                A
+                                    <p class="help-block">Hasil Konversi: <span
+                                            id="result_konversi_{{ $item->course->id }}">
+                                            @if ($item->grade == '')
+                                                -
                                             @else
-                                                Tidak Diketahui
+                                                @if ($item->grade >= 0 && $item->grade < 60)
+                                                    C
+                                                @elseif($item->grade >= 60 && $item->grade < 75)
+                                                    B
+                                                @elseif($item->grade >= 75 && $item->grade < 87)
+                                                    B+
+                                                @elseif($item->grade >= 87 && $item->grade <= 100)
+                                                    A
+                                                @else
+                                                    Tidak Diketahui
+                                                @endif
                                             @endif
                                         </span>
                                     </p>
@@ -74,7 +80,6 @@
         </div>
     </div>
     <script>
-
         const conversiNilai = (e, id_span) => {
             var nilai = ''
             if (e.value == '') {

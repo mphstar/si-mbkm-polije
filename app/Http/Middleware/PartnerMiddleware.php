@@ -16,7 +16,7 @@ class PartnerMiddleware
     public function handle($request, Closure $next)
     {
         $level = backpack_auth()->user()->level;
-        if ($level == 'mitra' || $level == 'admin') {
+        if ($level == 'mitra') {
             return $next($request);
         }
 

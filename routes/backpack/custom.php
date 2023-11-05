@@ -23,12 +23,17 @@ Route::group([
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
     Route::crud('tags', 'TagsCrudController');
-    Route::crud('mbkm', 'MbkmCrudController');
+
+    Route::middleware([AdminMiddleware::class])->group(function () {
+        
+        Route::crud('partner', 'PartnerCrudController');
+    });
+    
     
     Route::middleware([PartnerMiddleware::class])->group(function () {
-        Route::crud('partner', 'PartnerCrudController');
+        // Route::crud('register-mbkm', 'RegisterMbkmCrudController');
+        Route::get('register-mbkm', 'RegisterMbkmCrudController@validasipendaftar');
         Route::crud('management-m-b-k-m', 'ManagementMBKMCrudController');
-        Route::crud('register-mbkm', 'RegisterMbkmCrudController');
         Route::crud('validasilaporan', 'ValidasilaporanCrudController');
         Route::crud('penilaian-mitra', 'PenilaianMitraCrudController');
         Route::get('penilaian-mitra/{id}/updating', 'PenilaianMitraCrudController@updating')->name("grader_partner");
@@ -36,6 +41,8 @@ Route::group([
         Route::post('validasi-peserta', 'RegisterMbkmCrudController@validasipeserta');
         Route::get('management-m-b-k-m/tambah_mbkm', 'ManagementMBKMCrudController@tambah_mbkm');
         Route::post('management-m-b-k-m/tambahdatambkm', 'ManagementMBKMCrudController@storeData');
+        Route::get('validasilaporan/{id}/detail_laporan ', 'ValidasilaporanCrudController@detail_laporan')->name("detail_laporan");
+        Route::post('validasilaporan/{id}/approve-laporan', 'ValidasilaporanCrudController@validasilaporan');
     });
      
     Route::middleware([KaprodiMiddleware::class])->group(function () {
@@ -58,14 +65,13 @@ Route::group([
         
     });
     Route::middleware([StudentMiddleware::class])->group(function () {
+        Route::crud('mbkm', 'MbkmCrudController');
         Route::get('mbkm/{id}/reg-mbkm', 'MbkmCrudController@register');
         Route::post('mbkm/{id}/addreg', 'MbkmCrudController@addreg');
         Route::get('mbkm-report', 'MbkmReportCrudController@viewReport');
         Route::post('mbkm-report-upload', 'MbkmReportCrudController@upReport');
         Route::post('mbkm-report-rev', 'MbkmReportCrudController@revReport');
-        Route::get('validasilaporan/{id}/detail_laporan ', 'ValidasilaporanCrudController@detail_laporan')->name("detail_laporan");
         Route::crud('status-reg', 'StatusRegCrudController');
-        Route::post('validasilaporan/{id}/approve-laporan', 'ValidasilaporanCrudController@validasilaporan');
     });
     
     Route::get('/download/{name}', 'DownloadController@download');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,6 +35,10 @@ class AcctiveAccountMitra extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    public function user(){
+        return $this->belongsTo(User::class, 'users_id', 'id');
+    }
 
     /*
     |--------------------------------------------------------------------------
