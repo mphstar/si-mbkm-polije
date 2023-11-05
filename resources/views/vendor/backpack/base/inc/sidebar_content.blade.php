@@ -25,11 +25,12 @@
 
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i>
         {{ trans('backpack::base.dashboard') }}</a></li>
-<!-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('students') }}'><i class='nav-icon la la-question'></i> Students</a></li> -->
+@if ($level == 'kaprodi')
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('partner') }}'><i class='nav-icon la la-handshake'></i>
+            Partners</a></li>
+@endif
 @if ($level == 'mitra')
     <li class="nav-title">Mitra</li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('partner') }}'><i
-                class='nav-icon la la-handshake'></i> Partners</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('management-m-b-k-m') }}'><i
                 class='nav-icon la la-edit'></i> Register MBKM</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('register-mbkm') }}'><i
@@ -39,7 +40,7 @@
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('penilaian-mitra') }}'><i
                 class='nav-icon la la-calculator'></i> Penilaian Mitra</a></li>
 @endif
-@if ($level == 'kaprodi' || $level == 'admin')
+@if ($level == 'kaprodi')
     <li class="nav-title">Kaprodi</li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('acctive-account-mitra') }}'><i
                 class='nav-icon la la-user-check'></i>Validasi Partners</a></li>
@@ -52,7 +53,7 @@
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('manage-student') }}'><i
                 class='nav-icon la la-question'></i> Manage students</a></li>
 @endif
-@if ($level == 'dospem' || $level == 'admin')
+@if ($level == 'dospem')
     <li class="nav-title">Dosen</li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('nilaimbkm') }}'><i
                 class='nav-icon la la-question'></i>

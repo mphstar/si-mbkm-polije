@@ -39,7 +39,7 @@ class ManagementMBKMCrudController extends CrudController
             return $query->where('users_id', backpack_auth()->user()->id);
         })->first();
 
-        $this->crud->addClause('where', 'partner_id', '=', $id_partner);
+        $this->crud->addClause('where', 'partner_id', '=', $id_partner->partner->id);
     }
 
     /**
@@ -91,7 +91,12 @@ class ManagementMBKMCrudController extends CrudController
 
         $mitra = Partner::where('status', 'accepted')->get();
 
-        return view('vendor/backpack/crud/view_tambahmbkm', compact('mitra', 'crud'));
+        $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+
+
+        return view('vendor/backpack/crud/view_tambahmbkm', compact('mitra', 'crud', 'id_partner'));
     }
     /**
      * Define what happens when the Create operation is loaded.
@@ -161,6 +166,7 @@ class ManagementMBKMCrudController extends CrudController
     public function storeData(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'partner_id' => 'required',
             'program_name' => 'required',
             'capacity' => 'required',
             'task_count' => 'required',

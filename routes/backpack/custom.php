@@ -23,10 +23,14 @@ Route::group([
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
     Route::crud('tags', 'TagsCrudController');
+
+    Route::middleware([AdminMiddleware::class])->group(function () {
+        
+        Route::crud('partner', 'PartnerCrudController');
+    });
     
     
     Route::middleware([PartnerMiddleware::class])->group(function () {
-        Route::crud('partner', 'PartnerCrudController');
         // Route::crud('register-mbkm', 'RegisterMbkmCrudController');
         Route::get('register-mbkm', 'RegisterMbkmCrudController@validasipendaftar');
         Route::crud('management-m-b-k-m', 'ManagementMBKMCrudController');

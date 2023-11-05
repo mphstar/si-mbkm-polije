@@ -39,7 +39,7 @@ class ValidasiMbkmCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['partner.partner_name', 'start_date', 'end_date', 'info', [
+        $this->crud->setColumns(['partner.partner_name', 'program_name', 'start_date', 'end_date', 'info', [
             'name'  => 'status_acc',
             'label' => 'Status ACC', // Table column heading
             'type'  => 'model_function',
