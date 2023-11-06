@@ -25,3 +25,7 @@ Route::get('/', function () {
 Route::get('/register/student', 'RegisterController@student');
 
 Route::post('/register/student/proses', 'RegisterController@registerStudent');
+
+Route::get('/register/mitra', 'RegisterController@mitra');
+
+Route::post('/register/mitra/proses', 'RegisterController@registerMitra');

@@ -6,12 +6,10 @@
             <h3 class="text-center mb-4">{{ trans('backpack::base.register') }}</h3>
             <div class="card">
                 <div class="card-body">
-                    <form class="col-md-12 p-t-10" role="form" method="POST" action="/register/student/proses">
+                    <form class="col-md-12 p-t-10" role="form" method="POST" action="/register/mitra/proses">
                         {!! csrf_field() !!}
-
                         <div class="form-group">
                             <label class="control-label" for="name">Nama</label>
-
                             <div>
                                 <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                     name="name" id="name" value="{{ old('name') }}">
@@ -37,38 +35,31 @@
                                 @endif
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label class="control-label" for="nim">NIM</label>
+                            <label class="control-label" for="jenis">Jenis Mitra</label>
 
                             <div>
-                                <input type="text" class="form-control{{ $errors->has('nim') ? ' is-invalid' : '' }}"
-                                    name="nim" id="nim" value="{{ old('nim') }}">
+                                <select name="jenis" class="form-control{{ $errors->has('jenis') ? ' is-invalid' : '' }}"
+                                    id="jenis">
 
-                                @if ($errors->has('nim'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('nim') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" for="study">Program Studi</label>
+                                    <option
+                                        {{ $errors->has('jenis') ? ($errors->first('jenis') == 'Accepted' ? 'selected' : '') : '' }}
+                                        value="luar kampus">Luar Kampus</option>
+                                    <option
+                                        {{ $errors->has('jenis') ? ($errors->first('jenis') == 'Accepted' ? 'selected' : '') : '' }}
+                                        value="dalam kampus">Dalam Kampus</option>
 
-                            <div>
-                                <select name="study" class="form-control{{ $errors->has('study') ? ' is-invalid' : '' }}" id="study">
-                                    @foreach ($study as $item)
-                                        <option {{ $errors->has('study') ? $errors->first('study') == $item->name ? 'selected' : '' : '' }}
-                                            value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
                                 </select>
 
-                                @if ($errors->has('study'))
+                                @if ($errors->has('jenis'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('study') }}</strong>
+                                        <strong>{{ $errors->first('jenis') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
+                        
                         <div class="form-group">
                             <label class="control-label" for="address">Address</label>
 
