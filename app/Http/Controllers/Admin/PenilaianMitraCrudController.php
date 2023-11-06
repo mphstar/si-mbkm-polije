@@ -158,8 +158,9 @@ class PenilaianMitraCrudController extends CrudController
         } elseif ($acceptedCount == 0) {
             $count = "0";
         } else {
-            $count = round(($acceptedCount / $targetCount) * 100, 2) > 100 ? 100 : round(($acceptedCount / $targetCount) * 100, 2) > 100;
+            $count = round(($acceptedCount / $targetCount) * 100, 2) >= 100 ? 100 : round(($acceptedCount / $targetCount) * 100, 2) > 100;
         }
+
 
         if (($count == 100)) {
             $regmbkm = RegisterMbkm::where('id', $id)->get();
@@ -174,6 +175,7 @@ class PenilaianMitraCrudController extends CrudController
 
         // show a form that does something
     }
+
     public function penilaian(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [

@@ -108,7 +108,7 @@ class ManageStudentCrudController extends CrudController
         $crud = $this->crud;
         $dosen = Lecturer::where('status', 'dosen pembimbing')->get();
 
-        $data = Nilaimbkm::with(['involved.course.semester', 'students.program_study', 'mbkm'])->where('id', $id)->first();
+        $data = Nilaimbkm::with(['involved.course', 'students.program_study', 'mbkm'])->where('id', $id)->first();
 
         $nim = $data->students->nim;
         $A = substr($nim, 1, 1);  // Mengambil karakter pada posisi 1 (indeks 0) untuk variabel A

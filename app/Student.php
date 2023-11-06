@@ -20,9 +20,8 @@ class Student extends Model
         'address',
         'phone',
         'nim',
-        'email',
-        'username',
-        'password',
+        'study_program_id',
+        'users_id'
     ];
 
     /**
