@@ -26,6 +26,7 @@ Route::group([
 
     Route::middleware([AdminMiddleware::class])->group(function () {
         
+        Route::crud('lecturer', 'LecturerCrudController');
         Route::crud('partner', 'PartnerCrudController');
     });
     
@@ -39,6 +40,7 @@ Route::group([
         Route::crud('penilaian-mitra', 'PenilaianMitraCrudController');
         Route::get('validasilaporan/{id}/updating', 'PenilaianMitraCrudController@updating')->name("grader_partner");
         Route::get('validasilaporan/{id}/detail_laporan ', 'ValidasilaporanCrudController@detail_laporan')->name("detail_laporan");
+        Route::get('penilaian-mitra/{id}/updating', 'PenilaianMitraCrudController@updating')->name("grader_partner");
         Route::post('penilaian-mitra/{id}/penilaian ', 'PenilaianMitraCrudController@penilaian');
         Route::post('validasi-peserta', 'RegisterMbkmCrudController@validasipeserta');
         Route::get('management-m-b-k-m/tambah_mbkm', 'ManagementMBKMCrudController@tambah_mbkm');
