@@ -56,9 +56,12 @@ class MbkmCrudController extends CrudController
 
     public function register($id) 
     {
-        $user = backpack_auth()->user();
-        $accReg = RegisterMbkm::where('student_id', backpack_auth()->user()->id)->where('status',  'accepted')->get();
-        $pendingReg = RegisterMbkm::where('student_id', backpack_auth()->user()->id)->where('status', 'pending', )->get();
+        $user = backpack_auth()->user()->with('student')->whereHas('student', function($query){
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+        
+        $accReg = RegisterMbkm::where('student_id', $user->student->id)->where('status',  'accepted')->get();
+        $pendingReg = RegisterMbkm::where('student_id', $user->student->id)->where('status', 'pending', )->get();
         // return dd($sudahReg);
         if($accReg->count() > 0){
             Alert::error('Anda sudah daftar')->flash();

@@ -1,0 +1,1 @@
+<a href="{{ url($crud->route.'/'.'tambah_mbkm') }} " class="btn btn-xs btn-default"><i class="fa fa-ban"></i> Tambah MBKM</a>

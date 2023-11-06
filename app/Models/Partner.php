@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models;
+
+use App\User;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +16,7 @@ class Partner extends Model
     */
 
     protected $table = 'partners';
-    // protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
     // protected $fillable = [];
@@ -23,10 +25,14 @@ class Partner extends Model
 
     //FUNCTIONS
     public function mbkms()
-{
-    return $this->hasMany('App\Models\Mbkm', 'partner_id', 'id');
-}
- 
+    {
+        return $this->hasMany('App\Models\Mbkm', 'partner_id', 'id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'users_id', 'id');
+    }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -51,9 +57,10 @@ class Partner extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-    public function getStatusSpan() {
+    public function getStatusSpan()
+    {
         $status = $this->attributes["status"];
-        
+
         if ($status == 'accepted') {
             return '<span class="badge bg-success">Accept</span>';
         } elseif ($status == 'rejected') {

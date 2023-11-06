@@ -14,8 +14,9 @@
     <section class="container-fluid d-print-none">
         <a href="javascript: window.print();" class="btn float-right"><i class="la la-print"></i></a>
         <h2>
-            <span class="text-capitalize">Laporan Kegiatan MBKM</span>
-            <small>Data laporan kegiatan MBKM mahasiswa</small>
+            <span class="text-capitalize">Fitur validasi Peserta MBKM</span>
+            <br>
+            <small>untuk download file bisa tekan tombol <i class="las la-download"></i></small>
             @if ($crud->hasAccess('list'))
                 <small class=""><a href="{{ url($crud->route) }}" class="font-sm"><i class="la la-angle-double-left"></i>
                         {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
@@ -23,23 +24,12 @@
         </h2>
     </section>
 @endsection
-
 @section('content')
     <div class="row">
-        <div class="col-md-12" style="margin-top: 20px;">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Progres dari mahasiswa</h4>
-                    <div class="progress" style="height: 15px">
-                        <div class="progress-bar bg-primary active progress-bar-striped"
-                            style="width: {{ $count }}%;" role="progressbar">{{ $count }}%</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
 
-        </div>
+
+
+
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -48,10 +38,10 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th class="text-center">Tanggal Upload</th>
+                                    <th class="text-center">Nama Mahasiswa</th>
+                                    <th class="text-center">Nama program MBKM</th>
                                     <th class="text-center">Status</th>
-                                    <th class="text-center">File</th>
-                                    <th class="text-center">Keteragan dari mitra</th>
+                                    <th class="text-center">Action</th>
 
                                 </tr>
                             </thead>
@@ -59,35 +49,42 @@
                                 @php
                                     $index = 1;
                                 @endphp
-                                @foreach ($laporan as $report)
+                                @foreach ($pendaftar as $pdftr)
                                     <tr>
-                                        <th class="text-center">{{ $index }}</th>
-                                        <th class="text-center">{{ $report->upload_date }}</th>
+                                        <td class="text-center">{{ $index }}</th>
+                                        <td class="text-center">{{ $pdftr->student->name }}</th>
+
+                                        <td class="text-center">{{ $pdftr->mbkm->program_name }}</td>
                                         <td class="text-center">
-                                            @if ($report->status === 'accepted')
-                                                <span class="badge badge-success px-2">{{ $report->status }}</span>
-                                            @elseif($report->status === 'pending')
-                                                <span class="badge badge-warning px-2">{{ $report->status }}</span>
-                                            @elseif($report->status === 'rejected')
-                                                <span class="badge badge-danger px-2">{{ $report->status }}</span>
+
+
+                                            @if ($pdftr->status === 'accepted')
+                                                <button disabled type="button" class="btn btn-success" data-toggle="modal"
+                                                    data-target="#modaledit{{ $pdftr->id }}">
+                                                    {{ $pdftr->status }}
+                                                </button>
+                                            @elseif($pdftr->status === 'pending')
+                                                <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                    data-target="#modaledit{{ $pdftr->id }}">{{ $pdftr->status }}</button>
+                                            @elseif($pdftr->status === 'rejected')
+                                                <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                    data-target="#modaledit{{ $pdftr->id }}">{{ $pdftr->status }}</button>
+                                            @else
+                                                <button disabled type="button" class="btn btn-success" data-toggle="modal"
+                                                    data-target="#modaledit{{ $pdftr->id }}">
+                                                    {{ $pdftr->status }}
+                                                </button>
                                             @endif
                                         </td>
+
                                         <td class="text-center">
-                                            <span>
-                                                <a href="/{{ $report->file }}" class="btn btn-primary">
-                                                    <i class="nav-icon la la-file" style="color:white"></i>
-                                                </a>
-                                            </span>
-                                        </td>
-                                        <td class="text-center">{{ $report->notes }}</td>
-                                        <td class="text-center">
-                                            <span>
-                                                <button @if ($report->status === 'accepted') disabled @endif type="button"
-                                                    class="btn btn-warning" data-toggle="modal"
-                                                    data-target="#modaledit{{ $report->id }}">
-                                                    <i class="nav-icon la la-pencil-alt" style="color:white"></i>
-                                                </button>
-                                            </span>
+
+                                            <a href="/{{ $pdftr->requirements_files }}" class="btn btn-xs btn-primary"><i
+                                                    class="nav-icon la la-download"></i></a>
+
+
+
+
                                         </td>
                                     </tr>
                                     @php
@@ -101,37 +98,31 @@
             </div>
         </div>
     </div>
-    @foreach ($laporan as $item)
+    @foreach ($pendaftar as $item)
         <div class="modal fade" id="modaledit{{ $item->id }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form action="approve-laporan" method="post" enctype="multipart/form-data">
+                <form action="validasi-peserta" method="post" enctype="multipart/form-data">
                     {!! csrf_field() !!}
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Validasi Laporan</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Validasi peserta</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="status">Status Laporan</label>
+                                <label for="status">Validasi peserta</label>
                                 <select class="form-control" id="status"name="status">
-                                    <option value="{{ $item->status }}">{{ $item->status }}</option>
                                     <option value="accepted">accepted</option>
                                     <option value="pending">pending</option>
                                     <option value="rejected">rejected</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-
-                                <input type="textarea" class="form-control" id="notes"name="notes"
-                                    placeholder="Komentar mitra"required>
-                            </div>
-                            <input type="hidden" name="id" class="form-control-file" id="fileInput"
-                                value="{{ $item->id }}">
                         </div>
+                        <input type="hidden" name="id" class="form-control-file" id="fileInput"
+                            value="{{ $item->id }}">
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
