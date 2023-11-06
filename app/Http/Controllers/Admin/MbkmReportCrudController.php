@@ -44,7 +44,6 @@ class MbkmReportCrudController extends CrudController
             $query->whereDate('start_date', '<=', $now)
                   ->whereDate('end_date', '>=', $now);
         })->orderBy('id', 'desc')->get();
-        
         if(isset($mbkmId[0])) {
             $reports = MbkmReport::with('regMbkm')
                 ->whereHas('regMbkm', function ($query) use ($mbkmId, $user) {
@@ -57,7 +56,7 @@ class MbkmReportCrudController extends CrudController
             $acceptedCount = $reports->where('status', 'accepted')->count();
             $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
 
-            $count = round(($acceptedCount / $targetCount) * 100, 2) > 100 ? 100 : round(($acceptedCount / $targetCount) * 100, 2) > 100;
+            $count = round(($acceptedCount / $targetCount) * 100, 2) >= 100 ? 100 : round(($acceptedCount / $targetCount) * 100, 2) > 100;
             $today = Carbon::now()->toDateString();
             return view('vendor/backpack/crud/report_mbkm', compact('crud', 'reports', 'today', 'count', 'mbkmId'));
         }else{

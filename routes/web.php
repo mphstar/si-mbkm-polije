@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +18,14 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });s
 
-// Route::get('/', function () {
-//     return backpack_auth()->user()->with('student')->whereHas('student', function($query){
-//         return $query->where('users_id', backpack_auth()->user()->id);
-//     })->first();
-// });
+Route::get('/', function () {
+    dd(backpack_auth()->user());
+});
+
+Route::get('/register/student', 'RegisterController@student');
+
+Route::post('/register/student/proses', 'RegisterController@registerStudent');
+
+Route::get('/register/mitra', 'RegisterController@mitra');
+
+Route::post('/register/mitra/proses', 'RegisterController@registerMitra');

@@ -25,9 +25,11 @@
 
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i>
         {{ trans('backpack::base.dashboard') }}</a></li>
-@if ($level == 'kaprodi')
+@if ($level == 'admin')
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('partner') }}'><i class='nav-icon la la-handshake'></i>
             Partners</a></li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('lecturer') }}'><i class='nav-icon la la-question'></i>
+            Lecturers</a></li>
 @endif
 @if ($level == 'mitra')
     <li class="nav-title">Mitra</li>
@@ -63,18 +65,20 @@
 @endif
 @if ($level == 'student')
     <li class="nav-title">Students</li>
- 
+
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm-report') }}'><i
                 class='nav-icon la la-file-alt'></i> Laporan</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('status-reg') }}'><i
                 class='nav-icon la la-user-tag'></i> Program Saya</a></li>
-                <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-lg la-hand-pointer-o"></i> Program MBKM</a>
-                    <ul class="nav-dropdown-items">
-                        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm') }}'><i class='nav-icon la la-book'></i>
-                            Program
-                            MBKM</a></li>
-                        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('m-b-k-m-eksternal') }}'><i class='nav-icon la la-question'></i> M b k m eksternals</a></li>
-                    </ul>
-                  </li>
+    <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i
+                class="nav-icon la la-lg la-hand-pointer-o"></i> Program MBKM</a>
+        <ul class="nav-dropdown-items">
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm') }}'><i
+                        class='nav-icon la la-book'></i>
+                    Program
+                    MBKM</a></li>
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('m-b-k-m-eksternal') }}'><i
+                        class='nav-icon la la-question'></i> M b k m eksternals</a></li>
+        </ul>
+    </li>
 @endif
-

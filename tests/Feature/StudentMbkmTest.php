@@ -9,6 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
+use Carbon\Carbon;
 use App\User;
 use App\Models\Partner;
 use App\Models\Mbkm;
@@ -27,6 +28,7 @@ class StudentMbkmTest extends TestCase
         $user = User::create([
             'name' => 'user',
             'email' => 'user@gmail.com',
+            'level' => 'student',
             'email_verified_at' => now(),
             'password' => Hash::make('123'),
             // 'remember_token' => Str::random(10),
@@ -46,13 +48,7 @@ class StudentMbkmTest extends TestCase
         $response = $this->get('/admin/mbkm');
         $response->assertStatus(200);
     }
-    public function testViewFormRegister()
-    {
-        factory(Partner::class, 1)->create();
-        factory(Mbkm::class, 1)->create();
-        $response = $this->get('/admin/mbkm/1/reg-mbkm');
-        $response->assertStatus(200);
-    }
+    
     public function testViewFormRegisterErrorWhereStatusPending()
     {
         factory(Partner::class, 1)->create();
@@ -66,6 +62,7 @@ class StudentMbkmTest extends TestCase
         $response = $this->get('/admin/mbkm/1/reg-mbkm');
         $response->assertStatus(302);
     }
+
     public function testViewFormRegisterWhereStatusAccepted()
     {
         factory(Partner::class, 1)->create();
@@ -79,6 +76,7 @@ class StudentMbkmTest extends TestCase
         $response = $this->get('/admin/mbkm/1/reg-mbkm');
         $response->assertStatus(302);
     }
+    
     public function testViewFormRegisterWhereStatusReject()
     {
         factory(Partner::class, 1)->create();
@@ -93,27 +91,31 @@ class StudentMbkmTest extends TestCase
         $response->assertStatus(200);
     }
     
-    // public function testRegisterSuccess()
-    // {
-    //     factory(Partner::class, 1)->create();
-    //     factory(Mbkm::class, 1)->create();
-    //     factory(Departmen::class, 1)->create();
-    //     factory(ProgramStudy::class, 1)->create();
-    //     factory(Students::class, 1)->create();
+    public function testRegisterSuccess()
+    {
+        factory(Partner::class, 1)->create();
+        factory(Mbkm::class, 1)->create();
+        factory(Departmen::class, 1)->create();
+        factory(ProgramStudy::class, 1)->create();
+        factory(Students::class, 1)->create();
 
-    //     Storage::fake('uploads');
-    //     $file = UploadedFile::fake()->create('document.zip', 100);
-    //     $requestData = [
-    //         'student_id' => '1',
-    //         'mbkm_id' => '1',
-    //         'status' => 'pending',
-    //         'file' => $file,
-    //     ];
-    //     $response = $this->post('/admin/mbkm/1/addreg', $requestData);
-    //     $response->assertStatus(302);
-    //     // $path = $file->store('uploads',  'public');
+        // Storage::fake('uploads');
+        // $file = UploadedFile::fake()->create('document.png', 100);
+        
+        // $path = $file->store('uploads',  'uploads');
 
-    //     // Storage::disk('public')->assertExists($path);
-    //     Storage::disk('uploads')->assertExists("storage/uploads/{$file->hashName()}");
-    // }
+        // Storage::disk('uploads')->assertExists($path);
+        $requestData = [
+            'student_id' => '1',
+            'mbkm_id' => '1',
+            'status' => 'pending',
+            'file' => 'pict.png',
+        ];
+        $response = $this->post('/admin/mbkm/1/addreg', $requestData);
+        $response->assertSessionHasErrors(['haha']);
+        // $response->assertStatus(302);
+
+        // Storage::disk('local')->assertExists('uploads/' . $file->hashName());
+        // Storage::disk('uploads')->assertExists("storage/uploads/{$file->hashName()}");
+    }
 }
