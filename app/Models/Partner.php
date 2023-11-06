@@ -1,14 +1,12 @@
 <?php
 
 namespace App\Models;
-
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Partner extends Model
 {
     use CrudTrait;
-
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES

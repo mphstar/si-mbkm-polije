@@ -53,7 +53,6 @@ class MbkmReportCrudController extends CrudController
 
             $count = ($acceptedCount / $targetCount) * 100;
             $today = Carbon::now()->toDateString();
-            
             return view('vendor/backpack/crud/report_mbkm', compact('crud', 'reports', 'today', 'count', 'mbkmId'));
         }else{
             Alert::error('Anda tidak terdaftar di program MBKM')->flash();

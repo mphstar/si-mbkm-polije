@@ -62,11 +62,11 @@ class MbkmCrudController extends CrudController
         // return dd($sudahReg);
         if($accReg->count() > 0){
             Alert::error('Anda sudah daftar')->flash();
-            return back();
+            return back()->setStatusCode(302);
         }
         if($pendingReg->count() > 0){
             Alert::warning('Anda tidak dapat mendaftar jika status pendaftaran sebelumnya masih pending')->flash();
-            return back();
+            return back()->setStatusCode(302);
         }
         $mbkm = Mbkm::with('partner')->where('mbkms.id', $id)->get();
         $crud = $this->crud;
