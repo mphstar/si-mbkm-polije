@@ -71,7 +71,9 @@ class ManagementMBKMCrudController extends CrudController
             'type'  => 'model_function',
             'function_name' => 'getIsactiveSpan'
         ],]);
-
+        // return backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
+        //     return $query->where('users_id', backpack_auth()->user()->id);
+        // })->first();
         $this->crud->addButtonFromView('top', 'tambah_mbkm', 'tambah_mbkm', 'beginning');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -83,7 +85,9 @@ class ManagementMBKMCrudController extends CrudController
     {
         $crud = $this->crud;
 
-        $mitra = Partner::get();
+        $mitra =  backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();;
 
         return view('vendor/backpack/crud/view_tambahmbkm', compact('mitra', 'crud'));
     }

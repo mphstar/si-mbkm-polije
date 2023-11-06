@@ -71,6 +71,10 @@ class ValidasilaporanCrudController extends CrudController
     $laporan=MbkmReport::where('reg_mbkm_id',$id)->get();
     $acceptedCount = $laporan->where('status', 'accepted')->count();
     $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
+    if ($targetCount==null) {
+        return redirect('admin/penilaian-mitra');
+        # code...
+    }
     if ($laporan->isEmpty()) {
     $count=0;
     }elseif ($acceptedCount==0) {
