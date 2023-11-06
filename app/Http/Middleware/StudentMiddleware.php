@@ -16,7 +16,7 @@ class StudentMiddleware
     public function handle($request, Closure $next)
     {
         $level = backpack_auth()->user()->level;
-        if ($level == 'student' || $level == 'admin') {
+        if ($level == 'student') {
             return $next($request);
         }
 

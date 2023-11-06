@@ -26,7 +26,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-12" style="margin-top: 20px;">
-        <div class="card">
+        <div class="card" style="margin-bottom: 0.8rem;">
             <div class="card-body">
                 <h4 class="card-title">Progresmu</h4>
                 <div class="progress" style="height: 15px">
@@ -37,18 +37,19 @@
     </div>
     <div class="col-md-12">
         <div class="card">
-            <div class="card-body">
+            <div style="padding: 0px" class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th class="text-center">#</th>
-                                <th class="text-center">Tanggal Upload</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">File</th>
-                                <th class="text-center">Keterangan Prodi</th>
+                                <th class="text-center align-middle">#</th>
+                                <th class="text-center align-middle">Tanggal Upload</th>
+                                <th class="text-center align-middle">Informasi Laporan</th>
+                                <th class="text-center align-middle">Status</th>
+                                <th class="text-center align-middle">File</th>
+                                <th class="text-center align-middle">Keterangan Prodi</th>
                                 <th class="text-center"><button @if($count >= 100)
-                                    disabled @endif type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">Upload</button></th>
+                                    disabled @endif type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">Upload Laporan</button></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,8 +58,9 @@
                             @endphp
                             @foreach($reports as $report)
                             <tr>
-                                <th class="text-center">{{ $index }}</th>
-                                <th class="text-center">{{ $report->upload_date }}</th>
+                                <th class="text-center font-weight-normal">{{ $index }}</th>
+                                <th class="text-center font-weight-normal">{{ $report->upload_date }}</th>
+                                <th class="text-center font-weight-normal">{{ $report->file_info }}</th>
                                 <td class="text-center">
                                     @if($report->status === 'accepted')
                                         <span class="badge badge-success px-2">{{ $report->status }}</span>
@@ -75,7 +77,7 @@
                                         </a>
                                     </span>
                                 </td>
-                                <td class="text-center">{{$report->notes}}</td>
+                                <td class="text-center font-weight-normal">{{$report->notes}}</td>
                                 <td class="text-center">
                                     <span>
                                         <button @if($report->status === 'accepted')
@@ -111,9 +113,15 @@
                     </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="fileInput">Pilih File</label>
-                            <input type="file" name="file" class="form-control-file" id="fileInput" >
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label class="required">Informasi Laporan</label>
+                                <input required class="form-control" type="text" name="file_info" value="">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <label class="required">File Laporan</label>
+                                <input required class="form-control" type="file" name="file" placeholder="file harus berupa zip">
+                            </div>
                         </div>
                     </div>
                     <input  type="hidden" name="id" class="form-control-file" id="fileInput" value="{{$item->id}}">
@@ -142,9 +150,15 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="fileInput">Pilih File</label>
-                        <input required name="file" type="file" class="form-control-file" id="fileInput">
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label class="required">Informasi Laporan</label>
+                            <input required class="form-control" type="text" name="file_info" value="">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label class="required">File Laporan</label>
+                            <input required class="form-control" type="file" name="file" placeholder="file harus berupa zip">
+                        </div>
                     </div>
                 </div>
                     <input  type="hidden" name="reg_mbkm_id" class="form-control-file" id="fileInput" value="{{$mbkmId->first()->id}}">

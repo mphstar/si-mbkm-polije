@@ -30,29 +30,35 @@ class MbkmReportCrudController extends CrudController
     public function viewReport() {
         $crud = $this->crud;
 
+        $user = backpack_auth()->user()->with('student')->whereHas('student', function($query){
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+
+        // return $user;
+
         $mbkmId = RegisterMbkm::with('mbkm')
-        ->where('student_id', backpack_auth()->user()->id)
+        ->where('student_id', $user->student->id)
         ->where('status',  'accepted')
         ->whereHas('mbkm', function ($query) {
             $now = Carbon::now();
             $query->whereDate('start_date', '<=', $now)
                   ->whereDate('end_date', '>=', $now);
         })->orderBy('id', 'desc')->get();
+        
         if(isset($mbkmId[0])) {
             $reports = MbkmReport::with('regMbkm')
-                ->whereHas('regMbkm', function ($query) use ($mbkmId) {
-                $query->where('student_id', backpack_auth()->user()->id)
+                ->whereHas('regMbkm', function ($query) use ($mbkmId, $user) {
+                $query->where('student_id', $user->student->id)
                 ->where('mbkm_id', $mbkmId[0]->mbkm_id);})->get();
 
-            // $regMbkmId = RegisterMbkm::where('student_id', backpack_auth()->user()->id)
+            // $regMbkmId = RegisterMbkm::where('student_id', $user->student->id)
             //     ->where('mbkm_id', $mbkmId[0]->id)->get();
                 // return dd($reports);
             $acceptedCount = $reports->where('status', 'accepted')->count();
             $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
 
-            $count = ($acceptedCount / $targetCount) * 100;
+            $count = round(($acceptedCount / $targetCount) * 100, 2) > 100 ? 100 : round(($acceptedCount / $targetCount) * 100, 2) > 100;
             $today = Carbon::now()->toDateString();
-            
             return view('vendor/backpack/crud/report_mbkm', compact('crud', 'reports', 'today', 'count', 'mbkmId'));
         }else{
             Alert::error('Anda tidak terdaftar di program MBKM')->flash();

@@ -20,7 +20,7 @@ class AcctiveAccountMitraCrudController extends CrudController
     // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -49,13 +49,14 @@ class AcctiveAccountMitraCrudController extends CrudController
         // CRUD::column("email");
 
         // CRUD::column("jenis_mitra");
-        $this->crud->setColumns(['partner_name', 'address','phone','email','jenis_mitra',[
-            'name'  => 'status',
-   'label' => 'status ACC', // Table column heading
-   'type'  => 'model_function',
-   'function_name' => 'getStatusSpan'
-        ]
-    ]);
+        $this->crud->setColumns([
+            'partner_name', 'address', 'phone', 'user.email', 'jenis_mitra', [
+                'name'  => 'status',
+                'label' => 'status ACC', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'getStatusSpan'
+            ]
+        ]);
         // CRUD::addClause('where', 'status', '=', 'pending');
 
         /**
@@ -118,45 +119,45 @@ class AcctiveAccountMitraCrudController extends CrudController
         // by changing this config for the Show operation 
         $this->crud->set('show.setFromDb', false);
 
-      
- 
-        $this->crud->addColumn( [
+
+
+        $this->crud->addColumn([
             'name' => 'partner_name',
             'label' => 'Nama Mitra',
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'phone',
             'label' => 'No telfon',
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'address',
             'label' => 'Alamat',
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'email',
             'label' => 'Email',
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'jenis_mitra',
             'label' => 'Jenis Mitra',
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name'  => 'status',
             'label' => 'Status ACC', // Table column heading
             'type'  => 'model_function',
             'function_name' => 'getStatusSpan'
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'username',
             'label' => 'Username',
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'password',
             'label' => 'Password',
         ]);
-    
-  
-        
+
+
+
         // $this->crud->removeColumn('date');
         // $this->crud->removeColumn('extras');
 

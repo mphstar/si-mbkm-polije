@@ -57,7 +57,12 @@ class StatusRegCrudController extends CrudController
             'type'  => 'model_function',
             'function_name' => 'getStatusSpan'
         ],]);
-        CRUD::addClause('where', 'student_id', '=', backpack_auth()->user()->id);
+
+        $id_student = backpack_auth()->user()->with('student')->whereHas('student', function ($query) {
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+
+        CRUD::addClause('where', 'student_id', '=', $id_student->student->id);
     }
 
     /**

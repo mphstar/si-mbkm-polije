@@ -39,16 +39,16 @@ class ValidasiMbkmCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['partner.partner_name', 'start_date', 'end_date', 'info', [
+        $this->crud->setColumns(['partner.partner_name', 'program_name', 'start_date', 'end_date', 'info', [
             'name'  => 'status_acc',
-   'label' => 'Status ACC', // Table column heading
-   'type'  => 'model_function',
-   'function_name' => 'getStatusSpan'
+            'label' => 'Status ACC', // Table column heading
+            'type'  => 'model_function',
+            'function_name' => 'getStatusSpan'
         ]]);
-        $this->crud->setColumnLabel('Partner.partner_name', 'NAMA MITRA'); 
+        $this->crud->setColumnLabel('Partner.partner_name', 'NAMA MITRA');
         // CRUD::addClause('where', 'status_acc', '=', 'pending');
         // CRUD::addClause('where', 'is_active', '=', 'inactive');
-          
+
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -67,7 +67,7 @@ class ValidasiMbkmCrudController extends CrudController
     {
         CRUD::setValidation(ValidasiMbkmRequest::class);
 
-        
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -84,23 +84,22 @@ class ValidasiMbkmCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        
-   
+
+
         $this->crud->addField([
             'name' => 'status_acc',
             'type' => 'select_from_array',
             'label' => 'Status ACC',
             'options' => ['accepted' => 'Accepted', 'rejected' => 'Rejected'],
-           
+
         ]);
         $this->crud->addField([
             'name' => 'is_active',
             'type' => 'select_from_array',
             'label' => 'Status MBKM',
             'options' => ['active' => 'Active', 'inactive' => 'Inactive'],
-           
-        ]);
 
+        ]);
     }
     protected function setupShowOperation()
     {
@@ -109,53 +108,53 @@ class ValidasiMbkmCrudController extends CrudController
         // by changing this config for the Show operation 
         $this->crud->set('show.setFromDb', false);
 
-      
- 
-        $this->crud->addColumn( [
+
+
+        $this->crud->addColumn([
             'name' => 'partner.partner_name',
             'label' => 'Nama Mitra',
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'program_name',
             'label' => 'Nama Program',
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'start_date',
             'label' => 'Tanggal Mulai program MBKM',
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'end_date',
             'label' => 'Tanggal Selesai Program MBKM ',
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'start_reg',
             'label' => 'Tanggal awal pendaftaran',
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'end_reg',
             'label' => 'Tanggal terakhir pendaftaran',
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'info',
             'label' => 'Keterangan MBKM'
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name' => 'semester',
             'label' => 'Berlaku Bagi semester'
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name'  => 'status_acc',
             'label' => 'Status ACC', // Table column heading
             'type'  => 'model_function',
             'function_name' => 'getStatusSpan'
         ]);
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
             'name'  => 'is_active',
             'label' => 'Status Active', // Table column heading
             'type'  => 'model_function',
             'function_name' => 'getIsactiveSpan'
         ]);
-        
+
         // $this->crud->removeColumn('date');
         // $this->crud->removeColumn('extras');
 
