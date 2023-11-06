@@ -52,8 +52,8 @@
 
                         </div>
                         <div class="form-group">
-                          <label>Nama mitra</label>
-                          <input type="text" class="form-control" name="student_id"value="{{ $id }}">
+                          <label>id mahasiswa</label>
+                          <input type="hidden" class="form-control" name="student_id"value="{{ $id }}">
 
                         </div>
                         <div class="form-group">
