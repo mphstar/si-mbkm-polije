@@ -44,7 +44,6 @@ class MbkmReportCrudController extends CrudController
             $query->whereDate('start_date', '<=', $now)
                   ->whereDate('end_date', '>=', $now);
         })->orderBy('id', 'desc')->get();
-        
         if(isset($mbkmId[0])) {
             $reports = MbkmReport::with('regMbkm')
                 ->whereHas('regMbkm', function ($query) use ($mbkmId, $user) {

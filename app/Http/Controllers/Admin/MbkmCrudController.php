@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Prologue\Alerts\Facades\Alert;
+use Illuminate\Http\Response;
 
 /**
  * Class MbkmCrudController
@@ -84,7 +85,7 @@ class MbkmCrudController extends CrudController
 
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
-            Alert::error($messages[0])->flash();
+            Alert::error('Masukkan file sesuai ketentuan (.zip)')->flash();
             return back()->withInput();
         }
         $input = $request->all();
