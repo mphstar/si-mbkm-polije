@@ -9,11 +9,9 @@ $factory->define(Partner::class, function (Faker $faker) {
         'partner_name' => $faker->company,
         'address' => $faker->address,
         'phone' => $faker->phoneNumber,
-        'email' => $faker->unique()->safeEmail,
         'status' => 'pending',
         'jenis_mitra' => 'luar kampus',
-        'username' => $faker->userName,
-        'password' => Hash::make('password'), // Ganti 'password' dengan kata sandi yang diinginkan
+        'users_id' => 1,
         'created_at' => now(),
         'updated_at' => now()
     ];

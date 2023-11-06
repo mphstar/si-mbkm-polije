@@ -36,10 +36,8 @@ class DatabaseSeeder extends Seeder
             'address' => '123 Example Street, City',
             'phone' => '1234567890',
             'nip' => '12345678',
-            'email' => 'johndoe@example.com',
-            'username' => 'johndoe',
-            'password' => Hash::make('password'),
             'status' => 'dosen pembimbing',
+            'users_id' => 1,
             'created_at' => now(),
             'updated_at' => now()
         ]);

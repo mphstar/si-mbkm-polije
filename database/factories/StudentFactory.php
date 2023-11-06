@@ -10,9 +10,7 @@ $factory->define(Students::class, function (Faker $faker) {
         'address' => $faker->address,
         'phone' => $faker->phoneNumber,
         'nim' => $faker->unique()->userName,
-        'email' => $faker->unique()->safeEmail,
-        'username' => $faker->userName,
         'study_program_id' => 1,
-        'password' => Hash::make('123'),
+        'users_id' => 1,
     ];
 });
