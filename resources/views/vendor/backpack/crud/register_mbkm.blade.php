@@ -54,7 +54,7 @@
 
 					</div>
 					<input required class="" type="hidden" name="mbkm_id" value="{{ $mbkm[0]->id }}" >
-					<input required class="" type="hidden" name="student_id" value="1" >
+					<input required class="" type="hidden" name="student_id" value="{{backpack_auth()->user()->id}}" >
 				</div>
 			</div>
 			<div class="card-footer">

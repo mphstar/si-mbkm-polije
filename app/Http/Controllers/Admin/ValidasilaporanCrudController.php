@@ -46,6 +46,7 @@ class ValidasilaporanCrudController extends CrudController
         $this->crud->addClause('whereHas', 'mbkm', function ($query) use ($id_partner) {
             return $query->where('partner_id', $id_partner->partner->id);
         });
+        CRUD::setEntityNameStrings('validasilaporan', 'validasi Laporan Mahasiswa');
     }
 
     /**
@@ -56,7 +57,17 @@ class ValidasilaporanCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['student.name', 'mbkm.program_name', 'mbkm.info']);
+        $this->crud->setColumns([[
+            'name' => 'mbkm.program_name',
+            'label' => 'Program MBKM',
+        ],[
+            'name' => 'student.name',
+            'label' => 'Nama Mahasiswa',
+        ],[
+            'name' => 'mbkm.info',
+            'label' => 'Informasi MBKM',
+        ]]);
+
         $this->crud->addButtonFromView('line', 'detail_laporan', 'detail_laporan', 'beginning');
 
 
@@ -66,35 +77,30 @@ class ValidasilaporanCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
          */
     }
-    public function detail_laporan($id)
-    {
-        $regmbkm = RegisterMbkm::where('id', $id)->first();
-        $mbkmId = RegisterMbkm::with('mbkm')
-            ->where('student_id', $regmbkm->student_id)
-            ->where('status',  'accepted')
-            ->whereHas('mbkm', function ($query) {
-                $now = Carbon::now();
-                $query->whereDate('start_date', '<=', $now)
-                    ->whereDate('end_date', '>=', $now);
-            })->orderBy('id', 'desc')->get();
-
-        $laporan = MbkmReport::where('reg_mbkm_id', $id)->get();
-        $acceptedCount = $laporan->where('status', 'accepted')->count();
-        
-        $targetCount = RegisterMbkm::with('mbkm')->where('id', $id)->first()->mbkm->task_count;
-        // dd($targetCount);
-        if ($laporan->isEmpty()) {
-            $count = 0;
-        } elseif ($acceptedCount == 0) {
-            $count = "0";
-        } else {
-            // return $targetCount;
-            $count = round(($acceptedCount / $targetCount) * 100, 2) > 100 ? 100 : round(($acceptedCount / $targetCount) * 100, 2) > 100;
-
-            // return dd($count);
-
-        }
-        $today = Carbon::now()->toDateString();
+    public function detail_laporan($id) 
+{
+    $regmbkm = RegisterMbkm::where('id', $id)->get();
+    $mbkmId = RegisterMbkm::with('mbkm')
+    ->where('student_id', $regmbkm[0]->student_id)
+    ->where('status',  'accepted')
+    ->whereHas('mbkm', function ($query) {
+        $now = Carbon::now();
+        $query->whereDate('start_date', '<=', $now)
+              ->whereDate('end_date', '>=', $now);
+    })->orderBy('id', 'desc')->get();
+    $laporan=MbkmReport::where('reg_mbkm_id',$id)->get();
+    $acceptedCount = $laporan->where('status', 'accepted')->count();
+    $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
+    if ($laporan->isEmpty()) {
+    $count=0;
+    }elseif ($acceptedCount==0) {
+        $count="0";
+    }else{
+        $count = ($acceptedCount / $targetCount) * 100;
+        // return dd($count);
+     
+    }
+    $today = Carbon::now()->toDateString();
 
         $crud = $this->crud;
         return view('vendor.backpack.crud.detail_laporanreg', compact('crud', 'laporan', 'count', 'today'));
