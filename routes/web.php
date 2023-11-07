@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 // });s
 
 Route::get('/', function () {
-    dd(backpack_auth()->user());
+    return  "Hello World";
 });
 
 Route::get('/register/student', 'RegisterController@student');
