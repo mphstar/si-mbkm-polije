@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ValidasilaporanRequest;
+use App\Models\ManagementMBKM;
 use App\Models\Mbkm;
 use App\Models\MbkmReport;
 use App\Models\RegisterMbkm;
@@ -67,7 +68,7 @@ class ValidasilaporanCrudController extends CrudController
             'name' => 'mbkm.info',
             'label' => 'Informasi MBKM',
         ]]);
-
+      
         $this->crud->addButtonFromView('line', 'detail_laporan', 'detail_laporan', 'beginning');
 
 
@@ -80,14 +81,10 @@ class ValidasilaporanCrudController extends CrudController
     public function detail_laporan($id) 
 {
     $regmbkm = RegisterMbkm::where('id', $id)->get();
-    $mbkmId = RegisterMbkm::with('mbkm')
-    ->where('student_id', $regmbkm[0]->student_id)
-    ->where('status',  'accepted')
-    ->whereHas('mbkm', function ($query) {
-        $now = Carbon::now();
-        $query->whereDate('start_date', '<=', $now)
-              ->whereDate('end_date', '>=', $now);
-    })->orderBy('id', 'desc')->get();
+        $mbkmId = ManagementMBKM::where('id',$regmbkm[0]->mbkm_id)->value('id');
+        $laporan=MbkmReport::where('reg_mbkm_id',$id)->get();
+        $acceptedCount = $laporan->where('status', 'accepted')->count();
+        $targetCount = Mbkm::where('id', $mbkmId)->value('task_count');
     $laporan=MbkmReport::where('reg_mbkm_id',$id)->get();
     $acceptedCount = $laporan->where('status', 'accepted')->count();
     $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
@@ -97,7 +94,7 @@ class ValidasilaporanCrudController extends CrudController
         $count="0";
     }else{
         $count = ($acceptedCount / $targetCount) * 100;
-        return dd($count);
+    
      
     }
     $today = Carbon::now()->toDateString();

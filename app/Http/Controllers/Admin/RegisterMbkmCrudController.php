@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\RegisterMbkmRequest;
+use App\Mail\pesertadiacc;
 use App\Models\RegisterMbkm;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Validation\Rules\ValidUpload;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Prologue\Alerts\Facades\Alert;
 
 /**
@@ -86,7 +89,13 @@ class RegisterMbkmCrudController extends CrudController
 
         ];
         $id =  $request->input('id');
+        $userEmail = User::join('students', 'users.id', '=', 'students.users_id')
+        ->join('reg_mbkms', 'students.id', '=', 'reg_mbkms.student_id')
+        ->where('reg_mbkms.id', $id)
+        ->value('users.email');
+    
         RegisterMbkm::where('id', $id)->update($data);
+       Mail::to($userEmail)->send(new pesertadiacc("selamat"));
         Alert::success('Berhasil Validasi Peserta')->flash();
         return back();
     }

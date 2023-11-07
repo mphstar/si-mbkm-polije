@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PenilaianMitraRequest;
+use App\Models\ManagementMBKM;
 use App\Models\Mbkm;
 use App\Models\MbkmReport;
 use App\Models\PenilaianMitra;
@@ -134,18 +135,22 @@ class PenilaianMitraCrudController extends CrudController
                 return back();
             }
         }
-
-        $mbkmId = RegisterMbkm::with('mbkm')
-            ->where('student_id', $regmbkm[0]->student_id)
-            ->where('status',  'accepted')
-            ->whereHas('mbkm', function ($query) {
-                $now = Carbon::now();
-                $query->whereDate('start_date', '<=', $now)
-                    ->whereDate('end_date', '>=', $now);
-            })->orderBy('id', 'desc')->get();
-        $laporan = MbkmReport::where('reg_mbkm_id', $id)->get();
+        $regmbkm = RegisterMbkm::where('id', $id)->get();
+        $mbkmId = ManagementMBKM::where('id',$regmbkm[0]->mbkm_id)->value('id');
+        $laporan=MbkmReport::where('reg_mbkm_id',$id)->get();
         $acceptedCount = $laporan->where('status', 'accepted')->count();
-        $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
+        $targetCount = Mbkm::where('id', $mbkmId)->value('task_count');
+        // $mbkmId = RegisterMbkm::with('mbkm')
+        //     ->where('student_id', $regmbkm[0]->student_id)
+        //     ->where('status',  'accepted')
+        //     ->whereHas('mbkm', function ($query) {
+        //         $now = Carbon::now();
+        //         $query->whereDate('start_date', '<=', $now)
+        //             ->whereDate('end_date', '>=', $now);
+        //     })->orderBy('id', 'desc')->get();
+
+        $acceptedCount = $laporan->where('status', 'accepted')->count();
+     
 
 
 

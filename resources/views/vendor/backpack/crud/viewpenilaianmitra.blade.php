@@ -71,7 +71,7 @@
                                     <a href="{{ route('grader_partner', ['id' => $pdftr->id]) }}" class="btn btn-xs btn-default"><i class="las la-upload"></i></a>
                                  
                                         
-                                    @else
+                                    @elseif($pdftr->status==='success')
                                     <a href="{{ route('grader_partner', ['id' => $pdftr->id]) }}" class="btn btn-xs btn-success"><i class="las la-upload"></i></a> 
                                     @endif
 
