@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\RegisterMbkmRequest;
 use App\Mail\pesertadiacc;
+use App\Mail\pesertaditolak;
 use App\Models\RegisterMbkm;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -93,9 +94,14 @@ class RegisterMbkmCrudController extends CrudController
         ->join('reg_mbkms', 'students.id', '=', 'reg_mbkms.student_id')
         ->where('reg_mbkms.id', $id)
         ->value('users.email');
-    
         RegisterMbkm::where('id', $id)->update($data);
-       Mail::to($userEmail)->send(new pesertadiacc("selamat"));
+    if ($request->input("status")==="accepted") {
+        Mail::to($userEmail)->send(new pesertadiacc("selamat"));
+    }elseif($request->input("status")==="rejected"){
+        Mail::to($userEmail)->send(new pesertaditolak("Maaf"));
+    }
+     
+     
         Alert::success('Berhasil Validasi Peserta')->flash();
         return back();
     }

@@ -23,8 +23,8 @@
           </ul>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Anda di terima di mbkm</h5>
-          <p class="card-text">tunggu info selanjutnya</p>
+          <h5 class="card-title">Maaf anda belum beruntung, Anda tidak di terima </h5>
+          <p class="card-text">Bisa di coba di kesempatan yang lain</p>
     
         </div>
       </div>

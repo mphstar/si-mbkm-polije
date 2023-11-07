@@ -65,9 +65,9 @@
                                                 </button>
                                             @elseif($pdftr->status === 'pending')
                                                 <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                    data-target="#modaledit{{ $pdftr->id }}">{{ $pdftr->status }}</button>
+                                                    data-target="#modaledit"onclick="edit({{  $pdftr }})">{{ $pdftr->status }}</button>
                                             @elseif($pdftr->status === 'rejected')
-                                                <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                <button disabled type="button" class="btn btn-danger" data-toggle="modal"
                                                     data-target="#modaledit{{ $pdftr->id }}">{{ $pdftr->status }}</button>
                                             @else
                                                 <button disabled type="button" class="btn btn-success" data-toggle="modal"
@@ -98,8 +98,8 @@
             </div>
         </div>
     </div>
-    @foreach ($pendaftar as $item)
-        <div class="modal fade" id="modaledit{{ $item->id }}" tabindex="-1" role="dialog"
+    {{-- @foreach ($pendaftar as $item) --}}
+        <div class="modal fade" id="modaledit" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <form action="validasi-peserta" method="post" enctype="multipart/form-data">
@@ -121,8 +121,7 @@
                                 </select>
                             </div>
                         </div>
-                        <input type="hidden" name="id" class="form-control-file" id="fileInput"
-                            value="{{ $item->id }}">
+                        <input type="hidden" name="id" class="form-control-file" id="idModal">
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -133,7 +132,7 @@
             </form>
         </div>
         </div>
-    @endforeach
+    {{-- @endforeach --}}
 @endsection
 @section('after_styles')
     {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> --}}
@@ -144,6 +143,13 @@
         $(document).on('show.bs.modal', '.modal', function() {
             $(this).appendTo('body');
         });
+
+
+        function edit(data) {
+            console.log(data);
+            document.getElementById("idModal").value=data.id;
+
+        }
     </script>
     <script src="{{ asset('packages/backpack/crud/js/crud.js') . '?v=' . config('backpack.base.cachebusting_string') }}">
     </script>
