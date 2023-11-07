@@ -97,7 +97,7 @@ class ValidasilaporanCrudController extends CrudController
         $count="0";
     }else{
         $count = ($acceptedCount / $targetCount) * 100;
-        // return dd($count);
+        return dd($count);
      
     }
     $today = Carbon::now()->toDateString();

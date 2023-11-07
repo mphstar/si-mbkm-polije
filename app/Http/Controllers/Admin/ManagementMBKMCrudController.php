@@ -184,6 +184,8 @@ class ManagementMBKMCrudController extends CrudController
             'end_reg' => 'required',
             'start_date' => 'required',
             'info' => 'required',
+            'jumlah_sks' => 'required',
+            'nama_penanggung_jawab' => 'required',
         ]);
         if ($validator->fails()) {
             $messages = $validator->errors()->all();

@@ -51,9 +51,9 @@
                           <input type="text" class="form-control" name="nama_mitra">
 
                         </div>
-                        <input type="hidden" class="form-control" name="student_id"value="{{ $id }}">
-                        {{-- <div class="form-group">
-                          <label>Nama mitra</label> --}}
+                        <div class="form-group">
+                          <label>Nama mitra</label>
+                          <input type="text" class="form-control" name="student_id"value="{{ $id }}">
 
                         {{-- </div> --}}
                         <div class="form-group">

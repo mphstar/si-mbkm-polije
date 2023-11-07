@@ -44,7 +44,7 @@
                         <input type="hidden" value="{{ $id_partner->partner->id }}" class="form-control" name="partner_id">
                         <div class="form-group">
                             <label>Nama Program</label>
-                            <input type="text" class="form-control" name="program_name">
+                            <input type="text" class="form-control" name="program_name"placeholder="contoh :program mf">
                         </div>
                         <div class="form-group">
                             <label>Kapasitas</label>
@@ -59,6 +59,16 @@
                         <div class="form-group">
                             <label>Untuk Semester </label>
                             <input type="number" class="form-control" name="semester">
+
+                        </div>
+                        <div class="form-group">
+                            <label>Jumlah SKS </label>
+                            <input type="number"onlyinput="sks()" class="form-control" name="jumlah_sks">
+
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Penanggung Jawab </label>
+                            <input type="text" class="form-control" name="nama_penanggung_jawab">
 
                         </div>
 
@@ -145,5 +155,33 @@
         tanggalAkhirProgram.addEventListener('input', () => {
             tanggalAwalProgram.min = tanggalAkhirdaftar.value;
         });
+
+        function sks() {
+    // Ambil elemen input dengan nama "nama_penanggung_jawab"
+    var inputElement = document.querySelector('input[name="nama_penanggung_jawab"]');
+
+    // Ambil nilai dari input
+    var nilai = inputElement.value;
+
+    // Periksa apakah nilai lebih dari 20
+    if (parseInt(nilai) > 20) {
+      // Jika lebih dari 20, maka nonaktifkan input
+      inputElement.disabled = true;
+    } else {
+      // Jika tidak lebih dari 20, aktifkan input (jika sebelumnya dinonaktifkan)
+      inputElement.disabled = false;
+    }
+  }
+
+  // Tambahkan event listener untuk memanggil fungsi saat nilai input berubah
+  var inputElement = document.querySelector('input[name="nama_penanggung_jawab"]');
+  inputElement.addEventListener('input', checkNilaiInput);
+
+  // Inisialisasi cek nilai input saat halaman dimuat
+  checkNilaiInput();
+
+
+
+
     </script>
 @endsection
