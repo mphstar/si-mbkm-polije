@@ -78,7 +78,7 @@
                     Program
                     MBKM</a></li>
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('m-b-k-m-eksternal') }}'><i
-                        class='nav-icon la la-question'></i> M b k m eksternals</a></li>
+                        class='nav-icon la la-question'></i> MBKM Eksternal</a></li>
         </ul>
     </li>
 @endif

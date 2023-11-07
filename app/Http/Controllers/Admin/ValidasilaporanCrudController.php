@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ValidasilaporanRequest;
+use App\Models\ManagementMBKM;
 use App\Models\Mbkm;
 use App\Models\MbkmReport;
 use App\Models\RegisterMbkm;
@@ -68,7 +69,7 @@ class ValidasilaporanCrudController extends CrudController
             'name' => 'mbkm.info',
             'label' => 'Informasi MBKM',
         ]]);
-
+      
         $this->crud->addButtonFromView('line', 'detail_laporan', 'detail_laporan', 'beginning');
 
 

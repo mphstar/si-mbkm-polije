@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });s
 
-Route::get('/', function () {
-    return  "Hello World";
-});
+// Route::get('/', function () {
+//     return  "Hello World";
+// });
 
 Route::get('/register/student', 'RegisterController@student');
 
