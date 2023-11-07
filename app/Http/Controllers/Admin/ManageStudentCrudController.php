@@ -116,7 +116,7 @@ class ManageStudentCrudController extends CrudController
 
         $course = Course::where('program_id', $data->students->study_program_id)->where('tahun_kurikulum', "20{$B}")->where('semester', $data->mbkm->semester)->get();
 
-        // return $data;
+        // return $data;w
 
 
 

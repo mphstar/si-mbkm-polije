@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\ProgramStudy;
+use App\User;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,6 +31,10 @@ class Students extends Model
 
     public function program_study(){
         return $this->belongsTo(ProgramStudy::class, 'study_program_id', 'id');
+    }
+
+    public function users(){
+        return $this->belongsTo(User::class, 'users_id', 'id');
     }
     /*
     |--------------------------------------------------------------------------
