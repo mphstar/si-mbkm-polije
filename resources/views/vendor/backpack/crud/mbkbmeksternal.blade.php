@@ -52,10 +52,8 @@
 
                         </div>
                         
-                      
-                        <div class="form-group">
-                          <input type="text" class="form-control" name="student_id"value="{{ $siswa }}">
-                        </div>
+                             <input type="hidden" class="form-control" name="student_id"value="{{ $siswa }}">
+                   
                         
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Masukkan file Pegajuan</label>
