@@ -136,7 +136,7 @@ class PenilaianMitraCrudController extends CrudController
             }
         }
         $regmbkm = RegisterMbkm::where('id', $id)->get();
-        $mbkmId = ManagementMBKM::where('id',$regmbkm[0]->mbkm_id)->value('id');
+        $mbkmId = ManagementMBKM::where('id',$regmbkm[0]->mbkm_id)->where('')->value('id');
         $laporan=MbkmReport::where('reg_mbkm_id',$id)->get();
         $acceptedCount = $laporan->where('status', 'accepted')->count();
         $targetCount = Mbkm::where('id', $mbkmId)->value('task_count');

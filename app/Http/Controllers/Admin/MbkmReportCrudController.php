@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\MbkmReportRequest;
+use App\Mail\pesertauploadlaporan;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\MbkmReport;
@@ -10,6 +11,7 @@ use App\Models\RegisterMbkm;
 use App\Models\Mbkm;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Prologue\Alerts\Facades\Alert;
@@ -60,7 +62,7 @@ class MbkmReportCrudController extends CrudController
             $today = Carbon::now()->toDateString();
             return view('vendor/backpack/crud/report_mbkm', compact('crud', 'reports', 'today', 'count', 'mbkmId'));
         }else{
-            Alert::error('Anda tidak terdaftar di program MBKM')->flash();
+            Alert::warning('Program MBKM anda belum Mulai')->flash();
             return back();
         }
         
@@ -83,8 +85,16 @@ class MbkmReportCrudController extends CrudController
         $request->file('file')->move(public_path('storage/uploads'), $fileName);
         $input['file'] = "storage/uploads/$fileName";
         $input['status'] = 'pending';
-        
+
         $user = MbkmReport::create($input);
+        $tes = MbkmReport::with('regMbkm.mbkm.partner.user')->where('id', $user->id)->first();
+        $siswaupload=MbkmReport::with('regMbkm.student')->where('id',$user->id)->first();
+        // return $siswaupload;
+        $namamhs=$siswaupload->regMbkm->student;
+  
+        // return $tes;
+        $email=$tes->regMbkm->mbkm->partner->user->email;
+        Mail::to($email)->send(new pesertauploadlaporan($namamhs));
         Alert::success('Berhasil upload laporan!')->flash();
         return back();
     }

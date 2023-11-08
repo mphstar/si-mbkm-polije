@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -7,38 +6,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <style>
+        /* Gaya dasar untuk card */
+.card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 10px;
+  padding: 10px;
+}
 
-    <title>Hello, world!</title>
+/* Gaya untuk card header */
+.card-header {
+  background-color: #ff0015;
+  color: #fff;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 4px 4px 0 0;
+}
+
+/* Gaya untuk card body */
+.card-body {
+  text-align: center;
+}
+
+/* Gaya untuk judul card */
+.card-title {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+/* Gaya untuk teks di dalam card body */
+.card-text {
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+/* Gaya untuk teks nama mahasiswa */
+.card-text span {
+  font-weight: bold;
+}
+
+/* Gaya untuk nim mahasiswa */
+.card-text br + span {
+  font-style: italic;
+}
+
+    </style>
+    <title>Mahsiswaq Upload Laporan</title>
   </head>
   <body>
-    <div class="card text-center">  
-        <div class="card-header">
-          <ul class="nav nav-tabs card-header-tabs">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Active</a>
-            </li>
-           
-         
-          </ul>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card text-center">
+                    <div class="card-header">
+                  
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">Maaf Anda belum beruntung</h5>
+                      <p class="card-text">Anda tidak di terima program mbkm</p>
+                     
+                    </div>
+                </div>
+                   
+                  
+            </div>
         </div>
-        <div class="card-body">
-          <h5 class="card-title">Maaf anda belum beruntung, Anda tidak di terima </h5>
-          <p class="card-text">Bisa di coba di kesempatan yang lain</p>
-    
-        </div>
-      </div>
+
     </div>
-    <!-- Optional JavaScript; choose one of the two! -->
 
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-
-   
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+    
     
   </body>
 </html>
+
+
+
+
+
