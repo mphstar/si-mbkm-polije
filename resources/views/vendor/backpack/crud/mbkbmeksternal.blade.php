@@ -51,11 +51,12 @@
                           <input type="text" class="form-control" name="nama_mitra">
 
                         </div>
+                        
+                      
                         <div class="form-group">
-                          <label>Nama mitra</label>
-                          <input type="text" class="form-control" name="student_id"value="{{ $id }}">
-
-                        {{-- </div> --}}
+                          <input type="text" class="form-control" name="student_id"value="{{ $siswa }}">
+                        </div>
+                        
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Masukkan file Pegajuan</label>
                             <input type="file" class="form-control-file" id="exampleFormControlFile1"name="requirements_files">
