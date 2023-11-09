@@ -31,16 +31,7 @@ class DatabaseSeeder extends Seeder
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
         factory(Students::class, 10)->create();
-        Lecturer::insert([
-            'lecturer_name' => 'John Doe',
-            'address' => '123 Example Street, City',
-            'phone' => '1234567890',
-            'nip' => '12345678',
-            'status' => 'dosen pembimbing',
-            'users_id' => 1,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        factory(Lecturer::class, 10)->create();
         factory(Partner::class, 10)->create();
         factory(Mbkm::class, 10)->create();
         factory(RegisterMbkm::class, 1)->create();

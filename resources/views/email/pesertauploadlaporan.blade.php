@@ -65,7 +65,7 @@
                     <div class="card-body">
                       <h5 class="card-title">Peserta Upload Laporan</h5>
                       <p class="card-text">Mahasiswa Atas nama {{ $datamhs->name }} , <br> Dengan Nim {{ $datamhs->nim }}</p>
-                     
+                     <img src="https://picsum.photos/200/300" alt="">
                     </div>
                 </div>
                    

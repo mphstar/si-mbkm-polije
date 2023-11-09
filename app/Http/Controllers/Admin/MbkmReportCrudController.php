@@ -36,8 +36,6 @@ class MbkmReportCrudController extends CrudController
             return $query->where('users_id', backpack_auth()->user()->id);
         })->first();
 
-        // return $user;
-
         $mbkmId = RegisterMbkm::with('mbkm')
         ->where('student_id', $user->student->id)
         ->where('status',  'accepted')
@@ -52,16 +50,15 @@ class MbkmReportCrudController extends CrudController
                 $query->where('student_id', $user->student->id)
                 ->where('mbkm_id', $mbkmId[0]->mbkm_id);})->get();
 
-            // $regMbkmId = RegisterMbkm::where('student_id', $user->student->id)
-            //     ->where('mbkm_id', $mbkmId[0]->id)->get();
-                // return dd($reports);
             $acceptedCount = $reports->where('status', 'accepted')->count();
             $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
 
-            $count = round(($acceptedCount / $targetCount) * 100, 2) >= 100 ? 100 : round(($acceptedCount / $targetCount) * 100, 2) > 100;
+            $count = ($acceptedCount / $targetCount) * 100;
             $today = Carbon::now()->toDateString();
+            session()->flash('status', 'success');
             return view('vendor/backpack/crud/report_mbkm', compact('crud', 'reports', 'today', 'count', 'mbkmId'));
         }else{
+            session()->flash('status', 'error');
             Alert::warning('Program MBKM anda belum Mulai')->flash();
             return back();
         }
@@ -74,6 +71,7 @@ class MbkmReportCrudController extends CrudController
 
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
+            session()->flash('status', 'error');
             Alert::warning($messages[0])->flash();
             return back()->withInput();
         }
@@ -95,6 +93,7 @@ class MbkmReportCrudController extends CrudController
         // return $tes;
         $email=$tes->regMbkm->mbkm->partner->user->email;
         Mail::to($email)->send(new pesertauploadlaporan($namamhs));
+        session()->flash('status', 'success');
         Alert::success('Berhasil upload laporan!')->flash();
         return back();
     }
@@ -106,6 +105,7 @@ class MbkmReportCrudController extends CrudController
     
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
+            session()->flash('status', 'error');
             Alert::warning($messages[0])->flash();
             return back()->withInput();
         }
@@ -125,7 +125,7 @@ class MbkmReportCrudController extends CrudController
         $report->file = "storage/uploads/$fileName";
         $report->status = 'pending';
         $report->save();
-    
+        session()->flash('status', 'success');
         Alert::success('Berhasil mengupdate laporan!')->flash();
         return back();
     }

@@ -17,7 +17,7 @@
 
 /* Gaya untuk card header */
 .card-header {
-  background-color: #ff0015;
+  background-color: #ff0000;
   color: #fff;
   font-weight: bold;
   padding: 5px;
@@ -60,12 +60,12 @@
             <div class="card">
                 <div class="card text-center">
                     <div class="card-header">
-                  
+                  Laporan perlu di revisi
                     </div>
                     <div class="card-body">
-                      <h5 class="card-title">Maaf Anda belum beruntung</h5>
-                      
-                      <p class="card-text">Anda tidak di terima program mbkm : {{ $datamhs }}</p>
+                      <h5 class="card-title"> dari Mitra : {{ $partner }} </h5>
+                  
+                      <p class="card-text">dengan keterangan : {{ $notes }}</p>
                      
                     </div>
                 </div>

@@ -7,18 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class pesertaditolak extends Mailable
+class uploadnilaimhs extends Mailable
 {
     use Queueable, SerializesModels;
-private $datamhs;
+private $data;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($datamhs)
+    public function __construct($data)
     {
-        $this->datamhs=$datamhs;
+        $this->data=$data;
     }
 
     /**
@@ -28,8 +28,9 @@ private $datamhs;
      */
     public function build()
     {
-        return $this->view('email.pesertaditolak',[
-            "datamhs"=>$this->datamhs
+        return $this->view('email.uploadnilaimhs',[
+            "partner"=>$this->data->partner->partner_name,
+            "mbkmname"=>$this->data->mbkm->program_name
         ]);
     }
 }

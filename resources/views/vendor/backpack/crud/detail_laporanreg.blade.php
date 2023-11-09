@@ -82,11 +82,19 @@
                                         <td class="text-center">{{ $report->notes }}</td>
                                         <td class="text-center">
                                             <span>
-                                                <button @if ($report->status === 'accepted') disabled @endif type="button"
-                                                    class="btn btn-warning" data-toggle="modal"
-                                                    data-target="#modaledit{{ $report->id }}">
-                                                    <i class="nav-icon la la-pencil-alt" style="color:white"></i>
+                                                @if ($report->status === 'accepted')
+                                                <button disabled type="button" class="btn btn-success" data-toggle="modal"
+                                                    data-target="#">
+                                                    {{ $report->status }}
                                                 </button>
+                                            @elseif($report->status === 'pending')
+                                                <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                    data-target="#modaledit"onclick="edit({{  $report }})">{{ $report->status }}</button>
+                                            @elseif($report->status === 'rejected')
+                                                <button disabled type="button" class="btn btn-danger" data-toggle="modal"
+                                                    data-target="#modaledit{{ $report->id }}">{{ $report->status }}</button>
+
+                                                    @endif
                                             </span>
                                         </td>
                                     </tr>
@@ -101,8 +109,8 @@
             </div>
         </div>
     </div>
-    @foreach ($laporan as $item)
-        <div class="modal fade" id="modaledit{{ $item->id }}" tabindex="-1" role="dialog"
+ 
+        <div class="modal fade" id="modaledit" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <form action="approve-laporan" method="post" enctype="multipart/form-data">
@@ -118,9 +126,9 @@
                             <div class="form-group">
                                 <label for="status">Status Laporan</label>
                                 <select class="form-control" id="status"name="status">
-                                    <option value="{{ $item->status }}">{{ $item->status }}</option>
+
                                     <option value="accepted">accepted</option>
-                                    <option value="pending">pending</option>
+                             
                                     <option value="rejected">rejected</option>
                                 </select>
                             </div>
@@ -129,8 +137,7 @@
                                 <input type="textarea" class="form-control" id="notes"name="notes"
                                     placeholder="Komentar mitra"required>
                             </div>
-                            <input type="hidden" name="id" class="form-control-file" id="fileInput"
-                                value="{{ $item->id }}">
+                            <input type="hidden" name="id" class="form-control-file" id="idModal">
                         </div>
 
                         <div class="modal-footer">
@@ -142,7 +149,7 @@
             </form>
         </div>
         </div>
-    @endforeach
+    
 @endsection
 @section('after_styles')
     {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> --}}
@@ -153,6 +160,16 @@
         $(document).on('show.bs.modal', '.modal', function() {
             $(this).appendTo('body');
         });
+
+
+
+      
+
+        function edit(data) {
+            console.log(data);
+            document.getElementById("idModal").value=data.id;
+
+        }
     </script>
     <script src="{{ asset('packages/backpack/crud/js/crud.js') . '?v=' . config('backpack.base.cachebusting_string') }}">
     </script>
