@@ -51,6 +51,12 @@ class ValidasilaporanCrudController extends CrudController
             return $query->where('partner_id', $id_partner->partner->id);
         });
         $this->crud->addClause('where', 'status', 'accepted');
+
+        $this->crud->addClause('whereHas', 'mbkm', function ($query) {
+            $now = Carbon::now();
+            $query->whereDate('start_date', '<=', $now)
+                ->whereDate('end_date', '>=', $now);
+        });
         CRUD::setEntityNameStrings('validasilaporan', 'validasi Laporan Mahasiswa');
     }
 
@@ -72,7 +78,7 @@ class ValidasilaporanCrudController extends CrudController
             'name' => 'mbkm.info',
             'label' => 'Informasi MBKM',
         ]]);
-      
+
         $this->crud->addButtonFromView('line', 'detail_laporan', 'detail_laporan', 'beginning');
 
 
@@ -93,9 +99,10 @@ class ValidasilaporanCrudController extends CrudController
                 $query->whereDate('start_date', '<=', $now)
                     ->whereDate('end_date', '>=', $now);
             })->orderBy('id', 'desc')->first();
-        
+
         $laporan = MbkmReport::where('reg_mbkm_id', $id)->get();
         $acceptedCount = $laporan->where('status', 'accepted')->count();
+
 
         // dd($mbkmId);
         $targetCount = Mbkm::where('id', $mbkmId->mbkm_id)->value('task_count');
@@ -140,13 +147,13 @@ class ValidasilaporanCrudController extends CrudController
             'status' => $request->input('status'),
             'notes' => $request->input('notes')
         ];
-        $dataa=Validasilaporan::with(['regMbkm.student.users'])->where('id',$request->id)->first();
-       
+        $dataa = Validasilaporan::with(['regMbkm.student.users'])->where('id', $request->id)->first();
+
         $id =  $request->input('id');
         Validasilaporan::where('id', $id)->update($data);
-        if ($request->input("status")==="accepted") {
+        if ($request->input("status") === "accepted") {
             Mail::to($dataa->regMbkm->student->users->email)->send(new laporanditerima($dataa));
-        }elseif($request->input("status") === "rejected"){
+        } elseif ($request->input("status") === "rejected") {
             Mail::to($dataa->regMbkm->student->users->email)->send(new laporanrevisi($dataa));
         }
         Alert::success('Berhasil Validasi Laporan')->flash();

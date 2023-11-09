@@ -46,8 +46,8 @@ class ValidasiMbkmCrudController extends CrudController
             'function_name' => 'getStatusSpan'
         ]]);
         $this->crud->setColumnLabel('Partner.partner_name', 'NAMA MITRA');
-        // CRUD::addClause('where', 'status_acc', '=', 'pending');
-        // CRUD::addClause('where', 'is_active', '=', 'inactive');
+        CRUD::addClause('where', 'status_acc', '=', 'pending');
+        CRUD::addClause('where', 'is_active', '=', 'inactive');
 
 
         /**

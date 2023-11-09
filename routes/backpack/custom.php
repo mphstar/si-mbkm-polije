@@ -2,6 +2,7 @@
 <?php
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\DosenKaprodiMiddleware;
 use App\Http\Middleware\DosenMiddleware;
 use App\Http\Middleware\KaprodiMiddleware;
 use App\Http\Middleware\PartnerMiddleware;
@@ -59,8 +60,11 @@ Route::group([
         Route::crud('nilaimbkm', 'NilaimbkmCrudController');
         Route::get('/nilaimbkm/{id}/inputnilai', 'NilaimbkmCrudController@inputNilai');
         Route::post('/nilaimbkm/{id}/prosesNilai', 'NilaimbkmCrudController@prosesNilai');
-        Route::crud('progress-mahasiswa', 'ProgressMahasiswaCrudController');
         
+    });
+    
+    Route::middleware([DosenKaprodiMiddleware::class])->group(function () {
+        Route::crud('progress-mahasiswa', 'ProgressMahasiswaCrudController');
     });
     Route::middleware([StudentMiddleware::class])->group(function () {
         Route::crud('mbkm', 'MbkmCrudController');

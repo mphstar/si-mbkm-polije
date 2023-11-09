@@ -42,7 +42,8 @@
 					
 					<div class="col-md-6 form-group">
 						<label class="required">File Penilaian</label>
-						<input required class="form-control" type="file" name="file" value="" >
+						<input required class="form-control" type="file" name="file" value="" accept=".pdf">
+						<div class="text-danger">*Jenis file yang diizinkan: .pdf.</div>
 					</div>
 					
 				</div>

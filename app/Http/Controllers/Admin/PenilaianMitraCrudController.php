@@ -215,6 +215,7 @@ class PenilaianMitraCrudController extends CrudController
             $input['status'] = "done";
         }
         $namaMBKM=PenilaianMitra::with(['mbkm.partner', 'student.users'])->where('id',$request->id)->first();
+        // return $namaMBKM;
         Mail::to($namaMBKM->student->users->email)->send(new uploadnilaimhs($namaMBKM));
         $user = PenilaianMitra::where('id', $id)->update($input);
         session()->flash('status', 'success');

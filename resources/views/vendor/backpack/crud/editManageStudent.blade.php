@@ -56,10 +56,13 @@
                     </div>
                 </div>
             </form>
-            <form action="{{ 'editMatkul' }}" method="post">
+            <form id="formNilai" action="{{ 'editMatkul' }}" method="post">
                 {!! csrf_field() !!}
                 <div class="card">
-                    <div class="card-header"><strong>Mata Kuliah</strong></div>
+                    <div class="card-header"><strong>Mata Kuliah</strong>
+                        <p class="text-danger">Butuh minimal <strong>{{ $data->mbkm->jumlah_sks }}</strong> SKS</p>
+                    </div>
+
                     <div class="card-body">
                         {{-- <div class="form-group">
                             <label for="nf-email">Jurusan</label>
@@ -106,26 +109,33 @@
                                     ?>
                                     @if ($found)
                                         <div class="form-check form-check-inline mr-4">
-                                            <input checked name="ids[]" class="form-check-input" id="{{ $itemB->id }}"
-                                                type="checkbox" value="{{ $itemB->id }}">
-                                            <label class="form-check-label"
-                                                for="{{ $itemB->id }}">{{ $itemB->name }}</label>
+                                            <input sks="{{ $itemB->sks }}"
+                                                onchange="handleCheck(this, '{{ $itemB->sks }}')" checked name="ids[]"
+                                                class="form-check-input" id="{{ $itemB->id }}" type="checkbox"
+                                                value="{{ $itemB->id }}">
+                                            <label class="form-check-label" for="{{ $itemB->id }}">{{ $itemB->name }}
+                                                ({{ $itemB->sks }} SKS)
+                                            </label>
                                         </div>
                                     @else
                                         <div class="form-check form-check-inline mr-4">
-                                            <input name="ids[]" class="form-check-input" id="{{ $itemB->id }}"
-                                                type="checkbox" value="{{ $itemB->id }}">
-                                            <label class="form-check-label"
-                                                for="{{ $itemB->id }}">{{ $itemB->name }}</label>
+                                            <input sks="{{ $itemB->sks }}"
+                                                onchange="handleCheck(this, '{{ $itemB->sks }}')" name="ids[]"
+                                                class="form-check-input" id="{{ $itemB->id }}" type="checkbox"
+                                                value="{{ $itemB->id }}">
+                                            <label class="form-check-label" for="{{ $itemB->id }}">{{ $itemB->name }}
+                                                ( {{ $itemB->sks }} SKS )</label>
                                         </div>
                                     @endif
                                 @endforeach
 
                             </div>
                         </div>
+                        <p><strong>Sks terpilih: <span id="terpilih">6</span></strong></p>
                     </div>
                     <div class="card-footer">
-                        <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-dot-circle-o"></i>
+                        <button onclick="submitNilai('{{ $data->mbkm->jumlah_sks }}')" class="btn btn-sm btn-primary"
+                            type="button"><i class="fa fa-dot-circle-o"></i>
                             Submit</button>
                         {{-- <button class="btn btn-sm btn-danger" type="reset"><i class="fa fa-ban"></i> Reset</button> --}}
                     </div>
@@ -170,5 +180,50 @@
             </form> --}}
         </div>
     </div>
-    <script></script>
+@endsection
+
+@section('after_scripts')
+    <script>
+        let selected = 0;
+        const checkb = document.getElementsByName('ids[]')
+        const terpilih = document.getElementById('terpilih')
+        terpilih.innerHTML = selected
+
+        for (var checkbox of checkb) {
+            if (checkbox.checked) {
+                selected += parseInt(checkbox.getAttribute('sks'))
+                terpilih.innerHTML = selected
+            }
+        }
+
+        // if (document.getElementById('checkbox').checked) {
+        //     alert("checked");
+        // } else {
+        //     alert("You didn't check it! Let me check it for you.")
+        // }
+        const formNilai = document.getElementById('formNilai')
+
+        const submitNilai = (jum_sks) => {
+            if (selected >= jum_sks) {
+                formNilai.submit()
+                // console.log("ok");
+            } else {
+                new Noty({
+                    type: "error",
+                    text: 'SKS tidak terpenuhi',
+                }).show();
+            }
+
+        }
+
+        const handleCheck = (e, sks) => {
+            // console.log(sks);
+            if (e.checked) {
+                selected += parseInt(sks)
+            } else {
+                selected -= parseInt(sks)
+            }
+            terpilih.innerHTML = selected
+        }
+    </script>
 @endsection

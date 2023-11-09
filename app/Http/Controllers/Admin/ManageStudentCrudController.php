@@ -51,7 +51,7 @@ class ManageStudentCrudController extends CrudController
             ],
         ]);
 
-        $this->crud->addClause('where', 'status', '=', 'done');
+        $this->crud->addClause('where', 'status', '=', 'accepted');
         // $this->crud->addClause('where', 'nilai_mitra', '!=', 'null');
     }
 
@@ -109,12 +109,13 @@ class ManageStudentCrudController extends CrudController
         $dosen = Lecturer::where('status', 'dosen pembimbing')->get();
 
         $data = Nilaimbkm::with(['involved.course', 'students.program_study', 'mbkm'])->where('id', $id)->first();
-
+        // return $data;
         $nim = $data->students->nim;
         $A = substr($nim, 1, 1);  // Mengambil karakter pada posisi 1 (indeks 0) untuk variabel A
         $B = substr($nim, 3, 2);  // Mengambil karakter pada posisi 3 (indeks 2) untuk variabel B
 
         $course = Course::where('program_id', $data->students->study_program_id)->where('tahun_kurikulum', "20{$B}")->where('semester', $data->mbkm->semester)->get();
+
 
         // return $data;w
 
