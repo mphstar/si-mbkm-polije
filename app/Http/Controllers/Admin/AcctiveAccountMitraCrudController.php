@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AcctiveAccountMitraRequest;
-
-
+use App\Models\Partner;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\Request;
 
 
 /**
@@ -116,7 +116,7 @@ class AcctiveAccountMitraCrudController extends CrudController
     {
         // by default the Show operation will try to show all columns in the db table,
         // but we can easily take over, and have full control of what columns are shown,
-        // by changing this config for the Show operation 
+        // by changing this config for the Show operation
         $this->crud->set('show.setFromDb', false);
 
 
@@ -165,5 +165,22 @@ class AcctiveAccountMitraCrudController extends CrudController
         // because setFromDb() is called AFTER setupShowOperation(); we know this is not intuitive at all
         // and we plan to change behaviour in the next version; see this Github issue for more details
         // https://github.com/Laravel-Backpack/CRUD/issues/3108
+    }
+    public function index(){
+        $partners = Partner::select('partners.id as id', 'partners.partner_name as name', 'partners.address as alamat', 'partners.phone as phone', 'users.email as email', 'partners.jenis_mitra as jenis_mitra', 'partners.status as status')
+        ->join('users', 'partners.users_id', '=', 'users.id')
+        ->get();
+    $crud = $this->crud;
+
+    return view('vendor/backpack/crud/ValidasiAccountMitra', compact('partners', 'crud'));
+    }
+
+    public function ubah_status($id , Request $request){
+        $partner = Partner::find($id);
+        $partner->status = $request->newStatus;
+        // dd($partner);
+        $partner->save();
+
+        return redirect()->back();
     }
 }

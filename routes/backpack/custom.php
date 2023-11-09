@@ -25,12 +25,12 @@ Route::group([
     Route::crud('tags', 'TagsCrudController');
 
     Route::middleware([AdminMiddleware::class])->group(function () {
-        
+
         Route::crud('lecturer', 'LecturerCrudController');
         Route::crud('partner', 'PartnerCrudController');
     });
-    
-    
+
+
     Route::middleware([PartnerMiddleware::class])->group(function () {
         // Route::crud('register-mbkm', 'RegisterMbkmCrudController');
         Route::get('register-mbkm', 'RegisterMbkmCrudController@validasipendaftar');
@@ -48,7 +48,7 @@ Route::group([
         Route::get('validasilaporan/{id}/detail_laporan ', 'ValidasilaporanCrudController@detail_laporan')->name("detail_laporan");
         Route::post('validasilaporan/{id}/approve-laporan', 'ValidasilaporanCrudController@validasilaporan');
     });
-     
+
     Route::middleware([KaprodiMiddleware::class])->group(function () {
         Route::crud('acctive-account-mitra', 'AcctiveAccountMitraCrudController');
         Route::crud('validasi-mbkm', 'ValidasiMbkmCrudController');
@@ -58,15 +58,25 @@ Route::group([
         Route::get('manage-student/{id}/edit', 'ManageStudentCrudController@formEdit');
         Route::post('manage-student/{id}/editDosen', 'ManageStudentCrudController@editDosen');
         Route::post('manage-student/{id}/editMatkul', 'ManageStudentCrudController@editMatkul');
+
+        Route::get('/acctive-account-mitra','AcctiveAccountMitraCrudController@index');
+        Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
+        Route::get('acc-nilai','AccNilaiCrudController@nilai');
+        Route::get('acc-nilai/{id}/detail_nilai','AccNilaiCrudController@detailnilai')->name('detail_grade');
+        Route::get('grade/{id}/detail/{approval}', 'AccNilaiCrudController@updateApproved')->name('uprove');
+        Route::post('/simpan-data','AccNilaiCrudController@tolak');
+        Route::post('acc-nilai/{id}/detail_nilai/tolak/{not_aprroval}', 'AccNilaiCrudController@tolak')->name('tolak');
+        Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
+        Route::get('/acctive-account-mitra','AcctiveAccountMitraCrudController@index');
     });
-    
+
     Route::middleware([DosenMiddleware::class])->group(function () {
         Route::crud('nilaimbkm', 'NilaimbkmCrudController');
         Route::crud('nilaimbkm', 'NilaimbkmCrudController');
         Route::get('/nilaimbkm/{id}/inputnilai', 'NilaimbkmCrudController@inputNilai');
         Route::post('/nilaimbkm/{id}/prosesNilai', 'NilaimbkmCrudController@prosesNilai');
         Route::crud('progress-mahasiswa', 'ProgressMahasiswaCrudController');
-        
+
     });
     Route::middleware([StudentMiddleware::class])->group(function () {
         Route::crud('mbkm', 'MbkmCrudController');
@@ -75,10 +85,10 @@ Route::group([
         Route::get('mbkm-report', 'MbkmReportCrudController@viewReport');
         Route::post('mbkm-report-upload', 'MbkmReportCrudController@upReport');
         Route::post('mbkm-report-rev', 'MbkmReportCrudController@revReport');
-      
+
         Route::crud('status-reg', 'StatusRegCrudController');
     });
-    
+
     Route::get('/download/{name}', 'DownloadController@download');
     Route::get('m-b-k-m-eksternal', 'MBKMEksternalCrudController@daftareksternal');
     Route::post('m-b-k-m-eksternal/daftareksternal', 'MBKMEksternalCrudController@storeData');

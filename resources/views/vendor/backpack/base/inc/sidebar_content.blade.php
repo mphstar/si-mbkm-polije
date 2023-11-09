@@ -54,6 +54,8 @@
                 class='nav-icon la la-question'></i> Lecturers</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('manage-student') }}'><i
                 class='nav-icon la la-question'></i> Manage students</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('acc-nilai') }}'><i class='nav-icon la la-question'></i> Acc nilais</a></li>
+
 @endif
 @if ($level == 'dospem')
     <li class="nav-title">Dosen</li>

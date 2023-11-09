@@ -28,7 +28,7 @@ class ManageStudentCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -57,7 +57,7 @@ class ManageStudentCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -69,13 +69,13 @@ class ManageStudentCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -88,13 +88,13 @@ class ManageStudentCrudController extends CrudController
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
@@ -106,21 +106,101 @@ class ManageStudentCrudController extends CrudController
     protected function formEdit($id)
     {
         $crud = $this->crud;
+
         $dosen = Lecturer::where('status', 'dosen pembimbing')->get();
 
         $data = Nilaimbkm::with(['involved.course', 'students.program_study', 'mbkm'])->where('id', $id)->first();
+        // dd($data);
+        $data_sks = DB::table('mbkms')
+    ->join('reg_mbkms', 'mbkms.id', '=', 'reg_mbkms.mbkm_id')
+    ->where('reg_mbkms.mbkm_id', $data->mbkm_id)
+    ->orWhereNull('reg_mbkms.mbkm_id')
+    ->select('mbkms.jumlah_sks AS sks')
+    ->get();
+
+    // dd($data_sks);
+
+    $Rsemester = DB::table('reg_mbkms')
+    ->select('id', 'semester')
+    ->where('student_id', $id)
+    ->whereNotNull('semester')
+    ->first();
+        // dd($Rsemester);
 
         $nim = $data->students->nim;
         $A = substr($nim, 1, 1);  // Mengambil karakter pada posisi 1 (indeks 0) untuk variabel A
         $B = substr($nim, 3, 2);  // Mengambil karakter pada posisi 3 (indeks 2) untuk variabel B
 
-        $course = Course::where('program_id', $data->students->study_program_id)->where('tahun_kurikulum', "20{$B}")->where('semester', $data->mbkm->semester)->get();
+//    $course = Course::where('program_id', $data->students->study_program_id)
+//     ->where('tahun_kurikulum', "20{$B}")
+//     ->where(function ($query) use ($data, $Rsemester, $data_sks) {
+//         $query->where(function ($innerQuery) use ($data_sks) {
+//             $innerQuery->whereNull('semester')->orWhereNull('sks')->orWhere('sks', optional($data_sks->first())->sks);
+//         })
+//         ->orWhere(function ($innerQuery) use ($data, $Rsemester) {
+//             $innerQuery->where('semester', optional($data->mbkm)->semester)->orWhere('semester', optional($Rsemester)->semester);
+//         });
+//     })
+//     ->get();
 
+        $course = Course::where('program_id', $data->students->study_program_id)
+    ->where('tahun_kurikulum', "20{$B}")
+    ->where('semester', optional($data->mbkm)->semester) // Use optional() to handle null
+    ->orWhere('semester', optional($Rsemester)->semester) // Use optional() to handle null
+    ->get();
+
+//     $course = Course::where('program_id', $data->students->study_program_id)
+//     ->where('tahun_kurikulum', "20{$B}")
+//     ->where(function ($query) use ($data, $Rsemester, $data_sks) {
+//         $query->whereNull('semester')
+//             ->orWhere('semester', optional($data->mbkm)->semester)
+//             ->orWhere('semester', optional($Rsemester)->semester);
+//     });
+
+// if ($data_sks->isNotEmpty()) {
+//     // Jika informasi sks ada (MBKM internal)
+//     $course->where(function ($innerQuery) use ($data_sks) {
+//         $innerQuery->whereNull('sks')
+//             ->orWhere('sks', $data_sks->pluck('sks')->first());
+//     });
+// } else {
+//     // Jika informasi sks tidak ada (MBKM eksternal)
+//     $course->select('id', 'name'); // Hanya pilih kolom yang diperlukan
+// }
+
+// $courseResult = $course->get();
+
+// $courseQuery = Course::where('program_id', $data->students->study_program_id)
+//     ->where('tahun_kurikulum', "20{$B}")
+//     ->where(function ($query) use ($data, $Rsemester) {
+//         $query->whereNull('semester')
+//             ->orWhere('semester', optional($data->mbkm)->semester)
+//             ->orWhere('semester', optional($Rsemester)->semester);
+//     });
+
+// $courseInternalQuery = clone $courseQuery;
+// $courseInternalQuery->where(function ($innerQuery) use ($data_sks) {
+//     $innerQuery->whereNull('sks')
+//         ->orWhere('sks', $data_sks->pluck('sks')->first());
+// });
+
+// // Di sini kita perlu mengeksekusi query internal dan eksternal terpisah
+// $courseInternalResult = $courseInternalQuery->get();
+// $courseExternalResult = $courseQuery->whereNull('sks')->get();
+
+// // Tambahkan informasi tambahan untuk debugging
+// // dd([
+// //     'data_sks' => $data_sks,
+// //     'courseInternalResult' => $courseInternalResult,
+// //     'courseExternalResult' => $courseExternalResult,
+// // ]);
+
+// $courseResult = $courseInternalResult->merge($courseExternalResult);
+
+
+    // dd($course);
         // return $data;w
-
-
-
-        return view('vendor.backpack.crud.editManageStudent', compact('crud', 'dosen', 'data', 'course'));
+        return view('vendor.backpack.crud.editManageStudent', compact('crud', 'dosen', 'data', 'course','data_sks'));
     }
 
     protected function editDosen(Request $request, $id)
