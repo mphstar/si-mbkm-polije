@@ -67,6 +67,8 @@ class PartnerMbkmTest extends TestCase
             'start_date' => '2021-03-03',
             'end_date' => '2021-04-04',
             'info' => 'Info Test',
+            'nama_penanggung_jawab' => 'John',
+            'jumlah_sks' => '10',
         ];
         $response = $this->post('/admin/management-m-b-k-m/tambahdatambkm', $requestData);
         $response->assertSessionHas('status', 'success');

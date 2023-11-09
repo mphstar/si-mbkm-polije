@@ -19,6 +19,8 @@ $factory->define(Mbkm::class, function (Faker $faker) {
         'is_active' => 'inactive',
         'task_count' => $faker->numberBetween(1, 10),
         'semester' => $faker->randomDigitNotNull,
+        'nama_penanggung_jawab' => $faker->name,
+        'jumlah_sks' => $faker->numberBetween(10, 20),
         'created_at' => now(),
         'updated_at' => now()
     ];
