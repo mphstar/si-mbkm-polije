@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class pesertaditolak extends Mailable
+class pesertauploadlaporan extends Mailable
 {
     use Queueable, SerializesModels;
 private $datamhs;
@@ -18,7 +18,7 @@ private $datamhs;
      */
     public function __construct($datamhs)
     {
-        $this->datamhs=$datamhs;
+    $this->datamhs=$datamhs;    //
     }
 
     /**
@@ -28,7 +28,7 @@ private $datamhs;
      */
     public function build()
     {
-        return $this->view('email.pesertaditolak',[
+        return $this->view('email.pesertauploadlaporan',[
             "datamhs"=>$this->datamhs
         ]);
     }

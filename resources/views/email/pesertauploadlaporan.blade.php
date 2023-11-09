@@ -17,7 +17,7 @@
 
 /* Gaya untuk card header */
 .card-header {
-  background-color: #ff0015;
+  background-color: #007bff;
   color: #fff;
   font-weight: bold;
   padding: 5px;
@@ -60,13 +60,12 @@
             <div class="card">
                 <div class="card text-center">
                     <div class="card-header">
-                  
+                      Featured
                     </div>
                     <div class="card-body">
-                      <h5 class="card-title">Maaf Anda belum beruntung</h5>
-                      
-                      <p class="card-text">Anda tidak di terima program mbkm : {{ $datamhs }}</p>
-                     
+                      <h5 class="card-title">Peserta Upload Laporan</h5>
+                      <p class="card-text">Mahasiswa Atas nama {{ $datamhs->name }} , <br> Dengan Nim {{ $datamhs->nim }}</p>
+                     <img src="https://picsum.photos/200/300" alt="">
                     </div>
                 </div>
                    
@@ -80,8 +79,6 @@
     
   </body>
 </html>
-
-
 
 
 

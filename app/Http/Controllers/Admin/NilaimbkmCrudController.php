@@ -124,7 +124,6 @@ class NilaimbkmCrudController extends CrudController
     protected function prosesNilai(Request $request, $id)
     {
         $data = $request->all();
-
         if (isset($data['_token'])) {
             unset($data['_token']);
         }
@@ -135,7 +134,7 @@ class NilaimbkmCrudController extends CrudController
                 "grade" => $value
             ]);
         }
-
+        session()->flash('test', 'success');
         Alert::success('Berhasil Menyimpan')->flash();
         return redirect()->back();
     }

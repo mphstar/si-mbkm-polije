@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\MbkmRequest;
+use App\Mail\daftarmbkm;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\Mbkm;
 use App\Models\RegisterMbkm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Prologue\Alerts\Facades\Alert;
-use Illuminate\Http\Response;
 
 /**
  * Class MbkmCrudController
@@ -85,7 +86,8 @@ class MbkmCrudController extends CrudController
 
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
-            Alert::error('Masukkan file sesuai ketentuan (.zip)')->flash();
+            session()->flash('status', 'fileNotValid');
+            Alert::error($messages[0])->flash();
             return back()->withInput();
         }
         $input = $request->all();
@@ -96,6 +98,11 @@ class MbkmCrudController extends CrudController
         $request->file('file')->move(public_path('storage/uploads'), $fileName);
         $input['requirements_files'] = "storage/uploads/$fileName";
         $user = RegisterMbkm::create($input);
+        
+        $dataaa=RegisterMbkm::with(['mbkm.partner.user','student'])->where('id',$user->id)->first();
+
+        Mail::to($dataaa->mbkm->partner->user->email)->send(new daftarmbkm($dataaa));
+        session()->flash('status', 'success');
         Alert::success('Berhasil Mendaftar!')->flash();
         return redirect('admin/mbkm');
     }

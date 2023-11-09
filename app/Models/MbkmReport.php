@@ -25,7 +25,7 @@ class MbkmReport extends Model
 
     public function regMbkm()
     {
-        return $this->belongsTo(RegisterMbkm::class);
+        return $this->belongsTo(RegisterMbkm::class, 'reg_mbkm_id', 'id');
     }
     /*
     |--------------------------------------------------------------------------

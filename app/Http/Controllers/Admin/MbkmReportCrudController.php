@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\MbkmReportRequest;
+use App\Mail\pesertauploadlaporan;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\MbkmReport;
@@ -10,6 +11,7 @@ use App\Models\RegisterMbkm;
 use App\Models\Mbkm;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Prologue\Alerts\Facades\Alert;
@@ -34,8 +36,6 @@ class MbkmReportCrudController extends CrudController
             return $query->where('users_id', backpack_auth()->user()->id);
         })->first();
 
-        // return $user;
-
         $mbkmId = RegisterMbkm::with('mbkm')
         ->where('student_id', $user->student->id)
         ->where('status',  'accepted')
@@ -50,17 +50,16 @@ class MbkmReportCrudController extends CrudController
                 $query->where('student_id', $user->student->id)
                 ->where('mbkm_id', $mbkmId[0]->mbkm_id);})->get();
 
-            // $regMbkmId = RegisterMbkm::where('student_id', $user->student->id)
-            //     ->where('mbkm_id', $mbkmId[0]->id)->get();
-                // return dd($reports);
             $acceptedCount = $reports->where('status', 'accepted')->count();
             $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
 
-            $count = round(($acceptedCount / $targetCount) * 100, 2) >= 100 ? 100 : round(($acceptedCount / $targetCount) * 100, 2) > 100;
+            $count = ($acceptedCount / $targetCount) * 100;
             $today = Carbon::now()->toDateString();
+            session()->flash('status', 'success');
             return view('vendor/backpack/crud/report_mbkm', compact('crud', 'reports', 'today', 'count', 'mbkmId'));
         }else{
-            Alert::error('Anda tidak terdaftar di program MBKM')->flash();
+            session()->flash('status', 'error');
+            Alert::warning('Program MBKM anda belum Mulai')->flash();
             return back();
         }
         
@@ -72,6 +71,7 @@ class MbkmReportCrudController extends CrudController
 
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
+            session()->flash('status', 'error');
             Alert::warning($messages[0])->flash();
             return back()->withInput();
         }
@@ -83,8 +83,17 @@ class MbkmReportCrudController extends CrudController
         $request->file('file')->move(public_path('storage/uploads'), $fileName);
         $input['file'] = "storage/uploads/$fileName";
         $input['status'] = 'pending';
-        
+
         $user = MbkmReport::create($input);
+        $tes = MbkmReport::with('regMbkm.mbkm.partner.user')->where('id', $user->id)->first();
+        $siswaupload=MbkmReport::with('regMbkm.student')->where('id',$user->id)->first();
+        // return $siswaupload;
+        $namamhs=$siswaupload->regMbkm->student;
+  
+        // return $tes;
+        $email=$tes->regMbkm->mbkm->partner->user->email;
+        Mail::to($email)->send(new pesertauploadlaporan($namamhs));
+        session()->flash('status', 'success');
         Alert::success('Berhasil upload laporan!')->flash();
         return back();
     }
@@ -96,6 +105,7 @@ class MbkmReportCrudController extends CrudController
     
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
+            session()->flash('status', 'error');
             Alert::warning($messages[0])->flash();
             return back()->withInput();
         }
@@ -115,7 +125,7 @@ class MbkmReportCrudController extends CrudController
         $report->file = "storage/uploads/$fileName";
         $report->status = 'pending';
         $report->save();
-    
+        session()->flash('status', 'success');
         Alert::success('Berhasil mengupdate laporan!')->flash();
         return back();
     }

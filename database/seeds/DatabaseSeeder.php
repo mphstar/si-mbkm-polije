@@ -22,26 +22,45 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'user',
-            'email' => 'user@gmail.com',
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
             'email_verified_at' => now(),
+            'level' => 'admin',
             'password' => Hash::make('123'),
-            // 'remember_token' => Str::random(10),
+        ]);
+        User::create([
+            'name' => 'student',
+            'email' => 'student@gmail.com',
+            'email_verified_at' => now(),
+            'level' => 'student',
+            'password' => Hash::make('123'),
+        ]);
+        User::create([
+            'name' => 'mitra',
+            'email' => 'mitra@gmail.com',
+            'email_verified_at' => now(),
+            'level' => 'mitra',
+            'password' => Hash::make('123'),
+        ]);
+        User::create([
+            'name' => 'kaprodi',
+            'email' => 'kaprodi@gmail.com',
+            'email_verified_at' => now(),
+            'level' => 'kaprodi',
+            'password' => Hash::make('123'),
+        ]);
+        User::create([
+            'name' => 'dospem',
+            'email' => 'dospem@gmail.com',
+            'email_verified_at' => now(),
+            'level' => 'dospem',
+            'password' => Hash::make('123'),
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 10)->create();
-        Lecturer::insert([
-            'lecturer_name' => 'John Doe',
-            'address' => '123 Example Street, City',
-            'phone' => '1234567890',
-            'nip' => '12345678',
-            'status' => 'dosen pembimbing',
-            'users_id' => 1,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-        factory(Partner::class, 10)->create();
+        factory(Students::class, 1)->create();
+        factory(Lecturer::class, 1)->create();
+        factory(Partner::class, 1)->create();
         factory(Mbkm::class, 10)->create();
         factory(RegisterMbkm::class, 1)->create();
         // $this->call(UsersTableSeeder::class);
