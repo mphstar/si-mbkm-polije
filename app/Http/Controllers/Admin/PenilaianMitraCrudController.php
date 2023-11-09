@@ -160,23 +160,22 @@ class PenilaianMitraCrudController extends CrudController
         if ($laporan->isEmpty()) {
             $count = 0;
 
-            Alert::error('Tidak bisa upload nilai karna task dari peserta belum lengkap')->flash();
+            Alert::error('Tidak bisa upload nilai karna task dari peserta belum lengkap1')->flash();
             return redirect('admin/penilaian-mitra');
         } elseif ($acceptedCount == 0) {
             $count = "0";
         } else {
-            $count = round(($acceptedCount / $targetCount) * 100, 2) >= 100 ? 100 : round(($acceptedCount / $targetCount) * 100, 2) > 100;
+            $count = round(($acceptedCount / $targetCount) * 100, 2);
         }
-
 
         if (($count == 100)) {
             $regmbkm = RegisterMbkm::where('id', $id)->get();
             $crud = $this->crud;
+            session()->flash('status', 'success');
             return view('vendor.backpack.crud.partner_grading', compact('crud'));
         } else {
-
-
-            Alert::error('Tidak bisa upload nilai karna task dari peserta belum lengkap')->flash();
+            session()->flash('status', 'report not complete');
+            Alert::error('Tidak bisa upload nilai karna task dari peserta belum lengkap2')->flash();
             return redirect('admin/penilaian-mitra');
         }
 
@@ -196,6 +195,7 @@ class PenilaianMitraCrudController extends CrudController
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
             Alert::warning($messages[0])->flash();
+            session()->flash('status', 'file not valid');
             return back()->withInput();
         }
         $post = PenilaianMitra::find($id);
@@ -217,7 +217,7 @@ class PenilaianMitraCrudController extends CrudController
         $namaMBKM=PenilaianMitra::with(['mbkm.partner', 'student.users'])->where('id',$request->id)->first();
         Mail::to($namaMBKM->student->users->email)->send(new uploadnilaimhs($namaMBKM));
         $user = PenilaianMitra::where('id', $id)->update($input);
-
+        session()->flash('status', 'success');
         Alert::success('Berhasil upload nilai')->flash();
         return redirect("admin/penilaian-mitra");
     }

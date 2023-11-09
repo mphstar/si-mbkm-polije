@@ -82,12 +82,8 @@ class RegisterMbkmCrudController extends CrudController
 
     public function validasipeserta(Request $request)
     {
-
         $data = [
             'status' => $request->input('status')
-            // tambahkan kolom lain sesuai kebutuhan
-
-
         ];
         $id =  $request->input('id');
         $userEmail = User::join('students', 'users.id', '=', 'students.users_id')
@@ -98,17 +94,20 @@ class RegisterMbkmCrudController extends CrudController
        
         RegisterMbkm::where('id', $id)->update($data);
         try {
-            if ($request->input("status")==="accepted") {
-                Mail::to($userEmail)->send(new pesertadiacc($namaMBKM));
-            }elseif($request->input("status")==="rejected"){
-                Mail::to($userEmail)->send(new pesertaditolak($namaMBKM));
+                if ($request->input("status")==="accepted") {
+                    Mail::to($userEmail)->send(new pesertadiacc($namaMBKM));
+                }elseif($request->input("status")==="rejected"){
+                    Mail::to($userEmail)->send(new pesertaditolak($namaMBKM));
             }
         } catch (\Throwable $th) {
             Alert::warning('gagal send email')->flash();
-        }
+            }
 
      
      
+     
+     
+        session()->flash('status', 'success');
         Alert::success('Berhasil Validasi Peserta')->flash();
         return back();
     }
