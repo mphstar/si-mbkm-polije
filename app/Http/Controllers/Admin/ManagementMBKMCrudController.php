@@ -55,9 +55,6 @@ class ManagementMBKMCrudController extends CrudController
             'name' => 'program_name',
             'label' => 'Nama Program',
         ], [
-            'name' => 'partner.partner_name',
-            'label' => 'Nama Mitra',
-        ], [
             'name' => 'start_date',
             'label' => 'Tanggal Mulai',
         ], [
@@ -182,11 +179,13 @@ class ManagementMBKMCrudController extends CrudController
         ]);
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
+            session()->flash('status', 'error');
             Alert::warning($messages[0])->flash();
             return back()->withErrors($validator)->withInput();
         }
         // Simpan data ke database
         ManagementMBKM::create($request->all());
+        session()->flash('status', 'success');
         Alert::success('Berhasil Tambah data berhasil')->flash();
         return redirect("admin/management-m-b-k-m");
     }

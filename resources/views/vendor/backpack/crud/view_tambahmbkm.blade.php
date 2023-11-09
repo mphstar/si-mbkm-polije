@@ -29,18 +29,6 @@
                 <div class="card-body">
                     <form action="/admin/management-m-b-k-m/tambahdatambkm"method="post">
                         @csrf
-                        {{-- <div class="form-group">
-                      
-                          <label for="pilihan">Nama mitra:</label>
-                       
-                          <select class="form-control" id="pilihan"name="partner_id">
-                            @foreach ($mitra as $mtr)
-                              <option value="{{ $mtr->id }}">{{ $mtr->partner_name }}</option>
-                           @endforeach
-
-                          </select>
-
-                        </div> --}}
                         <input type="hidden" value="{{ $id_partner->partner->id }}" class="form-control" name="partner_id">
                         <div class="form-group">
                             <label>Nama Program</label>

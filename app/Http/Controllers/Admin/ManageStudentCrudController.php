@@ -128,7 +128,7 @@ class ManageStudentCrudController extends CrudController
         Nilaimbkm::where('id', $id)->update([
             "pembimbing" => $request->dosen
         ]);
-
+        session()->flash('test', 'success');
         Alert::success('Berhasil Menyimpan')->flash();
         return redirect('/admin/manage-student');
     }
@@ -147,9 +147,7 @@ class ManageStudentCrudController extends CrudController
                 ]);
             }
         }
-
-
-
+        session()->flash('test', 'success');
         Alert::success('Berhasil Menyimpan')->flash();
         return redirect('/admin/manage-student');
     }

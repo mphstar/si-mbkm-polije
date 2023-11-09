@@ -55,7 +55,8 @@ class RegisterMbkmCrudController extends CrudController
             'type'  => 'model_function',
             'function_name' => 'getStatusSpan'
         ]]);
-        $this->crud->addButtonFromModelFunction('line', 'download', 'Download', 'beginning');
+        
+        
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -82,15 +83,12 @@ class RegisterMbkmCrudController extends CrudController
 
     public function validasipeserta(Request $request)
     {
-
         $data = [
             'status' => $request->input('status')
-            // tambahkan kolom lain sesuai kebutuhan
-
-
         ];
         $id =  $request->input('id');
         RegisterMbkm::where('id', $id)->update($data);
+        session()->flash('status', 'success');
         Alert::success('Berhasil Validasi Peserta')->flash();
         return back();
     }
