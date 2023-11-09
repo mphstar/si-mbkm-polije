@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ValidasilaporanRequest;
+use App\Mail\laporanditerima;
+use App\Mail\laporanrevisi;
 use App\Models\ManagementMBKM;
 use App\Models\Mbkm;
 use App\Models\MbkmReport;
@@ -12,6 +14,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Prologue\Alerts\Facades\Alert;
 
 /**
@@ -140,8 +143,15 @@ class ValidasilaporanCrudController extends CrudController
 
 
         ];
+        $dataa=Validasilaporan::with(['regMbkm.student.users'])->where('id',$request->id)->first();
+       
         $id =  $request->input('id');
         Validasilaporan::where('id', $id)->update($data);
+        if ($request->input("status")==="accepted") {
+            Mail::to($dataa->regMbkm->student->users->email)->send(new laporanditerima($dataa));
+        }elseif($request->input("status") === "rejected"){
+            Mail::to($dataa->regMbkm->student->users->email)->send(new laporanrevisi($dataa));
+        }
         Alert::success('Berhasil Validasi Laporan')->flash();
         return back();
     }
