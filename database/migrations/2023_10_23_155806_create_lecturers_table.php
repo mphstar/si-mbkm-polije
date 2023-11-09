@@ -19,6 +19,7 @@ class CreateLecturersTable extends Migration
             $table->string("address");
             $table->string("phone");
             $table->string("nip")->unique();
+            $table->foreignId('study_program_id')->nullable()->references('id')->on('study_programs')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('users_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->enum('status', ['dosen pembimbing', 'admin prodi', 'kaprodi']);
             $table->timestamps();
