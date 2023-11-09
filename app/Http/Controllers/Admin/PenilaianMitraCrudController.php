@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PenilaianMitraRequest;
+use App\Mail\uploadnilaimhs;
 use App\Models\ManagementMBKM;
 use App\Models\Mbkm;
 use App\Models\MbkmReport;
@@ -13,6 +14,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Prologue\Alerts\Facades\Alert;
 
@@ -131,12 +133,12 @@ class PenilaianMitraCrudController extends CrudController
 
         foreach ($regmbkm as $item) {
             if ($item->status == 'done') {
-                Alert::warning('Tidak bisa upload nilai karna anda sudah upload nilaiS')->flash();
+                Alert::warning('Tidak bisa upload nilai karna anda sudah upload nilai')->flash();
                 return back();
             }
         }
         $regmbkm = RegisterMbkm::where('id', $id)->get();
-        $mbkmId = ManagementMBKM::where('id',$regmbkm[0]->mbkm_id)->where('')->value('id');
+        $mbkmId = ManagementMBKM::where('id',$regmbkm[0]->mbkm_id)->value('id');
         $laporan=MbkmReport::where('reg_mbkm_id',$id)->get();
         $acceptedCount = $laporan->where('status', 'accepted')->count();
         $targetCount = Mbkm::where('id', $mbkmId)->value('task_count');
@@ -212,7 +214,8 @@ class PenilaianMitraCrudController extends CrudController
             $input['partner_grade'] = "storage/uploads/$fileName";
             $input['status'] = "done";
         }
-
+        $namaMBKM=PenilaianMitra::with(['mbkm.partner', 'student.users'])->where('id',$request->id)->first();
+        Mail::to($namaMBKM->student->users->email)->send(new uploadnilaimhs($namaMBKM));
         $user = PenilaianMitra::where('id', $id)->update($input);
         session()->flash('status', 'success');
         Alert::success('Berhasil upload nilai')->flash();

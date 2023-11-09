@@ -90,14 +90,21 @@ class RegisterMbkmCrudController extends CrudController
         ->join('reg_mbkms', 'students.id', '=', 'reg_mbkms.student_id')
         ->where('reg_mbkms.id', $id)
         ->value('users.email');
-        $namaMBKM=RegisterMbkm::with('mbkm')->where('id',$request->mbkm_id)->first();
-        return $namaMBKM->program_name;
+        $namaMBKM=RegisterMbkm::with('mbkm.partner')->where('id',$request->id)->first()->mbkm->program_name;
+       
         RegisterMbkm::where('id', $id)->update($data);
-        if ($request->input("status")==="accepted") {
-            Mail::to($userEmail)->send(new pesertadiacc("selamat"));
-        }elseif($request->input("status")==="rejected"){
-            Mail::to($userEmail)->send(new pesertaditolak("Maaf"));
-        }
+        try {
+                if ($request->input("status")==="accepted") {
+                    Mail::to($userEmail)->send(new pesertadiacc($namaMBKM));
+                }elseif($request->input("status")==="rejected"){
+                    Mail::to($userEmail)->send(new pesertaditolak($namaMBKM));
+            }
+        } catch (\Throwable $th) {
+            Alert::warning('gagal send email')->flash();
+            }
+
+     
+     
      
      
         session()->flash('status', 'success');

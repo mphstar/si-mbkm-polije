@@ -53,7 +53,7 @@ class MbkmReportCrudController extends CrudController
             $acceptedCount = $reports->where('status', 'accepted')->count();
             $targetCount = Mbkm::where('id', $mbkmId[0]->mbkm_id)->value('task_count');
 
-            $count = round(($acceptedCount / $targetCount) * 100, 2) >= 100 ? 100 : round(($acceptedCount / $targetCount) * 100, 2) > 100;
+            $count = ($acceptedCount / $targetCount) * 100;
             $today = Carbon::now()->toDateString();
             session()->flash('status', 'success');
             return view('vendor/backpack/crud/report_mbkm', compact('crud', 'reports', 'today', 'count', 'mbkmId'));

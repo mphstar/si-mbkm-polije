@@ -60,10 +60,11 @@
             <div class="card">
                 <div class="card text-center">
                     <div class="card-header">
-                  
+                  Terima
                     </div>
                     <div class="card-body">
-                      <h5 class="card-title">Anda di terima MBKM</h5>
+                      <h5 class="card-title">Anda di terima  di MBKM : {{ $data }}</h5>
+                  
                       <p class="card-text">Tunggu Info Selanjutnya</p>
                      
                     </div>
