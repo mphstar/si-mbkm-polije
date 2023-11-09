@@ -101,7 +101,7 @@ class ManagementMBKMCrudController extends CrudController
             return redirect()->back();
         }
 
-
+        session()->flash('status', 'success');
         return view('vendor/backpack/crud/view_tambahmbkm', compact('mitra', 'crud', 'id_partner'));
     }
     /**

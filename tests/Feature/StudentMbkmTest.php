@@ -50,11 +50,15 @@ class StudentMbkmTest extends TestCase
     
     public function testViewFormRegisterErrorWhereStatusPending()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create();
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'pending',
         ]);
@@ -64,11 +68,15 @@ class StudentMbkmTest extends TestCase
 
     public function testViewFormRegisterWhereStatusAccepted()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create();
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -78,11 +86,15 @@ class StudentMbkmTest extends TestCase
 
     public function testViewFormRegisterWhereStatusReject()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create();
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'rejected',
         ]);
@@ -92,11 +104,15 @@ class StudentMbkmTest extends TestCase
     
     public function testRegisterError()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create();
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         Storage::fake('uploads');
         $file = UploadedFile::fake()->create('document.png', 100);
         
@@ -117,11 +133,15 @@ class StudentMbkmTest extends TestCase
 
     public function testRegisterSuccess()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create();
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
 
         Storage::fake('uploads');
         $file = UploadedFile::fake()->create('document.zip', 100);
@@ -143,13 +163,17 @@ class StudentMbkmTest extends TestCase
 
     public function testViewReport()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create([
             'end_date' => '2040-01-01'
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -159,26 +183,34 @@ class StudentMbkmTest extends TestCase
     }
     public function testViewReportErrorWhereNothingData()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create([
             'end_date' => '2030-01-01'
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         
         $response = $this->get('/admin/mbkm-report');
         $response->assertSessionHas('status', 'error');
     }
     public function testUploadReportSuccess()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create([
             'end_date' => '2030-01-01'
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -203,13 +235,17 @@ class StudentMbkmTest extends TestCase
 
     public function testUploadReportErrorWhereFileNotPdf()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create([
             'end_date' => '2030-01-01'
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -234,13 +270,17 @@ class StudentMbkmTest extends TestCase
 
     public function testEditReportSuccess()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create([
             'end_date' => '2030-01-01'
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -266,13 +306,17 @@ class StudentMbkmTest extends TestCase
 
     public function testEditReportError()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create([
             'end_date' => '2030-01-01'
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);

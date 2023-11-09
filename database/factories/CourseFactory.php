@@ -10,5 +10,6 @@ $factory->define(Course::class, function (Faker $faker) {
         'name' => $faker->name,
         'semester' => 5,
         'tahun_kurikulum' => 2021,
+        'sks' => $faker->numberBetween(10, 20),
     ];
 });

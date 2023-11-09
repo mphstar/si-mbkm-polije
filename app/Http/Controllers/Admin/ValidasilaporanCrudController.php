@@ -149,6 +149,7 @@ class ValidasilaporanCrudController extends CrudController
         }elseif($request->input("status") === "rejected"){
             Mail::to($dataa->regMbkm->student->users->email)->send(new laporanrevisi($dataa));
         }
+        session()->flash('status', 'success');
         Alert::success('Berhasil Validasi Laporan')->flash();
         return back();
     }
