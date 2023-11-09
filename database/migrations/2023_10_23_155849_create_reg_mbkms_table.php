@@ -25,6 +25,7 @@ class CreateRegMbkmsTable extends Migration
             $table->string('partner_grade')->nullable();
             $table->enum('jenis_mbkm', ['msib magang', 'msib studi independence', 'msib wmk', 'msib kampus mengajar','msib pertukaran pelajar'])->nullable();
             $table->string('nama_mitra')->nullable();
+            $table->integer('semester')->nullable();
             $table->foreign('pembimbing')->references('id')->on('lecturers')->onDelete('cascade');
             $table->timestamps();
         });
