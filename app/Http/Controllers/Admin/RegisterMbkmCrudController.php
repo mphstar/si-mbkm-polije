@@ -94,8 +94,6 @@ class RegisterMbkmCrudController extends CrudController
         ->join('reg_mbkms', 'students.id', '=', 'reg_mbkms.student_id')
         ->where('reg_mbkms.id', $id)
         ->value('users.email');
-        $namaMBKM=RegisterMbkm::with('mbkm')->where('id',$request->mbkm_id)->first();
-        return $namaMBKM->program_name;
         RegisterMbkm::where('id', $id)->update($data);
     if ($request->input("status")==="accepted") {
         Mail::to($userEmail)->send(new pesertadiacc("selamat"));
