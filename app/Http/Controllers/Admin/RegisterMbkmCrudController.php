@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\RegisterMbkmRequest;
+use App\Mail\pesertadiacc;
+use App\Mail\pesertaditolak;
 use App\Models\RegisterMbkm;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Validation\Rules\ValidUpload;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Prologue\Alerts\Facades\Alert;
 
 /**
@@ -55,13 +59,8 @@ class RegisterMbkmCrudController extends CrudController
             'type'  => 'model_function',
             'function_name' => 'getStatusSpan'
         ]]);
+        $this->crud->addButtonFromModelFunction('line', 'download', 'Download', 'beginning');
         
-        
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
-         */
     }
     public function validasipendaftar()
     {
@@ -87,7 +86,20 @@ class RegisterMbkmCrudController extends CrudController
             'status' => $request->input('status')
         ];
         $id =  $request->input('id');
+        $userEmail = User::join('students', 'users.id', '=', 'students.users_id')
+        ->join('reg_mbkms', 'students.id', '=', 'reg_mbkms.student_id')
+        ->where('reg_mbkms.id', $id)
+        ->value('users.email');
+        $namaMBKM=RegisterMbkm::with('mbkm')->where('id',$request->mbkm_id)->first();
+        return $namaMBKM->program_name;
         RegisterMbkm::where('id', $id)->update($data);
+        if ($request->input("status")==="accepted") {
+            Mail::to($userEmail)->send(new pesertadiacc("selamat"));
+        }elseif($request->input("status")==="rejected"){
+            Mail::to($userEmail)->send(new pesertaditolak("Maaf"));
+        }
+     
+     
         session()->flash('status', 'success');
         Alert::success('Berhasil Validasi Peserta')->flash();
         return back();

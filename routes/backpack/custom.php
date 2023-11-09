@@ -26,6 +26,7 @@ Route::group([
 
     Route::middleware([AdminMiddleware::class])->group(function () {
         
+        Route::crud('lecturer', 'LecturerCrudController');
         Route::crud('partner', 'PartnerCrudController');
     });
     
@@ -74,4 +75,5 @@ Route::group([
     Route::get('/download/{name}', 'DownloadController@download');
     Route::get('m-b-k-m-eksternal', 'MBKMEksternalCrudController@daftareksternal');
     Route::post('m-b-k-m-eksternal/daftareksternal', 'MBKMEksternalCrudController@storeData');
+    Route::crud('user', 'UserCrudController');
 }); // this should be the absolute last line of this file

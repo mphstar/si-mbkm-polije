@@ -96,6 +96,11 @@ class ManagementMBKMCrudController extends CrudController
             return $query->where('users_id', backpack_auth()->user()->id);
         })->first();
 
+        if($id_partner->partner->status == 'pending'){
+            Alert::warning('Aktifasi akun terlebih dahulu')->flash();
+            return redirect()->back();
+        }
+
 
         return view('vendor/backpack/crud/view_tambahmbkm', compact('mitra', 'crud', 'id_partner'));
     }
@@ -176,6 +181,8 @@ class ManagementMBKMCrudController extends CrudController
             'end_reg' => 'required',
             'start_date' => 'required',
             'info' => 'required',
+            'jumlah_sks' => 'required',
+            'nama_penanggung_jawab' => 'required',
         ]);
         if ($validator->fails()) {
             $messages = $validator->errors()->all();

@@ -41,16 +41,16 @@ class MBKMEksternalCrudController extends CrudController
     // $id_student = backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
     //         return $query->where('users_id', backpack_auth()->user()->id);
     //     })->first();
-    $siswa=Students::all();
     $id=backpack_auth()->user()->id;
+    $siswa=Students::where('users_id',$id)->value('id');
         $crud = $this->crud;
         return view('vendor/backpack/crud/mbkbmeksternal', compact('crud','siswa','id'));
     }
 public function storeData(Request $request)  {
-    $cek=RegisterMbkm::where('student_id',$request->student_id);
-    if ($cek != null) {
-        $messages ="Maaf anda sudah mendaftar program mbkm";
-        Alert::warning($messages[0])->flash();
+    $cek=RegisterMbkm::where('student_id',$request->student_id)->first();
+    if ($cek) {
+        $messages ="Anda sudah terdaftar MBKM";
+        Alert::warning($messages)->flash();
         return back()->withInput();
     }else{
     $validator = Validator::make($request->all(), [

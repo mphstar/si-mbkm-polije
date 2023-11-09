@@ -20,6 +20,7 @@ class CreateCoursesTable extends Migration
             $table->string('name');
             $table->integer('semester');
             $table->integer('tahun_kurikulum');
+            $table->integer('sks');
             $table->timestamps();
         });
     }
