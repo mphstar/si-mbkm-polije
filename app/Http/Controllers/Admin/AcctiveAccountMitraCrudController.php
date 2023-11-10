@@ -166,16 +166,19 @@ class AcctiveAccountMitraCrudController extends CrudController
         // and we plan to change behaviour in the next version; see this Github issue for more details
         // https://github.com/Laravel-Backpack/CRUD/issues/3108
     }
-    public function index(){
-        $partners = Partner::select('partners.id as id', 'partners.partner_name as name', 'partners.address as alamat', 'partners.phone as phone', 'users.email as email', 'partners.jenis_mitra as jenis_mitra', 'partners.status as status')
-        ->join('users', 'partners.users_id', '=', 'users.id')
-        ->get();
-    $crud = $this->crud;
+    // public function index()
+    // {
 
-    return view('vendor/backpack/crud/ValidasiAccountMitra', compact('partners', 'crud'));
-    }
+    //     $partners = Partner::select('partners.id as id', 'partners.partner_name as name', 'partners.address as alamat', 'partners.phone as phone', 'users.email as email', 'partners.jenis_mitra as jenis_mitra', 'partners.status as status')
+    //         ->join('users', 'partners.users_id', '=', 'users.id')
+    //         ->get();
+    //     $crud = $this->crud;
 
-    public function ubah_status($id , Request $request){
+    //     return view('vendor/backpack/crud/ValidasiAccountMitra', compact('partners', 'crud'));
+    // }
+
+    public function ubah_status($id, Request $request)
+    {
         $partner = Partner::find($id);
         $partner->status = $request->newStatus;
         // dd($partner);

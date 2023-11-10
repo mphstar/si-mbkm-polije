@@ -46,7 +46,6 @@ class ManageStudentCrudController extends CrudController
                 "label" => "Nama Mahasiswa"
             ],
             [
-                "name" => "mbkm.program_name",
                 "label" => "Nama Program",
                 'type' => 'model_function',
                 'function_name' => 'getNamaProgram'

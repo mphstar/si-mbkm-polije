@@ -58,7 +58,7 @@ Route::group([
         Route::post('manage-student/{id}/editDosen', 'ManageStudentCrudController@editDosen');
         Route::post('manage-student/{id}/editMatkul', 'ManageStudentCrudController@editMatkul');
 
-        Route::get('/acctive-account-mitra', 'AcctiveAccountMitraCrudController@index');
+        // Route::get('/acctive-account-mitra', 'AcctiveAccountMitraCrudController@index');
         Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
         Route::crud('acc-nilai', 'AccNilaiCrudController');
         Route::get('acc-nilai/{id}/tolak', 'AccNilaiCrudController@tolaknilai');
@@ -69,7 +69,6 @@ Route::group([
         Route::post('/simpan-data', 'AccNilaiCrudController@tolak');
         Route::post('acc-nilai/{id}/detail_nilai/tolak/{not_aprroval}', 'AccNilaiCrudController@tolak')->name('tolak');
         Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
-        Route::get('/acctive-account-mitra', 'AcctiveAccountMitraCrudController@index');
     });
 
     Route::middleware([DosenMiddleware::class])->group(function () {

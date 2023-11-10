@@ -37,7 +37,7 @@ class Nilaimbkm extends Model
     }
     public function download_nilai($crud = false)
     {
-        return '<a class="btn btn-sm btn-link px-0" href="/'. $this->partner_grade . '" data-toggle="tooltip" title="Lihat Nilai dari Mitra."><i class="la la-file mt-2"></i> Nilai Mitra</a>';
+        return '<a class="btn btn-sm btn-link px-0" href="/' . $this->partner_grade . '" data-toggle="tooltip" title="Lihat Nilai dari Mitra."><i class="la la-file mt-2"></i> Nilai Mitra</a>';
     }
 
 
@@ -58,16 +58,17 @@ class Nilaimbkm extends Model
         $btn = '<button class="btn btn-block btn-sm btn-link text-left px-0 active" data-toggle="modal" data-target="#lihatNilai" type="button" aria-pressed="true">Lihat Nilai</button>';
 
         $data = Nilaimbkm::with('involved.course')->where('id', $this->id)->first();
-        
+
         $modal = view('custom_view.lihatnilai', compact('data'));
         return $btn . $modal;
     }
 
-    public function manageStudent($crud = false){
+    public function manageStudent($crud = false)
+    {
         $btn = '<a href="/admin/manage-student/' . $this->id . '/edit" class="btn btn-block btn-sm btn-link text-left px-0 active" type="button">Edit</a>';
         return $btn;
     }
-    
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -113,19 +114,21 @@ class Nilaimbkm extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function getNamaProgram() {
+    public function getNamaProgram()
+    {
         $status = $this->attributes['mbkm_id'];
-        
+
         if ($status == null) {
             return $this->attributes['nama_mitra'];
         } else {
-            return $this->attributes['mbkm.program_name'];
+            return $this->mbkm->program_name;
         }
     }
 
-    public function getStatusSpan() {
+    public function getStatusSpan()
+    {
         $status = $this->attributes['status'];
-        
+
         if ($status == 'accepted') {
             return '<span class="badge bg-success">Accept</span>';
         } elseif ($status == 'rejected') {
@@ -136,13 +139,13 @@ class Nilaimbkm extends Model
     }
 
     public function setPartnergradeAttribute($value)
-        {
-            $attribute_name = "partnergrade";
-            $disk = "public";
-            $destination_path = 'uploads';
-    
-            $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
-    
+    {
+        $attribute_name = "partnergrade";
+        $disk = "public";
+        $destination_path = 'uploads';
+
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+
         // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
-        }
+    }
 }

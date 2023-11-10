@@ -212,7 +212,7 @@ class PenilaianMitraCrudController extends CrudController
 
             $request->file('file')->move(public_path('storage/uploads'), $fileName);
             $input['partner_grade'] = "storage/uploads/$fileName";
-            $input['status'] = "done";
+            $input['status'] = "accepted";
         }
         $namaMBKM=PenilaianMitra::with(['mbkm.partner', 'student.users'])->where('id',$request->id)->first();
         $user = PenilaianMitra::where('id', $id)->update($input);
