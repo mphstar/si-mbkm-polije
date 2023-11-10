@@ -50,6 +50,7 @@ Route::group([
     Route::middleware([KaprodiMiddleware::class])->group(function () {
         Route::crud('acctive-account-mitra', 'AcctiveAccountMitraCrudController');
         Route::crud('validasi-mbkm', 'ValidasiMbkmCrudController');
+        Route::crud('validasi-mbkm-eksternal', 'ValidasiMbkmEksternalCrudController');
         // Route::crud('departmen', 'DepartmenCrudController');
         Route::crud('lecturer', 'LecturerCrudController');
         Route::crud('manage-student', 'ManageStudentCrudController');
@@ -95,4 +96,5 @@ Route::group([
     Route::get('/download/{name}', 'DownloadController@download');
 
     Route::crud('user', 'UserCrudController');
+    
 }); // this should be the absolute last line of this file
