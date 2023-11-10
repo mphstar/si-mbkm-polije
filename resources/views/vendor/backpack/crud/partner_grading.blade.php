@@ -34,7 +34,7 @@
 		{!! csrf_field() !!}
 		<div class="card padding-10">
 			<div class="card-header">
-				<h4>Pendaftaran MBKM</h4>
+				<h4>Penilaian</h4>
 				{{-- {{ trans('backpack::base.update_account_info') }} --}}
 			</div>
 			<div class="card-body backpack-profile-form bold-labels">

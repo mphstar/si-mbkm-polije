@@ -65,6 +65,8 @@ class ValidasiMbkmEksternalCrudController extends CrudController
 
         CRUD::addClause('where', 'status', '=', 'pending');
 
+       
+
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');

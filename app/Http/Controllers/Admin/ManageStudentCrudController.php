@@ -47,7 +47,9 @@ class ManageStudentCrudController extends CrudController
             ],
             [
                 "name" => "mbkm.program_name",
-                "label" => "Nama Program"
+                "label" => "Nama Program",
+                'type' => 'model_function',
+                'function_name' => 'getNamaProgram'
             ],
         ]);
 
@@ -115,19 +117,21 @@ class ManageStudentCrudController extends CrudController
         $A = substr($nim, 1, 1);  // Mengambil karakter pada posisi 1 (indeks 0) untuk variabel A
         $B = substr($nim, 3, 2);  // Mengambil karakter pada posisi 3 (indeks 2) untuk variabel B
 
-        $course = Course::where('program_id', $data->students->study_program_id)->where('tahun_kurikulum', "20{$B}")->where('semester', $data->mbkm->semester)->get();
+        $semester = $data->mbkm_id == null ? $data->semester : $data->mbkm->semester;
 
-//    $course = Course::where('program_id', $data->students->study_program_id)
-//     ->where('tahun_kurikulum', "20{$B}")
-//     ->where(function ($query) use ($data, $Rsemester, $data_sks) {
-//         $query->where(function ($innerQuery) use ($data_sks) {
-//             $innerQuery->whereNull('semester')->orWhereNull('sks')->orWhere('sks', optional($data_sks->first())->sks);
-//         })
-//         ->orWhere(function ($innerQuery) use ($data, $Rsemester) {
-//             $innerQuery->where('semester', optional($data->mbkm)->semester)->orWhere('semester', optional($Rsemester)->semester);
-//         });
-//     })
-//     ->get();
+        $course = Course::where('program_id', $data->students->study_program_id)->where('tahun_kurikulum', "20{$B}")->where('semester', $semester)->get();
+
+        //    $course = Course::where('program_id', $data->students->study_program_id)
+        //     ->where('tahun_kurikulum', "20{$B}")
+        //     ->where(function ($query) use ($data, $Rsemester, $data_sks) {
+        //         $query->where(function ($innerQuery) use ($data_sks) {
+        //             $innerQuery->whereNull('semester')->orWhereNull('sks')->orWhere('sks', optional($data_sks->first())->sks);
+        //         })
+        //         ->orWhere(function ($innerQuery) use ($data, $Rsemester) {
+        //             $innerQuery->where('semester', optional($data->mbkm)->semester)->orWhere('semester', optional($Rsemester)->semester);
+        //         });
+        //     })
+        //     ->get();
 
         // return $data;w
         return view('vendor.backpack.crud.editManageStudent', compact('crud', 'dosen', 'data', 'course'));

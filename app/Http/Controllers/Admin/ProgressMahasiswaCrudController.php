@@ -40,7 +40,9 @@ class ProgressMahasiswaCrudController extends CrudController
             ],
             [
                 "name" => "mbkm.program_name",
-                "label" => "Nama Program"
+                "label" => "Nama Program",
+                'type' => 'model_function',
+                'function_name' => 'getNamaProgram'
             ],
         ]);
 

@@ -91,6 +91,9 @@ Route::group([
         Route::get('m-b-k-m-eksternal', 'MBKMEksternalCrudController@daftareksternal');
         Route::post('m-b-k-m-eksternal/daftareksternal', 'MBKMEksternalCrudController@storeData');
         Route::crud('mbkm-eksternal', 'ProgramSayaMbkmEksternalCrudController');
+
+        Route::get('mbkm-eksternal/{id}/updating', 'ProgramSayaMbkmEksternalCrudController@updating');
+        Route::post('mbkm-eksternal/{id}/penilaian ', 'ProgramSayaMbkmEksternalCrudController@penilaian');
     });
 
     Route::get('/download/{name}', 'DownloadController@download');

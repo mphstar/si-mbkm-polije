@@ -60,7 +60,7 @@
                 {!! csrf_field() !!}
                 <div class="card">
                     <div class="card-header"><strong>Mata Kuliah</strong>
-                        <p class="text-danger">Butuh minimal <strong>{{ $data->mbkm->jumlah_sks }}</strong> SKS</p>
+                        <p class="text-danger">Butuh minimal <strong>{{ $data->mbkm_id == null ? 20 : $data->mbkm->jumlah_sks }}</strong> SKS</p>
                     </div>
 
                     <div class="card-body">
@@ -107,7 +107,7 @@
                         <p><strong>Sks terpilih: <span id="terpilih">6</span></strong></p>
                     </div>
                     <div class="card-footer">
-                        <button onclick="submitNilai('{{ $data->mbkm->jumlah_sks }}')" class="btn btn-sm btn-primary"
+                        <button onclick="submitNilai('{{ $data->mbkm_id == null ? 20 : $data->mbkm->jumlah_sks }}')" class="btn btn-sm btn-primary"
                             type="button"><i class="fa fa-dot-circle-o"></i>
                             Submit</button>
                     </div>

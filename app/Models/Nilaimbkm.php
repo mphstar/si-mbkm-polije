@@ -100,6 +100,16 @@ class Nilaimbkm extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function getNamaProgram() {
+        $status = $this->attributes['mbkm_id'];
+        
+        if ($status == null) {
+            return $this->attributes['nama_mitra'];
+        } else {
+            return $this->attributes['mbkm.program_name'];
+        }
+    }
+
     public function getStatusSpan() {
         $status = $this->attributes['status'];
         
@@ -111,4 +121,15 @@ class Nilaimbkm extends Model
             return '<span class="badge bg-warning">Pending</span>';
         }
     }
+
+    public function setPartnergradeAttribute($value)
+        {
+            $attribute_name = "partnergrade";
+            $disk = "public";
+            $destination_path = 'uploads';
+    
+            $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    
+        // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
+        }
 }
