@@ -8,6 +8,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\Mbkm;
 use App\Models\RegisterMbkm;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -54,6 +55,10 @@ class MbkmCrudController extends CrudController
         CRUD::addClause('where', 'capacity', '>', '0');
         CRUD::addClause('where', 'status_acc', '=', 'accepted');
         CRUD::addClause('where', 'is_active', '=', 'active');
+        
+        $now = Carbon::now();
+        CRUD::addClause('whereDate', 'start_reg', '<=', $now);
+        CRUD::addClause('whereDate', 'end_reg', '>=', $now);
     }
 
     public function register($id) 

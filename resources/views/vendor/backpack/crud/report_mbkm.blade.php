@@ -120,7 +120,8 @@
                             </div>
                             <div class="col-md-12 form-group">
                                 <label class="required">File Laporan</label>
-                                <input required class="form-control" type="file" name="file" placeholder="file harus berupa zip">
+                                <input required class="form-control" type="file" name="file" placeholder="file harus berupa pdf" accept=".pdf">
+                                <div class="text-danger">*Jenis file yang diizinkan: .pdf.</div>
                             </div>
                         </div>
                     </div>
@@ -157,7 +158,8 @@
                         </div>
                         <div class="col-md-12 form-group">
                             <label class="required">File Laporan</label>
-                            <input required class="form-control" type="file" name="file" placeholder="file harus berupa zip">
+                            <input required class="form-control" type="file" name="file" placeholder="file harus berupa pdf" accept=".pdf">
+                            <div class="text-danger">*Jenis file yang diizinkan: .pdf.</div>
                         </div>
                     </div>
                 </div>

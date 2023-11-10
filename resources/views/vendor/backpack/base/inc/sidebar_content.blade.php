@@ -46,16 +46,27 @@
     <li class="nav-title">Kaprodi</li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('acctive-account-mitra') }}'><i
                 class='nav-icon la la-user-check'></i>Validasi Partners</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi-mbkm') }}'><i
-                class='nav-icon la la-book'></i> Validasi MBKM</a></li>
+    <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i
+                class="nav-icon la la-lg la-book"></i> Validasi MBKM</a>
+        <ul class="nav-dropdown-items">
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi-mbkm') }}'><i
+                        class='nav-icon la la-question'></i> Internal</a></li>
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi-mbkm-eksternal') }}'><i
+                        class='nav-icon la la-question'></i> Eksternal</a></li>
+
+        </ul>
+    </li>
+
     {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('departmen') }}'><i
                 class='nav-icon la la-question'></i> Departmens</a></li> --}}
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('lecturer') }}'><i
                 class='nav-icon la la-question'></i> Lecturers</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('manage-student') }}'><i
                 class='nav-icon la la-question'></i> Manage students</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('acc-nilai') }}'><i class='nav-icon la la-question'></i> Acc nilais</a></li>
-
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('progress-mahasiswa') }}'><i
+                class='nav-icon la la-question'></i> Progress Mahasiswa</a></li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('acc-nilai') }}'><i
+                class='nav-icon la la-question'></i> Konfirmasi Nilai</a></li>
 @endif
 @if ($level == 'dospem')
     <li class="nav-title">Dosen</li>
@@ -69,9 +80,17 @@
     <li class="nav-title">Students</li>
 
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm-report') }}'><i
-                class='nav-icon la la-file-alt'></i> Laporan</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('status-reg') }}'><i
-                class='nav-icon la la-user-tag'></i> Program Saya</a></li>
+                class='nav-icon la la-file-alt'></i> Laporan Internal</a></li>
+
+    <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i
+                class="nav-icon la la-lg la-user-tag"></i> Program Saya</a>
+        <ul class="nav-dropdown-items">
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('status-reg') }}'><i
+                        class='nav-icon la la-question'></i> Internal</a></li>
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm-eksternal') }}'><i
+                        class='nav-icon la la-question'></i> External</a></li>
+        </ul>
+    </li>
     <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i
                 class="nav-icon la la-lg la-hand-pointer-o"></i> Program MBKM</a>
         <ul class="nav-dropdown-items">
