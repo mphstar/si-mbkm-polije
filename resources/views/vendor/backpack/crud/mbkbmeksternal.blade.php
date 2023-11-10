@@ -51,6 +51,11 @@
                           <input type="text" class="form-control" name="nama_mitra">
 
                         </div>
+                        <div class="form-group">
+                          <label>Semester</label>
+                          <input type="number" class="form-control" name="semester">
+
+                        </div>
                         
                              <input type="hidden" class="form-control" name="student_id"value="{{ $siswa }}">
                    

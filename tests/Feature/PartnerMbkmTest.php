@@ -34,7 +34,10 @@ class PartnerMbkmTest extends TestCase
             'email' => 'mitra@gmail.com', 
             'password' => '123', 
         ]);
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+            'status' => 'accepted',
+        ]);
     }
     /**
      * A basic feature test example.
@@ -51,6 +54,7 @@ class PartnerMbkmTest extends TestCase
     public function testViewFormAddDataMbkm()
     {
         $response = $this->get('/admin/management-m-b-k-m/tambah_mbkm');
+        $response->assertSessionHas('status', 'success');
         $response->assertStatus(200);
     }
 
@@ -103,7 +107,9 @@ class PartnerMbkmTest extends TestCase
         factory(Mbkm::class, 1)->create();
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'pending',
         ]);
@@ -121,7 +127,9 @@ class PartnerMbkmTest extends TestCase
         factory(Mbkm::class, 1)->create();
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'pending',
         ]);
@@ -136,7 +144,9 @@ class PartnerMbkmTest extends TestCase
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -153,7 +163,9 @@ class PartnerMbkmTest extends TestCase
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -164,7 +176,7 @@ class PartnerMbkmTest extends TestCase
             'status' => 'accepted',
             'notes' => 'oke',
         ];
-        $response = $this->post('/admin/validasilaporan/{id}/approve-laporan', $requestData);
+        $response = $this->post('/admin/validasilaporan/1/approve-laporan', $requestData);
         $response->assertSessionHas('status', 'success');
         $response->assertStatus(302);
     }
@@ -183,7 +195,9 @@ class PartnerMbkmTest extends TestCase
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -203,7 +217,9 @@ class PartnerMbkmTest extends TestCase
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -223,7 +239,9 @@ class PartnerMbkmTest extends TestCase
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -239,6 +257,7 @@ class PartnerMbkmTest extends TestCase
 
         Storage::disk('uploads')->assertExists($path);
         $requestData = [
+            'id' => 1,
             'file' => $file,
         ];
 
@@ -255,7 +274,9 @@ class PartnerMbkmTest extends TestCase
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);

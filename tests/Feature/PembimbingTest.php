@@ -40,14 +40,20 @@ class PembimbingTest extends TestCase
      */
     public function testViewMbkmGrade()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create([
             'end_date' => '2030-01-01'
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
-        factory(Lecturer::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
+        factory(Lecturer::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
             'pembimbing' => 1,
@@ -58,14 +64,20 @@ class PembimbingTest extends TestCase
     }
     public function testViewStudentProgress()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create([
             'end_date' => '2030-01-01'
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
-        factory(Lecturer::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
+        factory(Lecturer::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
             'pembimbing' => 1,
@@ -77,14 +89,20 @@ class PembimbingTest extends TestCase
 
     public function testViewInputNilai()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create([
             'end_date' => '2030-01-01'
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
-        factory(Lecturer::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
+        factory(Lecturer::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
             'pembimbing' => 1,
@@ -96,14 +114,20 @@ class PembimbingTest extends TestCase
 
     public function testInputNilai()
     {
-        factory(Partner::class, 1)->create();
+        factory(Partner::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(Mbkm::class, 1)->create([
             'end_date' => '2030-01-01'
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
-        factory(Lecturer::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 1,
+        ]);
+        factory(Lecturer::class, 1)->create([
+            'users_id' => 1,
+        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
             'pembimbing' => 1,

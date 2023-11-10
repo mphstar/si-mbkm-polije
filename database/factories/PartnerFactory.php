@@ -11,7 +11,7 @@ $factory->define(Partner::class, function (Faker $faker) {
         'phone' => $faker->phoneNumber,
         'status' => 'pending',
         'jenis_mitra' => 'luar kampus',
-        'users_id' => 1,
+        'users_id' => 3,
         'created_at' => now(),
         'updated_at' => now()
     ];
