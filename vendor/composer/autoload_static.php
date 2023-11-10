@@ -593,6 +593,8 @@ class ComposerStaticInit61abe9c9ab89ac92e53e2a0a0c098602
         'App\\Mail\\pesertaditolak' => __DIR__ . '/../..' . '/app/Mail/pesertaditolak.php',
         'App\\Mail\\pesertauploadlaporan' => __DIR__ . '/../..' . '/app/Mail/pesertauploadlaporan.php',
         'App\\Mail\\uploadnilaimhs' => __DIR__ . '/../..' . '/app/Mail/uploadnilaimhs.php',
+        'App\\Mail\\pesertadiacc' => __DIR__ . '/../..' . '/app/Mail/pesertadiacc.php',
+        'App\\Mail\\pesertaditolak' => __DIR__ . '/../..' . '/app/Mail/pesertaditolak.php',
         'App\\Models\\AcctiveAccountMitra' => __DIR__ . '/../..' . '/app/Models/AcctiveAccountMitra.php',
         'App\\Models\\Departmen' => __DIR__ . '/../..' . '/app/Models/Departmen.php',
         'App\\Models\\Lecturer' => __DIR__ . '/../..' . '/app/Models/Lecturer.php',

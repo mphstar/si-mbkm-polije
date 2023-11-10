@@ -28,7 +28,7 @@ class ManageStudentCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -57,7 +57,7 @@ class ManageStudentCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -69,13 +69,13 @@ class ManageStudentCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -88,13 +88,13 @@ class ManageStudentCrudController extends CrudController
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
@@ -106,6 +106,7 @@ class ManageStudentCrudController extends CrudController
     protected function formEdit($id)
     {
         $crud = $this->crud;
+
         $dosen = Lecturer::where('status', 'dosen pembimbing')->get();
 
         $data = Nilaimbkm::with(['involved.course', 'students.program_study', 'mbkm'])->where('id', $id)->first();
@@ -116,11 +117,19 @@ class ManageStudentCrudController extends CrudController
 
         $course = Course::where('program_id', $data->students->study_program_id)->where('tahun_kurikulum', "20{$B}")->where('semester', $data->mbkm->semester)->get();
 
+//    $course = Course::where('program_id', $data->students->study_program_id)
+//     ->where('tahun_kurikulum', "20{$B}")
+//     ->where(function ($query) use ($data, $Rsemester, $data_sks) {
+//         $query->where(function ($innerQuery) use ($data_sks) {
+//             $innerQuery->whereNull('semester')->orWhereNull('sks')->orWhere('sks', optional($data_sks->first())->sks);
+//         })
+//         ->orWhere(function ($innerQuery) use ($data, $Rsemester) {
+//             $innerQuery->where('semester', optional($data->mbkm)->semester)->orWhere('semester', optional($Rsemester)->semester);
+//         });
+//     })
+//     ->get();
 
         // return $data;w
-
-
-
         return view('vendor.backpack.crud.editManageStudent', compact('crud', 'dosen', 'data', 'course'));
     }
 

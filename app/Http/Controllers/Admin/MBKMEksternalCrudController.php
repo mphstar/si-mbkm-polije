@@ -27,7 +27,7 @@ class MBKMEksternalCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -54,10 +54,10 @@ public function storeData(Request $request)  {
         return back()->withInput();
     }else{
     $validator = Validator::make($request->all(), [
- 
+
         'jenis_mbkm' => 'required',
         'nama_mitra' => 'required',
-   
+
     ]);
 
     if ($validator->fails()) {
@@ -73,9 +73,10 @@ public function storeData(Request $request)  {
 
     $request->file('requirements_files')->move(public_path('storage/uploads'), $fileName);
     $input['requirements_files'] = "storage/uploads/$fileName";
-    
-    
+
+
     $user = MBKMEksternal::create($input);
+
     Alert::success('Berhasil daftar!')->flash();
     return back();
 }
@@ -83,24 +84,24 @@ public function storeData(Request $request)  {
 }
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
     protected function setupListOperation()
     {
-        
+
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -108,18 +109,18 @@ public function storeData(Request $request)  {
     {
         CRUD::setValidation(MBKMEksternalRequest::class);
 
-        
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */

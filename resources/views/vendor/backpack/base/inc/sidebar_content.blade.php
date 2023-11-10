@@ -56,6 +56,8 @@
                 class='nav-icon la la-question'></i> Manage students</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('progress-mahasiswa') }}'><i
                 class='nav-icon la la-question'></i> Progress Mahasiswa</a></li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('acc-nilai') }}'><i
+                class='nav-icon la la-question'></i> Konfirmasi Nilai</a></li>
 @endif
 @if ($level == 'dospem')
     <li class="nav-title">Dosen</li>
