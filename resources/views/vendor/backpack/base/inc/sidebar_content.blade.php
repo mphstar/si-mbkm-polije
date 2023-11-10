@@ -72,8 +72,16 @@
 
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm-report') }}'><i
                 class='nav-icon la la-file-alt'></i> Laporan</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('status-reg') }}'><i
-                class='nav-icon la la-user-tag'></i> Program Saya</a></li>
+
+    <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i
+                class="nav-icon la la-lg la-user-tag"></i> Program Saya</a>
+        <ul class="nav-dropdown-items">
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('status-reg') }}'><i
+                        class='nav-icon la la-question'></i> Internal</a></li>
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm-eksternal') }}'><i
+                        class='nav-icon la la-question'></i> External</a></li>
+        </ul>
+    </li>
     <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i
                 class="nav-icon la la-lg la-hand-pointer-o"></i> Program MBKM</a>
         <ul class="nav-dropdown-items">

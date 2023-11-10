@@ -57,24 +57,23 @@ Route::group([
         Route::post('manage-student/{id}/editDosen', 'ManageStudentCrudController@editDosen');
         Route::post('manage-student/{id}/editMatkul', 'ManageStudentCrudController@editMatkul');
 
-        Route::get('/acctive-account-mitra','AcctiveAccountMitraCrudController@index');
+        Route::get('/acctive-account-mitra', 'AcctiveAccountMitraCrudController@index');
         Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
-        Route::get('acc-nilai','AccNilaiCrudController@nilai');
-        Route::get('acc-nilai/{id}/detail_nilai','AccNilaiCrudController@detailnilai')->name('detail_grade');
+        Route::get('acc-nilai', 'AccNilaiCrudController@nilai');
+        Route::get('acc-nilai/{id}/detail_nilai', 'AccNilaiCrudController@detailnilai')->name('detail_grade');
         Route::get('grade/{id}/detail/{approval}', 'AccNilaiCrudController@updateApproved')->name('uprove');
-        Route::post('/simpan-data','AccNilaiCrudController@tolak');
+        Route::post('/simpan-data', 'AccNilaiCrudController@tolak');
         Route::post('acc-nilai/{id}/detail_nilai/tolak/{not_aprroval}', 'AccNilaiCrudController@tolak')->name('tolak');
         Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
-        Route::get('/acctive-account-mitra','AcctiveAccountMitraCrudController@index');
+        Route::get('/acctive-account-mitra', 'AcctiveAccountMitraCrudController@index');
     });
 
     Route::middleware([DosenMiddleware::class])->group(function () {
         Route::crud('nilaimbkm', 'NilaimbkmCrudController');
         Route::get('/nilaimbkm/{id}/inputnilai', 'NilaimbkmCrudController@inputNilai');
         Route::post('/nilaimbkm/{id}/prosesNilai', 'NilaimbkmCrudController@prosesNilai');
-        
     });
-    
+
     Route::middleware([DosenKaprodiMiddleware::class])->group(function () {
         Route::crud('progress-mahasiswa', 'ProgressMahasiswaCrudController');
     });
@@ -87,10 +86,13 @@ Route::group([
         Route::post('mbkm-report-rev', 'MbkmReportCrudController@revReport');
 
         Route::crud('status-reg', 'StatusRegCrudController');
+
+        Route::get('m-b-k-m-eksternal', 'MBKMEksternalCrudController@daftareksternal');
+        Route::post('m-b-k-m-eksternal/daftareksternal', 'MBKMEksternalCrudController@storeData');
+        Route::crud('mbkm-eksternal', 'ProgramSayaMbkmEksternalCrudController');
     });
 
     Route::get('/download/{name}', 'DownloadController@download');
-    Route::get('m-b-k-m-eksternal', 'MBKMEksternalCrudController@daftareksternal');
-    Route::post('m-b-k-m-eksternal/daftareksternal', 'MBKMEksternalCrudController@storeData');
+
     Route::crud('user', 'UserCrudController');
 }); // this should be the absolute last line of this file

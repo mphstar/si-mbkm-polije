@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StatusRegRequest;
+use App\Http\Requests\ProgramSayaMbkmEksternalRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class StatusRegCrudController
+ * Class ProgramSayaMbkmEksternalCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class StatusRegCrudController extends CrudController
+class ProgramSayaMbkmEksternalCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -27,8 +27,8 @@ class StatusRegCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\RegisterMbkm::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/status-reg');
-        CRUD::setEntityNameStrings('status reg', 'Program Saya');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/mbkm-eksternal');
+        CRUD::setEntityNameStrings('program saya mbkm eksternal', 'Program Saya');
     }
 
     /**
@@ -40,17 +40,14 @@ class StatusRegCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->setColumns([[
-            'name' => 'mbkm.partner.partner_name',
-            'label' => 'Nama Instansi',
+            'name' => 'nama_mitra',
+            'label' => 'Nama Mitra',
         ],[
-            'name' => 'mbkm.program_name',
-            'label' => 'Nama Program',
+            'name' => 'jenis_mbkm',
+            'label' => 'Jenis MBKM',
         ], [
-            'name' => 'mbkm.start_date',
-            'label' => 'Tanggal Mulai',
-        ], [
-            'name' => 'mbkm.end_date',
-            'label' => 'Tanggal Selesai',
+            'name' => 'semester',
+            'label' => 'Semester',
         ],[
             'name'  => 'status',
             'label' => 'Status', // Table column heading
@@ -63,7 +60,13 @@ class StatusRegCrudController extends CrudController
         })->first();
 
         CRUD::addClause('where', 'student_id', '=', $id_student->student->id);
-        CRUD::addClause('where', 'mbkm_id', '!=', null);
+        CRUD::addClause('where', 'mbkm_id', '=', null);
+
+        /**
+         * Columns can be defined using the fluent syntax or array syntax:
+         * - CRUD::column('price')->type('number');
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         */
     }
 
     /**
@@ -74,7 +77,7 @@ class StatusRegCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StatusRegRequest::class);
+        CRUD::setValidation(ProgramSayaMbkmEksternalRequest::class);
 
         
 
