@@ -1,5 +1,6 @@
 <?php
 
+use App\Course;
 use App\Models\Departmen;
 use App\ProgramStudy;
 use Illuminate\Database\Seeder;
@@ -80,5 +81,9 @@ class DbSeeder extends Seeder
                 "sks" => 4
             ),
         ];
+
+        foreach ($course as $key => $value) {
+            Course::create($value);
+        }
     }
 }
