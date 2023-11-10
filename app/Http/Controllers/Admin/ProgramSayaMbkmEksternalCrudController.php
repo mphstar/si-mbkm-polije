@@ -115,6 +115,11 @@ class ProgramSayaMbkmEksternalCrudController extends CrudController
 
         $regmbkm = RegisterMbkm::where('id', $id)->get();
 
+        if($regmbkm[0]->status == 'done'){
+            Alert::warning('Anda sudah menyelesaikan program')->flash();
+            return back();
+        }
+
         $crud = $this->crud;
         session()->flash('status', 'success');
 

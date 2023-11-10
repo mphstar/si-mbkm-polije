@@ -40,6 +40,8 @@ class Nilaimbkm extends Model
         return '<a class="btn btn-sm btn-link px-0" href="/'. $this->partner_grade . '" data-toggle="tooltip" title="Lihat Nilai dari Mitra."><i class="la la-file mt-2"></i> Nilai Mitra</a>';
     }
 
+
+
     public function lihatProgress($crud = false)
     {
 
@@ -47,6 +49,17 @@ class Nilaimbkm extends Model
 
         $data = MbkmReport::with('regMbkm')->where('reg_mbkm_id', $this->id)->get();
         $modal = view('custom_view.lihatprogress', compact('data'));
+        return $btn . $modal;
+    }
+
+    public function detail_konfirmasi_nilai($crud = false)
+    {
+
+        $btn = '<button class="btn btn-block btn-sm btn-link text-left px-0 active" data-toggle="modal" data-target="#lihatNilai" type="button" aria-pressed="true">Lihat Nilai</button>';
+
+        $data = Nilaimbkm::with('involved.course')->where('id', $this->id)->first();
+        
+        $modal = view('custom_view.lihatnilai', compact('data'));
         return $btn . $modal;
     }
 

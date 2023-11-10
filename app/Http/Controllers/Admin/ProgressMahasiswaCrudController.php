@@ -47,6 +47,7 @@ class ProgressMahasiswaCrudController extends CrudController
         ]);
 
         $this->crud->addClause('where', 'pembimbing', '!=', 'null');
+        $this->crud->addClause('where', 'mbkm_id', '!=', 'null');
 
         $level = backpack_auth()->user()->level;
         if($level == 'dospem'){

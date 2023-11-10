@@ -80,7 +80,7 @@
     <li class="nav-title">Students</li>
 
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm-report') }}'><i
-                class='nav-icon la la-file-alt'></i> Laporan</a></li>
+                class='nav-icon la la-file-alt'></i> Laporan Internal</a></li>
 
     <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i
                 class="nav-icon la la-lg la-user-tag"></i> Program Saya</a>

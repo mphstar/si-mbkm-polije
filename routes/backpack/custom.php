@@ -60,7 +60,10 @@ Route::group([
 
         Route::get('/acctive-account-mitra', 'AcctiveAccountMitraCrudController@index');
         Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
-        Route::get('acc-nilai', 'AccNilaiCrudController@nilai');
+        Route::crud('acc-nilai', 'AccNilaiCrudController');
+        Route::get('acc-nilai/{id}/tolak', 'AccNilaiCrudController@tolaknilai');
+        Route::get('acc-nilai/{id}/terima', 'AccNilaiCrudController@terimanilai');
+
         Route::get('acc-nilai/{id}/detail_nilai', 'AccNilaiCrudController@detailnilai')->name('detail_grade');
         Route::get('grade/{id}/detail/{approval}', 'AccNilaiCrudController@updateApproved')->name('uprove');
         Route::post('/simpan-data', 'AccNilaiCrudController@tolak');
