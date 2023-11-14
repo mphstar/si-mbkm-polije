@@ -89,4 +89,5 @@ Route::group([
     Route::get('m-b-k-m-eksternal', 'MBKMEksternalCrudController@daftareksternal');
     Route::post('m-b-k-m-eksternal/daftareksternal', 'MBKMEksternalCrudController@storeData');
     Route::crud('user', 'UserCrudController');
+    Route::crud('jenis-mbkm', 'JenisMbkmCrudController');
 }); // this should be the absolute last line of this file

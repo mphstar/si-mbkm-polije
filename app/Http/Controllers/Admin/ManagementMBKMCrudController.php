@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ManagementMBKMRequest;
+use App\Models\Departmen;
+use App\Models\JenisMbkm;
 use App\Models\ManagementMBKM;
 use App\Models\Partner;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -73,8 +75,11 @@ class ManagementMBKMCrudController extends CrudController
             'label' => 'Status Active', // Table column heading
             'type'  => 'model_function',
             'function_name' => 'getIsactiveSpan'
-        ],]);
-        // return backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
+        ],       
+]);
+// $this->crud->addClause('join', 'departments', function ($join) {
+//     $join->on('mbkm.id_department', '=', 'jurusan.id');
+// });    // return backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
         //     return $query->where('users_id', backpack_auth()->user()->id);
         // })->first();
         $this->crud->addButtonFromView('top', 'tambah_mbkm', 'tambah_mbkm', 'beginning');
@@ -86,6 +91,8 @@ class ManagementMBKMCrudController extends CrudController
     }
     public function tambah_mbkm()
     {
+        $jenis_mbkm=JenisMbkm::where('kategori_jenis','internal')->get();
+        $jurusan=Departmen::all();
         $crud = $this->crud;
 
         $mitra =  backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
@@ -102,7 +109,7 @@ class ManagementMBKMCrudController extends CrudController
         }
 
         session()->flash('status', 'success');
-        return view('vendor/backpack/crud/view_tambahmbkm', compact('mitra', 'crud', 'id_partner'));
+        return view('vendor/backpack/crud/view_tambahmbkm', compact('mitra', 'crud', 'id_partner','jurusan','jenis_mbkm'));
     }
     /**
      * Define what happens when the Create operation is loaded.

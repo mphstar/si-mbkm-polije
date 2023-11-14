@@ -84,3 +84,5 @@
         </ul>
     </li>
 @endif
+
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('jenis-mbkm') }}'><i class='nav-icon la la-question'></i> Jenis mbkms</a></li>

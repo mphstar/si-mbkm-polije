@@ -47,9 +47,9 @@ class MBKMEksternalCrudController extends CrudController
         return view('vendor/backpack/crud/mbkbmeksternal', compact('crud','siswa','id'));
     }
 public function storeData(Request $request)  {
-    $cek=RegisterMbkm::where('student_id',$request->student_id)->first();
+    $cek=RegisterMbkm::where('student_id',$request->student_id)->whereIn("status",['accepted','pending'])->first();
     if ($cek) {
-        $messages ="Anda sudah terdaftar MBKM";
+        $messages ="Anda masih proses daftar atau sudah terdaftar dalam mbkm";
         Alert::warning($messages)->flash();
         return back()->withInput();
     }else{
