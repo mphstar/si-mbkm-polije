@@ -60,6 +60,8 @@
                     type="button">Tolak</button>
                 <button onclick="terima({{ $data }})" class="btn btn-success" id="acc"
                     type="button">Terima</button>
+                    <button id="btnPrint" class="btn btn-secondary" type="button">Print</button>
+
             </div>
         </div>
         <!-- /.modal-content-->
@@ -82,4 +84,14 @@
     const terima = (data) => {
         window.location.href = `/admin/acc-nilai/${data.id}/terima?keterangan=${btoa(keterangan.value)}`
     }
+
+    btnPrint.addEventListener('click', function () {
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>Print</title>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(document.getElementById('lihatNilai').innerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    });
 </script>
