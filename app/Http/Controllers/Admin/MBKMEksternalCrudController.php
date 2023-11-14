@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\MBKMEksternalRequest;
+use App\Models\ManagementMBKM;
 use App\Models\MBKMEksternal;
 use App\Models\RegisterMbkm;
 use App\Models\Students;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
@@ -42,9 +44,14 @@ class MBKMEksternalCrudController extends CrudController
     //         return $query->where('users_id', backpack_auth()->user()->id);
     //     })->first();
     $id=backpack_auth()->user()->id;
+    $today = Carbon::now()->toDateString();
     $siswa=Students::where('users_id',$id)->value('id');
+    $crud = $this->crud;
+    $mbkm = ManagementMBKM::with(['departmen', 'jenismbkm','partner'])->whereHas('jenismbkm', function($query) {
+        return $query->where('jenismbkm.kategori_jenis', '=', 'external');
+    })->where("end_reg",'>',$today)->get();
         $crud = $this->crud;
-        return view('vendor/backpack/crud/mbkbmeksternal', compact('crud','siswa','id'));
+        return view('vendor/backpack/crud/mbkbmeksternal', compact('crud','siswa','id','mbkm'));
     }
 public function storeData(Request $request)  {
     $cek=RegisterMbkm::where('student_id',$request->student_id)->whereIn("status",['accepted','pending'])->first();

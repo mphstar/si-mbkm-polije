@@ -71,7 +71,6 @@ return array(
     'App\\Http\\Requests\\ValidasiMbkmRequest' => $baseDir . '/app/Http/Requests/ValidasiMbkmRequest.php',
     'App\\Http\\Requests\\ValidasilaporanRequest' => $baseDir . '/app/Http/Requests/ValidasilaporanRequest.php',
     'App\\InvolvedCourse' => $baseDir . '/app/InvolvedCourse.php',
-<<<<<<< HEAD
     'App\\Mail\\daftarmbkm' => $baseDir . '/app/Mail/daftarmbkm.php',
     'App\\Mail\\laporanditerima' => $baseDir . '/app/Mail/laporanditerima.php',
     'App\\Mail\\laporanrevisi' => $baseDir . '/app/Mail/laporanrevisi.php',
@@ -79,10 +78,6 @@ return array(
     'App\\Mail\\pesertaditolak' => $baseDir . '/app/Mail/pesertaditolak.php',
     'App\\Mail\\pesertauploadlaporan' => $baseDir . '/app/Mail/pesertauploadlaporan.php',
     'App\\Mail\\uploadnilaimhs' => $baseDir . '/app/Mail/uploadnilaimhs.php',
-=======
-    'App\\Http\\Requests\\ValidasilaporanRequest' => $baseDir . '/app/Http/Requests/ValidasilaporanRequest.php',
-    'App\\InvolvedCourse' => $baseDir . '/app/InvolvedCourse.php',
->>>>>>> 445800ec05a63af5e42f396ecbcd97da5ac617d0
     'App\\Models\\AcctiveAccountMitra' => $baseDir . '/app/Models/AcctiveAccountMitra.php',
     'App\\Models\\Departmen' => $baseDir . '/app/Models/Departmen.php',
     'App\\Models\\JenisMbkm' => $baseDir . '/app/Models/JenisMbkm.php',
@@ -5277,13 +5272,10 @@ return array(
     'Symfony\\Polyfill\\Php81\\Php81' => $vendorDir . '/symfony/polyfill-php81/Php81.php',
     'Tests\\CreatesApplication' => $baseDir . '/tests/CreatesApplication.php',
     'Tests\\Feature\\ExampleTest' => $baseDir . '/tests/Feature/ExampleTest.php',
-<<<<<<< HEAD
     'Tests\\Feature\\KaprodiTest' => $baseDir . '/tests/Feature/KaprodiTest.php',
     'Tests\\Feature\\PartnerMbkmTest' => $baseDir . '/tests/Feature/PartnerMbkmTest.php',
     'Tests\\Feature\\PembimbingTest' => $baseDir . '/tests/Feature/PembimbingTest.php',
     'Tests\\Feature\\StudentMbkmTest' => $baseDir . '/tests/Feature/StudentMbkmTest.php',
-=======
->>>>>>> 445800ec05a63af5e42f396ecbcd97da5ac617d0
     'Tests\\TestCase' => $baseDir . '/tests/TestCase.php',
     'Tests\\Unit\\ExampleTest' => $baseDir . '/tests/Unit/ExampleTest.php',
     'TheSeer\\Tokenizer\\Exception' => $vendorDir . '/theseer/tokenizer/src/Exception.php',

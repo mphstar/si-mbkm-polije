@@ -27,45 +27,43 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="/admin/m-b-k-m-eksternal/daftareksternal"method="post"enctype="multipart/form-data">
-                      @csrf
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">Nama Program</th>
+                                <th class="text-center">Nama Mitra</th>
+                                <th class="text-center">Keterangan</th>
+                                <th class="text-center">Jenis MBKM</th>
 
-                        <div class="form-group">
+                             
+                                <th class="text-center">Action</th>
 
-                          <label for="pilihan">jenis mbkm</label>
-
-                          <select class="form-control" id="pilihan"name="jenis_mbkm">
-
-                              <option value="msib pertukaran pelajar">MSIB pertukaran pelajar</option>
-                              <option value="msib magang">MSIB Magang</option>
-                              <option value="msib studi independence">MSIB Studi Independence</option>
-                              <option value="msib kampus mengajar">MSIB Kampus Mengajar</option>
-                              <option value="msib wmk">MSIB WMK</option>
-
-
-                          </select>
-
-                        </div>
-                        <div class="form-group">
-                          <label>Nama mitra</label>
-                          <input type="text" class="form-control" name="nama_mitra">
-
-                        </div>
-                        <div class="form-group">
-                          <label>Semester</label>
-                          <input type="number" class="form-control" name="semester">
-
-                        </div>
-
-                             <input type="hidden" class="form-control" name="student_id"value="{{ $siswa }}">
-
-
-                        <div class="form-group">
-                            <label for="exampleFormControlFile1">Masukkan file Pegajuan</label>
-                            <input type="file" class="form-control-file" id="exampleFormControlFile1"name="requirements_files">
-                          </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                      </form>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          @php
+                          $index = 1;
+                      @endphp
+                          @foreach ($mbkm as $item)
+                              
+                        
+                          <tr>
+                            <td class="text-center">{{ $index }}</th>
+                              <td class="text-center">{{ $item->program_name }}</th>
+                                
+                                <td class="text-center">{{ $item->partner->partner_name }}</td>
+                                <td class="text-center">{{ $item->info }}</td>
+                                <td class="text-center">{{ $item->jenismbkm->jenismbkm}}</td>
+                          </tr>
+                          @php
+                          $index++;
+                      @endphp
+                          @endforeach
+                         </tbody>
+                    </table>
+                </div>
                 </div>
                 </div>
             </div>

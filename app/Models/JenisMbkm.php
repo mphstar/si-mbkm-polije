@@ -22,7 +22,11 @@ class JenisMbkm extends Model
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
-
+    public function mbkms()
+    {
+        return $this->hasMany(ManagementMBKM::class);
+    }
+    
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
