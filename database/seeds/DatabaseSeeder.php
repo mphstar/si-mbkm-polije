@@ -27,7 +27,13 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'level' => 'admin',
             'password' => Hash::make('123'),
-        ]);
+        ],[
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
+            'email_verified_at' => now(),
+            'level' => 'admin',
+            'password' => Hash::make('123'),
+        ],);
         User::create([
             'name' => 'student',
             'email' => 'student@gmail.com',
@@ -56,13 +62,9 @@ class DatabaseSeeder extends Seeder
             'level' => 'dospem',
             'password' => Hash::make('123'),
         ]);
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
-        factory(Lecturer::class, 1)->create();
-        factory(Partner::class, 1)->create();
-        factory(Mbkm::class, 10)->create();
-        factory(RegisterMbkm::class, 1)->create();
+      
+  
+
         // $this->call(UsersTableSeeder::class);
     }
 }
