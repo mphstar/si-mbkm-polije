@@ -46,12 +46,13 @@ class ManageStudentCrudController extends CrudController
                 "label" => "Nama Mahasiswa"
             ],
             [
-                "name" => "mbkm.program_name",
-                "label" => "Nama Program"
+                "label" => "Nama Program",
+                'type' => 'model_function',
+                'function_name' => 'getNamaProgram'
             ],
         ]);
 
-        $this->crud->addClause('where', 'status', '=', 'done');
+        $this->crud->addClause('where', 'status', '=', 'accepted');
         // $this->crud->addClause('where', 'nilai_mitra', '!=', 'null');
     }
 
@@ -110,97 +111,29 @@ class ManageStudentCrudController extends CrudController
         $dosen = Lecturer::where('status', 'dosen pembimbing')->get();
 
         $data = Nilaimbkm::with(['involved.course', 'students.program_study', 'mbkm'])->where('id', $id)->first();
-        // dd($data);
-        $data_sks = DB::table('mbkms')
-    ->join('reg_mbkms', 'mbkms.id', '=', 'reg_mbkms.mbkm_id')
-    ->where('reg_mbkms.mbkm_id', $data->mbkm_id)
-    ->orWhereNull('reg_mbkms.mbkm_id')
-    ->select('mbkms.jumlah_sks AS sks')
-    ->get();
-
-    // dd($data_sks);
-
-    $Rsemester = DB::table('reg_mbkms')
-    ->select('id', 'semester')
-    ->where('student_id', $id)
-    ->whereNotNull('semester')
-    ->first();
-        // dd($Rsemester);
-
+        // return $data;
         $nim = $data->students->nim;
         $A = substr($nim, 1, 1);  // Mengambil karakter pada posisi 1 (indeks 0) untuk variabel A
         $B = substr($nim, 3, 2);  // Mengambil karakter pada posisi 3 (indeks 2) untuk variabel B
 
-//    $course = Course::where('program_id', $data->students->study_program_id)
-//     ->where('tahun_kurikulum', "20{$B}")
-//     ->where(function ($query) use ($data, $Rsemester, $data_sks) {
-//         $query->where(function ($innerQuery) use ($data_sks) {
-//             $innerQuery->whereNull('semester')->orWhereNull('sks')->orWhere('sks', optional($data_sks->first())->sks);
-//         })
-//         ->orWhere(function ($innerQuery) use ($data, $Rsemester) {
-//             $innerQuery->where('semester', optional($data->mbkm)->semester)->orWhere('semester', optional($Rsemester)->semester);
-//         });
-//     })
-//     ->get();
+        $semester = $data->mbkm_id == null ? $data->semester : $data->mbkm->semester;
 
-        $course = Course::where('program_id', $data->students->study_program_id)
-    ->where('tahun_kurikulum', "20{$B}")
-    ->where('semester', optional($data->mbkm)->semester) // Use optional() to handle null
-    ->orWhere('semester', optional($Rsemester)->semester) // Use optional() to handle null
-    ->get();
+        $course = Course::where('program_id', $data->students->study_program_id)->where('tahun_kurikulum', "20{$B}")->where('semester', $semester)->get();
 
-//     $course = Course::where('program_id', $data->students->study_program_id)
-//     ->where('tahun_kurikulum', "20{$B}")
-//     ->where(function ($query) use ($data, $Rsemester, $data_sks) {
-//         $query->whereNull('semester')
-//             ->orWhere('semester', optional($data->mbkm)->semester)
-//             ->orWhere('semester', optional($Rsemester)->semester);
-//     });
+        //    $course = Course::where('program_id', $data->students->study_program_id)
+        //     ->where('tahun_kurikulum', "20{$B}")
+        //     ->where(function ($query) use ($data, $Rsemester, $data_sks) {
+        //         $query->where(function ($innerQuery) use ($data_sks) {
+        //             $innerQuery->whereNull('semester')->orWhereNull('sks')->orWhere('sks', optional($data_sks->first())->sks);
+        //         })
+        //         ->orWhere(function ($innerQuery) use ($data, $Rsemester) {
+        //             $innerQuery->where('semester', optional($data->mbkm)->semester)->orWhere('semester', optional($Rsemester)->semester);
+        //         });
+        //     })
+        //     ->get();
 
-// if ($data_sks->isNotEmpty()) {
-//     // Jika informasi sks ada (MBKM internal)
-//     $course->where(function ($innerQuery) use ($data_sks) {
-//         $innerQuery->whereNull('sks')
-//             ->orWhere('sks', $data_sks->pluck('sks')->first());
-//     });
-// } else {
-//     // Jika informasi sks tidak ada (MBKM eksternal)
-//     $course->select('id', 'name'); // Hanya pilih kolom yang diperlukan
-// }
-
-// $courseResult = $course->get();
-
-// $courseQuery = Course::where('program_id', $data->students->study_program_id)
-//     ->where('tahun_kurikulum', "20{$B}")
-//     ->where(function ($query) use ($data, $Rsemester) {
-//         $query->whereNull('semester')
-//             ->orWhere('semester', optional($data->mbkm)->semester)
-//             ->orWhere('semester', optional($Rsemester)->semester);
-//     });
-
-// $courseInternalQuery = clone $courseQuery;
-// $courseInternalQuery->where(function ($innerQuery) use ($data_sks) {
-//     $innerQuery->whereNull('sks')
-//         ->orWhere('sks', $data_sks->pluck('sks')->first());
-// });
-
-// // Di sini kita perlu mengeksekusi query internal dan eksternal terpisah
-// $courseInternalResult = $courseInternalQuery->get();
-// $courseExternalResult = $courseQuery->whereNull('sks')->get();
-
-// // Tambahkan informasi tambahan untuk debugging
-// // dd([
-// //     'data_sks' => $data_sks,
-// //     'courseInternalResult' => $courseInternalResult,
-// //     'courseExternalResult' => $courseExternalResult,
-// // ]);
-
-// $courseResult = $courseInternalResult->merge($courseExternalResult);
-
-
-    // dd($course);
         // return $data;w
-        return view('vendor.backpack.crud.editManageStudent', compact('crud', 'dosen', 'data', 'course','data_sks'));
+        return view('vendor.backpack.crud.editManageStudent', compact('crud', 'dosen', 'data', 'course'));
     }
 
     protected function editDosen(Request $request, $id)

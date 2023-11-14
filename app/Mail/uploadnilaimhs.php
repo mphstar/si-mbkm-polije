@@ -29,7 +29,7 @@ private $data;
     public function build()
     {
         return $this->view('email.uploadnilaimhs',[
-            "partner"=>$this->data->partner->partner_name,
+            "partner"=>$this->data->mbkm->partner->partner_name,
             "mbkmname"=>$this->data->mbkm->program_name
         ]);
     }

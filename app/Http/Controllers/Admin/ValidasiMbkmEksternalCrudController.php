@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StatusRegRequest;
+use App\Http\Requests\ValidasiMbkmEksternalRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class StatusRegCrudController
+ * Class ValidasiMbkmEksternalCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class StatusRegCrudController extends CrudController
+class ValidasiMbkmEksternalCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
@@ -26,9 +26,9 @@ class StatusRegCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\RegisterMbkm::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/status-reg');
-        CRUD::setEntityNameStrings('status reg', 'Program Saya');
+        CRUD::setModel(\App\Models\Nilaimbkm::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/validasi-mbkm-eksternal');
+        CRUD::setEntityNameStrings('validasi mbkm eksternal', 'validasi mbkm eksternals');
     }
 
     /**
@@ -39,31 +39,39 @@ class StatusRegCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->setColumns([[
-            'name' => 'mbkm.partner.partner_name',
-            'label' => 'Nama Instansi',
-        ],[
-            'name' => 'mbkm.program_name',
-            'label' => 'Nama Program',
-        ], [
-            'name' => 'mbkm.start_date',
-            'label' => 'Tanggal Mulai',
-        ], [
-            'name' => 'mbkm.end_date',
-            'label' => 'Tanggal Selesai',
-        ],[
-            'name'  => 'status',
-            'label' => 'Status', // Table column heading
-            'type'  => 'model_function',
+        
+        $this->crud->addColumn([
+            'name' => 'nama_mitra',
+            'label' => 'Nama Mitra',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'semester',
+            'label' => 'Semester',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'nama_mitra',
+            'label' => 'Nama Mitra',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'students.name',
+            'label' => 'Nama Mahasiswa',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'status',
+            'label' => 'Status',
+            'type' => 'model_function',
             'function_name' => 'getStatusSpan'
-        ],]);
+        ]);
 
-        $id_student = backpack_auth()->user()->with('student')->whereHas('student', function ($query) {
-            return $query->where('users_id', backpack_auth()->user()->id);
-        })->first();
+        CRUD::addClause('where', 'status', '=', 'pending');
 
-        CRUD::addClause('where', 'student_id', '=', $id_student->student->id);
-        CRUD::addClause('where', 'mbkm_id', '!=', null);
+       
+
+        /**
+         * Columns can be defined using the fluent syntax or array syntax:
+         * - CRUD::column('price')->type('number');
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         */
     }
 
     /**
@@ -74,7 +82,7 @@ class StatusRegCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StatusRegRequest::class);
+        CRUD::setValidation(ValidasiMbkmEksternalRequest::class);
 
         
 
@@ -93,6 +101,11 @@ class StatusRegCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        $this->crud->addField([
+            'name' => 'status',
+            'type' => 'select_from_array',
+            'label' => 'Status',
+            'options' => ['accepted' => 'Accepted', 'rejected' => 'Rejected'],
+        ]);
     }
 }

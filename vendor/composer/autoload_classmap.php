@@ -71,6 +71,7 @@ return array(
     'App\\Http\\Requests\\ValidasiMbkmRequest' => $baseDir . '/app/Http/Requests/ValidasiMbkmRequest.php',
     'App\\Http\\Requests\\ValidasilaporanRequest' => $baseDir . '/app/Http/Requests/ValidasilaporanRequest.php',
     'App\\InvolvedCourse' => $baseDir . '/app/InvolvedCourse.php',
+<<<<<<< HEAD
     'App\\Mail\\daftarmbkm' => $baseDir . '/app/Mail/daftarmbkm.php',
     'App\\Mail\\laporanditerima' => $baseDir . '/app/Mail/laporanditerima.php',
     'App\\Mail\\laporanrevisi' => $baseDir . '/app/Mail/laporanrevisi.php',
@@ -78,6 +79,10 @@ return array(
     'App\\Mail\\pesertaditolak' => $baseDir . '/app/Mail/pesertaditolak.php',
     'App\\Mail\\pesertauploadlaporan' => $baseDir . '/app/Mail/pesertauploadlaporan.php',
     'App\\Mail\\uploadnilaimhs' => $baseDir . '/app/Mail/uploadnilaimhs.php',
+=======
+    'App\\Http\\Requests\\ValidasilaporanRequest' => $baseDir . '/app/Http/Requests/ValidasilaporanRequest.php',
+    'App\\InvolvedCourse' => $baseDir . '/app/InvolvedCourse.php',
+>>>>>>> 445800ec05a63af5e42f396ecbcd97da5ac617d0
     'App\\Models\\AcctiveAccountMitra' => $baseDir . '/app/Models/AcctiveAccountMitra.php',
     'App\\Models\\Departmen' => $baseDir . '/app/Models/Departmen.php',
     'App\\Models\\JenisMbkm' => $baseDir . '/app/Models/JenisMbkm.php',
@@ -104,6 +109,8 @@ return array(
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\Report' => $baseDir . '/app/Report.php',
+    'App\\Semester' => $baseDir . '/app/Semester.php',
+    'App\\Student' => $baseDir . '/app/Student.php',
     'App\\Semester' => $baseDir . '/app/Semester.php',
     'App\\Student' => $baseDir . '/app/Student.php',
     'App\\User' => $baseDir . '/app/User.php',
@@ -349,6 +356,7 @@ return array(
     'Cron\\MinutesField' => $vendorDir . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
     'Cron\\MonthField' => $vendorDir . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+    'DbSeeder' => $baseDir . '/database/seeds/DbSeeder.php',
     'DeepCopy\\DeepCopy' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
     'DeepCopy\\Exception\\CloneException' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/Exception/CloneException.php',
     'DeepCopy\\Exception\\PropertyException' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/Exception/PropertyException.php',
@@ -5269,10 +5277,13 @@ return array(
     'Symfony\\Polyfill\\Php81\\Php81' => $vendorDir . '/symfony/polyfill-php81/Php81.php',
     'Tests\\CreatesApplication' => $baseDir . '/tests/CreatesApplication.php',
     'Tests\\Feature\\ExampleTest' => $baseDir . '/tests/Feature/ExampleTest.php',
+<<<<<<< HEAD
     'Tests\\Feature\\KaprodiTest' => $baseDir . '/tests/Feature/KaprodiTest.php',
     'Tests\\Feature\\PartnerMbkmTest' => $baseDir . '/tests/Feature/PartnerMbkmTest.php',
     'Tests\\Feature\\PembimbingTest' => $baseDir . '/tests/Feature/PembimbingTest.php',
     'Tests\\Feature\\StudentMbkmTest' => $baseDir . '/tests/Feature/StudentMbkmTest.php',
+=======
+>>>>>>> 445800ec05a63af5e42f396ecbcd97da5ac617d0
     'Tests\\TestCase' => $baseDir . '/tests/TestCase.php',
     'Tests\\Unit\\ExampleTest' => $baseDir . '/tests/Unit/ExampleTest.php',
     'TheSeer\\Tokenizer\\Exception' => $vendorDir . '/theseer/tokenizer/src/Exception.php',

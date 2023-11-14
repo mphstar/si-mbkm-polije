@@ -84,6 +84,16 @@ class LecturerCrudController extends CrudController
             'options' => ['dosen pembimbing' => 'Dosen Pembimbing', 'admin prodi' => 'Admin Prodi', 'kaprodi' => 'Kaprodi'],
 
         ]);
+        $this->crud->addField(
+            [
+                'name' => 'study_program_id', // the db column for the foreign key
+                'label' => 'Program Studi',
+                'type' => 'select',
+                'entity' => 'program_studi', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+            ]
+        );
+        
         CRUD::field('email');
         CRUD::field('password');
         /**
@@ -115,6 +125,17 @@ class LecturerCrudController extends CrudController
             'options' => ['dosen pembimbing' => 'Dosen Pembimbing', 'admin prodi' => 'Admin Prodi', 'kaprodi' => 'Kaprodi'],
 
         ]);
+
+        $this->crud->addField(
+            [
+                'name' => 'study_program_id', // the db column for the foreign key
+                'label' => 'Program Studi',
+                'type' => 'select',
+                'entity' => 'program_studi', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+            ]
+        );
+
         $this->crud->addField(
             [
                 'name' => 'user.email',
@@ -163,6 +184,7 @@ class LecturerCrudController extends CrudController
             "phone" => $request->phone,
             "status" => $request->status,
             "nip" => $request->nip,
+            "study_program_id" => $request->study_program_id,
             "users_id" => $user->id
         ]);
 
@@ -214,6 +236,7 @@ class LecturerCrudController extends CrudController
             "address" => $request->address,
             "phone" => $request->phone,
             "nip" => $request->nip,
+            "study_program_id" => $request->study_program_id,
             "status" => $request->status,
         ]);
 
@@ -221,9 +244,10 @@ class LecturerCrudController extends CrudController
         return Redirect::to($this->crud->getRoute());
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $data = Lecturer::find($id);
-        
+
         $delete = User::where('id', $data->users_id)->delete();
 
         return $delete;

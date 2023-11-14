@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class DosenMiddleware
+class DosenKaprodiMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class DosenMiddleware
     public function handle($request, Closure $next)
     {
         $level = backpack_auth()->user()->level;
-        if ($level == 'dospem') {
+        if ($level == 'dospem' || $level == 'kaprodi' ) {
             return $next($request);
         }
 

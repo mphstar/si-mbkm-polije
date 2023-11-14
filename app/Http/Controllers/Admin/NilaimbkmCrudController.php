@@ -45,12 +45,15 @@ class NilaimbkmCrudController extends CrudController
             ],
             [
                 "name" => "mbkm.program_name",
-                "label" => "Nama Program"
+                "label" => "Nama Program",
+                'type' => 'model_function',
+                'function_name' => 'getNamaProgram'
             ],
         ]);
 
         $this->crud->addClause('where', 'pembimbing', '!=', 'null');
         $this->crud->addClause('where', 'partner_grade', '!=', 'null');
+        $this->crud->addClause('where', 'status', '!=', 'done');
 
         $id_dosen = backpack_auth()->user()->with('lecturer')->whereHas('lecturer', function ($query) {
             return $query->where('users_id', backpack_auth()->user()->id);
@@ -128,6 +131,10 @@ class NilaimbkmCrudController extends CrudController
             unset($data['_token']);
         }
 
+        Nilaimbkm::where('id', $id)->update([
+            "status" => 'menunggu_acc',
+        ]);
+
         foreach ($data as $key => $value) {
             // InvolvedCourse::updateOrInsert(['reg_mbkm_id' => $key], ['grade' => $value]);
             InvolvedCourse::where('reg_mbkm_id', $id)->where('course_id', $key)->update([
@@ -136,6 +143,6 @@ class NilaimbkmCrudController extends CrudController
         }
         session()->flash('test', 'success');
         Alert::success('Berhasil Menyimpan')->flash();
-        return redirect()->back();
+        return redirect('/admin/nilaimbkm');
     }
 }
