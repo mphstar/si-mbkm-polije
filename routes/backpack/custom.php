@@ -103,4 +103,5 @@ Route::group([
     Route::crud('user', 'UserCrudController');
     Route::crud('jenis-mbkm', 'JenisMbkmCrudController');
     Route::crud('mbkm-external', 'MbkmExternalCrudController');
+    Route::get('/mbkm-external/{id}/detail', 'MbkmExternalCrudController@detail');
 }); // this should be the absolute last line of this file

@@ -118,9 +118,8 @@ class ManageStudentCrudController extends CrudController
 
         $semester = $data->mbkm_id == null ? $data->semester : $data->mbkm->semester;
 
-        $course = Course::where('program_id', $data->students->study_program_id)->where('tahun_kurikulum', "20{$B}")->where('semester', $semester)->get();
-
-        //    $course = Course::where('program_id', $data->students->study_program_id)
+        $course = Course::where('tahun_kurikulum', "20{$B}")->where('semester', $semester)->get();
+        // return $data->students;        //    $course = Course::where('program_id', $data->students->study_program_id)
         //     ->where('tahun_kurikulum', "20{$B}")
         //     ->where(function ($query) use ($data, $Rsemester, $data_sks) {
         //         $query->where(function ($innerQuery) use ($data_sks) {

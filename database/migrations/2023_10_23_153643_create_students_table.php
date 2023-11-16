@@ -19,8 +19,9 @@ class CreateStudentsTable extends Migration
             $table->string("address");
             $table->string("phone");
             $table->string("nim")->unique();
-            $table->unsignedBigInteger('study_program_id');
-            $table->foreign('study_program_id')->references('id')->on('study_programs')->onDelete('cascade');
+            $table->string("program_studi");
+            // $table->unsignedBigInteger('study_program_id');
+            // $table->foreign('study_program_id')->references('id')->on('study_programs')->onDelete('cascade');
             $table->foreignId('users_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
