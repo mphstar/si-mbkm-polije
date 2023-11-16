@@ -53,7 +53,7 @@ class AccNilaiCrudController extends CrudController
         ]);
 
         CRUD::addButtonFromModelFunction('line', 'detail_konfirmasi_nilai', 'detail_konfirmasi_nilai', 'beginning');
-        $this->crud->addClause('where', 'status', 'menunggu_acc');
+        $this->crud->addClause('where', 'status', 'menunggu_acc') ->orWhere('status', 'done');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -92,73 +92,74 @@ class AccNilaiCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-    public function nilai()
-    {
-        // $id_kaprodi = backpack_auth()->user();
-        // $nilai = DB::table('reg_mbkms')
-        // ->select('reg_mbkms.id as reg_mbkms_id', 'mbkms.program_name as mbkm_name', 'students.name as students_name', 'reg_mbkms.status')
-        // ->join('students', 'reg_mbkms.student_id', '=', 'students.id')
-        // ->join('mbkms', 'reg_mbkms.mbkm_id', '=', 'mbkms.id')
-        // ->whereNotNull('reg_mbkms.id')
-        // ->whereNotNull('mbkms.id')
-        // ->where('reg_mbkms.status', 'done')
-        // ->get();
+    // public function nilai()
+    // {
+    //     $id_kaprodi = backpack_auth()->user();
+    //     $nilai = DB::table('reg_mbkms')
+    //     ->select('reg_mbkms.id as reg_mbkms_id', 'mbkms.program_name as mbkm_name', 'students.name as students_name', 'reg_mbkms.status')
+    //     ->join('students', 'reg_mbkms.student_id', '=', 'students.id')
+    //     ->join('mbkms', 'reg_mbkms.mbkm_id', '=', 'mbkms.id')
+    //     ->whereNotNull('reg_mbkms.id')
+    //     ->whereNotNull('mbkms.id')
+    //     ->where('reg_mbkms.status', 'done')
+    //     ->get();
 
-        $nilai = Nilaimbkm::with(['students', 'mbkm'])->where('partner_grade', '!=', null)->where('status', 'menunggu_acc')->get();
+    //     $nilai = Nilaimbkm::with(['students', 'mbkm'])->where('partner_grade', '!=', null)->where('status', 'menunggu_acc')->get();
 
-        $crud = $this->crud;
-        return view('vendor/backpack/crud/nilai', compact('crud', 'nilai'));
-    }
+    //     $crud = $this->crud;
+    //     return view('vendor/backpack/crud/nilai', compact('crud', 'nilai'));
+    // }
 
-    public function detailnilai($id)
-    {
-        // return 'dwa';
-        // $result = DB::table('students')
-        //     ->select('reg_mbkms.id as id', 'students.name as nama_mahasiswa', 'courses.name as matkul', 'involved_course.grade as nilai', 'reg_mbkms.konfirmasi_nilai as setuju')
-        //     ->join('reg_mbkms', 'students.id', '=', 'reg_mbkms.student_id')
-        //     ->join('involved_course', 'reg_mbkms.id', '=', 'involved_course.reg_mbkm_id')
-        //     ->join('courses', 'involved_course.course_id', '=', 'courses.id')
-        //     ->whereNotNull('students.name')
-        //     ->whereNotNull('involved_course.grade')
-        //     ->where('reg_mbkms.id', $id)
-        //     ->get();
+    // public function detailnilai($id)
+    // {
+    //     return 'dwa';
+    //     $result = DB::table('students')
+    //         ->select('reg_mbkms.id as id', 'students.name as nama_mahasiswa', 'courses.name as matkul', 'involved_course.grade as nilai', 'reg_mbkms.konfirmasi_nilai as setuju')
+    //         ->join('reg_mbkms', 'students.id', '=', 'reg_mbkms.student_id')
+    //         ->join('involved_course', 'reg_mbkms.id', '=', 'involved_course.reg_mbkm_id')
+    //         ->join('courses', 'involved_course.course_id', '=', 'courses.id')
+    //         ->whereNotNull('students.name')
+    //         ->whereNotNull('involved_course.grade')
+    //         ->where('reg_mbkms.id', $id)
+    //         ->get();
 
-        // dd($result);
+    //     dd($result);
 
-        $result = Nilaimbkm::where('id', $id)->get();
+    //     $result = Nilaimbkm::where('id', $id)->get();
 
-        $crud = $this->crud;
-        return view('vendor/backpack/crud/nilaidetail', compact('result', 'crud'));
-        // show a form that does something
-    }
+    //     $crud = $this->crud;
+    //     return view('vendor/backpack/crud/nilaidetail', compact('result', 'crud'));
+    //     show a form that does something
+    // }
 
-    public function updateApproved($id, $approval)
-    {
-        // Memperbarui status berdasarkan nilai $approval
-        RegisterMbkm::where('id', $id)->update(['konfirmasi_nilai' => $approval]);
+    // public function updateApproved($id, $approval)
+    // {
+    //     Memperbarui status berdasarkan nilai $approval
+    //     RegisterMbkm::where('id', $id)->update(['konfirmasi_nilai' => $approval]);
 
-        // RegisterMbkm::where('id', $id)->where('tolak', null)->delete();
-        return redirect()->back()->with('success', 'Berhasil diterima dan diterima.');
-    }
+    //     RegisterMbkm::where('id', $id)->where('tolak', null)->delete();
+    //     return redirect()->back()->with('success', 'Berhasil diterima dan diterima.');
+    // }
 
-    public function tolak(Request $request, $id, $not_aprroval)
-    {
-        // dd($request);
-        // dd($id, $not_aprroval);
-        //  $result = RegisterMbkm::find($id);
-        $result = RegisterMbkm::where('id', $id)->update(['konfirmasi_nilai' => $not_aprroval, 'tolak' => $request->deskripsi]);
+    // public function tolak(Request $request, $id, $not_aprroval)
+    // {
+    //     dd($request);
+    //     dd($id, $not_aprroval);
+    //      $result = RegisterMbkm::find($id);
+    //     $result = RegisterMbkm::where('id', $id)->update(['konfirmasi_nilai' => $not_aprroval, 'tolak' => $request->deskripsi]);
 
-        $crud = $this->crud;
-        //  return response()->json(['message' => 'Revisi berhasil disimpan.']);
+    //     $crud = $this->crud;
+    //      return response()->json(['message' => 'Revisi berhasil disimpan.']);
 
-        return redirect()->back();
-    }
+    //     return redirect()->back();
+    // }
 
     public function tolaknilai(Request $request){
         $keterangan = base64_decode($request->keterangan);
 
         Nilaimbkm::where('id', $request->id)->update([
-            "keterangan_kaprodi" => $keterangan 
+            "keterangan_kaprodi" => $keterangan,
+            "acc_nilai"=>'Not Approved'
         ]);
 
         Alert::success('Berhasil Menyimpan')->flash();
@@ -168,9 +169,11 @@ class AccNilaiCrudController extends CrudController
     public function terimanilai(Request $request){
         $keterangan = base64_decode($request->keterangan);
 
+
         Nilaimbkm::where('id', $request->id)->update([
             "keterangan_kaprodi" => $keterangan,
-            "status" => 'done'
+            "acc_nilai"=>'Approved',
+            "status" => 'done',
         ]);
 
         Alert::success('Berhasil Menyimpan')->flash();

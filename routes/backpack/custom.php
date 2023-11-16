@@ -36,6 +36,8 @@ Route::group([
     Route::middleware([PartnerMiddleware::class])->group(function () {
         Route::crud('management-m-b-k-m', 'ManagementMBKMCrudController');
         Route::get('management-m-b-k-m/tambah_mbkm', 'ManagementMBKMCrudController@tambah_mbkm');
+        Route::get('management-m-b-k-m/{id}/ubahmbkm', 'ManagementMBKMCrudController@ubahmbkm');
+        Route::post('management-m-b-k-m/updatembkm', 'ManagementMBKMCrudController@updatembkm');
         Route::post('management-m-b-k-m/tambahdatambkm', 'ManagementMBKMCrudController@storeData');
         Route::get('register-mbkm', 'RegisterMbkmCrudController@validasipendaftar');
         Route::post('validasi-peserta', 'RegisterMbkmCrudController@validasipeserta');

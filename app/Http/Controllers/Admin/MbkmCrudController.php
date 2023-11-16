@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\MbkmRequest;
 use App\Mail\daftarmbkm;
+use App\Models\ManagementMBKM;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\Mbkm;
@@ -60,6 +61,7 @@ class MbkmCrudController extends CrudController
         CRUD::addClause('whereDate', 'start_reg', '<=', $now);
         CRUD::addClause('whereDate', 'end_reg', '>=', $now);
     }
+
 
     public function register($id) 
     {
