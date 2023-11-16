@@ -94,7 +94,9 @@ Route::group([
 
         Route::get('m-b-k-m-eksternal', 'MBKMEksternalCrudController@daftareksternal');
         Route::get('daftarmbkmexternal', 'MBKMEksternalCrudController@regexternal');
+        Route::get('detailpengajuan/{id}', 'PengajuanEXTRSubCrudController@detail_pengajuan');
         Route::post('/tambahData', 'MBKMEksternalCrudController@storeData');
+        Route::post('/detailpengajuan/ambilmbkmek', 'MBKMEksternalCrudController@ambileks');
         Route::crud('mbkm-eksternal', 'ProgramSayaMbkmEksternalCrudController');
 
         Route::get('mbkm-eksternal/{id}/updating', 'ProgramSayaMbkmEksternalCrudController@updating');

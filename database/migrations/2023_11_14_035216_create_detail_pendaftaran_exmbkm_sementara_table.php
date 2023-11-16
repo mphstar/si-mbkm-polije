@@ -19,6 +19,7 @@ class CreateDetailPendaftaranExmbkmSementaraTable extends Migration
             $table->foreignId('partner_id')->references('id')->on('partners')->onUpdate('cascade')->onDelete('cascade');
             $table->string('nama_program',100);
             $table->enum('status', ['pengajuan', 'diterima', 'diambil']);
+            $table->string('file_diterima')->nullable();
          
             $table->timestamps();
         });

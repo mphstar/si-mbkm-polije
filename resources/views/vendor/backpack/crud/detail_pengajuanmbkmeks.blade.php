@@ -12,25 +12,21 @@
 
 @section('header')
     <section class="container-fluid d-print-none">
-        <a href="javascript: window.print();" class="btn float-right"><i class="la la-print"></i></a>
-        <h2>
-
-            @if ($crud->hasAccess('list'))
-                <small class=""><a href="{{ url($crud->route) }}" class="font-sm"><i class="la la-angle-double-left"></i>
-                        {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
-            @endif
-        </h2>
+  
     </section>
 @endsection
 @section('content')
     <div class="row">
         <div class="col-md-12">
-     <h2> Data pada Tabel merupakan data mbkm eksternal yang anda ajukan  </h2><br>
-     <h5> untuk mendaftar MBKM anda cukup tekan tombol DAFTAR PROGRAM</h5>
+     <h5 class="">Anda Hanya dapat Memilih satu program MBKM yang ingin anda Ambil</h5>
+     <div class="col-md-2">
+      <a href="{{ backpack_url('m-b-k-m-eksternal') }}"
+          class="btn btn-sm btn-block btn-outline-danger mb-3 mt-2">Kembali</a>
+  </div>
           {{-- <button  type="button" class="btn btn-primary mr-2 mb-5" data-toggle="modal"
           data-target="#daftarexternal">Daftar PROGRAM </button> --}}
           <div class="col-md-2 mb-3 mt-3">
-          <a href="{{ backpack_url('daftarmbkmexternal') }}" class="btn btn-sm btn-block btn-outline-primary">DAFTAR PROGRAM</a>
+
           </div>
             <div class="card">
          
@@ -43,10 +39,10 @@
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">Jenis Program</th>
-                                <th class="text-center">Kategory</th>
-                                <th class="text-center">Detail Program</th>
-                                <th class="text-center">Download File TTD kaprodi</th>
+                                <th class="text-center">Nama Mitra</th>
+                                <th class="text-center">Nama Program</th>
+                                <th class="text-center">status</th>
+                         
                               {{-- <th class="text-center">Upload Bukti Terima</th> --}}
 
                              
@@ -58,20 +54,28 @@
                           @php
                           $index = 1;
                       @endphp
-                          @foreach ($extenal_sementara as $item)
+                          @foreach ($detail_pengajuan as $item)
                               
                         
                           <tr>
                             <td class="text-center">{{ $index }}</th>
-                              <td class="text-center">{{ $item->jenismbkm->jenismbkm }}</th>
+                              <td class="text-center">{{ $item->partner->partner_name}}</td>
                                 
-                                <td class="text-center">{{ $item->jenismbkm->kategori_jenis }}</td>
-                                <td class="text-center"><a href="{{ backpack_url('detailpengajuan/'.$item->id) }}" class="btn btn-sm btn-primary">Detail Program</a></td>
-                              @if ($item->file_surat_ttd === null)
-                              <td class="text-center">-</td> 
+                                <td class="text-center">{{ $item->nama_program }}</td>
+
+                      
+                              @if ($item->status ==="pengajuan")
+                             <td class="text-center"><button  disabled type="button" class="btn btn-warning mr-2 mb-5 " data-toggle="modal"
+                              data-target="#uploadsk">{{ $item->status }} </button></td>
+                              @elseif($item->status == "diterima")
+                              @if (count($cek_status)!= 0);
+                              <td class="text-center"><button disabled type="button" class="btn btn-primary mr-2 mb-5" >{{ $item->status }} </button></td>
                               @else
-                              <td class="text-center"><a href="/{{ $item->file_surat_ttd }}" class="btn btn-sm btn-primary"><i
-                                class="nav-icon la la-download"></i></a></td>   
+                              <td class="text-center"><button  type="button" class="btn btn-primary mr-2 mb-5" data-toggle="modal"
+                              data-target="#uploadsk"onclick="edit({{  $item }})">{{ $item->status }} </button></td>
+                              @endif
+                              @elseif($item->status == "diambil")
+                              <td class="text-center"><button  disabled type="button" class="btn btn-success mr-2 mb-5" >{{ $item->status }}</button></td>
                               @endif
                             
                                
@@ -99,19 +103,37 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Upload Pngajuan</h5>
-              <form action="{{ 'tambahData' }}" method="post" enctype="multipart/form-data">
+              <form action="{{ 'ambilmbkmek' }}" method="post" enctype="multipart/form-data">
                 @csrf
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
+              <div class="form-group">
+                <label for="status">Keputusan Di ambil</label>
+                <select class="form-control" name="status">
+                
+                    <option value="diambil">diambil</option>
+             
+                </select>
+            </div>
+              <div class="form-group">
+                <label for="status">Nama program</label>
+               
+                
+                 <input type="text"class="form-control" name="nama_program" id="nama_prog" readonly>
+             
+            </div>
                 <div class="col-md-6 form-group">
-                    <label class="required">File Penilaian</label>
-                    <input required class="form-control" type="file" name="file_surat" accept=".pdf">
+                    <label class="required">Upload bukti di terima</label>
+                    <input required class="form-control" type="file" name="file_diterima"  accept=".pdf">
                     <div class="text-danger">*Jenis file yang diizinkan: .pdf.</div>
                 </div>
-                <input type="hidden" name="student_id" value="{{ $siswa }}">
+                <input type="hidden" name="id" class="form-control-file" id="idModal">
+                <input type="hidden" name="student_id"value={{ $siswa }}>
+                <input type="hidden" name="id_jenis"value={{ $idjenis }}>
+                <input type="hidden" name="partner_id" id="id_partner">
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -127,7 +149,13 @@
         $(document).on('show.bs.modal', '.modal', function() {
             $(this).appendTo('body');
         });
+        function edit(data) {
+            console.log(data);
+            document.getElementById("idModal").value=data.id;
+            document.getElementById("id_partner").value=data.partner_id;
+            document.getElementById("nama_prog").value=data.nama_program;
 
+        }
 
    
     </script>

@@ -17,6 +17,14 @@ class AddIdjenisToMbkmsTable extends Migration
             $table->unsignedBigInteger('id_jenis');
             $table->foreign('id_jenis')->references('id')->on('jenismbkm')->onDelete('cascade');
         });
+        Schema::table('reg_mbkms', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_jenis');
+            $table->foreign('id_jenis')->references('id')->on('jenismbkm')->onDelete('cascade');
+        });
+        Schema::table('reg_mbkms', function (Blueprint $table) {
+            $table->unsignedBigInteger('partner_id')->nullable();
+            $table->foreign('partner_id')->references('id')->on('partners')->onDelete('cascade');
+        });
     }
 
     /**
