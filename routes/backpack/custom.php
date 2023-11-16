@@ -93,7 +93,8 @@ Route::group([
         Route::crud('status-reg', 'StatusRegCrudController');
 
         Route::get('m-b-k-m-eksternal', 'MBKMEksternalCrudController@daftareksternal');
-        Route::post('m-b-k-m-eksternal/daftareksternal', 'MBKMEksternalCrudController@storeData');
+        Route::get('daftarmbkmexternal', 'MBKMEksternalCrudController@regexternal');
+        Route::post('/tambahData', 'MBKMEksternalCrudController@storeData');
         Route::crud('mbkm-eksternal', 'ProgramSayaMbkmEksternalCrudController');
 
         Route::get('mbkm-eksternal/{id}/updating', 'ProgramSayaMbkmEksternalCrudController@updating');
@@ -105,4 +106,6 @@ Route::group([
     Route::crud('user', 'UserCrudController');
     Route::crud('jenis-mbkm', 'JenisMbkmCrudController');
     Route::crud('mbkm-external', 'MbkmExternalCrudController');
+    Route::crud('pengajuan-e-x-t-r', 'PengajuanEXTRCrudController');
+    Route::crud('pengajuan-e-x-t-r-sub', 'PengajuanEXTRSubCrudController');
 }); // this should be the absolute last line of this file

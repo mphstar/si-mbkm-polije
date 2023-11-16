@@ -25,20 +25,32 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+     <h2> Data pada Tabel merupakan data mbkm eksternal yang anda ajukan  </h2><br>
+     <h5> untuk mendaftar MBKM anda cukup tekan tombol DAFTAR PROGRAM</h5>
+          {{-- <button  type="button" class="btn btn-primary mr-2 mb-5" data-toggle="modal"
+          data-target="#daftarexternal">Daftar PROGRAM </button> --}}
+          <div class="col-md-2 mb-3 mt-3">
+          <a href="{{ backpack_url('daftarmbkmexternal') }}" class="btn btn-sm btn-block btn-outline-primary">DAFTAR PROGRAM</a>
+          </div>
             <div class="card">
+         
                 <div class="card-body">
+
+
+
                   <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">Nama Program</th>
-                                <th class="text-center">Nama Mitra</th>
-                                <th class="text-center">Keterangan</th>
-                                <th class="text-center">Jenis MBKM</th>
+                                <th class="text-center">Jenis Program</th>
+                                <th class="text-center">Kategory</th>
+                                <th class="text-center">Detail Program</th>
+                                <th class="text-center">Download File TTD kaprodi</th>
+                              <th class="text-center">Upload Bukti Terima</th>
 
                              
-                                <th class="text-center">Action</th>
+               
 
                             </tr>
                         </thead>
@@ -46,16 +58,21 @@
                           @php
                           $index = 1;
                       @endphp
-                          @foreach ($mbkm as $item)
+                          @foreach ($extenal_sementara as $item)
                               
                         
                           <tr>
                             <td class="text-center">{{ $index }}</th>
-                              <td class="text-center">{{ $item->program_name }}</th>
+                              <td class="text-center">{{ $item->jenismbkm->jenismbkm }}</th>
                                 
-                                <td class="text-center">{{ $item->partner->partner_name }}</td>
-                                <td class="text-center">{{ $item->info }}</td>
-                                <td class="text-center">{{ $item->jenismbkm->jenismbkm}}</td>
+                                <td class="text-center">{{ $item->jenismbkm->kategori_jenis }}</td>
+                                <td class="text-center"><a href="" class="btn btn-sm btn-primary">Detail Program</a></td>
+                                <td class="text-center"><a href="" class="btn btn-sm btn-primary">Download</a></td>
+                               
+                                <td class="text-center">
+                           
+                                  <button  type="button" class="btn btn-primary mr-2 mb-5" data-toggle="modal"
+                                  data-target="#uploadsk">Daftar PROGRAM </button>
                           </tr>
                           @php
                           $index++;
@@ -63,9 +80,49 @@
                           @endforeach
                          </tbody>
                     </table>
+                    
                 </div>
-                </div>
-                </div>
+         </div>
             </div>
         </div>
+        
+    </div>
+   
+    <div class="modal fade" id="uploadsk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Upload Pngajuan</h5>
+              <form action="{{ 'tambahData' }}" method="post" enctype="multipart/form-data">
+                @csrf
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-6 form-group">
+                    <label class="required">File Penilaian</label>
+                    <input required class="form-control" type="file" name="file_surat" accept=".pdf">
+                    <div class="text-danger">*Jenis file yang diizinkan: .pdf.</div>
+                </div>
+                <input type="hidden" name="student_id" value="{{ $siswa }}">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div>
+    @endsection
+    @section('after_scripts')
+    <script>
+        $(document).on('show.bs.modal', '.modal', function() {
+            $(this).appendTo('body');
+        });
+
+
+   
+    </script>
     @endsection

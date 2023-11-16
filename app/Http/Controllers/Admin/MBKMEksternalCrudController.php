@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\MBKMEksternalRequest;
+use App\Models\JenisMbkm;
 use App\Models\ManagementMBKM;
 use App\Models\MBKMEksternal;
+use App\Models\Partner;
+use App\Models\PengajuanEXTR;
+use App\Models\PengajuanEXTRSub;
 use App\Models\RegisterMbkm;
 use App\Models\Students;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -39,56 +43,94 @@ class MBKMEksternalCrudController extends CrudController
         CRUD::setEntityNameStrings('m b k m eksternal', 'm b k m eksternals');
     }
 
-    public function daftareksternal() {
-    // $id_student = backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
-    //         return $query->where('users_id', backpack_auth()->user()->id);
-    //     })->first();
-    $id=backpack_auth()->user()->id;
-    $today = Carbon::now()->toDateString();
-    $siswa=Students::where('users_id',$id)->value('id');
-    $crud = $this->crud;
-    $mbkm = ManagementMBKM::with(['departmen', 'jenismbkm','partner'])->whereHas('jenismbkm', function($query) {
-        return $query->where('jenismbkm.kategori_jenis', '=', 'external');
-    })->where("end_reg",'>',$today)->get();
+    public function daftareksternal()
+    {
+        // $id_student = backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
+        //         return $query->where('users_id', backpack_auth()->user()->id);
+        //     })->first();
+        $id = backpack_auth()->user()->id;
+        $today = Carbon::now()->toDateString();
+        $siswa = Students::where('users_id', $id)->value('id');
         $crud = $this->crud;
-        return view('vendor/backpack/crud/mbkbmeksternal', compact('crud','siswa','id','mbkm'));
+        $jenis_mbkm = JenisMbkm::where('kategori_jenis', '=', 'external')->get();
+        // $mbkm = ManagementMBKM::with(['departmen', 'jenismbkm','partner'])->whereHas('jenismbkm', function($query) {
+        //     return $query->where('jenismbkm.kategori_jenis', '=', 'external');
+        // })->where("end_reg",'>',$today)->get();
+
+        //kode diabawah merupakan menampilkan data pengajuan progra mbkm di tabel pengajuan sementara
+        $extenal_sementara = PengajuanEXTR::with(['jenismbkm'])->whereHas('jenismbkm', function ($query) {
+            return $query->where('jenismbkm.kategori_jenis', '=', 'external');
+        })->where('student_id', $id)->get();
+        $crud = $this->crud;
+        return view('vendor/backpack/crud/mbkbmeksternal', compact('crud', 'siswa', 'id', 'extenal_sementara', 'jenis_mbkm'));
     }
-public function storeData(Request $request)  {
-    $cek=RegisterMbkm::where('student_id',$request->student_id)->whereIn("status",['accepted','pending'])->first();
-    if ($cek) {
-        $messages ="Anda masih proses daftar atau sudah terdaftar dalam mbkm";
-        Alert::warning($messages)->flash();
-        return back()->withInput();
-    }else{
-    $validator = Validator::make($request->all(), [
+    public function regexternal()
+    {
+        $id = backpack_auth()->user()->id;
+        $today = Carbon::now()->toDateString();
+        $siswa = Students::where('users_id', $id)->value('id');
+        $crud = $this->crud;
+        $jenis_mbkm = JenisMbkm::where('kategori_jenis', '=', 'external')->get();
+        $partner = Partner::where('jenis_mitra', '=', 'luar kampus')->get();
 
-        'jenis_mbkm' => 'required',
-        'nama_mitra' => 'required',
-
-    ]);
-
-    if ($validator->fails()) {
-        $messages = $validator->errors()->all();
-        Alert::warning($messages[0])->flash();
-        return back()->withInput();
+        return view('vendor/backpack/crud/regmbkmeks', compact('crud', 'siswa', 'id', 'jenis_mbkm', 'partner'));
     }
-    $input = $request->all();
+    public function storeData(Request $request)
+    {
+        // $cek=RegisterMbkm::where('student_id',$request->student_id)->whereIn("status",['accepted','pending'])->first();
+        // if ($cek) {
+        //     $messages ="Anda masih proses daftar atau sudah terdaftar dalam mbkm";
+        //     Alert::warning($messages)->flash();
+        //     return back()->withInput();
+        // }else{
 
-    $file = $request->file('requirements_files')->getClientOriginalName();
-    // dd($file);
-    $fileName = time().'.'.$request->file('requirements_files')->getClientOriginalExtension();
-
-    $request->file('requirements_files')->move(public_path('storage/uploads'), $fileName);
-    $input['requirements_files'] = "storage/uploads/$fileName";
 
 
-    $user = MBKMEksternal::create($input);
+        $validator = Validator::make($request->all(), [
+            'id_jenis' => 'required',
+            'file_surat' => 'required|file|mimes:pdf',
+            'partner_id.*' => 'required',
+            'nama_program.*' => 'required',
+        ]);
 
-    Alert::success('Berhasil daftar!')->flash();
-    return back();
-}
+        if ($validator->fails()) {
+            $messages = $validator->errors()->all();
+            Alert::warning($messages[0])->flash();
+            return back()->withInput();
+        }
 
-}
+        $input = [
+            "student_id" => $request->input("student_id"),
+            "id_jenis" => $request->input("id_jenis"),
+            'file_surat' => $request->file('file_surat')->getClientOriginalName()
+        ];
+
+        $fileName = time() . '.' . $request->file('file_surat')->getClientOriginalExtension();
+        $request->file('file_surat')->move(public_path('storage/uploads'), $fileName);
+        $input['file_surat'] = "storage/uploads/$fileName";
+
+        $user = PengajuanEXTR::create($input);
+
+        $partner_ids = $request->input('partner_id');
+        $nama_programs = $request->input('nama_program');
+
+        if (is_array($partner_ids) && is_array($nama_programs) && count($partner_ids) === count($nama_programs)) {
+            $count = count($partner_ids);
+            for ($i = 0; $i < $count; $i++) {
+                $detailData = new PengajuanEXTRSub();
+                $detailData->exmbkm_id = $user->id;
+                $detailData->nama_program = $nama_programs[$i];
+                $detailData->partner_id = $partner_ids[$i];
+                $detailData->save();
+            }
+        } else {
+            Alert::error('Data tidak valid.')->flash();
+            return back()->withInput();
+        }
+
+        Alert::success('Berhasil daftar!')->flash();
+        return back();
+    }
     /**
      * Define what happens when the List operation is loaded.
      *
