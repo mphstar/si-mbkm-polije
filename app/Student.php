@@ -20,7 +20,8 @@ class Student extends Model
         'address',
         'phone',
         'nim',
-        'study_program_id',
+        'jurusan',
+        'program_studi',
         'users_id'
     ];
 

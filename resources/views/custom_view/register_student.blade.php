@@ -14,7 +14,7 @@
 
                             <div>
                                 <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                       name="name" id="name" value="{{ old('name') }}">
+                                    name="name" id="name" value="{{ old('name') }}">
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback">
@@ -23,13 +23,12 @@
                                 @endif
                             </div>
                         </div>
-                        <div  class="form-group">
+                        <div class="form-group">
                             <label class="control-label" for="phone">Phone</label>
 
                             <div>
-                                <input type="number"
-                                       class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
-                                       name="phone" id="phone" value="{{ old('phone') }}">
+                                <input type="number" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
+                                    name="phone" id="phone" value="{{ old('phone') }}">
 
                                 @if ($errors->has('phone'))
                                     <span class="invalid-feedback">
@@ -43,7 +42,7 @@
 
                             <div>
                                 <input type="text" class="form-control{{ $errors->has('nim') ? ' is-invalid' : '' }}"
-                                       name="nim" id="nim" value="{{ old('nim') }}">
+                                    name="nim" id="nim" value="{{ old('nim') }}">
 
                                 @if ($errors->has('nim'))
                                     <span class="invalid-feedback">
@@ -53,21 +52,38 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="study">Program Studi</label>
+                            <label class="control-label" for="jurusan">Jurusan</label>
 
                             <div>
-                                <select name="study"
-                                        class="form-control{{ $errors->has('study') ? ' is-invalid' : '' }}" id="study">
-                                    @foreach ($study as $item)
+                                <select onchange="handleJurusan(this, {{ json_encode($prodi) }})" name="jurusan"
+                                    class="form-control{{ $errors->has('jurusan') ? ' is-invalid' : '' }}" id="jurusan">
+                                    <option value="">-</option>
+                                    @foreach ($jurusan as $item)
                                         <option
-                                            {{ $errors->has('study') ? $errors->first('study') == $item->name ? 'selected' : '' : '' }}
-                                            value="{{ $item->id }}">{{ $item->name }}</option>
+                                            {{ $errors->has('jurusan') ? ($errors->first('jurusan') == $item->unit ? 'selected' : '') : '' }}
+                                            value="{{ $item->unit }}">{{ $item->unit }}</option>
                                     @endforeach
                                 </select>
 
-                                @if ($errors->has('study'))
+                                @if ($errors->has('jurusan'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('study') }}</strong>
+                                        <strong>{{ $errors->first('jurusan') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="program_studi">Program Studi</label>
+                            <div>
+                                <select name="program_studi"
+                                    class="form-control{{ $errors->has('program_studi') ? ' is-invalid' : '' }}"
+                                    id="program_studi">
+
+                                </select>
+
+                                @if ($errors->has('program_studi'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('program_studi') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -76,9 +92,8 @@
                             <label class="control-label" for="address">Address</label>
 
                             <div>
-                                <textarea class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}"
-                                          name="address" id="address"
-                                          value="{{ old('address') }}">{{ old('address') }}</textarea>
+                                <textarea class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" id="address"
+                                    value="{{ old('address') }}">{{ old('address') }}</textarea>
 
                                 @if ($errors->has('address'))
                                     <span class="invalid-feedback">
@@ -90,11 +105,11 @@
 
                         <div class="form-group">
                             <label class="control-label"
-                                   for="email">{{ config('backpack.base.authentication_column_name') }}</label>
+                                for="email">{{ config('backpack.base.authentication_column_name') }}</label>
 
                             <div>
                                 <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                       name="email" id="email" value="{{ old('email') }}">
+                                    name="email" id="email" value="{{ old('email') }}">
 
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback">
@@ -109,9 +124,8 @@
 
                             <div>
                                 <input type="password"
-                                       class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                       name="password"
-                                       id="password">
+                                    class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
+                                    id="password">
 
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback">
@@ -126,8 +140,8 @@
 
                             <div>
                                 <input type="password"
-                                       class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}"
-                                       name="password_confirmation" id="password_confirmation">
+                                    class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}"
+                                    name="password_confirmation" id="password_confirmation">
 
                                 @if ($errors->has('password_confirmation'))
                                     <span class="invalid-feedback">
@@ -152,13 +166,24 @@
                         href="{{ route('backpack.auth.password.reset') }}">{{ trans('backpack::base.forgot_your_password') }}</a>
                 </div>
             @endif
-            <div class="text-center"><a
-                    href="{{ route('backpack.auth.login') }}">{{ trans('backpack::base.login') }}</a>
+            <div class="text-center"><a href="{{ route('backpack.auth.login') }}">{{ trans('backpack::base.login') }}</a>
             </div>
         </div>
     </div>
+@endsection
+
+@section('after_scripts')
     <script>
-        const footer = document.querySelector(".app-footer")
-        console.log(footer);
+        const program_studi = document.getElementById('program_studi')
+        const handleJurusan = async (e, prodi) => {
+            const filtered = prodi.filter((item) => item.parent_unit == e.value)
+            let kontenHtml = ''
+
+            filtered.forEach((element) => {
+                kontenHtml += `<option value="${element.unit}">${element.unit}</option>`
+            });
+            
+            program_studi.innerHTML = kontenHtml
+        }
     </script>
 @endsection
