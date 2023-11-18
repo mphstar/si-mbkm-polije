@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DetailMbkmExternalSementara;
 use App\Http\Requests\MbkmExternalRequest;
 use App\Models\MbkmExternal;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class MbkmExternalCrudController
@@ -52,6 +55,30 @@ class MbkmExternalCrudController extends CrudController
             "crud" => $this->crud,
             "data" => $data
         ]);
+    }
+
+    public function upload_laporan_ttd(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'file_surat' => 'required|file|mimes:pdf',
+        ]);
+
+        if ($validator->fails()) {
+            $messages = $validator->errors()->all();
+            Alert::warning($messages[0])->flash();
+            return back()->withInput();
+        }
+
+        $fileName = time() . '.' . $request->file('file_surat')->getClientOriginalExtension();
+        $request->file('file_surat')->move(public_path('storage/uploads'), $fileName);
+        $input['file_surat'] = "storage/uploads/$fileName";
+
+        MbkmExternal::where('id', $request->id)->update([
+            "file_surat_ttd" => $input['file_surat']
+        ]);
+
+        Alert::success('Berhasil upload')->flash();
+        return back();
     }
 
     protected function setupListOperation()

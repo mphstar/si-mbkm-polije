@@ -27,6 +27,35 @@
 @endsection
 
 @section('content')
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" style="display: none;"
+        aria-hidden="true">
+        <form action="{{ 'upload-laporan-ttd' }}" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Upload Surat</h4>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-6 form-group">
+                            <label class="required">File Surat</label>
+                            <input required class="form-control" type="file" name="file_surat" accept=".pdf">
+                            <div class="text-danger">*Jenis file yang diizinkan: .pdf.</div>
+                        </div>
+                        <input name="id" value="{{ $data->id }}" type="hidden">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content-->
+            </div>
+            <!-- /.modal-dialog-->
+        </form>
+    </div>
     <div class="row">
         <div class="{{ $crud->getCreateContentClass() }}">
             <!-- Default box -->
@@ -36,8 +65,9 @@
             <div class="card">
                 <div class="card-header"><strong>{{ $data->student->name }}</strong></div>
                 <div class="card-body ">
-                    <p>Unduh laporan yang akan ditandatangani <a href="">disini</a>.<br>
-                        Upload laporan yang akan ditandatangani <a href="">disini</a>.</p>
+                    <p>Unduh laporan yang akan ditandatangani <a href="/{{ $data->file_surat }}">disini</a>.<br>
+                        Upload laporan yang akan ditandatangani <a data-target="#myModal" data-toggle="modal"
+                            href="#">disini</a>.</p>
 
                 </div>
             </div>
@@ -50,7 +80,7 @@
                             <tr>
                                 <th>Nama Program</th>
                                 <th>Jenis MBKM</th>
-                                <th>Jumlah SKS</th>
+                                {{-- <th>Jumlah SKS</th> --}}
                                 <th>Bukti Diterima</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -59,9 +89,9 @@
                         <tbody>
                             @foreach ($data->detail as $item)
                                 <tr>
-                                    <td>{{ $item->mbkm->program_name }}</td>
-                                    <td>{{ $item->mbkm->jenismbkm->jenismbkm }}</td>
-                                    <td>{{ $item->mbkm->jumlah_sks }}</td>
+                                    <td>{{ $item->nama_program }}</td>
+                                    <td>{{ $data->jenismbkm->jenismbkm }}</td>
+                                    {{-- <td>{{ $item->jumlah_sks }}</td> --}}
                                     <td>
                                         @if ($item->file_diterima)
                                             <a href="/uploads/{{ $item->file_diterima }}"><button
@@ -106,5 +136,12 @@
             </div>
         </div>
     </div>
-    </div>
+@endsection
+
+@section('after_scripts')
+    <script>
+        $(document).on('show.bs.modal', '.modal', function() {
+            $(this).appendTo('body');
+        });
+    </script>
 @endsection

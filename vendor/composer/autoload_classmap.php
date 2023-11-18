@@ -82,6 +82,7 @@ return array(
     'App\\Http\\Requests\\ValidasiMbkmRequest' => $baseDir . '/app/Http/Requests/ValidasiMbkmRequest.php',
     'App\\Http\\Requests\\ValidasilaporanRequest' => $baseDir . '/app/Http/Requests/ValidasilaporanRequest.php',
     'App\\InvolvedCourse' => $baseDir . '/app/InvolvedCourse.php',
+    'App\\Mail\\AccountAccepted' => $baseDir . '/app/Mail/AccountAccepted.php',
     'App\\Mail\\daftarmbkm' => $baseDir . '/app/Mail/daftarmbkm.php',
     'App\\Mail\\laporanditerima' => $baseDir . '/app/Mail/laporanditerima.php',
     'App\\Mail\\laporanrevisi' => $baseDir . '/app/Mail/laporanrevisi.php',

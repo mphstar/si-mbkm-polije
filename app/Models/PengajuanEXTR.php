@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\DetailMbkmExternalSementara;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
-class MbkmExternal extends Model
+class PengajuanEXTR extends Model
 {
     use CrudTrait;
 
@@ -29,30 +28,21 @@ class MbkmExternal extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public function lihatDetail($crud = false)
+    public function detail_sementara()
     {
-
-        $btn = '<a href="/admin/mbkm-external/'. $this->id . '/detail"><button class="btn btn-block btn-sm btn-link text-left px-0 active" type="button" aria-pressed="true">Lihat Detail</button></a>';
-
-        return $btn;
+        return $this->hasMany(PengajuanEXTRSub::class, 'exmbkm_id', 'id');
     }
-
+    public function student(){
+        return $this->belongsTo(Students::class, 'student_id', 'id');
+    }
+    public function jenismbkm(){
+        return $this->belongsTo(JenisMbkm::class, 'id_jenis', 'id');
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
-    public function detail(){
-        return $this->hasMany(DetailMbkmExternalSementara::class, 'exmbkm_id', 'id');
-    }
-    public function jenismbkm(){
-        return $this->belongsTo(JenisMbkm::class, 'id_jenis', 'id');
-    }
-
-    public function student(){
-        return $this->belongsTo(Students::class, 'student_id', 'id');
-    }
 
     /*
     |--------------------------------------------------------------------------

@@ -28,6 +28,10 @@ class Students extends Model
     {
         return $this->hasMany(RegisterMbkm::class);
     }
+    public function pengajuansementara()
+    {
+        return $this->hasMany(PengajuanEXTR::class);
+    }
 
     public function program_study(){
         return $this->belongsTo(ProgramStudy::class, 'study_program_id', 'id');

@@ -62,19 +62,19 @@
 
                         <div class="form-group">
                             <label>Tanggal Awal Pendaftaran</label>
-                            <input onchange="fungsi()" type="date" class="form-control"id="start_reg" name="start_reg" value="{{ $data->start_reg }}">
+                            <input type="date" class="form-control"id="start_reg" name="start_reg" value="{{ $data->start_reg }}">
 
                         </div>
                         <div class="form-group">
                             <label>Tanggal Tarakhir Pendaftaran</label>
 
-                            <input onchange="fungsi()" type="date" class="form-control"id="end_reg"
+                            <input type="date" class="form-control"id="end_reg"
                                 name="end_reg" value="{{ $data->end_reg }}" >
 
                         </div>
                         <div class="form-group">
                             <label>Tanggal Awal Mulai Program</label>
-                            <input onchange="fungsi()" type="date" class="form-control"id="start_date"
+                            <input type="date" class="form-control"id="start_date"
                                 name="start_date" value="{{ $data->start_date }}">
 
                         </div>
@@ -124,7 +124,7 @@
         const tanggalAkhirProgram = document.getElementById('end_date');
 
    
-
+        
         tanggalAwaldaftar.addEventListener('input', () => {
             tanggalAkhirdaftar.min = tanggalAwaldaftar.value;
             tanggalAwalProgram.min = tanggalAwaldaftar.value;
@@ -145,7 +145,7 @@
         tanggalAkhirProgram.addEventListener('input', () => {
             tanggalAwalProgram.min = tanggalAkhirdaftar.value;
         });
-
+    
         function sks() {
     // Ambil elemen input dengan nama "nama_penanggung_jawab"
     var inputElement = document.querySelector('input[name="nama_penanggung_jawab"]');
