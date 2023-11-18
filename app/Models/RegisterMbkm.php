@@ -30,6 +30,14 @@ class RegisterMbkm extends Model
     {
         return $this->belongsTo(Mbkm::class, 'mbkm_id', 'id');
     }
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class, 'partner_id', 'id');
+    }
+    public function jenismbkm()
+    {
+        return $this->belongsTo(JenisMbkm::class, 'id_jenis', 'id');
+    }
     public function lecturer()
     {
         return $this->belongsTo(Lecturer::class);

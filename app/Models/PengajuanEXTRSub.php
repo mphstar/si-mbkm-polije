@@ -28,7 +28,13 @@ class PengajuanEXTRSub extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class);
+    }
+    public function pengajuan(){
+        return $this->belongsTo(PengajuanEXTR::class,'exmbkm_id','id');
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

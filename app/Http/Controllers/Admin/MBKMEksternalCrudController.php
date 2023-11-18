@@ -53,30 +53,52 @@ class MBKMEksternalCrudController extends CrudController
         $siswa = Students::where('users_id', $id)->value('id');
         $crud = $this->crud;
         $jenis_mbkm = JenisMbkm::where('kategori_jenis', '=', 'external')->get();
+
         // $mbkm = ManagementMBKM::with(['departmen', 'jenismbkm','partner'])->whereHas('jenismbkm', function($query) {
         //     return $query->where('jenismbkm.kategori_jenis', '=', 'external');
         // })->where("end_reg",'>',$today)->get();
 
         //kode diabawah merupakan menampilkan data pengajuan progra mbkm di tabel pengajuan sementara
-        $extenal_sementara = PengajuanEXTR::with(['jenismbkm'])->whereHas('jenismbkm', function ($query) {
-            return $query->where('jenismbkm.kategori_jenis', '=', 'external');
-        })->where('student_id', $id)->get();
+        $extenal_sementara = PengajuanEXTR::with(['jenismbkm', 'student'])->whereHas('jenismbkm', function ($query) {
+            return $query->where('kategori_jenis', '=', 'external');
+        })->where('student_id', $siswa)->get();
         $crud = $this->crud;
         return view('vendor/backpack/crud/mbkbmeksternal', compact('crud', 'siswa', 'id', 'extenal_sementara', 'jenis_mbkm'));
     }
+ 
     public function regexternal()
     {
+
+
         $id = backpack_auth()->user()->id;
         $today = Carbon::now()->toDateString();
-        $siswa = Students::where('users_id', $id)->value('id');
-        $crud = $this->crud;
-        $jenis_mbkm = JenisMbkm::where('kategori_jenis', '=', 'external')->get();
-        $partner = Partner::where('jenis_mitra', '=', 'luar kampus')->get();
+        $siswa = Students::where('users_id', $id)->first();
+        $cekdireg_acp=RegisterMbkm::where('student_id',$siswa->id)->whereIn('status',['accepted','rejected'])->get();//mengecek select di reg mbkm apakah user sudah terdaftar dan statsunya masih acepetd
+        $pengajuan = PengajuanEXTR::with(['detail_sementara', 'student'])->whereHas('detail_sementara', function ($query) {
+            return $query->where('status', '=', 'diambil');
+        })->where('student_id', $siswa->id)->where('semester',$siswa->semester)->get();
+    
+        if (count($pengajuan)!=0) {
+            $messages = "Maaf Anda sudah Terdaftar Pada Salah satu Program MBKM";
+       
+            Alert::error($messages)->flash();
+            return redirect(backpack_url('m-b-k-m-eksternal'));
+        } elseif (count($cekdireg_acp)!= 0) {
+            $messages = "Maaf Anda Sedang Mendaftar atau sudah Pada Salah satu Program MBKM";
+           
+            Alert::error($messages)->flash();
+            return redirect(backpack_url('m-b-k-m-eksternal'));
+        }else{
+            $crud = $this->crud;
+            $jenis_mbkm = JenisMbkm::where('kategori_jenis', '=', 'external')->get();
+            $partner = Partner::where('jenis_mitra', '=', 'luar kampus')->get();
 
-        return view('vendor/backpack/crud/regmbkmeks', compact('crud', 'siswa', 'id', 'jenis_mbkm', 'partner'));
+            return view('vendor/backpack/crud/regmbkmeks', compact('crud', 'siswa', 'id', 'jenis_mbkm', 'partner'));
+        }
     }
     public function storeData(Request $request)
     {
+        
         // $cek=RegisterMbkm::where('student_id',$request->student_id)->whereIn("status",['accepted','pending'])->first();
         // if ($cek) {
         //     $messages ="Anda masih proses daftar atau sudah terdaftar dalam mbkm";
@@ -101,6 +123,7 @@ class MBKMEksternalCrudController extends CrudController
 
         $input = [
             "student_id" => $request->input("student_id"),
+            "semester" => $request->input("semester"),
             "id_jenis" => $request->input("id_jenis"),
             'file_surat' => $request->file('file_surat')->getClientOriginalName()
         ];
@@ -129,7 +152,65 @@ class MBKMEksternalCrudController extends CrudController
         }
 
         Alert::success('Berhasil daftar!')->flash();
-        return back();
+        return redirect(backpack_url('m-b-k-m-eksternal'));
+    }
+
+
+    public function ambileks (Request $request) {
+        $cekdireg_acp=RegisterMbkm::where('student_id',$request->input('student_id'))->whereIn('status',['accepted','rejected'])->get();
+        if (($request->status == "diterima")||($request->status == "ditolak")) {
+            
+        $status = [
+            "status" => $request->input("status")];
+            PengajuanEXTRSub::where('id',$request->input('id'))->update($status); 
+            Alert::success('Berhasil Mengubah Status!')->flash();
+            return back()->withInput();
+        }elseif (count($cekdireg_acp)!= 0) {
+          $messages = "Maaf Anda Sedang Mendaftar Pada Salah satu Program MBKM";
+           
+            Alert::error($messages)->flash();
+            return redirect(backpack_url('m-b-k-m-eksternal'));
+        }else{
+
+        $validator = Validator::make($request->all(), [
+     
+            'file_diterima' => 'required|file|mimes:pdf',
+            'status'=>'required'
+          
+        ]);
+        if ($validator->fails()) {
+            $messages = $validator->errors()->all();
+            Alert::warning($messages[0])->flash();
+            return back()->withInput();
+        }
+
+        $detail = [
+            "status" => $request->input("status"),
+         
+            'file_diterima' => $request->file('file_diterima')->getClientOriginalName()
+        ];
+        $fileName = time() . '.' . $request->file('file_diterima')->getClientOriginalExtension();
+        $request->file('file_diterima')->move(public_path('storage/uploads'), $fileName);
+        $detail['file_diterima'] = "storage/uploads/$fileName";
+
+        $up_bukti=PengajuanEXTRSub::where('id',$request->input('id'))->update($detail);
+        $reg_mbkmeks=[
+            "program_name"=>$request->input('nama_program'),
+            "id_jenis"=>$request->input('id_jenis'),
+            "partner_id"=>$request->input('partner_id'),
+            "student_id"=>$request->input('student_id'),
+            "status"=>"accepted",
+            "semester"=>$request->input('student_id'),
+        ];
+
+
+        
+        RegisterMbkm::create($reg_mbkmeks);
+        Alert::success('Berhasil mengambil program!')->flash();
+ 
+        return redirect(backpack_url('m-b-k-m-eksternal'));
+    }
+
     }
     /**
      * Define what happens when the List operation is loaded.

@@ -45,9 +45,10 @@
                                 <th class="text-center">#</th>
                                 <th class="text-center">Jenis Program</th>
                                 <th class="text-center">Kategory</th>
+                                <th class="text-center">Semeter</th>
                                 <th class="text-center">Detail Program</th>
                                 <th class="text-center">Download File TTD kaprodi</th>
-                              <th class="text-center">Upload Bukti Terima</th>
+                              {{-- <th class="text-center">Upload Bukti Terima</th> --}}
 
                              
                
@@ -66,13 +67,20 @@
                               <td class="text-center">{{ $item->jenismbkm->jenismbkm }}</th>
                                 
                                 <td class="text-center">{{ $item->jenismbkm->kategori_jenis }}</td>
-                                <td class="text-center"><a href="" class="btn btn-sm btn-primary">Detail Program</a></td>
-                                <td class="text-center"><a href="" class="btn btn-sm btn-primary">Download</a></td>
+                                <td class="text-center">{{ $item->semester }}</td>
+                                <td class="text-center"><a href="{{ backpack_url('detailpengajuan/'.$item->id) }}" class="btn btn-sm btn-primary">Detail Program</a></td>
+                              @if ($item->file_surat_ttd === null)
+                              <td class="text-center">-</td> 
+                              @else
+                              <td class="text-center"><a href="/{{ $item->file_surat_ttd }}" class="btn btn-sm btn-primary"><i
+                                class="nav-icon la la-download"></i></a></td>   
+                              @endif
+                            
                                
-                                <td class="text-center">
+                                {{-- <td class="text-center">
                            
                                   <button  type="button" class="btn btn-primary mr-2 mb-5" data-toggle="modal"
-                                  data-target="#uploadsk">Daftar PROGRAM </button>
+                                  data-target="#uploadsk">Daftar PROGRAM </button></td> --}}
                           </tr>
                           @php
                           $index++;

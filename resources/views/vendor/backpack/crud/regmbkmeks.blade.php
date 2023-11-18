@@ -37,8 +37,8 @@
                     <form action="{{ 'tambahData' }}"method="post" enctype="multipart/form-data">
                         @csrf
 
-
-                        <input type="hidden" name="student_id" value="{{ $siswa }}">
+                        <input type="hidden" name="student_id" value="{{ $siswa->id }}">
+                        <input type="hidden" name="semester" value="{{ $siswa->semester }}">
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label>jenis mbkm</label>
@@ -63,11 +63,11 @@
                         <div id="dynamic-forms" class="px-3">
                             <div class="row form-group">
                                 <div class="col-md-4">
-                                    <label>Nama Mitra</label>
+                                    <label>Nama Mitra dan alamat mitra</label>
                                     <select class="form-control" name="partner_id[]">
                                         <!-- ... -->
                                         @foreach ($partner as $key)
-                                            <option value="{{ $key->id }}">{{ $key->partner_name }}</option>
+                                            <option value="{{ $key->id }}">{{ $key->partner_name }} . Alamat :{{ $key->address }}</option>
                                         @endforeach
                                     </select>
                                 </div>
