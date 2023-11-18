@@ -72,17 +72,23 @@ class MBKMEksternalCrudController extends CrudController
 
         $id = backpack_auth()->user()->id;
         $today = Carbon::now()->toDateString();
-        $siswa = Students::where('users_id', $id)->value('id');
+        $siswa = Students::where('users_id', $id)->first();
+        $cekdireg_acp=RegisterMbkm::where('student_id',$siswa->id)->whereIn('status',['accepted','rejected'])->get();//mengecek select di reg mbkm apakah user sudah terdaftar dan statsunya masih acepetd
         $pengajuan = PengajuanEXTR::with(['detail_sementara', 'student'])->whereHas('detail_sementara', function ($query) {
             return $query->where('status', '=', 'diambil');
-        })->where('student_id', $siswa)->get();
+        })->where('student_id', $siswa->id)->where('semester',$siswa->semester)->get();
     
         if (count($pengajuan)!=0) {
             $messages = "Maaf Anda sudah Terdaftar Pada Salah satu Program MBKM";
-            session()->flash('status', 'fileNotValid');
+       
             Alert::error($messages)->flash();
             return redirect(backpack_url('m-b-k-m-eksternal'));
-        } else {
+        } elseif (count($cekdireg_acp)!= 0) {
+            $messages = "Maaf Anda Sedang Mendaftar atau sudah Pada Salah satu Program MBKM";
+           
+            Alert::error($messages)->flash();
+            return redirect(backpack_url('m-b-k-m-eksternal'));
+        }else{
             $crud = $this->crud;
             $jenis_mbkm = JenisMbkm::where('kategori_jenis', '=', 'external')->get();
             $partner = Partner::where('jenis_mitra', '=', 'luar kampus')->get();
@@ -92,6 +98,7 @@ class MBKMEksternalCrudController extends CrudController
     }
     public function storeData(Request $request)
     {
+        
         // $cek=RegisterMbkm::where('student_id',$request->student_id)->whereIn("status",['accepted','pending'])->first();
         // if ($cek) {
         //     $messages ="Anda masih proses daftar atau sudah terdaftar dalam mbkm";
@@ -116,6 +123,7 @@ class MBKMEksternalCrudController extends CrudController
 
         $input = [
             "student_id" => $request->input("student_id"),
+            "semester" => $request->input("semester"),
             "id_jenis" => $request->input("id_jenis"),
             'file_surat' => $request->file('file_surat')->getClientOriginalName()
         ];
@@ -148,7 +156,22 @@ class MBKMEksternalCrudController extends CrudController
     }
 
 
-    public function ambileks(Request $request) {
+    public function ambileks (Request $request) {
+        $cekdireg_acp=RegisterMbkm::where('student_id',$request->input('student_id'))->whereIn('status',['accepted','rejected'])->get();
+        if (($request->status == "diterima")||($request->status == "ditolak")) {
+            
+        $status = [
+            "status" => $request->input("status")];
+            PengajuanEXTRSub::where('id',$request->input('id'))->update($status); 
+            Alert::success('Berhasil Mengubah Status!')->flash();
+            return back()->withInput();
+        }elseif (count($cekdireg_acp)!= 0) {
+          $messages = "Maaf Anda Sedang Mendaftar Pada Salah satu Program MBKM";
+           
+            Alert::error($messages)->flash();
+            return redirect(backpack_url('m-b-k-m-eksternal'));
+        }else{
+
         $validator = Validator::make($request->all(), [
      
             'file_diterima' => 'required|file|mimes:pdf',
@@ -176,16 +199,17 @@ class MBKMEksternalCrudController extends CrudController
             "id_jenis"=>$request->input('id_jenis'),
             "partner_id"=>$request->input('partner_id'),
             "student_id"=>$request->input('student_id'),
-            "status"=>"accepted"
+            "status"=>"accepted",
+            "semester"=>$request->input('student_id'),
         ];
 
 
         
         RegisterMbkm::create($reg_mbkmeks);
-
-
-        Alert::success('Berhasil daftar!')->flash();
+        Alert::success('Berhasil mengambil program!')->flash();
+ 
         return redirect(backpack_url('m-b-k-m-eksternal'));
+    }
 
     }
     /**

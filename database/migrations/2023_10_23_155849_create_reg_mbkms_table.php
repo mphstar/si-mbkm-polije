@@ -20,6 +20,7 @@ class CreateRegMbkmsTable extends Migration
             $table->unsignedBigInteger('mbkm_id')->nullable();
             $table->foreign('mbkm_id')->references('id')->on('mbkms')->onDelete('cascade');
             $table->string('program_name')->nullable();
+            $table->integer('semester')->nullable();
 
 
             $table->enum('status', ['accepted', 'rejected', 'pending', 'menunggu_acc', 'done'])->default('pending');

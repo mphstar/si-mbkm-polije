@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'student@gmail.com',
             'email_verified_at' => now(),
             'level' => 'student',
+          
             'password' => Hash::make('123'),
         ]);
         User::create([

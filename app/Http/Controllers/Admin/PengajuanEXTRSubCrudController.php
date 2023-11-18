@@ -52,10 +52,14 @@ class PengajuanEXTRSubCrudController extends CrudController
     }
     public function detail_pengajuan($id){
         $detail_pengajuan=PengajuanEXTRSub::with(['partner'])->where('exmbkm_id',$id)->get();
-        $cek_status=PengajuanEXTRSub::with(['partner'])->where('exmbkm_id',$id)->where('status','=','diambil')->get();
         $idjenis=PengajuanEXTR::where('id',$id)->value('id_jenis');
-        $siswa=PengajuanEXTR::where('id',$id)->value('student_id');
+        $id = backpack_auth()->user()->id;
+  
+        $siswa = Students::where('users_id', $id)->first();
         $id_extra=$id;
+        $cek_status=PengajuanEXTR::with(['detail_sementara', 'student'])->whereHas('detail_sementara', function ($query) {
+            return $query->where('status', '=', 'diambil');
+        })->where('student_id', $siswa->id)->get();
         $crud = $this->crud;
         return view('vendor/backpack/crud/detail_pengajuanmbkmeks', compact('crud', 'detail_pengajuan','id_extra','idjenis','siswa','cek_status'));
 

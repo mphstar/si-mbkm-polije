@@ -18,7 +18,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-     <h5 class="">Anda Hanya dapat Memilih satu program MBKM yang ingin anda Ambil</h5>
+     <h5 class="">Anda Hanya dapat Memilih satu program MBKM yang ingin Anda ambil</h5>
+     <h6>Untuk memilih program Anda cukup menekan tombol yang ada pada kolom status</h6>
      <div class="col-md-2">
       <a href="{{ backpack_url('m-b-k-m-eksternal') }}"
           class="btn btn-sm btn-block btn-outline-danger mb-3 mt-2">Kembali</a>
@@ -64,9 +65,9 @@
                                 <td class="text-center">{{ $item->nama_program }}</td>
 
                       
-                              @if ($item->status ==="pengajuan")
-                             <td class="text-center"><button  disabled type="button" class="btn btn-warning mr-2 mb-5 " data-toggle="modal"
-                              data-target="#uploadsk">{{ $item->status }} </button></td>
+                              @if ($item->status == "pengajuan")
+                             <td class="text-center"><button type="button" class="btn btn-warning mr-2 mb-5 " data-toggle="modal"
+                              data-target="#ubahstatus"onclick="ubah({{  $item }})">>{{ $item->status }} </button></td>
                               @elseif($item->status == "diterima")
                               @if (count($cek_status)!= 0);
                               <td class="text-center"><button disabled type="button" class="btn btn-primary mr-2 mb-5" >{{ $item->status }} </button></td>
@@ -76,6 +77,8 @@
                               @endif
                               @elseif($item->status == "diambil")
                               <td class="text-center"><button  disabled type="button" class="btn btn-success mr-2 mb-5" >{{ $item->status }}</button></td>
+                              @elseif($item->status == "ditolak")
+                              <td class="text-center"><button  disabled type="button" class="btn btn-danger mr-2 mb-5" >{{ $item->status }}</button></td>
                               @endif
                             
                                
@@ -98,12 +101,12 @@
         
     </div>
    
-    <div class="modal fade" id="uploadsk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="uploadsk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Upload Pngajuan</h5>
-              <form action="{{ 'ambilmbkmek' }}" method="post" enctype="multipart/form-data">
+              <form action="{{ 'ambilmbkmek' }}" method="post" enctype="multipart/form-data"id="myForm">
                 @csrf
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -131,9 +134,45 @@
                     <div class="text-danger">*Jenis file yang diizinkan: .pdf.</div>
                 </div>
                 <input type="hidden" name="id" class="form-control-file" id="idModal">
-                <input type="hidden" name="student_id"value={{ $siswa }}>
+                <input type="hidden" name="student_id"value={{ $siswa->id }}>
+                <input type="hidden" name="semester"value={{ $siswa->semester }}>
                 <input type="hidden" name="id_jenis"value={{ $idjenis }}>
                 <input type="hidden" name="partner_id" id="id_partner">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="confirmSubmission()">Save changes</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div>
+    <div class="modal fade" id="ubahstatus" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Upload Pngajuan</h5>
+              <form action="{{ 'ambilmbkmek' }}" method="post" enctype="multipart/form-data">
+                @csrf
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="status">Status terima</label>
+                <select class="form-control" name="status">
+                
+                    <option value="diterima">diterima</option>
+                    <option value="ditolak">ditolak</option>
+             
+                </select>
+            </div>
+             
+               
+                <input type="hidden" name="id" class="form-control-file" id="idubah">
+         
+              
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -154,6 +193,17 @@
             document.getElementById("idModal").value=data.id;
             document.getElementById("id_partner").value=data.partner_id;
             document.getElementById("nama_prog").value=data.nama_program;
+
+        }
+        function confirmSubmission() {
+    if (confirm('Apakah Anda yakin?')) {
+      document.getElementById('myForm').submit();
+    }
+  }
+        function ubah(data) {
+            console.log(data);
+            document.getElementById("idubah").value=data.id;
+           
 
         }
 

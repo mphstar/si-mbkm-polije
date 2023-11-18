@@ -48,10 +48,10 @@ class ProgramSayaMbkmEksternalCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->setColumns([[
-            'name' => 'nama_mitra',
+            'name' => 'partner.partner_name',
             'label' => 'Nama Mitra',
         ], [
-            'name' => 'jenis_mbkm',
+            'name' => 'jenismbkm.jenismbkm',
             'label' => 'Jenis MBKM',
         ], [
             'name' => 'semester',

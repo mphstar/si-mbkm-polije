@@ -18,6 +18,7 @@ class CreatePendaftaranExmbkmSementaraTable extends Migration
             $table->foreignId('student_id')->references('id')->on('students')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('id_jenis')->references('id')->on('jenismbkm')->onUpdate('cascade')->onDelete('cascade');
             $table->string('file_surat')->nullable();
+            $table->integer('semester')->nullable();
             $table->string('file_surat_ttd')->nullable();
        
             $table->timestamps();
