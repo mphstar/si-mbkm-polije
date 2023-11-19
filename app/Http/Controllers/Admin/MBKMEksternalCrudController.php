@@ -73,7 +73,7 @@ class MBKMEksternalCrudController extends CrudController
         $id = backpack_auth()->user()->id;
         $today = Carbon::now()->toDateString();
         $siswa = Students::where('users_id', $id)->first();
-        $cekdireg_acp=RegisterMbkm::where('student_id',$siswa->id)->whereIn('status',['accepted','rejected'])->get();//mengecek select di reg mbkm apakah user sudah terdaftar dan statsunya masih acepetd
+        $cekdireg_acp=RegisterMbkm::where('student_id',$siswa->id)->whereIn('status',['accepted','pending'])->get();//mengecek select di reg mbkm apakah user sudah terdaftar dan statsunya masih acepetd
         $pengajuan = PengajuanEXTR::with(['detail_sementara', 'student'])->whereHas('detail_sementara', function ($query) {
             return $query->where('status', '=', 'diambil');
         })->where('student_id', $siswa->id)->where('semester',$siswa->semester)->get();
