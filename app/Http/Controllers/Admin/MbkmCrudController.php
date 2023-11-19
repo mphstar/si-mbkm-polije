@@ -60,6 +60,13 @@ class MbkmCrudController extends CrudController
         $now = Carbon::now();
         CRUD::addClause('whereDate', 'start_reg', '<=', $now);
         CRUD::addClause('whereDate', 'end_reg', '>=', $now);
+        $user = backpack_auth()->user()->with('student')->whereHas('student', function($query){
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+        CRUD::addClause('where', 'jurusan', '=', $user->student->jurusan);
+        CRUD::addClause('where', 'semester', '=', $user->student->semester);
+
+
     }
 
 
