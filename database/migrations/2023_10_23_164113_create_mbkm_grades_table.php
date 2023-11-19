@@ -16,7 +16,7 @@ class CreateMbkmGradesTable extends Migration
         Schema::create('involved_course', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('reg_mbkm_id');
-            $table->foreign('reg_mbkm_id')->references('id')->on('reg_mbkms')->onDelete('cascade');
+            $table->foreign('reg_mbkm_id')->references('id')->on('reg_mbkms')->onUpdate('cascade')->onDelete('cascade');
             $table->string('kode_matkul', 20);
             $table->string('nama_matkul');
             $table->integer('sks');

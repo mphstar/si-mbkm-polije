@@ -112,6 +112,8 @@ class MbkmCrudController extends CrudController
         $request->file('file')->move(public_path('storage/uploads'), $fileName);
         $input['requirements_files'] = "storage/uploads/$fileName";
         $user = RegisterMbkm::create($input);
+
+        
         
         $dataaa=RegisterMbkm::with(['mbkm.partner.user','student'])->where('id',$user->id)->first();
 

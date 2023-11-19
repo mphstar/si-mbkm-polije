@@ -53,7 +53,17 @@ class AccNilaiCrudController extends CrudController
         ]);
 
         CRUD::addButtonFromModelFunction('line', 'detail_konfirmasi_nilai', 'detail_konfirmasi_nilai', 'beginning');
-        $this->crud->addClause('where', 'status', 'menunggu_acc') ->orWhere('status', 'done');
+        $this->crud->addClause('where', function($query){
+            return $query->where('status', 'menunggu_acc')->orWhere('status', 'done');
+        });
+        
+        $user = backpack_auth()->user();
+        // dd($user->lecturer->jurusan);
+        $this->crud->addClause('whereHas', 'mbkm', function($query) use ($user){
+            return $query->where('jurusan', $user->lecturer->jurusan);
+        });
+        
+        
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

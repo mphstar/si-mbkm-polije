@@ -120,7 +120,6 @@ class NilaimbkmCrudController extends CrudController
     {
         $crud = $this->crud;
         $data = Nilaimbkm::with(['involved.course'])->where('id', $id)->first();
-        // return $data;
         return view('vendor.backpack.crud.inputNilai', compact('crud', 'data'));
     }
 
@@ -137,7 +136,7 @@ class NilaimbkmCrudController extends CrudController
 
         foreach ($data as $key => $value) {
             // InvolvedCourse::updateOrInsert(['reg_mbkm_id' => $key], ['grade' => $value]);
-            InvolvedCourse::where('reg_mbkm_id', $id)->where('course_id', $key)->update([
+            InvolvedCourse::where('reg_mbkm_id', $id)->where('kode_matkul', $key)->update([
                 "grade" => $value
             ]);
         }

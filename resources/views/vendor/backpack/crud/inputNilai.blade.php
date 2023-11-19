@@ -42,22 +42,22 @@
                         <form action="" method="post">
                             @foreach ($data->involved as $item)
                                 <div class="form-group">
-                                    <label for="{{ $item->course->id }}">{{ $item->course->name }}</label>
-                                    <input oninput="conversiNilai(this, 'result_konversi_{{ $item->course->id }}')"
-                                        class="form-control" id="{{ $item->course->id }}" type="number"
-                                        name="{{ $item->course->id }}" value="{{ $item->grade }}"
+                                    <label for="{{ $item->kode_matkul }}">{{ $item->nama_matkul }}</label>
+                                    <input oninput="conversiNilai(this, 'result_konversi_{{ $item->kode_matkul }}')"
+                                        class="form-control" id="{{ $item->kode_matkul }}" type="number"
+                                        name="{{ $item->kode_matkul }}" value="{{ $item->grade }}"
                                         placeholder="Masukkan nilai">
                                     <p class="help-block">Hasil Konversi: <span
-                                            id="result_konversi_{{ $item->course->id }}">
+                                            id="result_konversi_{{ $item->kode_matkul }}">
                                             @if ($item->grade == '')
                                                 -
                                             @else
                                                 @if ($item->grade >= 0 && $item->grade < 60)
-                                                    C
+                                                    BC
                                                 @elseif($item->grade >= 60 && $item->grade < 75)
                                                     B
                                                 @elseif($item->grade >= 75 && $item->grade < 87)
-                                                    B+
+                                                    AB
                                                 @elseif($item->grade >= 87 && $item->grade <= 100)
                                                     A
                                                 @else
@@ -86,11 +86,11 @@
                 nilai = '-'
             } else {
                 if (e.value >= 0 && e.value < 60) {
-                    nilai = 'C'
+                    nilai = 'BC'
                 } else if (e.value >= 60 && e.value < 75) {
                     nilai = 'B'
                 } else if (e.value >= 75 && e.value < 87) {
-                    nilai = 'B+'
+                    nilai = 'AB'
                 } else if (e.value >= 87 && e.value <= 100) {
                     nilai = 'A'
                 } else {

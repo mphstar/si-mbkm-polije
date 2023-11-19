@@ -54,6 +54,14 @@ class ManageStudentCrudController extends CrudController
         ]);
 
         $this->crud->addClause('where', 'status', '=', 'accepted');
+        $user = backpack_auth()->user();
+        
+        $this->crud->addClause('whereHas', 'students', function($query) use ($user){
+            return $query->where('jurusan', $user->lecturer->jurusan);
+        });
+
+        // dd($user->lecturer);
+        // dd('dwadwa');
         // $this->crud->addClause('where', 'nilai_mitra', '!=', 'null');
     }
 
