@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Course;
+use App\Http\Controllers\ClassApi;
 use App\Http\Requests\ManageStudentRequest;
 use App\InvolvedCourse;
 use App\Models\Lecturer;
@@ -53,6 +54,14 @@ class ManageStudentCrudController extends CrudController
         ]);
 
         $this->crud->addClause('where', 'status', '=', 'accepted');
+        $user = backpack_auth()->user();
+        
+        $this->crud->addClause('whereHas', 'students', function($query) use ($user){
+            return $query->where('jurusan', $user->lecturer->jurusan);
+        });
+
+        // dd($user->lecturer);
+        // dd('dwadwa');
         // $this->crud->addClause('where', 'nilai_mitra', '!=', 'null');
     }
 
@@ -104,23 +113,42 @@ class ManageStudentCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-    protected function formEdit($id)
+    protected function formEdit($id, Request $request)
     {
         $crud = $this->crud;
-
+        $api = new ClassApi;
+        
         $dosen = Lecturer::where('status', 'dosen pembimbing')->get();
-
+        
         $data = Nilaimbkm::with(['involved.course', 'students.program_study', 'mbkm'])->where('id', $id)->first();
         // return $data;
         $nim = $data->students->nim;
         $A = substr($nim, 1, 1);  // Mengambil karakter pada posisi 1 (indeks 0) untuk variabel A
         $B = substr($nim, 3, 2);  // Mengambil karakter pada posisi 3 (indeks 2) untuk variabel B
 
+        
         $semester = $data->mbkm_id == null ? $data->semester : $data->mbkm->semester;
+        $ganjilGenap = $semester % 2 == 0 ? 'Genap' : 'Ganjil';
+        
+        $tahun_kelas = 0;
+        if($semester == 1 || $semester == 2){
+            $tahun_kelas = 1;
+        } else if($semester == 3 || $semester == 4){
+            $tahun_kelas = 2;
+        } else if($semester == 5 || $semester == 6){
+            $tahun_kelas = 3;
+        } else if($semester == 7 || $semester == 8){
+            $tahun_kelas = 4;
+        } 
+        
 
-        $course = Course::where('program_id', $data->students->study_program_id)->where('tahun_kurikulum', "20{$B}")->where('semester', $semester)->get();
+        $querycourse = $api->getMatkul($request, "20{$B}", $ganjilGenap, $data->students->program_studi, $tahun_kelas);
 
-        //    $course = Course::where('program_id', $data->students->study_program_id)
+        $filteredCourse = array_unique(array_column($querycourse, 'kode_mata_kuliah'));
+        $resultCourse = array_values(array_intersect_key($querycourse, array_flip(array_keys($filteredCourse))));
+
+        $course = $resultCourse;
+        // return $data->students;        //    $course = Course::where('program_id', $data->students->study_program_id)
         //     ->where('tahun_kurikulum', "20{$B}")
         //     ->where(function ($query) use ($data, $Rsemester, $data_sks) {
         //         $query->where(function ($innerQuery) use ($data_sks) {
@@ -151,16 +179,18 @@ class ManageStudentCrudController extends CrudController
 
         InvolvedCourse::where('reg_mbkm_id', $id)->delete();
         if ($request->ids) {
-
+            
             # code...
             for ($i = 0; $i < count($request->ids); $i++) {
+                $decodeMatkul = json_decode($request->ids[$i]);
                 InvolvedCourse::create([
                     "reg_mbkm_id" => $id,
-                    "course_id" => $request->ids[$i]
+                    "kode_matkul" => $decodeMatkul->kode_matkul,
+                    "nama_matkul" => $decodeMatkul->nama_matkul,
+                    "sks" => $decodeMatkul->sks
                 ]);
             }
         }
-        session()->flash('test', 'success');
         Alert::success('Berhasil Menyimpan')->flash();
         return redirect('/admin/manage-student');
     }

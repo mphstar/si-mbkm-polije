@@ -14,7 +14,7 @@
     <section class="container-fluid d-print-none">
         <a href="javascript: window.print();" class="btn float-right"><i class="la la-print"></i></a>
         <h2>
-            <span class="text-capitalize">Validasi Partner</span>
+            <span class="text-capitalize">Fitur accepted nilai</span>
             <br>
 
         </h2>
@@ -30,7 +30,7 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Partner Name</th>
+                                    <th>partner name</th>
                                     <th>addres</th>
                                     <th>phone</th>
                                     <th>email</th>
@@ -63,10 +63,10 @@
         </div>
     </div>
     @foreach ($partners as $row)
-        <form action="{{ route('ubah_status', ['id' => $row->id]) }}" method="post">
-            @csrf
-            <div class="modal fade" id="updateStatusModal{{ $row->id }}" tabindex="-1" role="dialog"
-                aria-labelledby="updateStatusModalLabel" aria-hidden="true">
+        <div class="modal fade" id="updateStatusModal{{ $row->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="updateStatusModalLabel" aria-hidden="true">
+            <form action="{{ route('ubah_status', ['id' => $row->id]) }}" method="post">
+                @csrf
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -79,7 +79,8 @@
                             <input type="hidden" id="partnerId" value="{{ $row->id }}">
                             <div class="form-group">
                                 <label for="newStatus">New Status</label>
-                                <select class="form-control" id="newStatus" name="newStatus">
+                                <select required class="form-control" id="newStatus" name="newStatus">
+                                    <option value="">pilih status</option>
                                     <option value="accepted">accepted</option>
                                     <option value="rejected">rejected</option>
                                     <option value="pending">pending</option>
@@ -92,16 +93,15 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     @endforeach
 @endsection
 
 @section('after_scripts')
-<script>
-    $(document).on('show.bs.modal', '.modal', function() {
-        $(this).appendTo('body');
-    });
-</script>
-
+    <script>
+        $(document).on('show.bs.modal', '.modal', function() {
+            $(this).appendTo('body');
+        });
+    </script>
 @endsection

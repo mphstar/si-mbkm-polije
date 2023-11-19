@@ -32,6 +32,15 @@ class ManagementMBKM extends Model
     {
         return $this->belongsTo(Partner::class);
     }
+    public function jenismbkm()
+    {
+        return $this->belongsTo(JenisMbkm::class, 'id_jenis', 'id');
+    }
+ 
+    public function departmen()
+    {
+        return $this->belongsTo(Departmen::class,'departments_id','id');
+    }
     public function regs()
     {
         return $this->hasMany(RegisterMbkm::class);
@@ -59,6 +68,8 @@ class ManagementMBKM extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+
     public function getStatusSpan() {
         $status = $this->attributes['status_acc'];
         

@@ -8,43 +8,45 @@
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <table class="table table-responsive-sm">
-                        <thead>
-                            <tr>
-                                <th>Mata Kuliah</th>
-                                <th>SKS</th>
-                                <th>Nilai</th>
-                                <th>Hasil</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data->involved as $item)
+                    <div id="isitable">
+                        <table id="tablee" class="table table-responsive-sm">
+                            <thead>
                                 <tr>
-                                    <td>{{ $item->course->name }}</td>
-                                    <td>{{ $item->course->sks }}</td>
-                                    <td>{{ $item->grade == '' ? '-' : $item->grade }}</td>
-                                    <td>
-                                        @if ($item->grade == '')
-                                            -
-                                        @else
-                                            @if ($item->grade >= 0 && $item->grade < 60)
-                                                C
-                                            @elseif($item->grade >= 60 && $item->grade < 75)
-                                                B
-                                            @elseif($item->grade >= 75 && $item->grade < 87)
-                                                B+
-                                            @elseif($item->grade >= 87 && $item->grade <= 100)
-                                                A
-                                            @else
-                                                Tidak Diketahui
-                                            @endif
-                                        @endif
-                                    </td>
+                                    <th>Mata Kuliah</th>
+                                    <th>SKS</th>
+                                    <th>Nilai</th>
+                                    <th>Hasil</th>
                                 </tr>
-                            @endforeach
-
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($data->involved as $item)
+                                    <tr>
+                                        <td>{{ $item->nama_matkul }}</td>
+                                        <td>{{ $item->sks }}</td>
+                                        <td>{{ $item->grade == '' ? '-' : $item->grade }}</td>
+                                        <td>
+                                            @if ($item->grade == '')
+                                                -
+                                            @else
+                                                @if ($item->grade >= 0 && $item->grade < 60)
+                                                    BC
+                                                @elseif($item->grade >= 60 && $item->grade < 75)
+                                                    B
+                                                @elseif($item->grade >= 75 && $item->grade < 87)
+                                                    AB
+                                                @elseif($item->grade >= 87 && $item->grade <= 100)
+                                                    A
+                                                @else
+                                                    Tidak Diketahui
+                                                @endif
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+    
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -60,6 +62,8 @@
                     type="button">Tolak</button>
                 <button onclick="terima({{ $data }})" class="btn btn-success" id="acc"
                     type="button">Terima</button>
+                    <button id="btnPrint" class="btn btn-secondary" type="button">Print</button>
+
             </div>
         </div>
         <!-- /.modal-content-->
@@ -82,4 +86,14 @@
     const terima = (data) => {
         window.location.href = `/admin/acc-nilai/${data.id}/terima?keterangan=${btoa(keterangan.value)}`
     }
+
+    btnPrint.addEventListener('click', function () {
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>Print</title>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(document.getElementById('isitable').innerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    });
 </script>

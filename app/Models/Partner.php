@@ -28,6 +28,10 @@ class Partner extends Model
     {
         return $this->hasMany('App\Models\Mbkm', 'partner_id', 'id');
     }
+    public function pengajuan_sub()
+    {
+        return $this->hasMany(PengajuanEXTRSub::class, 'partner_id', 'id');
+    }
 
     public function user(){
         return $this->belongsTo(User::class, 'users_id', 'id');

@@ -20,7 +20,7 @@ class CreatePartnersTable extends Migration
             $table->string("phone");
             $table->enum('status', ['accepted', 'rejected', 'pending'])->default('pending');
             $table->enum('jenis_mitra', ['luar kampus', 'dalam kampus']);
-            $table->foreignId('users_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('users_id')->nullable()->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
