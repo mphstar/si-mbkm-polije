@@ -172,7 +172,9 @@ class AcctiveAccountMitraCrudController extends CrudController
 
         $partners = Partner::select('partners.id as id', 'partners.partner_name as name', 'partners.address as alamat', 'partners.phone as phone', 'users.email as email', 'partners.jenis_mitra as jenis_mitra', 'partners.status as status')
             ->join('users', 'partners.users_id', '=', 'users.id')
+            ->where('partners.status', '!=', 'accepted')
             ->get();
+
         $crud = $this->crud;
 
         return view('vendor/backpack/crud/ValidasiAccountMitra', compact('partners', 'crud'));

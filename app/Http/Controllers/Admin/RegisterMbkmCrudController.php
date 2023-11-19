@@ -42,7 +42,7 @@ class RegisterMbkmCrudController extends CrudController
             return $query->where('users_id', backpack_auth()->user()->id);
         })->first();
 
-        $this->crud->addClause('where', 'mbkm.partner_id', '=', $id_partner);
+        $this->crud->addClause('where', 'mbkm.partner_id', '=', $id_partner->partner->id);
     }
 
     /**
@@ -60,7 +60,6 @@ class RegisterMbkmCrudController extends CrudController
             'function_name' => 'getStatusSpan'
         ]]);
         $this->crud->addButtonFromModelFunction('line', 'download', 'Download', 'beginning');
-        
     }
     public function validasipendaftar()
     {
@@ -70,7 +69,7 @@ class RegisterMbkmCrudController extends CrudController
 
 
 
-        $pendaftar = RegisterMbkm::with(['student', 'mbkm'])->whereHas('mbkm', function($query) use($id_partner){
+        $pendaftar = RegisterMbkm::with(['student', 'mbkm'])->whereHas('mbkm', function ($query) use ($id_partner) {
             return $query->where('partner_id', '=', $id_partner->partner->id);
         })->get();
 
@@ -87,26 +86,37 @@ class RegisterMbkmCrudController extends CrudController
         ];
         $id =  $request->input('id');
         $userEmail = User::join('students', 'users.id', '=', 'students.users_id')
-        ->join('reg_mbkms', 'students.id', '=', 'reg_mbkms.student_id')
-        ->where('reg_mbkms.id', $id)
-        ->value('users.email');
-        $namaMBKM=RegisterMbkm::with('mbkm.partner')->where('id',$request->id)->first()->mbkm->program_name;
-       
-        RegisterMbkm::where('id', $id)->update($data);
+            ->join('reg_mbkms', 'students.id', '=', 'reg_mbkms.student_id')
+            ->where('reg_mbkms.id', $id)
+            ->value('users.email');
+        $namaMBKM = RegisterMbkm::with('mbkm.partner')->where('id', $request->id)->first()->mbkm->program_name;
+
+        $user = RegisterMbkm::where('id', $id)->first();
+
+        if ($user->mbkm->capacity == 0) {
+            Alert::error('Kuota pendaftar sudah habis')->flash();
+            return back();
+        }
+
+        $user->update($data);
+
+        $user->mbkm->update([
+            "capacity" => $user->mbkm->capacity - 1
+        ]);
         try {
-                if ($request->input("status")==="accepted") {
-                    Mail::to($userEmail)->send(new pesertadiacc($namaMBKM));
-                }elseif($request->input("status")==="rejected"){
-                    Mail::to($userEmail)->send(new pesertaditolak($namaMBKM));
+            if ($request->input("status") === "accepted") {
+                Mail::to($userEmail)->send(new pesertadiacc($namaMBKM));
+            } elseif ($request->input("status") === "rejected") {
+                Mail::to($userEmail)->send(new pesertaditolak($namaMBKM));
             }
         } catch (\Throwable $th) {
             Alert::warning('gagal send email')->flash();
-            }
+        }
 
-     
-     
-     
-     
+
+
+
+
         session()->flash('status', 'success');
         Alert::success('Berhasil Validasi Peserta')->flash();
         return back();

@@ -18,9 +18,10 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "funkjedi/composer-include-files": "^1.1",
-        "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
+        "guzzlehttp/guzzle": "^7.8",
         "intervention/image": "*",
         "laravel/framework": "^7.29",
+        "laravel/socialite": "^5.10",
         "laravel/tinker": "^2.5"
     },
     "require-dev": {
@@ -43,10 +44,7 @@
     "extra": {
         "laravel": {
             "dont-discover": []
-        },
-        "include_files": [
-            "app/Helpers/Backpack.php"
-        ]
+        }
     },
     "autoload": {
         "psr-4": {

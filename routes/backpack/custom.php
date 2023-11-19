@@ -29,6 +29,7 @@ Route::group([
 
         Route::crud('lecturer', 'LecturerCrudController');
         Route::crud('partner', 'PartnerCrudController');
+        Route::crud('jenis-mbkm', 'JenisMbkmCrudController');
     });
 
 
@@ -71,6 +72,9 @@ Route::group([
         Route::post('/simpan-data', 'AccNilaiCrudController@tolak');
         Route::post('acc-nilai/{id}/detail_nilai/tolak/{not_aprroval}', 'AccNilaiCrudController@tolak')->name('tolak');
         Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
+        Route::crud('mbkm-external', 'MbkmExternalCrudController');
+        Route::get('/mbkm-external/{id}/detail', 'MbkmExternalCrudController@detail');
+        Route::post('/mbkm-external/{id}/upload-laporan-ttd', 'MbkmExternalCrudController@upload_laporan_ttd');
     });
 
     Route::middleware([DosenMiddleware::class])->group(function () {
@@ -101,13 +105,13 @@ Route::group([
 
         Route::get('mbkm-eksternal/{id}/updating', 'ProgramSayaMbkmEksternalCrudController@updating');
         Route::post('mbkm-eksternal/{id}/penilaian ', 'ProgramSayaMbkmEksternalCrudController@penilaian');
+
+        Route::crud('pengajuan-e-x-t-r', 'PengajuanEXTRCrudController');
+        Route::crud('pengajuan-e-x-t-r-sub', 'PengajuanEXTRSubCrudController');
     });
- 
+
     Route::get('/download/{name}', 'DownloadController@download');
 
-    Route::crud('user', 'UserCrudController');
-    Route::crud('jenis-mbkm', 'JenisMbkmCrudController');
-    Route::crud('mbkm-external', 'MbkmExternalCrudController');
-    Route::crud('pengajuan-e-x-t-r', 'PengajuanEXTRCrudController');
-    Route::crud('pengajuan-e-x-t-r-sub', 'PengajuanEXTRSubCrudController');
+    // Route::crud('user', 'UserCrudController');
+    
 }); // this should be the absolute last line of this file

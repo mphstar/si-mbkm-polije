@@ -60,6 +60,12 @@ class ProgressMahasiswaCrudController extends CrudController
             });
         }
 
+        $user = backpack_auth()->user();
+        
+        $this->crud->addClause('whereHas', 'students', function($query) use ($user){
+            return $query->where('jurusan', $user->lecturer->jurusan);
+        });
+
 
     }
 

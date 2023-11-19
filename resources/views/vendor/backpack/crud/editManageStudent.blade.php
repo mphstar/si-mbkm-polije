@@ -75,7 +75,7 @@
                                     <?php
                                     $found = false;
                                     foreach ($data->involved as $itemA) {
-                                        if ($itemA->course_id === $itemB->id) {
+                                        if ($itemA->kode_matkul === $itemB->kode_mata_kuliah) {
                                             $found = true;
                                             break;
                                         }
@@ -85,9 +85,13 @@
                                         <div class="form-check form-check-inline mr-4">
                                             <input sks="{{ $itemB->sks }}"
                                                 onchange="handleCheck(this, '{{ $itemB->sks }}')" checked name="ids[]"
-                                                class="form-check-input" id="{{ $itemB->id }}" type="checkbox"
-                                                value="{{ $itemB->id }}">
-                                            <label class="form-check-label" for="{{ $itemB->id }}">{{ $itemB->name }}
+                                                class="form-check-input" id="{{ $itemB->kode_mata_kuliah }}" type="checkbox"
+                                                value="{{ json_encode(array(
+                                                    "kode_matkul" => $itemB->kode_mata_kuliah,
+                                                    "nama_matkul" => $itemB->mata_kuliah ? $itemB->mata_kuliah : $itemB->mata_kuliah_praktikum,
+                                                    "sks" => $itemB->sks
+                                                )) }}">
+                                            <label class="form-check-label" for="{{ $itemB->kode_mata_kuliah }}">{{ $itemB->mata_kuliah ? $itemB->mata_kuliah : $itemB->mata_kuliah_praktikum }}
                                                 ({{ $itemB->sks }} SKS)
                                             </label>
                                         </div>
@@ -95,9 +99,13 @@
                                         <div class="form-check form-check-inline mr-4">
                                             <input sks="{{ $itemB->sks }}"
                                                 onchange="handleCheck(this, '{{ $itemB->sks }}')" name="ids[]"
-                                                class="form-check-input" id="{{ $itemB->id }}" type="checkbox"
-                                                value="{{ $itemB->id }}">
-                                            <label class="form-check-label" for="{{ $itemB->id }}">{{ $itemB->name }}
+                                                class="form-check-input" id="{{ $itemB->kode_mata_kuliah }}" type="checkbox"
+                                                value="{{ json_encode(array(
+                                                    "kode_matkul" => $itemB->kode_mata_kuliah,
+                                                    "nama_matkul" => $itemB->mata_kuliah ? $itemB->mata_kuliah : $itemB->mata_kuliah_praktikum,
+                                                    "sks" => $itemB->sks
+                                                )) }}">
+                                            <label class="form-check-label" for="{{ $itemB->kode_mata_kuliah }}">{{ $itemB->mata_kuliah ? $itemB->mata_kuliah : $itemB->mata_kuliah_praktikum }}
                                                 ( {{ $itemB->sks }} SKS )</label>
                                         </div>
                                     @endif
