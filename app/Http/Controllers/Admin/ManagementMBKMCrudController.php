@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\ClassApi;
 use App\Http\Requests\ManagementMBKMRequest;
 use App\Models\Departmen;
 use App\Models\JenisMbkm;
@@ -94,10 +95,9 @@ class ManagementMBKMCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
          */
     }
-    public function tambah_mbkm()
+    public function tambah_mbkm(Request $request)
     {
         $jenis_mbkm=JenisMbkm::where('kategori_jenis','internal')->get();
-        $jurusan=Departmen::all();
         $crud = $this->crud;
 
         $mitra =  backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
@@ -112,6 +112,9 @@ class ManagementMBKMCrudController extends CrudController
             Alert::warning('Aktifasi akun terlebih dahulu')->flash();
             return redirect()->back();
         }
+
+        $api = new ClassApi;
+        $jurusan = $api->getJurusan($request);
 
         session()->flash('status', 'success');
         return view('vendor/backpack/crud/view_tambahmbkm', compact('mitra', 'crud', 'id_partner','jurusan','jenis_mbkm'));

@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use LDAP\Result;
 
 class ApiController extends Controller
 {
@@ -43,7 +46,8 @@ class ApiController extends Controller
         return json_decode($response);
     }
 
-    public function index(){
+
+    public function index(Request $request){
         $res = $this->generateToken();
         // dd($res);
         return $res->access_token;

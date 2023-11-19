@@ -89,12 +89,12 @@
 
                         </div>
                         <div class="form-group">
-                            <label >JURUSAN</label>
+                            <label >Jurusan</label>
                              
                             <select class="form-control" name="departments_id">
                                 @foreach($jurusan as $key)
-                                <option value="{{ $key->id }}">{{ $key->name }}</option>
-                            @endforeach
+                                    <option value="{{ $key->unit }}">{{ $key->unit }}</option>
+                                @endforeach
                              
                             </select>
                         </div>
