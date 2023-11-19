@@ -37,8 +37,8 @@ class ManagementMBKMCrudController extends CrudController
         CRUD::setModel(\App\Models\ManagementMBKM::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/management-m-b-k-m');
         CRUD::setEntityNameStrings('management MBKM', 'management MBKMS');
-  
-        $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
+
+        $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
             return $query->where('users_id', backpack_auth()->user()->id);
         })->first();
 
@@ -54,37 +54,38 @@ class ManagementMBKMCrudController extends CrudController
     protected function setupListOperation()
     {
 
-        $this->crud->setColumns([[
-            'name' => 'program_name',
-            'label' => 'Nama Program',
-        ], [
-            'name' => 'start_date',
-            'label' => 'Tanggal Mulai',
-        ], [
-            'name' => 'end_date',
-            'label' => 'Tanggal Selesai',
-        ], [
-            'name' => 'capacity',
-            'label' => 'Kuota',
-        ], [
-        
-            'name' => 'jenismbkm.jenismbkm',
-            'label' => 'Jenis Mbkm',
-        ], [
-            'name'  => 'status_acc',
-            'label' => 'Status ACC', // Table column heading
-            'type'  => 'model_function',
-            'function_name' => 'getStatusSpan'
-        ], [
-            'name'  => 'is_active',
-            'label' => 'Status Active', // Table column heading
-            'type'  => 'model_function',
-            'function_name' => 'getIsactiveSpan'
-        ],       
-]);
-// $this->crud->addClause('join', 'departments', function ($join) {
-//     $join->on('mbkm.id_department', '=', 'jurusan.id');
-// });    // return backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
+        $this->crud->setColumns([
+            [
+                'name' => 'program_name',
+                'label' => 'Nama Program',
+            ], [
+                'name' => 'start_date',
+                'label' => 'Tanggal Mulai',
+            ], [
+                'name' => 'end_date',
+                'label' => 'Tanggal Selesai',
+            ], [
+                'name' => 'capacity',
+                'label' => 'Kuota',
+            ], [
+
+                'name' => 'jenismbkm.jenismbkm',
+                'label' => 'Jenis Mbkm',
+            ], [
+                'name'  => 'status_acc',
+                'label' => 'Status ACC', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'getStatusSpan'
+            ], [
+                'name'  => 'is_active',
+                'label' => 'Status Active', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'getIsactiveSpan'
+            ],
+        ]);
+        // $this->crud->addClause('join', 'departments', function ($join) {
+        //     $join->on('mbkm.id_department', '=', 'jurusan.id');
+        // });    // return backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
         //     return $query->where('users_id', backpack_auth()->user()->id);
         // })->first();
         $this->crud->addButtonFromView('top', 'tambah_mbkm', 'tambah_mbkm', 'beginning');
@@ -97,18 +98,18 @@ class ManagementMBKMCrudController extends CrudController
     }
     public function tambah_mbkm(Request $request)
     {
-        $jenis_mbkm=JenisMbkm::where('kategori_jenis','internal')->get();
+        $jenis_mbkm = JenisMbkm::where('kategori_jenis', 'internal')->get();
         $crud = $this->crud;
 
-        $mitra =  backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
+        $mitra =  backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
             return $query->where('users_id', backpack_auth()->user()->id);
         })->first();;
 
-        $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
+        $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
             return $query->where('users_id', backpack_auth()->user()->id);
         })->first();
 
-        if($id_partner->partner->status == 'pending'){
+        if ($id_partner->partner->status == 'pending') {
             Alert::warning('Aktifasi akun terlebih dahulu')->flash();
             return redirect()->back();
         }
@@ -117,15 +118,17 @@ class ManagementMBKMCrudController extends CrudController
         $jurusan = $api->getJurusan($request);
 
         session()->flash('status', 'success');
-        return view('vendor/backpack/crud/view_tambahmbkm', compact('mitra', 'crud', 'id_partner','jurusan','jenis_mbkm'));
+        return view('vendor/backpack/crud/view_tambahmbkm', compact('mitra', 'crud', 'id_partner', 'jurusan', 'jenis_mbkm'));
     }
-    public function ubahmbkm($id){
+    public function ubahmbkm($id, Request $request)
+    {
         $crud = $this->crud;
-        $jurusan=Departmen::all();
+        $api = new ClassApi;
+        $jurusan = $api->getJurusan($request);
         $jenis_mbkm = JenisMbkm::where('kategori_jenis', 'internal')->get();
 
         $data = ManagementMBKM::with(['jenismbkm', 'departmen'])->where('id', $id)->first();
-        return view('vendor.backpack.crud.ubahMBKM', compact('crud', 'jenis_mbkm','jurusan','data'));
+        return view('vendor.backpack.crud.ubahMBKM', compact('crud', 'jenis_mbkm', 'jurusan', 'data'));
     }
     /**
      * Define what happens when the Create operation is loaded.
@@ -154,9 +157,9 @@ class ManagementMBKMCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-     
-        
-                
+
+
+
         // $this->crud->addField([
         //     'name' => 'id_jenis', // Nama kolom dalam tabel "MBKM" yang akan menyimpan ID jenis
         //     'label' => 'Pilih jenid MBKM',
@@ -164,29 +167,30 @@ class ManagementMBKMCrudController extends CrudController
         //     'entity' => 'jenismbkmitrn', // Nama relasi dalam model "MBKM"
         //     'attribute' => 'jenismbkm', // Atribut yang ingin ditampilkan dalam combo box
         //     'model' => ManagementMBKM::class
-      
+
         // ]);
     }
 
-    public function updatembkm(Request $request){
-    
-$data=[
-"departments_id"=>$request->input("departments_id"),
-"program_name"=>$request->input("program_name"),
-"capacity"=>$request->input("capacity"),
-"start_date"=>$request->input("start_date"),
-"end_date"=>$request->input("end_date"),
-"start_reg"=>$request->input("start_reg"),
-"end_reg"=>$request->input("end_reg"),
-"task_count"=>$request->input("task_count"),
-"semester"=>$request->input("semester"),
-"nama_penanggung_jawab"=>$request->input("nama_penanggung_jawab"),
-"jumlah_sks"=>$request->input("jumlah_sks"),
-"info"=>$request->input("info")
+    public function updatembkm(Request $request)
+    {
 
-];
+        $data = [
+            "jurusan" => $request->input("jurusan"),
+            "program_name" => $request->input("program_name"),
+            "capacity" => $request->input("capacity"),
+            "start_date" => $request->input("start_date"),
+            "end_date" => $request->input("end_date"),
+            "start_reg" => $request->input("start_reg"),
+            "end_reg" => $request->input("end_reg"),
+            "task_count" => $request->input("task_count"),
+            "semester" => $request->input("semester"),
+            "nama_penanggung_jawab" => $request->input("nama_penanggung_jawab"),
+            "jumlah_sks" => $request->input("jumlah_sks"),
+            "info" => $request->input("info"),
+            "id_jenis" => $request->input("id_jenis")
+        ];
 
-        $id=$request->input('id');
+        $id = $request->input('id');
         ManagementMBKM::where('id', $id)->update($data);
 
         session()->flash('status', 'success');
@@ -274,7 +278,7 @@ $data=[
             'label' => 'Jenis MBKM'
         ]);
         $this->crud->addColumn([
-            'name' => 'departmen.name',
+            'name' => 'jurusan',
             'label' => 'Jurusan'
         ]);
         $this->crud->addColumn([

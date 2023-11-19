@@ -91,7 +91,7 @@
                         <div class="form-group">
                             <label >Jurusan</label>
                              
-                            <select class="form-control" name="departments_id">
+                            <select class="form-control" name="jurusan">
                                 @foreach($jurusan as $key)
                                     <option value="{{ $key->unit }}">{{ $key->unit }}</option>
                                 @endforeach
