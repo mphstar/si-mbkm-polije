@@ -60,8 +60,8 @@
                                     <option value="">-</option>
                                     @foreach ($jurusan as $item)
                                         <option
-                                            {{ $errors->has('jurusan') ? ($errors->first('jurusan') == $item->unit ? 'selected' : '') : '' }}
-                                            value="{{ $item->unit }}">{{ $item->unit }}</option>
+                                            {{ $errors->has('jurusan') ? ($errors->first('jurusan') == $item->uuid ? 'selected' : '') : '' }}
+                                            value="{{ $item->uuid }}">{{ $item->unit }}</option>
                                     @endforeach
                                 </select>
 
@@ -176,11 +176,11 @@
     <script>
         const program_studi = document.getElementById('program_studi')
         const handleJurusan = async (e, prodi) => {
-            const filtered = prodi.filter((item) => item.parent_unit == e.value)
+            const filtered = prodi.filter((item) => item.parent_uuid == e.value)
             let kontenHtml = ''
 
             filtered.forEach((element) => {
-                kontenHtml += `<option value="${element.unit}">${element.unit}</option>`
+                kontenHtml += `<option value="${element.uuid}">${element.unit}</option>`
             });
             
             program_studi.innerHTML = kontenHtml

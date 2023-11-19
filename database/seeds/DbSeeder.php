@@ -30,8 +30,8 @@ class DbSeeder extends Seeder
             "address" => "Jln Letjend Panjaitan Gg 10 No 50",
             "phone" => "0895393933040",
             "nim" => "e41210618",
-            "jurusan" => "JURUSAN TEKNOLOGI INFORMASI",
-            "program_studi" => "PROGRAM STUDI TEKNIK INFORMATIKA",
+            "jurusan" => "897fc4d4-1073-11ec-96e8-fefcfe8d8c7c",
+            "program_studi" => "436b1b62-1130-11ec-b446-fefcfe8d8c7c",
             "semester" => 5,
 
         ]);
@@ -89,8 +89,8 @@ class DbSeeder extends Seeder
             "address" => "Jln Mastrip",
             "phone" => "082211221122",
             "nip" => "199205282018032001",
-            "jurusan" => "TEKNOLOGI INFORMASI",
-            "program_studi" => "TEKNIK INFORMATIKA",
+            "jurusan" => "897fc4d4-1073-11ec-96e8-fefcfe8d8c7c",
+            "program_studi" => "436b1b62-1130-11ec-b446-fefcfe8d8c7c",
             "status" => "kaprodi",
         ]);
 
@@ -107,7 +107,7 @@ class DbSeeder extends Seeder
             "address" => "Jln Mastrip",
             "phone" => "082211221122",
             "nip" => "D19930831202103201",
-            "jurusan" => "TEKNOLOGI INFORMASI",
+            "jurusan" => "897fc4d4-1073-11ec-96e8-fefcfe8d8c7c",
             "status" => "dosen pembimbing",
         ]);
 

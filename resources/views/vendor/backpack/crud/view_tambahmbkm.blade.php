@@ -93,7 +93,7 @@
                              
                             <select class="form-control" name="jurusan">
                                 @foreach($jurusan as $key)
-                                    <option value="{{ $key->unit }}">{{ $key->unit }}</option>
+                                    <option value="{{ $key->uuid }}">{{ $key->unit }}</option>
                                 @endforeach
                              
                             </select>

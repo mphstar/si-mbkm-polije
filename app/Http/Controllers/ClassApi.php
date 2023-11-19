@@ -102,4 +102,14 @@ class ClassApi {
             "jenis" => "PROGRAM STUDI"
         ], $request);
     }
+
+    public function getMatkul(Request $request, $tahun_akademik, $semester, $program_studi_uuid, $tahun_kelas){
+        return $this->hitAPI('http://api.polije.ac.id/resources/akademik/matakuliah', [
+            "debug" => true,
+            "tahun_akademik" => $tahun_akademik,
+            "semester" => $semester,
+            "program_studi_uuid" => $program_studi_uuid,
+            "tahun_kelas" => $tahun_kelas
+        ], $request);
+    }
 }

@@ -97,7 +97,7 @@
 
                             <select class="form-control" name="jurusan">
                                 @foreach ($jurusan as $key)
-                                    <option {{ $key->unit == $data->jurusan ? 'selected' : '' }} value="{{ $key->unit }}">{{ $key->unit }}</option>
+                                    <option {{ $key->uuid == $data->jurusan ? 'selected' : '' }} value="{{ $key->uuid }}">{{ $key->unit }}</option>
                                 @endforeach
 
                             </select>

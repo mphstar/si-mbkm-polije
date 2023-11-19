@@ -42,7 +42,7 @@ class RegisterMbkmCrudController extends CrudController
             return $query->where('users_id', backpack_auth()->user()->id);
         })->first();
 
-        $this->crud->addClause('where', 'mbkm.partner_id', '=', $id_partner);
+        $this->crud->addClause('where', 'mbkm.partner_id', '=', $id_partner->partner->id);
     }
 
     /**

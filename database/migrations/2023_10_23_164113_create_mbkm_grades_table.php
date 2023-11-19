@@ -17,8 +17,9 @@ class CreateMbkmGradesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('reg_mbkm_id');
             $table->foreign('reg_mbkm_id')->references('id')->on('reg_mbkms')->onDelete('cascade');
-            $table->unsignedBigInteger('course_id');
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->string('kode_matkul', 20);
+            $table->string('nama_matkul');
+            $table->integer('sks');
             $table->integer('grade')->nullable();
             $table->timestamps();
         });
