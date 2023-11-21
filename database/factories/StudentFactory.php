@@ -11,6 +11,6 @@ $factory->define(Students::class, function (Faker $faker) {
         'phone' => $faker->phoneNumber,
         'nim' => $faker->unique()->userName,
         'study_program_id' => 1,
-        'users_id' => 2,
+        'users_id' => 1,
     ];
 });

@@ -116,7 +116,7 @@ class AccNilaiCrudController extends CrudController
         ->whereNotNull('involved_course.grade')
         ->where('reg_mbkms.id', $id)
         ->get();
-        // dd($result);
+         dd($result);
         $crud = $this->crud;
         return view('vendor/backpack/crud/nilaidetail', compact('result','crud'));
 // show a form that does something

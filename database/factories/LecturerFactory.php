@@ -10,7 +10,7 @@ $factory->define(Lecturer::class, function (Faker $faker) {
         'address' => $faker->address,
         'phone' => $faker->phoneNumber,
         'nip' => $faker->unique()->userName,
-        'users_id' => 5,
+        'users_id' => 1,
         'status' => 'dosen pembimbing',
     ];
 });

@@ -58,9 +58,20 @@ class DatabaseSeeder extends Seeder
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create();
-        factory(Lecturer::class, 1)->create();
-        factory(Partner::class, 1)->create();
+        factory(Students::class, 1)->create([
+            'users_id' => 2,
+        ]);
+        factory(Lecturer::class, 1)->create([
+            'users_id' => 4,
+            'status' => 'kaprodi',
+        ]);
+        factory(Lecturer::class, 1)->create([
+            'users_id' => 5,
+            'status' => 'dosen pembimbing',
+        ]);
+        factory(Partner::class, 1)->create([
+            'users_id' => 3,
+        ]);
         factory(Mbkm::class, 10)->create();
         factory(RegisterMbkm::class, 1)->create();
         // $this->call(UsersTableSeeder::class);

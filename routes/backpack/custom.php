@@ -47,7 +47,7 @@ Route::group([
     });
 
     Route::middleware([KaprodiMiddleware::class])->group(function () {
-        Route::crud('acctive-account-mitra', 'AcctiveAccountMitraCrudController');
+        // Route::crud('acctive-account-mitra', 'AcctiveAccountMitraCrudController');
         Route::crud('validasi-mbkm', 'ValidasiMbkmCrudController');
         // Route::crud('departmen', 'DepartmenCrudController');
         Route::crud('lecturer', 'LecturerCrudController');
@@ -63,8 +63,6 @@ Route::group([
         Route::get('grade/{id}/detail/{approval}', 'AccNilaiCrudController@updateApproved')->name('uprove');
         Route::post('/simpan-data','AccNilaiCrudController@tolak');
         Route::post('acc-nilai/{id}/detail_nilai/tolak/{not_aprroval}', 'AccNilaiCrudController@tolak')->name('tolak');
-        Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
-        Route::get('/acctive-account-mitra','AcctiveAccountMitraCrudController@index');
     });
 
     Route::middleware([DosenMiddleware::class])->group(function () {

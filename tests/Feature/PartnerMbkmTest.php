@@ -28,15 +28,13 @@ class PartnerMbkmTest extends TestCase
             'level' => 'mitra',
             'email_verified_at' => now(),
             'password' => Hash::make('123'),
-            // 'remember_token' => Str::random(10),
+        ]);
+        factory(Partner::class, 1)->create([
+            'status' => 'accepted',
         ]);
         $response = $this->post('/admin/login', [
             'email' => 'mitra@gmail.com', 
             'password' => '123', 
-        ]);
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-            'status' => 'accepted',
         ]);
     }
     /**
@@ -56,6 +54,23 @@ class PartnerMbkmTest extends TestCase
         $response = $this->get('/admin/management-m-b-k-m/tambah_mbkm');
         $response->assertSessionHas('status', 'success');
         $response->assertStatus(200);
+    }
+
+    public function testAddDataMbkmError()
+    {
+        $requestData = [
+            'partner_id' => 1,
+            'program_name' => 'Program Test',
+            'capacity' => 2,
+            'task_count' => 5,
+            'semester' => 5,
+            'start_reg' => '2021-01-01',
+            'end_reg' => '2021-02-02',
+            'start_date' => '2021-03-03',
+        ];
+        $response = $this->post('/admin/management-m-b-k-m/tambahdatambkm', $requestData);
+        $response->assertSessionHas('status', 'error');
+        $response->assertStatus(302);
     }
 
     public function testAddDataMbkm()
@@ -79,23 +94,6 @@ class PartnerMbkmTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function testAddDataMbkmError()
-    {
-        $requestData = [
-            'partner_id' => 1,
-            'program_name' => 'Program Test',
-            'capacity' => 2,
-            'task_count' => 5,
-            'semester' => 5,
-            'start_reg' => '2021-01-01',
-            'end_reg' => '2021-02-02',
-            'start_date' => '2021-03-03',
-        ];
-        $response = $this->post('/admin/management-m-b-k-m/tambahdatambkm', $requestData);
-        $response->assertSessionHas('status', 'error');
-        $response->assertStatus(302);
-    }
-
     public function testViewValidateStudent()
     {
         $response = $this->get('/admin/register-mbkm');
@@ -107,9 +105,7 @@ class PartnerMbkmTest extends TestCase
         factory(Mbkm::class, 1)->create();
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
+        factory(Students::class, 1)->create();
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'pending',
         ]);
@@ -127,9 +123,7 @@ class PartnerMbkmTest extends TestCase
         factory(Mbkm::class, 1)->create();
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
+        factory(Students::class, 1)->create();
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'pending',
         ]);
@@ -144,9 +138,7 @@ class PartnerMbkmTest extends TestCase
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
+        factory(Students::class, 1)->create();
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -163,9 +155,7 @@ class PartnerMbkmTest extends TestCase
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
+        factory(Students::class, 1)->create();
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -195,9 +185,7 @@ class PartnerMbkmTest extends TestCase
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
+        factory(Students::class, 1)->create();
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -217,9 +205,7 @@ class PartnerMbkmTest extends TestCase
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
+        factory(Students::class, 1)->create();
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -231,41 +217,6 @@ class PartnerMbkmTest extends TestCase
         $response->assertSessionHas('status', 'success');
     }
 
-    public function testUploadPartnerGradingSuccess()
-    {
-        factory(Mbkm::class, 1)->create([
-            'end_date' => '2040-01-01',
-            'task_count' => '2'
-        ]);
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(RegisterMbkm::class, 1)->create([
-            'status' => 'accepted',
-        ]);
-        factory(Report::class, 2)->create([
-            'reg_mbkm_id' => 1,
-            'status' => 'accepted'
-        ]);
-
-        Storage::fake('uploads');
-        $file = UploadedFile::fake()->create('document.pdf', 100);
-        
-        $path = $file->store('uploads',  'uploads');
-
-        Storage::disk('uploads')->assertExists($path);
-        $requestData = [
-            'id' => 1,
-            'file' => $file,
-        ];
-
-        $response = $this->post('/admin/penilaian-mitra/1/penilaian', $requestData);
-        $response->assertSessionHas('status', 'success');
-        $response->assertStatus(302);
-    }
-
     public function testUploadPartnerGradingError()
     {
         factory(Mbkm::class, 1)->create([
@@ -274,9 +225,7 @@ class PartnerMbkmTest extends TestCase
         ]);
         factory(Departmen::class, 1)->create();
         factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
+        factory(Students::class, 1)->create();
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -298,6 +247,38 @@ class PartnerMbkmTest extends TestCase
         $response = $this->post('/admin/penilaian-mitra/1/penilaian', $requestData);
         $response->assertSessionHas('status', 'file not valid');
         $response->assertStatus(302);
+    }
+    
+    public function testUploadPartnerGradingSuccess()
+    {
+        factory(Mbkm::class, 1)->create([
+            'end_date' => '2040-01-01',
+            'task_count' => '2'
+        ]);
+        factory(Departmen::class, 1)->create();
+        factory(ProgramStudy::class, 1)->create();
+        factory(Students::class, 1)->create();
+        factory(RegisterMbkm::class, 1)->create([
+            'status' => 'accepted',
+        ]);
+        factory(Report::class, 2)->create([
+            'reg_mbkm_id' => 1,
+            'status' => 'accepted'
+        ]);
+
+        Storage::fake('uploads');
+        $file = UploadedFile::fake()->create('document.pdf', 100);
+        
+        $path = $file->store('uploads',  'uploads');
+
+        Storage::disk('uploads')->assertExists($path);
+        $requestData = [
+            'id' => 1,
+            'file' => $file,
+        ];
+
+        $response = $this->post('/admin/penilaian-mitra/1/penilaian', $requestData);
+        $response->assertSessionHas('status', 'success');
     }
 }
 
