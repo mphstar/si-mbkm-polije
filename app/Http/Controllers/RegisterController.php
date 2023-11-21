@@ -7,31 +7,41 @@ use App\Models\Partner;
 use App\ProgramStudy;
 use App\Student;
 use App\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
 
 class RegisterController extends Controller
 {
-    public function student()
+    public function student(Request $request)
     {
-        $study = ProgramStudy::all();
-        return view('custom_view.register_student', compact('study'));
+        $api = new ClassApi();
+        // $user = Socialite::driver('google')->user();
+
+        return view('custom_view.register_student', [
+            "jurusan" => $api->getJurusan($request),
+            "prodi" => $api->getProdi($request),
+        ]);
+        
     }
 
     public function registerStudent(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'phone' => 'required',
             'nim' => 'required',
-            'study' => 'required',
+            'jurusan' => 'required',
+            'program_studi' => 'required',
             'address' => 'required',
             'email' => 'required|unique:users,email',
             'password' => 'required|min:6|confirmed',
         ]);
 
         if ($validator->fails()) {
-            
+
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -49,7 +59,8 @@ class RegisterController extends Controller
                 'address' => $request->address,
                 'phone' => $request->phone,
                 'nim' => $request->nim,
-                'study_program_id' => $request->study,
+                'program_studi' => $request->program_studi,
+                'jurusan' => $request->jurusan,
                 'users_id' => $user->id
             ]);
 
@@ -76,7 +87,7 @@ class RegisterController extends Controller
         ]);
 
         if ($validator->fails()) {
-            
+
             return redirect()->back()->withErrors($validator)->withInput();
         }
 

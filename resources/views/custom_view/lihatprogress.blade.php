@@ -16,7 +16,7 @@
                                 <a href="/{{ $item->file }}">
                                     <li
                                         class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">
-                                        Laporan {{ $index + 1 }}<span
+                                        {{ $item->file_info }}<span
                                             class="badge {{ $item->status == 'pending' ? 'badge-primary' : ($item->status == 'accepted' ? 'badge-success' : 'badge-danger') }} badge-pill">{{ $item->status }}</span>
                                     </li>
                                 </a>

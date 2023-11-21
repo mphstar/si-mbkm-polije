@@ -45,6 +45,9 @@ class StatusRegCrudController extends CrudController
         ],[
             'name' => 'mbkm.program_name',
             'label' => 'Nama Program',
+        ],[
+            'name' => 'mbkm.semester',
+            'label' => 'Semester',
         ], [
             'name' => 'mbkm.start_date',
             'label' => 'Tanggal Mulai',
@@ -63,6 +66,7 @@ class StatusRegCrudController extends CrudController
         })->first();
 
         CRUD::addClause('where', 'student_id', '=', $id_student->student->id);
+        CRUD::addClause('where', 'mbkm_id', '!=', null);
     }
 
     /**

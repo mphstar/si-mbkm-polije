@@ -32,6 +32,10 @@ class Mbkm extends Model
         return $this->hasMany(RegisterMbkm::class);
     }
 
+    public function jenismbkm(){
+        return $this->belongsTo(JenisMbkm::class, 'id_jenis', 'id');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

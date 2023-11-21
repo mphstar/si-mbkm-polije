@@ -19,8 +19,10 @@ class CreateLecturersTable extends Migration
             $table->string("address");
             $table->string("phone");
             $table->string("nip")->unique();
+            $table->string('jurusan');
+            $table->string('program_studi')->nullable();
+            $table->enum('status', ['dosen pembimbing', 'kaprodi']);
             $table->foreignId('users_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->enum('status', ['dosen pembimbing', 'admin prodi', 'kaprodi']);
             $table->timestamps();
         });
     }

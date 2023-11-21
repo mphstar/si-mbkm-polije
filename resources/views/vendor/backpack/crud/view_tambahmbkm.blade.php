@@ -32,7 +32,7 @@
                         <input type="hidden" value="{{ $id_partner->partner->id }}" class="form-control" name="partner_id">
                         <div class="form-group">
                             <label>Nama Program</label>
-                            <input type="text" class="form-control" name="program_name"placeholder="contoh :program mf">
+                            <input type="text" class="form-control" name="program_name">
                         </div>
                         <div class="form-group">
                             <label>Kapasitas</label>
@@ -88,7 +88,26 @@
                             <textarea class="form-control" rows="3"name="info"></textarea>
 
                         </div>
-
+                        <div class="form-group">
+                            <label >Jurusan</label>
+                             
+                            <select class="form-control" name="jurusan">
+                                @foreach($jurusan as $key)
+                                    <option value="{{ $key->uuid }}">{{ $key->unit }}</option>
+                                @endforeach
+                             
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label >jenis mbkm</label>
+                             
+                            <select class="form-control" name="id_jenis">
+                                @foreach($jenis_mbkm as $key)
+                                <option value="{{ $key->id }}">{{ $key->jenismbkm }}</option>
+                            @endforeach
+                             
+                            </select>
+                        </div>
 
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

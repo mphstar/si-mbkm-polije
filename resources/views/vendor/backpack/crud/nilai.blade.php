@@ -42,13 +42,21 @@
                             </thead>
                             <tbody>
 
-                                @foreach ($nilai as $data )
-                                <tr>
-                                    <td class="text-center">{{ $data->ID }}</td>
-                                    <td class="text-center">{{ $data->Program_name }}</td>
-                                    <td class="text-center">{{ $data->mahasiswa }}</td>
-                                    <td class="text-center"><a href="{{ route('detail_grade',[$data->ID]) }}"><button>detail</button></a></td>
-                                </tr>
+                                @foreach ($nilai as $data)
+                                    <tr>
+                                        <td class="text-center">{{ $data->id }}</td>
+                                        <td class="text-center">{{ $data->mbkm_id == null ? $data->jenis_mbkm : $data->mbkm->program_name }}</td>
+                                        <td class="text-center">{{ $data->students->name }}</td>
+                                        <td class="text-center"><a
+                                                href="{{ route('detail_grade', [$data->id]) }}"><button class="btn btn-primary">detail</button></a>
+                                        </td>
+                                    </tr>
                                 @endforeach
-                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

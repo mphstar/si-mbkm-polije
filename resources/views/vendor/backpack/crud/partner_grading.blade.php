@@ -34,7 +34,8 @@
 		{!! csrf_field() !!}
 		<div class="card padding-10">
 			<div class="card-header">
-				<h4>Pendaftaran MBKM</h4>
+				<h4>Penilaian</h4>
+				<p>Download template penilaian <a href="#">disini</a></p>
 				{{-- {{ trans('backpack::base.update_account_info') }} --}}
 			</div>
 			<div class="card-body backpack-profile-form bold-labels">
@@ -42,7 +43,8 @@
 					
 					<div class="col-md-6 form-group">
 						<label class="required">File Penilaian</label>
-						<input required class="form-control" type="file" name="file" value="" >
+						<input required class="form-control" type="file" name="file" value="" accept=".pdf">
+						<div class="text-danger">*Jenis file yang diizinkan: .pdf.</div>
 					</div>
 					
 				</div>

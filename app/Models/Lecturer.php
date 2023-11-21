@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\ProgramStudy;
 use App\User;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -37,6 +38,10 @@ class Lecturer extends Model
     */
     public function user(){
         return $this->belongsTo(User::class, 'users_id', 'id');
+    }
+
+    public function program_studi(){
+        return $this->belongsTo(ProgramStudy::class, 'study_program_id', 'id');
     }
 
     /*

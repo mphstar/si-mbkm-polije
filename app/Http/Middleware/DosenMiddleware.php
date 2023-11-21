@@ -16,7 +16,7 @@ class DosenMiddleware
     public function handle($request, Closure $next)
     {
         $level = backpack_auth()->user()->level;
-        if ($level == 'dospem' || $level == 'admin') {
+        if ($level == 'dospem') {
             return $next($request);
         }
 

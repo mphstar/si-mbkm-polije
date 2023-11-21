@@ -19,14 +19,16 @@ class CreateRegMbkmsTable extends Migration
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->unsignedBigInteger('mbkm_id')->nullable();
             $table->foreign('mbkm_id')->references('id')->on('mbkms')->onDelete('cascade');
-            $table->enum('status', ['accepted', 'rejected', 'pending', 'done'])->default('pending');
+            $table->string('program_name')->nullable();
+            $table->integer('semester')->nullable();
+
+
+            $table->enum('status', ['accepted', 'rejected', 'pending', 'menunggu_acc', 'done'])->default('pending');
             $table->unsignedBigInteger('pembimbing')->nullable();
             $table->string('requirements_files')->nullable();
             $table->string('partner_grade')->nullable();
-            $table->enum('jenis_mbkm', ['msib magang', 'msib studi independence', 'msib wmk', 'msib kampus mengajar','msib pertukaran pelajar'])->nullable();
-            $table->enum('konfirmasi_nilai', ['approved', 'Not approved'])->nullable();
-            $table->string('nama_mitra')->nullable();
-            $table->integer('semester')->nullable();
+            $table->text('keterangan_kaprodi')->nullable();
+            $table->enum('acc_nilai', ['Approved', 'Not Approved'])->nullable()->default(null);
             $table->foreign('pembimbing')->references('id')->on('lecturers')->onDelete('cascade');
             $table->timestamps();
         });

@@ -18,9 +18,11 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });s
 
-// Route::get('/', function () {
-//     return  "Hello World";
-// });
+Route::get('/', function () {
+    return  redirect('/admin');
+});
+
+Route::get('/api', 'ApiController@index');
 
 Route::get('/register/student', 'RegisterController@student');
 
@@ -29,3 +31,8 @@ Route::post('/register/student/proses', 'RegisterController@registerStudent');
 Route::get('/register/mitra', 'RegisterController@mitra');
 
 Route::post('/register/mitra/proses', 'RegisterController@registerMitra');
+
+Route::get('/auth', 'AuthController@redirectToGoogle')->name('google.login');
+Route::get('/auth/callback', 'AuthController@handleGoogleCallback');
+
+Route::get('/login', 'LoginController@login');

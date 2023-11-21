@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AcctiveAccountMitraRequest;
+use App\Mail\AccountAccepted;
 use App\Models\Partner;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Class AcctiveAccountMitraCrudController
@@ -166,21 +167,30 @@ class AcctiveAccountMitraCrudController extends CrudController
         // and we plan to change behaviour in the next version; see this Github issue for more details
         // https://github.com/Laravel-Backpack/CRUD/issues/3108
     }
-    public function index(){
-        $partners = Partner::select('partners.id as id', 'partners.partner_name as name', 'partners.address as alamat', 'partners.phone as phone', 'users.email as email', 'partners.jenis_mitra as jenis_mitra', 'partners.status as status')
-        ->join('users', 'partners.users_id', '=', 'users.id')
-        ->get();
-    $crud = $this->crud;
+    public function index()
+    {
 
-    return view('vendor/backpack/crud/ValidasiAccountMitra', compact('partners', 'crud'));
+        $partners = Partner::select('partners.id as id', 'partners.partner_name as name', 'partners.address as alamat', 'partners.phone as phone', 'users.email as email', 'partners.jenis_mitra as jenis_mitra', 'partners.status as status')
+            ->join('users', 'partners.users_id', '=', 'users.id')
+            ->where('partners.status', '!=', 'accepted')
+            ->get();
+
+        $crud = $this->crud;
+
+        return view('vendor/backpack/crud/ValidasiAccountMitra', compact('partners', 'crud'));
     }
 
-    public function ubah_status($id , Request $request){
+    public function ubah_status($id, Request $request)
+    {
         $partner = Partner::find($id);
         $partner->status = $request->newStatus;
         // dd($partner);
         $partner->save();
 
+        $partner->load('user');
+        $email = $partner->user->email;
+        $password = $partner->user->password;
+        Mail::to($email)->send(new AccountAccepted($partner));
         return redirect()->back();
     }
 }
