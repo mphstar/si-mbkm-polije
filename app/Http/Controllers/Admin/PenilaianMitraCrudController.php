@@ -14,6 +14,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Prologue\Alerts\Facades\Alert;
@@ -33,7 +34,7 @@ class PenilaianMitraCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
 
@@ -54,7 +55,7 @@ class PenilaianMitraCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -70,9 +71,12 @@ class PenilaianMitraCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
         $this->crud->addButtonFromView('line', 'partner_grade', 'partner_grade', 'beginning');
+        $this->crud->addButtonFromView('line', 'Download_Template', 'Download_Template', 'end');
+
+
     }
     public function penilaianmitra()
     {
@@ -89,7 +93,7 @@ class PenilaianMitraCrudController extends CrudController
     }
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -102,13 +106,13 @@ class PenilaianMitraCrudController extends CrudController
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
@@ -152,7 +156,7 @@ class PenilaianMitraCrudController extends CrudController
         //     })->orderBy('id', 'desc')->get();
 
         $acceptedCount = $laporan->where('status', 'accepted')->count();
-     
+
 
 
 
@@ -220,5 +224,27 @@ class PenilaianMitraCrudController extends CrudController
         Alert::success('Berhasil upload nilai')->flash();
         Mail::to($namaMBKM->student->users->email)->send(new uploadnilaimhs($namaMBKM));
         return redirect("admin/penilaian-mitra");
+    }
+
+    public function unduhtemplate($id){
+        // dd($id);
+        $DataTemplate = DB::table('template')
+            ->orderBy('id', 'desc')
+            ->limit(1)
+            ->first(); // Menggunakan first() untuk mendapatkan satu baris pertama
+        // dd($DataTemplate);
+            try {
+                //code...
+                $filePath = 'uploads/' . $DataTemplate->file;
+
+                // Mendapatkan nama asli file
+                $originalName = pathinfo($DataTemplate->file, PATHINFO_FILENAME);
+
+                // Membangun response untuk mengirimkan file ke pengguna
+                return response()->download(storage_path("app/{$filePath}"), "{$originalName}.pdf");
+            } catch (\Throwable $th) {
+                throw $th;
+            }
+
     }
 }
