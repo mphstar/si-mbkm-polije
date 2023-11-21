@@ -93,8 +93,8 @@ class MbkmExternalCrudController extends CrudController
                 "label" => "NIM"
             ],
             [
-                "name" => "student.program_studi",
-                "label" => "Program Studi"
+                "name" => "jenismbkm.jenismbkm",
+                "label" => "Jenis MBKM"
             ],
             [
                 "name" => "student.phone",

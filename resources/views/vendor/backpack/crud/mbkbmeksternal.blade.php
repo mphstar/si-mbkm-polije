@@ -25,8 +25,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-     <h2> Data pada Tabel merupakan data mbkm eksternal yang anda ajukan  </h2><br>
-     <h5> untuk mendaftar MBKM anda cukup tekan tombol DAFTAR PROGRAM</h5>
+     <h2>Data MBKM luar yang anda ajukan</h2><br>
+     <h5>untuk mendaftar MBKM anda cukup tekan tombol <strong>DAFTAR PROGRAM</strong></h5>
           {{-- <button  type="button" class="btn btn-primary mr-2 mb-5" data-toggle="modal"
           data-target="#daftarexternal">Daftar PROGRAM </button> --}}
           <div class="col-md-2 mb-3 mt-3">
@@ -44,7 +44,7 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">Jenis Program</th>
-                                <th class="text-center">Kategory</th>
+                                <th class="text-center">Kategori</th>
                                 <th class="text-center">Semeter</th>
                                 <th class="text-center">Detail Program</th>
                                 <th class="text-center">Download File TTD kaprodi</th>
@@ -66,7 +66,7 @@
                             <td class="text-center">{{ $index }}</th>
                               <td class="text-center">{{ $item->jenismbkm->jenismbkm }}</th>
                                 
-                                <td class="text-center">{{ $item->jenismbkm->kategori_jenis }}</td>
+                                <td class="text-center">{{ $item->jenismbkm->kategori_jenis == 'external' ? 'Luar' : 'Dalam' }}</td>
                                 <td class="text-center">{{ $item->semester }}</td>
                                 <td class="text-center"><a href="{{ backpack_url('detailpengajuan/'.$item->id) }}" class="btn btn-sm btn-primary">Detail Program</a></td>
                               @if ($item->file_surat_ttd === null)
@@ -100,7 +100,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Upload Pngajuan</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Upload Pengajuan</h5>
               <form action="{{ 'tambahData' }}" method="post" enctype="multipart/form-data">
                 @csrf
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">

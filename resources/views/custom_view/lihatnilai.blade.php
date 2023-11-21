@@ -58,9 +58,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button onclick="tolak({{ $data }})" id="reject" class="btn btn-danger"
+                <button {{ $data->status == 'done' ? 'disabled' : '' }} onclick="tolak({{ $data }})" id="reject" class="btn btn-danger"
                     type="button">Tolak</button>
-                <button onclick="terima({{ $data }})" class="btn btn-success" id="acc"
+                <button {{ $data->status == 'done' ? 'disabled' : '' }} onclick="terima({{ $data }})" class="btn btn-success" id="acc"
                     type="button">Terima</button>
                     <button id="btnPrint" class="btn btn-secondary" type="button">Print</button>
 

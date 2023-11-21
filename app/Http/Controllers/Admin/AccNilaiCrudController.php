@@ -59,7 +59,7 @@ class AccNilaiCrudController extends CrudController
         
         $user = backpack_auth()->user();
         // dd($user->lecturer->jurusan);
-        $this->crud->addClause('whereHas', 'mbkm', function($query) use ($user){
+        $this->crud->addClause('whereHas', 'students', function($query) use ($user){
             return $query->where('jurusan', $user->lecturer->jurusan);
         });
         
