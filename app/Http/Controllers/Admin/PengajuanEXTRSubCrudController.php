@@ -31,7 +31,7 @@ class PengajuanEXTRSubCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\PengajuanEXTRSub::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/pengajuan-e-x-t-r-sub');
-        CRUD::setEntityNameStrings('pengajuan e x t r sub', 'pengajuan e x t r subs');
+        CRUD::setEntityNameStrings('pengajuan e x t r sub', 'Detail Pengajuan');
     }
 
     /**
