@@ -40,7 +40,7 @@ class MBKMEksternalCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\MBKMEksternal::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/m-b-k-m-eksternal');
-        CRUD::setEntityNameStrings('m b k m eksternal', 'm b k m eksternals');
+        CRUD::setEntityNameStrings('m b k m eksternal', 'MBKM Luar');
     }
 
     public function daftareksternal()
@@ -123,7 +123,7 @@ class MBKMEksternalCrudController extends CrudController
 
         $input = [
             "student_id" => $request->input("student_id"),
-            "semester" => $request->input("semester"),
+            "semester" => backpack_auth()->user()->student->semester,
             "id_jenis" => $request->input("id_jenis"),
             'file_surat' => $request->file('file_surat')->getClientOriginalName()
         ];
@@ -200,7 +200,7 @@ class MBKMEksternalCrudController extends CrudController
             "partner_id"=>$request->input('partner_id'),
             "student_id"=>$request->input('student_id'),
             "status"=>"accepted",
-            "semester"=>$request->input('student_id'),
+            "semester"=> backpack_auth()->user()->student->semester,
         ];
 
 

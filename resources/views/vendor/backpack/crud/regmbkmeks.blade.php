@@ -26,6 +26,7 @@
     <div class="row">
         <div class="col-md-12">
             <h4> Form Daftar MBKM EKSTERNAL</h4>
+            <p>Download file pengajuan <a href="#">disini</a></p>
             <div class="col-md-2">
                 <a href="{{ backpack_url('m-b-k-m-eksternal') }}"
                     class="btn btn-sm btn-block btn-outline-danger mb-3 mt-2">Kembali</a>
