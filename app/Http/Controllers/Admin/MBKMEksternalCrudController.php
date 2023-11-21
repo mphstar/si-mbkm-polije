@@ -123,7 +123,7 @@ class MBKMEksternalCrudController extends CrudController
 
         $input = [
             "student_id" => $request->input("student_id"),
-            "semester" => $request->input("semester"),
+            "semester" => backpack_auth()->user()->student->semester,
             "id_jenis" => $request->input("id_jenis"),
             'file_surat' => $request->file('file_surat')->getClientOriginalName()
         ];
@@ -200,7 +200,7 @@ class MBKMEksternalCrudController extends CrudController
             "partner_id"=>$request->input('partner_id'),
             "student_id"=>$request->input('student_id'),
             "status"=>"accepted",
-            "semester"=>$request->input('student_id'),
+            "semester"=> backpack_auth()->user()->student->semester,
         ];
 
 
