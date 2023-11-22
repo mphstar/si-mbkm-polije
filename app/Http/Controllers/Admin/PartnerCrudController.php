@@ -28,7 +28,7 @@ class PartnerCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -40,7 +40,7 @@ class PartnerCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -75,13 +75,13 @@ class PartnerCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -156,10 +156,32 @@ class PartnerCrudController extends CrudController
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
-
+    public function biodata(){
+        $crud = $this->crud;
+        $data_mitra= backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+        return view('vendor/backpack/crud/datamitra', compact('data_mitra', 'crud'));
+    }
+    public function ubahbiodata(Request $request){
+        $validator = Validator::make($request->all(), [
+            'partner_name' => 'required',
+          
+            'address' => 'required',
+            'phone' => 'required',
+        ]);
+        $data=[
+            "partner_name"=>$request->partner_name,
+            "address"=>$request->address,
+            "phone"=>$request->phone
+        ];
+        Partner::where('id',$request->id)->update($data);
+        Alert::success('Berhasil Ubah data diri!')->flash();
+        return back();
+    }
     public function update(Request $request, $id)
     {
         // dd($request->all());
@@ -207,33 +229,41 @@ class PartnerCrudController extends CrudController
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|unique:users',
+
             "partner_name" => 'required',
             "address" => 'required',
             "phone" => 'required',
-            "password" => 'required',
+
         ]);
+
 
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
+        $user = null;
 
+        // Check if email and password are provided
+    if ($request->filled('email') && $request->filled('password')) {
+        // If both email and password are provided, create a user
         $user = User::create([
             "name" => $request->partner_name,
             "email" => $request->email,
             "password" => bcrypt($request->password),
-            "level" => 'mitra'
+            "level" => 'mitra',
         ]);
-
+    }
+     // Set the status to "accepted" if jenis_mitra is "luar kampus"
+     $status = $request->jenis_mitra === 'luar kampus' ? 'accepted' : 'pending';
         $partner = Partner::create([
             "partner_name" => $request->partner_name,
             "address" => $request->address,
             "phone" => $request->phone,
-            "status" => "pending",
+            "status" => $status,
             "jenis_mitra" => $request->jenis_mitra,
-            "users_id" => $user->id
+
+            "users_id" => $user ? $user->id : null, // Use user ID if user is created, otherwise null
         ]);
 
         Alert::success('Data berhasil disimpan')->flash();
@@ -242,15 +272,20 @@ class PartnerCrudController extends CrudController
 
     public function destroy($id){
         $data = Partner::find($id);
-        
-        $delete = User::where('id', $data->users_id)->delete();
+
+        if($data->users_id){
+            $delete = User::where('id', $data->users_id)->delete();
+        } else {
+            $delete = $data->delete();
+        }
 
         return $delete;
+
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
@@ -295,7 +330,7 @@ class PartnerCrudController extends CrudController
     {
         // by default the Show operation will try to show all columns in the db table,
         // but we can easily take over, and have full control of what columns are shown,
-        // by changing this config for the Show operation 
+        // by changing this config for the Show operation
         $this->crud->set('show.setFromDb', false);
 
 

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\ClassApi;
 use App\Http\Requests\LecturerRequest;
 use App\Models\Lecturer;
+use App\Models\Partner;
 use App\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -81,7 +83,7 @@ class LecturerCrudController extends CrudController
             'name' => 'status',
             'type' => 'select_from_array',
             'label' => 'Status ACC',
-            'options' => ['dosen pembimbing' => 'Dosen Pembimbing', 'admin prodi' => 'Admin Prodi', 'kaprodi' => 'Kaprodi'],
+            'options' => ['dosen pembimbing' => 'Dosen Pembimbing', 'kaprodi' => 'Kaprodi'],
 
         ]);
         $this->crud->addField(
@@ -93,7 +95,7 @@ class LecturerCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
             ]
         );
-        
+
         CRUD::field('email');
         CRUD::field('password');
         /**
@@ -122,7 +124,7 @@ class LecturerCrudController extends CrudController
             'name' => 'status',
             'type' => 'select_from_array',
             'label' => 'Status ACC',
-            'options' => ['dosen pembimbing' => 'Dosen Pembimbing', 'admin prodi' => 'Admin Prodi', 'kaprodi' => 'Kaprodi'],
+            'options' => ['dosen pembimbing' => 'Dosen Pembimbing', 'kaprodi' => 'Kaprodi'],
 
         ]);
 
@@ -151,17 +153,57 @@ class LecturerCrudController extends CrudController
         ]);
     }
 
+    public function create(Request $request)
+    {
+        $api = new ClassApi;
+        return view('custom_view.lecturer', [
+            "crud" => $this->crud,
+            "jurusan" => $api->getJurusan($request),
+            "prodi" => $api->getProdi($request),
+            "saveAction" => $this->crud->getSaveAction()
+        ]);
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $api = new ClassApi;
+        $data = Lecturer::find($id);
+        return view('custom_view.editLecturer', [
+            "crud" => $this->crud,
+            "jurusan" => $api->getJurusan($request),
+            "prodi" => $api->getProdi($request),
+            "saveAction" => $this->crud->getSaveAction(),
+            "data" => $data
+        ]);
+    }
+
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|unique:users',
-            "lecturer_name" => 'required',
-            "address" => 'required',
-            "phone" => 'required',
-            "nip" => 'required',
-            "status" => 'required',
-            "password" => 'required',
-        ]);
+        if ($request->status == 'kaprodi') {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|unique:users',
+                "lecturer_name" => 'required',
+                "address" => 'required',
+                "phone" => 'required',
+                "jurusan" => 'required',
+                "program_studi" => 'required',
+                "nip" => 'required',
+                "status" => 'required',
+                "password" => 'required',
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|unique:users',
+                "lecturer_name" => 'required',
+                "address" => 'required',
+                "phone" => 'required',
+                "jurusan" => 'required',
+                "nip" => 'required',
+                "status" => 'required',
+                "password" => 'required',
+            ]);
+        }
+
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -184,7 +226,8 @@ class LecturerCrudController extends CrudController
             "phone" => $request->phone,
             "status" => $request->status,
             "nip" => $request->nip,
-            "study_program_id" => $request->study_program_id,
+            "jurusan" => $request->jurusan,
+            "program_studi" => $request->program_studi,
             "users_id" => $user->id
         ]);
 
@@ -194,28 +237,41 @@ class LecturerCrudController extends CrudController
 
     public function update(Request $request, $id)
     {
-        // dd($request->all());
+        $data = Lecturer::find($id);
 
-        $check = User::where('id', $request->user['id'])->first();
-        if ($check && $check->email != $request->user['email']) {
-            $validatorA = Validator::make($request->user, [
-                'email' => 'required|unique:users',
+        // if ($check && $check->email != $request->email) {
+        //     $validatorA = Validator::make($request->all(), [
+        //         'email' => 'required|unique:users',
+        //     ]);
+
+        //     if ($validatorA->fails()) {
+        //         return redirect()->back()
+        //             ->withErrors($validatorA)
+        //             ->withInput();
+        //     }
+        // }
+
+        if ($request->status == 'kaprodi') {
+            $validatorB = Validator::make($request->all(), [
+                "lecturer_name" => 'required',
+                "address" => 'required',
+                "phone" => 'required',
+                "jurusan" => 'required',
+                "program_studi" => 'required',
+                "nip" => 'required',
+                "status" => 'required',
             ]);
-
-            if ($validatorA->fails()) {
-                return redirect()->back()
-                    ->withErrors($validatorA)
-                    ->withInput();
-            }
+        } else {
+            // dd('123');
+            $validatorB = Validator::make($request->all(), [
+                "lecturer_name" => 'required',
+                "address" => 'required',
+                "phone" => 'required',
+                "jurusan" => 'required',
+                "nip" => 'required',
+                "status" => 'required',
+            ]);
         }
-
-        $validatorB = Validator::make($request->all(), [
-            "lecturer_name" => 'required',
-            "address" => 'required',
-            "phone" => 'required',
-            "nip" => 'required',
-            "status" => 'required',
-        ]);
 
         if ($validatorB->fails()) {
             return redirect()->back()
@@ -223,20 +279,32 @@ class LecturerCrudController extends CrudController
                 ->withInput();
         }
 
+
         $level = $request->status == 'dosen pembimbing' ? 'dospem' : 'kaprodi';
 
-        $user = User::where('id', $request->user['id'])->update([
-            "name" => $request->lecturer_name,
-            "email" => $request->user['email'],
-            "level" => $level
-        ]);
+
+        try {
+            //code...
+            $data->user()->update([
+                "name" => $request->lecturer_name,
+                "email" => $request->email,
+                "level" => $level
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->back()
+                ->withErrors(["email" => "Email sudah digunakan"])
+                ->withInput();
+        }
+
 
         $partner = Lecturer::where('id', $id)->update([
             "lecturer_name" => $request->lecturer_name,
             "address" => $request->address,
             "phone" => $request->phone,
             "nip" => $request->nip,
-            "study_program_id" => $request->study_program_id,
+            "jurusan" => $request->jurusan,
+            "program_studi" => $request->program_studi,
             "status" => $request->status,
         ]);
 
@@ -248,7 +316,11 @@ class LecturerCrudController extends CrudController
     {
         $data = Lecturer::find($id);
 
-        $delete = User::where('id', $data->users_id)->delete();
+        if ($data->users_id) {
+            $delete = User::where('id', $data->users_id)->delete();
+        } else {
+            $delete = $data->delete();
+        }
 
         return $delete;
     }
