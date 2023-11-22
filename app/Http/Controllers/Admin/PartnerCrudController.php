@@ -273,9 +273,14 @@ class PartnerCrudController extends CrudController
     public function destroy($id){
         $data = Partner::find($id);
 
-        $delete = User::where('id', $data->users_id)->delete();
+        if($data->users_id){
+            $delete = User::where('id', $data->users_id)->delete();
+        } else {
+            $delete = $data->delete();
+        }
 
         return $delete;
+
     }
 
     /**
