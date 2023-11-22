@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\Hash;
 $factory->define(Students::class, function (Faker $faker) {
     return [
         'name' => $faker->company,
-        'address' => $faker->address,
+        'address' => 'jember',
         'phone' => $faker->phoneNumber,
         'nim' => $faker->unique()->userName,
-        'study_program_id' => 1,
+        'jurusan' => 'Teknologi Informasi',
+        'program_studi' => 'Teknik Informatika',
         'users_id' => 1,
     ];
 });
