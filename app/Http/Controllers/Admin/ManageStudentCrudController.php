@@ -130,7 +130,7 @@ class ManageStudentCrudController extends CrudController
         $semester = $data->mbkm_id == null ? $data->semester : $data->mbkm->semester;
         $ganjilGenap = $semester % 2 == 0 ? 'Genap' : 'Ganjil';
         
-        $tahun_kelas = 0;
+        $tahun_kelas = 1;
         if($semester == 1 || $semester == 2){
             $tahun_kelas = 1;
         } else if($semester == 3 || $semester == 4){
@@ -147,7 +147,11 @@ class ManageStudentCrudController extends CrudController
         $filteredCourse = array_unique(array_column($querycourse, 'kode_mata_kuliah'));
         $resultCourse = array_values(array_intersect_key($querycourse, array_flip(array_keys($filteredCourse))));
 
-        $course = $resultCourse;
+        $course = $resultCourse;                                                                                                     
+
+        // return $course;
+
+        // return $course;
         // return $data->students;        //    $course = Course::where('program_id', $data->students->study_program_id)
         //     ->where('tahun_kurikulum', "20{$B}")
         //     ->where(function ($query) use ($data, $Rsemester, $data_sks) {

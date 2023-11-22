@@ -90,6 +90,11 @@ class Nilaimbkm extends Model
         return $this->belongsTo(Students::class, 'student_id', 'id');
     }
 
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class, 'partner_id', 'id');
+    }
+
     public function involved()
     {
         return $this->hasMany(InvolvedCourse::class, 'reg_mbkm_id', 'id');
@@ -119,7 +124,7 @@ class Nilaimbkm extends Model
         $status = $this->attributes['mbkm_id'];
 
         if ($status == null) {
-            return $this->attributes['nama_mitra'];
+            return $this->program_name;
         } else {
             return $this->mbkm->program_name;
         }

@@ -3,6 +3,7 @@
 use App\Course;
 use App\Models\Departmen;
 use App\Models\JenisMbkm;
+use App\Models\Partner;
 use App\Models\Students;
 use App\ProgramStudy;
 use App\User;
@@ -44,15 +45,8 @@ class DbSeeder extends Seeder
             "level" => "admin"
         ]);
 
-        // Create Mitra External
-        $userMitraLuar = User::create([
-            "name" => "Mitra Luar",
-            "email" => "mitraluar@gmail.com",
-            "password" => bcrypt("12345678"),
-            "level" => "mitra"
-        ]);
-
-        $userMitraLuar->partner()->create([
+        // Create mitra external
+        Partner::create([
             "partner_name" => "Mitra Luar",
             "address" => "Jln Mastrip",
             "phone" => "0895393933040",
