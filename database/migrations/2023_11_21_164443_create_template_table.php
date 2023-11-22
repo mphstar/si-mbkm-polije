@@ -15,8 +15,13 @@ class CreateTemplateTable extends Migration
     {
         Schema::create('template', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('file');
+            $table->string('nama',50);
+            $table->string('file',255);
+            $table->integer('id_jenis_document'); // Use unsignedInteger instead of unsignedBigInteger
+
+            $table->foreign('id_jenis_document')
+                ->references('id')
+                ->on('jenis_document'); // Assuming you want cascade on delete
         });
     }
 

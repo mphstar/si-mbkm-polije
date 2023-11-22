@@ -229,10 +229,12 @@ class PenilaianMitraCrudController extends CrudController
     public function unduhtemplate($id){
         // dd($id);
         $DataTemplate = DB::table('template')
-            ->orderBy('id', 'desc')
-            ->limit(1)
-            ->first(); // Menggunakan first() untuk mendapatkan satu baris pertama
+        ->where('id_jenis_document', '=', '2')
+        ->orderByDesc('id')
+        ->limit(1)
+        ->first(); // Menggunakan first() untuk mendapatkan satu baris pertama
         // dd($DataTemplate);
+
             try {
                 //code...
                 $filePath = 'uploads/' . $DataTemplate->file;

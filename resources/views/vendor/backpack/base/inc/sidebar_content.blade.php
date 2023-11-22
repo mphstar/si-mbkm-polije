@@ -34,7 +34,7 @@
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('jenis-mbkm') }}'><i
                 class='nav-icon la la-copy'></i>Jenis MBKM</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('template-nilai') }}'><i
-        class='nav-icon la la-question'></i> Template nilai</a></li>
+        class='nav-icon la la-question'></i> Format File </a></li>
 
 @endif
 @if ($level == 'mitra')
