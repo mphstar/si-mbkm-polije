@@ -30,6 +30,14 @@ Route::group([
         Route::crud('lecturer', 'LecturerCrudController');
         Route::crud('partner', 'PartnerCrudController');
         Route::crud('jenis-mbkm', 'JenisMbkmCrudController');
+        Route::crud('template-nilai', 'TemplateNilaiCrudController');
+        Route::get('template-nilai/HalamanTambah','TemplateNilaiCrudController@HalamanTambah')->name('');
+        Route::post('template-nilai/HalamanTambah/store',"TemplateNilaiCrudController@store")->name('MenyimpanTemplate');
+        Route::get('template-nilai/HalamanTambah/{id}/delete','TemplateNilaiCrudController@deleteFile')->name('hapusFile');
+        Route::get('template-nilai/HalamanTambah/{id}/unduhfile','TemplateNilaiCrudController@unduhfile')->name('unduhfile');
+
+
+
     });
 
 
@@ -48,10 +56,14 @@ Route::group([
         Route::crud('penilaian-mitra', 'PenilaianMitraCrudController');
         Route::get('penilaian-mitra/{id}/updating', 'PenilaianMitraCrudController@updating')->name("grader_partner");
         Route::post('penilaian-mitra/{id}/penilaian ', 'PenilaianMitraCrudController@penilaian');
+        Route::get('penilaian-mitra/unduhtemplate/{id}', 'PenilaianMitraCrudController@unduhtemplate')->name('penilaian-mitra.unduhtemplate');
+
+        Route::get('datamitra', 'PartnerCrudController@biodata');
+        Route::post('ubahbiodata', 'PartnerCrudController@ubahbiodata');
     });
 
     Route::middleware([KaprodiMiddleware::class])->group(function () {
-        Route::crud('acctive-account-mitra', 'AcctiveAccountMitraCrudController');
+        // Route::crud('acctive-account-mitra', 'AcctiveAccountMitraCrudController');
         Route::crud('validasi-mbkm', 'ValidasiMbkmCrudController');
         Route::crud('validasi-mbkm-eksternal', 'ValidasiMbkmEksternalCrudController');
         // Route::crud('departmen', 'DepartmenCrudController');
@@ -113,5 +125,5 @@ Route::group([
     Route::get('/download/{name}', 'DownloadController@download');
 
     // Route::crud('user', 'UserCrudController');
-    
+
 }); // this should be the absolute last line of this file

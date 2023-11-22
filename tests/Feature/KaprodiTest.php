@@ -29,6 +29,13 @@ class KaprodiTest extends TestCase
             'email_verified_at' => now(),
             'password' => Hash::make('123'),
         ]);
+        factory(Partner::class, 1)->create();
+        factory(Mbkm::class, 1)->create([
+            'end_date' => '2040-01-01',
+            'task_count' => '2'
+        ]);
+        factory(Departmen::class, 1)->create();
+        factory(ProgramStudy::class, 1)->create();
         $response = $this->post('/admin/login', [
             'email' => 'kaprodi@gmail.com', 
             'password' => '123', 
@@ -71,18 +78,7 @@ class KaprodiTest extends TestCase
 
     public function testViewFormEditStudentManagementSuccess()
     {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create([
-            'end_date' => '2040-01-01',
-            'task_count' => '2'
-        ]);
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
+        factory(Students::class, 1)->create();
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -96,18 +92,7 @@ class KaprodiTest extends TestCase
 
     public function testUpdatePembimbing()
     {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create([
-            'end_date' => '2040-01-01',
-            'task_count' => '2'
-        ]);
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
+        factory(Students::class, 1)->create();
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -125,18 +110,7 @@ class KaprodiTest extends TestCase
 
     public function testUpdateMatkul()
     {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create([
-            'end_date' => '2040-01-01',
-            'task_count' => '2'
-        ]);
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
+        factory(Students::class, 1)->create();
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);

@@ -126,8 +126,8 @@ class MbkmReportCrudController extends CrudController
         $report->file = "storage/uploads/$fileName";
         $report->status = 'pending';
         $report->save();
-        session()->flash('status', 'success');
         Alert::success('Berhasil mengupdate laporan!')->flash();
+        session()->flash('test', 'success');
         return back();
     }
     public function setup()

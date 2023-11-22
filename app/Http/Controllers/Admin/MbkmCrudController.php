@@ -80,12 +80,14 @@ class MbkmCrudController extends CrudController
         $pendingReg = RegisterMbkm::where('student_id', $user->student->id)->where('status', 'pending', )->get();
         // return dd($sudahReg);
         if($accReg->count() > 0){
+            session()->flash('test', 'sudah mendaftar');
             Alert::error('Anda sudah daftar')->flash();
-            return back()->setStatusCode(302);
+            return back();
         }
         if($pendingReg->count() > 0){
+            session()->flash('test', 'pending');
             Alert::warning('Anda tidak dapat mendaftar jika status pendaftaran sebelumnya masih pending')->flash();
-            return back()->setStatusCode(302);
+            return back();
         }
         $mbkm = Mbkm::with('partner')->where('mbkms.id', $id)->get();
         $crud = $this->crud;

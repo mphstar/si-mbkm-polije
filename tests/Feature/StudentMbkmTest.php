@@ -26,14 +26,21 @@ class StudentMbkmTest extends TestCase
     public function setUp() : void {
         parent::setUp();
         $user = User::create([
-            'name' => 'user',
-            'email' => 'user@gmail.com',
+            'name' => 'student',
+            'email' => 'student@gmail.com',
             'level' => 'student',
             'email_verified_at' => now(),
             'password' => Hash::make('123'),
         ]);
+        factory(Partner::class, 1)->create();
+        factory(Mbkm::class, 1)->create([
+            'end_date' => '2040-01-01'
+        ]);
+        factory(Departmen::class, 1)->create();
+        factory(ProgramStudy::class, 1)->create();
+        factory(Students::class, 1)->create();
         $response = $this->post('/admin/login', [
-            'email' => 'user@gmail.com', 
+            'email' => 'student@gmail.com', 
             'password' => '123', 
         ]);
     }
@@ -50,51 +57,26 @@ class StudentMbkmTest extends TestCase
     
     public function testViewFormRegisterErrorWhereStatusPending()
     {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create();
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'pending',
         ]);
         $response = $this->get('/admin/mbkm/1/reg-mbkm');
+        $response->assertSessionHas('test', 'pending');
         $response->assertStatus(302);
     }
 
     public function testViewFormRegisterWhereStatusAccepted()
     {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create();
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
         $response = $this->get('/admin/mbkm/1/reg-mbkm');
+        $response->assertSessionHas('test', 'sudah mendaftar');
         $response->assertStatus(302);
     }
 
     public function testViewFormRegisterWhereStatusReject()
     {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create();
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'rejected',
         ]);
@@ -104,15 +86,6 @@ class StudentMbkmTest extends TestCase
     
     public function testRegisterError()
     {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create();
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
         Storage::fake('uploads');
         $file = UploadedFile::fake()->create('document.png', 100);
         
@@ -133,16 +106,6 @@ class StudentMbkmTest extends TestCase
 
     public function testRegisterSuccess()
     {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create();
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
-
         Storage::fake('uploads');
         $file = UploadedFile::fake()->create('document.zip', 100);
         
@@ -161,91 +124,26 @@ class StudentMbkmTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function testViewReport()
-    {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create([
-            'end_date' => '2040-01-01'
-        ]);
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(RegisterMbkm::class, 1)->create([
-            'status' => 'accepted',
-        ]);
-
-        $response = $this->get('/admin/mbkm-report');
-        $response->assertSessionHas('status', 'success');
-    }
     public function testViewReportErrorWhereNothingData()
     {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
+        factory(RegisterMbkm::class, 1)->create([
+            'status' => 'rejected',
         ]);
-        factory(Mbkm::class, 1)->create([
-            'end_date' => '2030-01-01'
-        ]);
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        
         $response = $this->get('/admin/mbkm-report');
         $response->assertSessionHas('status', 'error');
     }
-    public function testUploadReportSuccess()
+
+    public function testViewReport()
     {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create([
-            'end_date' => '2030-01-01'
-        ]);
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
-
-        Storage::fake('uploads');
-        $file = UploadedFile::fake()->create('document.pdf', 100);
-        
-        $path = $file->store('uploads',  'uploads');
-
-        Storage::disk('uploads')->assertExists($path);
-        $requestData = [
-            'file_info' => 'test',
-            'file' => $file,
-            'reg_mbkm_id' => 1,
-            'upload_date' => Carbon::now()->toDateString(),
-        ];
-
-        $response = $this->post('/admin/mbkm-report-upload', $requestData);
+        $response = $this->get('/admin/mbkm-report');
         $response->assertSessionHas('status', 'success');
-        $response->assertStatus(302);
     }
 
     public function testUploadReportErrorWhereFileNotPdf()
     {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create([
-            'end_date' => '2030-01-01'
-        ]);
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -268,19 +166,56 @@ class StudentMbkmTest extends TestCase
         $response->assertStatus(302);
     }
 
+    public function testUploadReportSuccess()
+    {
+        factory(RegisterMbkm::class, 1)->create([
+            'status' => 'accepted',
+        ]);
+
+        Storage::fake('uploads');
+        $file = UploadedFile::fake()->create('document.pdf', 100);
+        
+        $path = $file->store('uploads',  'uploads');
+
+        Storage::disk('uploads')->assertExists($path);
+        $requestData = [
+            'file_info' => 'test',
+            'file' => $file,
+            'reg_mbkm_id' => 1,
+            'upload_date' => Carbon::now()->toDateString(),
+        ];
+
+        $response = $this->post('/admin/mbkm-report-upload', $requestData);
+        $response->assertSessionHas('status', 'success');
+        $response->assertStatus(302);
+    }
+
+    public function testEditReportError()
+    {
+        factory(RegisterMbkm::class, 1)->create([
+            'status' => 'accepted',
+        ]);
+
+        Storage::fake('uploads');
+        $file = UploadedFile::fake()->create('document.png', 100);
+        
+        $path = $file->store('uploads',  'uploads');
+
+        Storage::disk('uploads')->assertExists($path);
+        $requestData = [
+            'id' => 1,
+            'file_info' => 'test',
+            'file' => $file,
+            'upload_date' => Carbon::now()->toDateString(),
+        ];
+
+        $response = $this->post('/admin/mbkm-report-rev', $requestData);
+        $response->assertSessionHas('status', 'error');
+        $response->assertStatus(302);
+    }
+
     public function testEditReportSuccess()
     {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create([
-            'end_date' => '2030-01-01'
-        ]);
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
         factory(RegisterMbkm::class, 1)->create([
             'status' => 'accepted',
         ]);
@@ -296,46 +231,11 @@ class StudentMbkmTest extends TestCase
             'id' => 1,
             'file_info' => 'test',
             'file' => $file,
-            'upload_date' => Carbon::now()->toDateString(),
+            'upload_date' => '2023-02-02',
         ];
 
         $response = $this->post('/admin/mbkm-report-rev', $requestData);
-        $response->assertSessionHas('status', 'success');
-        $response->assertStatus(302);
-    }
-
-    public function testEditReportError()
-    {
-        factory(Partner::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(Mbkm::class, 1)->create([
-            'end_date' => '2030-01-01'
-        ]);
-        factory(Departmen::class, 1)->create();
-        factory(ProgramStudy::class, 1)->create();
-        factory(Students::class, 1)->create([
-            'users_id' => 1,
-        ]);
-        factory(RegisterMbkm::class, 1)->create([
-            'status' => 'accepted',
-        ]);
-
-        Storage::fake('uploads');
-        $file = UploadedFile::fake()->create('document.png', 100);
-        
-        $path = $file->store('uploads',  'uploads');
-
-        Storage::disk('uploads')->assertExists($path);
-        $requestData = [
-            'id' => 1,
-            'file_info' => 'test',
-            'file' => $file,
-            'upload_date' => Carbon::now()->toDateString(),
-        ];
-
-        $response = $this->post('/admin/mbkm-report-rev', $requestData);
-        $response->assertSessionHas('status', 'error');
+        $response->assertSessionHas('test', 'success');
         $response->assertStatus(302);
     }
 }
