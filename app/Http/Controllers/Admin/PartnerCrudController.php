@@ -159,7 +159,29 @@ class PartnerCrudController extends CrudController
          * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
          */
     }
-
+    public function biodata(){
+        $crud = $this->crud;
+        $data_mitra= backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+        return view('vendor/backpack/crud/datamitra', compact('data_mitra', 'crud'));
+    }
+    public function ubahbiodata(Request $request){
+        $validator = Validator::make($request->all(), [
+            'partner_name' => 'required',
+          
+            'address' => 'required',
+            'phone' => 'required',
+        ]);
+        $data=[
+            "partner_name"=>$request->partner_name,
+            "address"=>$request->address,
+            "phone"=>$request->phone
+        ];
+        Partner::where('id',$request->id)->update($data);
+        Alert::success('Berhasil Ubah data diri!')->flash();
+        return back();
+    }
     public function update(Request $request, $id)
     {
         // dd($request->all());

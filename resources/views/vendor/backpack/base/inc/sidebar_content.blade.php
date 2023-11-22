@@ -15,6 +15,7 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('status-reg') }}'><i class='nav-icon la la-user-tag'></i>Program Saya</a></li>
     </ul>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('management-m-b-k-m') }}'><i class='nav-icon la la-question'></i>Management m b k ms</a></li>
+
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('penilaian-mitra') }}'><i class='nav-icon la la-question'></i>Penilaian mitras</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasilaporan') }}'><i class='nav-icon la la-question'></i>Validasilaporans</a></li> --}}
 
@@ -43,6 +44,7 @@
                 class='nav-icon la la-folder'></i>Konfirmasi Laporan</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('penilaian-mitra') }}'><i
                 class='nav-icon la la-calculator'></i>Penilaian Mahasiswa</a></li>
+                <li class='nav-item'><a class='nav-link' href='{{ backpack_url('datamitra') }}'><i class='nav-icon la la-user'></i> Profile</a></li>
 @endif
 @if ($level == 'kaprodi')
     <li class="nav-title">Kaprodi</li>

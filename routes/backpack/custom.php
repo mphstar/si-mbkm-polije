@@ -48,6 +48,8 @@ Route::group([
         Route::crud('penilaian-mitra', 'PenilaianMitraCrudController');
         Route::get('penilaian-mitra/{id}/updating', 'PenilaianMitraCrudController@updating')->name("grader_partner");
         Route::post('penilaian-mitra/{id}/penilaian ', 'PenilaianMitraCrudController@penilaian');
+        Route::get('datamitra', 'PartnerCrudController@biodata');
+        Route::post('ubahbiodata', 'PartnerCrudController@ubahbiodata');
     });
 
     Route::middleware([KaprodiMiddleware::class])->group(function () {
