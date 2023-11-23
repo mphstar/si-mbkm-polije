@@ -67,6 +67,8 @@ class StatusRegCrudController extends CrudController
 
         CRUD::addClause('where', 'student_id', '=', $id_student->student->id);
         CRUD::addClause('where', 'mbkm_id', '!=', null);
+
+        
     }
 
     /**

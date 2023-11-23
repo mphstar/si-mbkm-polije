@@ -31,7 +31,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                     <tbody>
                         <tr>
                             <td>
-                                <strong>Nama Partner</strong>
+                                <strong>Nama Mitra</strong>
                             </td>
                             <td>
                                 <span>
@@ -41,7 +41,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         </tr>
                         <tr>
                             <td>
-                                <strong>Alamat:</strong>
+                                <strong>Alamat</strong>
                             </td>
                             <td>
                                 <span>
@@ -51,7 +51,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         </tr>
                         <tr>
                             <td>
-                                <strong>No telfon:</strong>
+                                <strong>No Telepon</strong>
                             </td>
                             <td>
                                 <span>
@@ -61,7 +61,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         </tr>
                         <tr>
                             <td>
-                                <strong>Status:</strong>
+                                <strong>Status</strong>
                             </td>
                             <td>
                                 @if ($data_mitra->partner->status == "pending")
@@ -76,7 +76,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         </tr>
                         <tr>
                             <td>
-                                <strong>Jenis mitra:</strong>
+                                <strong>Jenis Mitra</strong>
                             </td>
                             <td>
                                 <span>
@@ -86,7 +86,7 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                         </tr>
 
                         <tr>
-                            <td><strong>Actions</strong></td>
+                            <td><strong>Aksi</strong></td>
                             <td>
 
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ubahdata">ubah</button>

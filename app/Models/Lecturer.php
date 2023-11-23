@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\ClassApi;
 use App\ProgramStudy;
 use App\User;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -61,4 +62,20 @@ class Lecturer extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+    public function getTextJurusan()
+    {
+        $ap = new ClassApi;
+        $jurusan = $ap->getJurusan(request());
+
+        $res = 'Tidak diketahui';
+
+        foreach ($jurusan as $key => $value) {
+            if($value->uuid == $this->jurusan){
+                $res = $value->unit;
+                break;
+            }
+        }
+
+        return $res;
+    }
 }
