@@ -17,11 +17,12 @@ class CreateTemplateTable extends Migration
             $table->id();
             $table->string('nama',50);
             $table->string('file',255);
-            $table->integer('id_jenis_document'); // Use unsignedInteger instead of unsignedBigInteger
+            $table->foreignId('id_jenis_document')->references('id')->on('jenis_document')->onUpdate('cascade')->onDelete('cascade');
+            // $table->integer('id_jenis_document'); // Use unsignedInteger instead of unsignedBigInteger
 
-            $table->foreign('id_jenis_document')
-                ->references('id')
-                ->on('jenis_document'); // Assuming you want cascade on delete
+            // $table->foreign('id_jenis_document')
+            //     ->references('id')
+            //     ->on('jenis_document'); // Assuming you want cascade on delete
         });
     }
 

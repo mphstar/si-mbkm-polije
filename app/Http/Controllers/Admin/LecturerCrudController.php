@@ -25,7 +25,7 @@ class LecturerCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -36,7 +36,7 @@ class LecturerCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Lecturer::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/lecturer');
-        CRUD::setEntityNameStrings('lecturer', 'lecturers');
+        CRUD::setEntityNameStrings('Data Dosen', 'Data Dosen');
     }
 
     /**
@@ -47,13 +47,48 @@ class LecturerCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('user.email');
-        CRUD::column('address');;
 
-        CRUD::column('lecturer_name');
-        CRUD::column('nip');
-        CRUD::column('phone');
-        CRUD::column('status');
+        $this->crud->addColumns(
+            [
+                [
+                    "name" => 'user.email',
+                    "label" => 'Email'
+                ],
+                [
+                    "name" => 'address',
+                    "label" => 'Alamat'
+                ],
+                [
+                    "name" => 'lecturer_name',
+                    "label" => 'Nama Dosen'
+                ],
+                [
+                    "name" => 'nip',
+                    "label" => 'NIP'
+                ],
+                [
+                    "name" => 'phone',
+                    "label" => 'No Telepon'
+                ],
+                [
+                    "name" => 'status',
+                    "label" => 'Status'
+                ],
+                [
+                    "name" => 'jurusan',
+                    "label" => 'Jurusan',
+                    'type'  => 'model_function',
+                    'function_name' => 'getTextJurusan'
+
+                ],
+            ]
+        );
+        // CRUD::column('address');;
+
+        // CRUD::column('lecturer_name');
+        // CRUD::column('nip');
+        // CRUD::column('phone');
+        // CRUD::column('status');
 
 
         /**
