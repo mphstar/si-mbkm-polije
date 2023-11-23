@@ -277,10 +277,19 @@ class ManagementMBKMCrudController extends CrudController
             'name' => 'jenismbkm.jenismbkm',
             'label' => 'Jenis MBKM'
         ]);
+        // $this->crud->addColumn([
+        //     'name' => 'jurusan',
+        //     'label' => 'Jurusan'
+        // ]);
+
         $this->crud->addColumn([
-            'name' => 'jurusan',
-            'label' => 'Jurusan'
+            'name'  => 'jurusan',
+            'label' => 'Jurusan', // Table column heading
+            'type'  => 'model_function',
+            'function_name' => "getTextJurusan"
         ]);
+
+
         $this->crud->addColumn([
             'name'  => 'status_acc',
             'label' => 'Status ACC', // Table column heading
