@@ -51,6 +51,7 @@ class PenilaianMitraCrudController extends CrudController
         $this->crud->addClause('whereHas', 'mbkm', function ($query) use ($id_partner) {
             return $query->where('partner_id', $id_partner->partner->id);
         });
+        
     }
 
     /**
@@ -62,12 +63,28 @@ class PenilaianMitraCrudController extends CrudController
     protected function setupListOperation()
     {
 
-        $this->crud->setColumns(['student.name', 'mbkm.info', [
-            'name'  => 'status',
-            'label' => 'Status ACC', // Table column heading
-            'type'  => 'model_function',
-            'function_name' => 'getStatusSpan'
-        ]]);
+        $this->crud->addColumns([
+            [
+                "name" => "student.name",
+                "label" => "Nama Mahasiswa"
+            ],
+            [
+                "name" => "mbkm.info",
+                "label" => "Keterangan MBKM"
+            ],
+            [
+                "label" => "Status ACC",
+                'name'=>'status',
+                'type' => 'model_function',
+                'function_name' => 'getStatusSpan'
+            ],
+        ]);
+        // $this->crud->setColumns(['student.name', 'mbkm.info', [
+        //     'name'  => 'status',
+        //     'label' => 'Status ACC', // Table column heading
+        //     'type'  => 'model_function',
+        //     'function_name' => 'getStatusSpan'
+        // ]]);
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');

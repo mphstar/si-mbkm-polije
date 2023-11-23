@@ -116,15 +116,15 @@ $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
                     <input type="text" class="form-control" name="partner_name"value="{{ $data_mitra->partner->partner_name }}">
                 </div>
                 <div class="form-group">
-                    <label for="status">AlAMAT</label>
+                    <label for="status">Alamat</label>
                     <input type="text" class="form-control" name="address" id="alamat"value="{{ $data_mitra->partner->address }}">
                 </div>
                 <div class="form-group">
-                    <label for="status">No telfon</label>
+                    <label for="status">No Telfon</label>
                     <input type="text" class="form-control" name="phone" id="no_hp"value="{{ $data_mitra->partner->phone }}">
                 </div>
 
-
+ 
                 <input type="hidden" name="id" class="form-control" value="{{ $data_mitra->partner->id }}">
 
 
