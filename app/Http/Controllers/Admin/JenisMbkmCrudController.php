@@ -17,7 +17,7 @@ class JenisMbkmCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -28,7 +28,7 @@ class JenisMbkmCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\JenisMbkm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/jenis-mbkm');
-        CRUD::setEntityNameStrings('jenis mbkm', 'jenis mbkms');
+        CRUD::setEntityNameStrings('Jenis MBKM', 'Jenis MBKM');
     }
 
     /**

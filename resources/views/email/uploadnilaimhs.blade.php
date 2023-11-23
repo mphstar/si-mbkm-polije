@@ -65,7 +65,7 @@
                     <div class="card-body">
                       <h5 class="card-title">Upload Nilai</h5>
                       <p class="card-text">Mitra : {{ $partner}} , <br> Dengan Nama Program : {{ $mbkmname }}</p>
-                     <img src="https://picsum.photos/200/300" alt="">
+                    
                     </div>
                 </div>
                    

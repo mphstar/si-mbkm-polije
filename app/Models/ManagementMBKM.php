@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\ClassApi;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class ManagementMBKM extends Model
 {
@@ -36,10 +38,10 @@ class ManagementMBKM extends Model
     {
         return $this->belongsTo(JenisMbkm::class, 'id_jenis', 'id');
     }
- 
+
     public function departmen()
     {
-        return $this->belongsTo(Departmen::class,'departments_id','id');
+        return $this->belongsTo(Departmen::class, 'departments_id', 'id');
     }
     public function regs()
     {
@@ -70,9 +72,10 @@ class ManagementMBKM extends Model
     */
 
 
-    public function getStatusSpan() {
+    public function getStatusSpan()
+    {
         $status = $this->attributes['status_acc'];
-        
+
         if ($status == 'accepted') {
             return '<span class="badge bg-success">Accept</span>';
         } elseif ($status == 'rejected') {
@@ -81,9 +84,10 @@ class ManagementMBKM extends Model
             return '<span class="badge bg-warning">Pending</span>';
         }
     }
-    public function getIsactiveSpan() {
+    public function getIsactiveSpan()
+    {
         $status = $this->attributes['is_active'];
-        
+
         if ($status == 'active') {
             return '<span class="badge bg-success">Active</span>';
         } elseif ($status == 'inactive') {
@@ -91,5 +95,22 @@ class ManagementMBKM extends Model
         } else {
             return '<span class="badge bg-warning">Pending</span>';
         }
+    }
+
+    public function getTextJurusan()
+    {
+        $ap = new ClassApi;
+        $jurusan = $ap->getJurusan(request());
+
+        $res = 'Tidak diketahui';
+
+        foreach ($jurusan as $key => $value) {
+            if($value->uuid == $this->jurusan){
+                $res = $value->unit;
+                break;
+            }
+        }
+
+        return $res;
     }
 }

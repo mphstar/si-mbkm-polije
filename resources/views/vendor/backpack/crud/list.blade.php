@@ -46,8 +46,9 @@
         @if ($crud->filtersEnabled())
           @include('crud::inc.filters_navbar')
         @endif
-
-        <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2" cellspacing="0">
+        <div class="table-responsive">
+        </div>
+        <table id="crudTable" class="bg-white table table-striped table-hover wrap rounded shadow-xs border-xs mt-2" cellspacing="0">
             <thead>
               <tr>
                 {{-- Table columns --}}
@@ -101,7 +102,7 @@
                   <th data-orderable="false"
                       data-priority="{{ $crud->getActionsColumnPriority() }}"
                       data-visible-in-export="false"
-                      >{{ trans('backpack::crud.actions') }}</th>
+                      >Aksi</th>
                 @endif
               </tr>
             </thead>
@@ -115,7 +116,7 @@
                 @endforeach
 
                 @if ( $crud->buttons()->where('stack', 'line')->count() )
-                  <th>{{ trans('backpack::crud.actions') }}</th>
+                  <th>Aksi</th>
                 @endif
               </tr>
             </tfoot>

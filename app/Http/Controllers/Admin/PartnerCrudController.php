@@ -35,7 +35,7 @@ class PartnerCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Partner::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/partner');
-        CRUD::setEntityNameStrings('partner', 'partners');
+        CRUD::setEntityNameStrings('Data Mitra', 'Data Mitra');
     }
 
     /**
@@ -56,19 +56,19 @@ class PartnerCrudController extends CrudController
         //         ]])->afterColumn('jenis_mitra');
         $this->crud->setColumns([[
             'name' => 'partner_name',
-            'label' => 'Nama Partner',
+            'label' => 'Nama Mitra',
         ], [
             'name' => 'address',
             'label' => 'Alamat Mitra',
         ], [
             'name' => 'phone',
-            'label' => 'No telfon',
+            'label' => 'No Telepon',
         ], [
             'name' => 'user.email',
             'label' => 'Email',
         ], [
             'name'  => 'status',
-            'label' => 'Status ACC', // Table column heading
+            'label' => 'Status Akun', // Table column heading
             'type'  => 'model_function',
             'function_name' => 'getStatusSpan'
         ],]);
@@ -101,7 +101,7 @@ class PartnerCrudController extends CrudController
         $this->crud->addField([
             'name' => 'phone',
             'type' => 'number',
-            'label' => "Masukkan nomor telfon mitra"
+            'label' => "Masukkan nomor telepon mitra"
         ]);
         // $this->crud->addField([
         //     'name' => 'jenis_mitra',
@@ -304,7 +304,7 @@ class PartnerCrudController extends CrudController
         $this->crud->addField([
             'name' => 'phone',
             'type' => 'number',
-            'label' => "Masukkan nomor telfon mitra"
+            'label' => "Masukkan nomor telepon mitra"
         ]);
         $this->crud->addField([
             'name' => 'jenis_mitra',
@@ -341,7 +341,7 @@ class PartnerCrudController extends CrudController
         ]);
         $this->crud->addColumn([
             'name' => 'phone',
-            'label' => 'No telfon',
+            'label' => 'No Telepon',
         ]);
         $this->crud->addColumn([
             'name' => 'address',
@@ -361,10 +361,10 @@ class PartnerCrudController extends CrudController
             'type'  => 'model_function',
             'function_name' => 'getStatusSpan'
         ]);
-        $this->crud->addColumn([
-            'name' => 'user.password',
-            'label' => 'Password',
-        ]);
+        // $this->crud->addColumn([
+        //     'name' => 'user.password',
+        //     'label' => 'Password',
+        // ]);
 
 
 

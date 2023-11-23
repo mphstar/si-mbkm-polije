@@ -34,10 +34,11 @@
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('jenis-mbkm') }}'><i
                 class='nav-icon la la-copy'></i>Jenis MBKM</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('template-nilai') }}'><i
-        class='nav-icon la la-question'></i> Template nilai</a></li>
-
+                class='nav-icon la la-question'></i> Format File </a></li>
 @endif
 @if ($level == 'mitra')
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('datamitra') }}'><i class='nav-icon la la-user'></i>
+        Profile</a></li>
     <li class="nav-title">Mitra</li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('management-m-b-k-m') }}'><i
                 class='nav-icon la la-edit'></i>Buat MBKM</a></li>
@@ -47,7 +48,6 @@
                 class='nav-icon la la-folder'></i>Konfirmasi Laporan</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('penilaian-mitra') }}'><i
                 class='nav-icon la la-calculator'></i>Penilaian Mahasiswa</a></li>
-                <li class='nav-item'><a class='nav-link' href='{{ backpack_url('datamitra') }}'><i class='nav-icon la la-user'></i> Profile</a></li>
 @endif
 @if ($level == 'kaprodi')
     <li class="nav-title">Kaprodi</li>
@@ -110,4 +110,3 @@
         </ul>
     </li>
 @endif
-

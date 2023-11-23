@@ -7,6 +7,7 @@ use App\Models\TemplateNilai;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -90,7 +91,10 @@ class TemplateNilaiCrudController extends CrudController
 
     public function HalamanTambah(){
         $crud = $this->crud;
-      return view('vendor/backpack/crud/Halaman_tambah_template_nilai',compact('crud'));
+        $jenisdocument = DB::table('jenis_document')
+                    ->select('id', 'nama_jenis_document')
+                    ->get();
+      return view('vendor/backpack/crud/Halaman_tambah_template_nilai',compact('crud', 'jenisdocument'));
     }
 
     public function store(Request $request)
@@ -100,13 +104,16 @@ class TemplateNilaiCrudController extends CrudController
         $request->validate([
             'file' => 'nullable|file|mimes:pdf|max:2048|required',
             'name_template' => 'required',
+            'format'=>'required'
         ]);
 
         $name = $request->name_template;
         $file = $request->file('file');
+        $jenisDocument = $request->format;
 
         // dd($request->all());
         // dd($file);
+        // dd($jenisDocument);
 
         if ($file->getError() > 0) {
             // dd($file);
@@ -122,8 +129,10 @@ class TemplateNilaiCrudController extends CrudController
         try {
             TemplateNilai::create([
                 'nama' => $name,
-                'file' => $path
+                'file' => $path,
+                'id_jenis_document'=> $jenisDocument
             ]);
+
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to create record: ' . $e->getMessage());
             // dd($name, $file);

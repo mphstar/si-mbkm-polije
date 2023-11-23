@@ -23,7 +23,7 @@ return [
 
             // enable the datatables-responsive plugin, which hides columns if they don't fit?
             // if not, a horizontal scrollbar will be shown instead
-            'responsiveTable' => true,
+            'responsiveTable' => false,
 
             // stores pagination and filters in localStorage for two hours
             // whenever the user tries to see that page, backpack loads the previous pagination and filtration
@@ -61,7 +61,7 @@ return [
             // that allows the user to erase local storage for that datatable,
             // thus clearing any searching, filtering or pagination that has been
             // remembered and persisted using persistentTable
-            'resetButton' => true,
+            'resetButton' => false,
         ],
 
         /*
