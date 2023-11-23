@@ -65,7 +65,7 @@
                     <div class="card-body">
                       <h5 class="card-title">Peserta daftar MBKM : {{ $dataaa->mbkm->program_name }}</h5>
                       <p class="card-text">Mahasiswa Atas nama {{ $dataaa->student->name}} , <br> Dengan Nim {{ $dataaa->student->nim }}</p>
-                     <img src="https://picsum.photos/200/300" alt="">
+           
                     </div>
                 </div>
                    

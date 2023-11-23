@@ -36,6 +36,18 @@ class MbkmReportCrudController extends CrudController
             return $query->where('users_id', backpack_auth()->user()->id);
         })->first();
         
+$cek=RegisterMbkm::where('status','=','accepted')->where('student_id', $user->student->id)->first();
+if (!$cek) {
+    session()->flash('status', 'error');
+    Alert::error('Anda tidak terdaftar program MBKM')->flash();
+    return back();
+}else{
+if ($cek->id_jenis != null) {
+    session()->flash('status', 'error');
+    Alert::error('Anda tidak terdaftar program MBKM internal')->flash();
+    return back();
+}
+}
 
         $mbkmId = RegisterMbkm::with('mbkm')
         ->where('student_id', $user->student->id)

@@ -51,6 +51,10 @@ class MBKMEksternalCrudController extends CrudController
         $id = backpack_auth()->user()->id;
         $today = Carbon::now()->toDateString();
         $siswa = Students::where('users_id', $id)->value('id');
+        $data_sis = Students::where('users_id', $id)->first();
+        $jenjang=substr($data_sis->nim,1,1);// mengambil jenjang
+ 
+  
         $crud = $this->crud;
         $jenis_mbkm = JenisMbkm::where('kategori_jenis', '=', 'external')->get();
 
@@ -63,7 +67,24 @@ class MBKMEksternalCrudController extends CrudController
             return $query->where('kategori_jenis', '=', 'external');
         })->where('student_id', $siswa)->get();
         $crud = $this->crud;
-        return view('vendor/backpack/crud/mbkbmeksternal', compact('crud', 'siswa', 'id', 'extenal_sementara', 'jenis_mbkm'));
+        if ($jenjang == 4) {
+            if ($data_sis->semester < 5) {
+                session()->flash('semester', 'error');
+    Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal')->flash();
+    return back();
+            }else{
+                return view('vendor/backpack/crud/mbkbmeksternal', compact('crud', 'siswa', 'id', 'extenal_sementara', 'jenis_mbkm'));
+            }
+        }else{
+            if ($data_sis < 3) {
+                session()->flash('semester', 'error');
+                Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal')->flash();
+                return back();
+            }else{
+                return view('vendor/backpack/crud/mbkbmeksternal', compact('crud', 'siswa', 'id', 'extenal_sementara', 'jenis_mbkm'));
+            }
+        }
+        
     }
  
     public function regexternal()
@@ -157,7 +178,7 @@ class MBKMEksternalCrudController extends CrudController
 
 
     public function ambileks (Request $request) {
-        $cekdireg_acp=RegisterMbkm::where('student_id',$request->input('student_id'))->whereIn('status',['accepted','rejected'])->get();
+        $cekdireg_acp=RegisterMbkm::where('student_id',$request->input('student_id'))->whereIn('status',['accepted'])->get();
         if (($request->status == "diterima")||($request->status == "ditolak")) {
             
         $status = [

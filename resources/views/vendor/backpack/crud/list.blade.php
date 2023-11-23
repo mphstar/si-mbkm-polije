@@ -46,8 +46,9 @@
         @if ($crud->filtersEnabled())
           @include('crud::inc.filters_navbar')
         @endif
-
-        <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2" cellspacing="0">
+        <div class="table-responsive">
+        </div>
+        <table id="crudTable" class="bg-white table table-striped table-hover wrap rounded shadow-xs border-xs mt-2" cellspacing="0">
             <thead>
               <tr>
                 {{-- Table columns --}}
