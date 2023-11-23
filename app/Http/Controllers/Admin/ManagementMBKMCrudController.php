@@ -36,7 +36,7 @@ class ManagementMBKMCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\ManagementMBKM::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/management-m-b-k-m');
-        CRUD::setEntityNameStrings('management MBKM', 'management MBKMS');
+        CRUD::setEntityNameStrings('Data MBKM', 'Data MBKM');
 
         $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
             return $query->where('users_id', backpack_auth()->user()->id);
@@ -73,12 +73,12 @@ class ManagementMBKMCrudController extends CrudController
                 'label' => 'Jenis Mbkm',
             ], [
                 'name'  => 'status_acc',
-                'label' => 'Status ACC', // Table column heading
+                'label' => 'Status Akun', // Table column heading
                 'type'  => 'model_function',
                 'function_name' => 'getStatusSpan'
             ], [
                 'name'  => 'is_active',
-                'label' => 'Status Active', // Table column heading
+                'label' => 'Status Aktif', // Table column heading
                 'type'  => 'model_function',
                 'function_name' => 'getIsactiveSpan'
             ],

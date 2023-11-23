@@ -1,1 +1,1 @@
-<a href="{{ url($crud->route.'/'.$entry->getKey().'/ubahmbkm') }} " class="btn-link"><i class="la la-edit">edit</i></a>
+<a href="{{ url($crud->route . '/' . $entry->getKey() . '/ubahmbkm') }} " class="btn btn-sm btn-link"><i class="la la-edit"></i> Edit</a>
