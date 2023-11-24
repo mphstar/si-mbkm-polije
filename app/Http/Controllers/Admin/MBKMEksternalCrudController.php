@@ -76,7 +76,7 @@ class MBKMEksternalCrudController extends CrudController
                 return view('vendor/backpack/crud/mbkbmeksternal', compact('crud', 'siswa', 'id', 'extenal_sementara', 'jenis_mbkm'));
             }
         }else{
-            if ($data_sis < 3) {
+            if ($data_sis->semester < 3) {
                 session()->flash('semester', 'error');
                 Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal')->flash();
                 return back();
