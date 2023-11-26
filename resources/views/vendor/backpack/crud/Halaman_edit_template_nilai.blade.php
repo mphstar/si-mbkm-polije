@@ -28,12 +28,19 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('MenyimpanTemplate') }}"method="post" enctype="multipart/form-data">
+                <form action="{{ route('updatefile', ['id' => $data->id]) }}"method="post" enctype="multipart/form-data">
                     @csrf
+
                     <div class="col-md-6 form-group">
-						<label class="required">nama template</label>
-						<input required class="form-control" type="text" name="name_template" value="">
-					</div>
+                        <label class=""></label>
+                        <input type="hidden" name="id" value="{{ $data->id }}">
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <label class="required">nama template</label>
+                        <input required class="form-control" type="text" name="name_template" value="{{ $data->nama }}" readonly>
+                    </div>
+
                     <div class="col-md-6 form-group">
 						<label class="required">upload template nilai</label>
 						<input required class="form-control" type="file" name="file" placeholder="file harus berupa pdf" accept=".pdf" value="" >
