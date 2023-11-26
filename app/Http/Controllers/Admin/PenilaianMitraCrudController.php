@@ -51,7 +51,7 @@ class PenilaianMitraCrudController extends CrudController
         $this->crud->addClause('whereHas', 'mbkm', function ($query) use ($id_partner) {
             return $query->where('partner_id', $id_partner->partner->id);
         });
-        
+
     }
 
     /**
@@ -91,7 +91,7 @@ class PenilaianMitraCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
         $this->crud->addButtonFromView('line', 'partner_grade', 'partner_grade', 'beginning');
-        $this->crud->addButtonFromView('line', 'Download_Template', 'Download_Template', 'end');
+        $this->crud->addButtonFromView('top', 'Download_Template', 'Download_Template', 'end');
 
 
     }
@@ -243,27 +243,25 @@ class PenilaianMitraCrudController extends CrudController
         return redirect("admin/penilaian-mitra");
     }
 
-    public function unduhtemplate($id){
-        // dd($id);
+    public function unduhtemplate($nama)
+    {
+        // Cari data template berdasarkan nama file
         $DataTemplate = DB::table('template')
-        ->where('id_jenis_document', '=', '2')
-        ->orderByDesc('id')
-        ->limit(1)
-        ->first(); // Menggunakan first() untuk mendapatkan satu baris pertama
-        // dd($DataTemplate);
+            ->where('nama', $nama)
+            ->first();
 
-            try {
-                //code...
-                $filePath = 'uploads/' . $DataTemplate->file;
+        try {
+            //code...
+            $filePath = 'uploads/' . $DataTemplate->file;
 
-                // Mendapatkan nama asli file
-                $originalName = pathinfo($DataTemplate->file, PATHINFO_FILENAME);
+            // Mendapatkan nama asli file
+            $originalName = pathinfo($DataTemplate->file, PATHINFO_FILENAME);
 
-                // Membangun response untuk mengirimkan file ke pengguna
-                return response()->download(storage_path("app/{$filePath}"), "{$originalName}.pdf");
-            } catch (\Throwable $th) {
-                throw $th;
-            }
-
+            // Membangun response untuk mengirimkan file ke pengguna
+            return response()->download(storage_path("app/{$filePath}"), "{$originalName}.pdf");
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
+
 }

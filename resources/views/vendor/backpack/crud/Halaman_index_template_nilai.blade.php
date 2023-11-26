@@ -49,7 +49,7 @@
                                 <td class="text-center">{{ $files->nama }}</td>
                                 <td class="text-center">
                                    <a href="{{ route('unduhfile',['id' => $files->id]) }}"><button>download</button></a>
-                                   <a href="{{ route('hapusFile', ['id' => $files->id]) }}"><button>hapus</button></a>
+                                   <a href="{{ route('HalamanEditFile',['id' => $files->id]) }}"><button>update</button></a>
                                 </td>
                             </tr>
                             @endforeach

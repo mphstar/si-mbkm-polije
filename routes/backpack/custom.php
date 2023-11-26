@@ -33,11 +33,9 @@ Route::group([
         Route::crud('template-nilai', 'TemplateNilaiCrudController');
         Route::get('template-nilai/HalamanTambah','TemplateNilaiCrudController@HalamanTambah')->name('');
         Route::post('template-nilai/HalamanTambah/store',"TemplateNilaiCrudController@store")->name('MenyimpanTemplate');
-        Route::get('template-nilai/HalamanTambah/{id}/delete','TemplateNilaiCrudController@deleteFile')->name('hapusFile');
-        Route::get('template-nilai/HalamanTambah/{id}/unduhfile','TemplateNilaiCrudController@unduhfile')->name('unduhfile');
-
-
-
+        Route::get('template-nilai/{id}/unduhfile','TemplateNilaiCrudController@unduhfile')->name('unduhfile');
+        Route::get('template-nilai/{id}/HalamanEditFile', 'TemplateNilaiCrudController@HalamanEdit')->name('HalamanEditFile');
+        Route::post('template-nilai/{id}/HalamanEditFile/update', 'TemplateNilaiCrudController@update')->name('updatefile');
     });
 
 
@@ -56,8 +54,7 @@ Route::group([
         Route::crud('penilaian-mitra', 'PenilaianMitraCrudController');
         Route::get('penilaian-mitra/{id}/updating', 'PenilaianMitraCrudController@updating')->name("grader_partner");
         Route::post('penilaian-mitra/{id}/penilaian ', 'PenilaianMitraCrudController@penilaian');
-        Route::get('penilaian-mitra/unduhtemplate/{id}', 'PenilaianMitraCrudController@unduhtemplate')->name('penilaian-mitra.unduhtemplate');
-
+        Route::get('penilaian-mitra/unduhtemplate/{nama}', 'PenilaianMitraCrudController@unduhtemplate')->name('penilaian-mitra.unduhtemplate');
         Route::get('datamitra', 'PartnerCrudController@biodata');
         Route::post('ubahbiodata', 'PartnerCrudController@ubahbiodata');
     });
