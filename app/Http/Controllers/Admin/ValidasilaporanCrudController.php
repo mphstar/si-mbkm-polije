@@ -147,10 +147,10 @@ class ValidasilaporanCrudController extends CrudController
             'status' => $request->input('status'),
             'notes' => $request->input('notes')
         ];
-        $dataa = Validasilaporan::with(['regMbkm.student.users'])->where('id', $request->id)->first();
-
+        
         $id =  $request->input('id');
         Validasilaporan::where('id', $id)->update($data);
+        $dataa = Validasilaporan::with(['regMbkm.student.users'])->where('id', $request->id)->first();
         if ($request->input("status") === "accepted") {
             Mail::to($dataa->regMbkm->student->users->email)->send(new laporanditerima($dataa));
         } elseif ($request->input("status") === "rejected") {
