@@ -47,7 +47,7 @@
                                 <th class="text-center align-middle">Informasi Laporan</th>
                                 <th class="text-center align-middle">Status</th>
                                 <th class="text-center align-middle">File</th>
-                                <th class="text-center align-middle">Keterangan Prodi</th>
+                                <th class="text-center align-middle">Keterangan Mitra</th>
                                 <th class="text-center"><button @if($count >= 100)
                                     disabled @endif type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">Upload Laporan</button></th>
                             </tr>
