@@ -30,6 +30,14 @@ Route::get('/register/mitra', 'RegisterController@mitra');
 
 Route::post('/register/mitra/proses', 'RegisterController@registerMitra');
 
+// Route::view('/cetak_nilai', 'custom_view.cetak_nilai');
+
+Route::get('/cetak_nilai', function () {
+    return view('custom_view.cetak_nilai', [
+        "data" => "mphstar"
+    ]);
+});
+
 // Route::get('/auth', 'AuthController@redirectToGoogle')->name('google.login');
 // Route::get('/auth/callback', 'AuthController@handleGoogleCallback');
 
