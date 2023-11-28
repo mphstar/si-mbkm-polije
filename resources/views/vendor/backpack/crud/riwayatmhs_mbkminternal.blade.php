@@ -13,15 +13,7 @@
 @section('header')
     <section class="container-fluid d-print-none">
         <a href="javascript: window.print();" class="btn float-right"><i class="la la-print"></i></a>
-        <h2>
-            <span class="text-capitalize">Riwayat Peserta MBKM</span>
-            <br>
-
-            @if ($crud->hasAccess('list'))
-                <small class=""><a href="{{ url($crud->route) }}" class="font-sm"><i class="la la-angle-double-left"></i>
-                        {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
-            @endif
-        </h2>
+      
     </section>
 @endsection
 @section('content')
@@ -39,7 +31,11 @@
                                 <tr>
                                     <th class="text-center">#</th>
                                     <th class="text-center">Nama Mahasiswa</th>
-                                    <th class="text-center">Nama program MBKM</th>
+                                    <th class="text-center">Semester</th>
+                                    <th class="text-center">Nama Mitra </th>
+                                    <th class="text-center">Nama Program MBKM</th>
+                                    <th class="text-center">Jenis Program MBKM</th>
+                                    <th class="text-center">Nama Dosen Pembimbing</th>
                                     <th class="text-center">Status</th>
                                 
 
@@ -49,32 +45,28 @@
                                 @php
                                     $index = 1;
                                 @endphp
-                                @foreach ($pendaftar as $pdftr)
+                                @foreach ($datamhs as $pdftr)
                                     <tr>
-                                        <td class="text-center">{{ $index }}</th>
-                                        <td class="text-center">{{ $pdftr->student->name }}</th>
+                                        <td class="text-center">{{ $index }}</td>
+                                        <td class="text-center">{{ $pdftr->student->name }}</td>
+                                        <td class="text-center">{{ $pdftr->student->semester }}</td>
 
+                                        <td class="text-center">{{ $pdftr->mbkm->partner->partner_name }}</td>
                                         <td class="text-center">{{ $pdftr->mbkm->program_name }}</td>
                                         <td class="text-center">
 
+                                            {{ $pdftr->mbkm->jenismbkm->jenismbkm }}
+                                         
+                                        </td>
+                                        <td class="text-center">
 
-                                            @if ($pdftr->status === 'accepted')
-                                                <button disabled type="button" class="btn btn-success" data-toggle="modal"
-                                                    data-target="#modaledit{{ $pdftr->id }}">
-                                                diterima
-                                                </button>
-                                            @elseif($pdftr->status === 'pending')
-                                                <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                    data-target="#modaledit"onclick="edit({{  $pdftr }})">Menunggu</button>
-                                            @elseif($pdftr->status === 'rejected')
-                                                <button disabled type="button" class="btn btn-danger" data-toggle="modal"
-                                                    data-target="#modaledit{{ $pdftr->id }}">ditolak</button>
-                                            @else
-                                                <button disabled type="button" class="btn btn-success" data-toggle="modal"
-                                                    data-target="#modaledit{{ $pdftr->id }}">
-                                                    selesai
-                                                </button>
-                                            @endif
+                                            {{ $pdftr->lecturer->lecturer_name }}
+                                         
+                                        </td>
+                                        <td class="text-center">
+
+                                            <span class="badge bg-success">selesai</span>
+                                         
                                         </td>
 
                                     
