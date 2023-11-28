@@ -47,6 +47,7 @@ Route::group([
         Route::post('management-m-b-k-m/updatembkm', 'ManagementMBKMCrudController@updatembkm');
         Route::post('management-m-b-k-m/tambahdatambkm', 'ManagementMBKMCrudController@storeData');
         Route::get('register-mbkm', 'RegisterMbkmCrudController@validasipendaftar');
+        Route::get('riwayat-pendaftar', 'RegisterMbkmCrudController@riwayatpendaftar');
         Route::post('validasi-peserta', 'RegisterMbkmCrudController@validasipeserta');
         Route::crud('validasilaporan', 'ValidasilaporanCrudController');
         Route::get('validasilaporan/{id}/detail_laporan ', 'ValidasilaporanCrudController@detail_laporan')->name("detail_laporan");

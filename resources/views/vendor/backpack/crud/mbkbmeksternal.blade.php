@@ -45,7 +45,7 @@
                                 <th class="text-center">#</th>
                                 <th class="text-center">Jenis Program</th>
                                 <th class="text-center">Kategori</th>
-                                <th class="text-center">Semeter</th>
+                                <th class="text-center">Semester</th>
                                 <th class="text-center">Detail Program</th>
                                 <th class="text-center">Download File TTD kaprodi</th>
                               {{-- <th class="text-center">Upload Bukti Terima</th> --}}

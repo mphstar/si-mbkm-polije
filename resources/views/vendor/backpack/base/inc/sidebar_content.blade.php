@@ -44,10 +44,12 @@
                 class='nav-icon la la-edit'></i>Buat MBKM</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('register-mbkm') }}'><i
                 class='nav-icon la la-random'></i>Konfirmasi Pendaftar</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasilaporan') }}'><i
-                class='nav-icon la la-folder'></i>Konfirmasi Laporan</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('penilaian-mitra') }}'><i
-                class='nav-icon la la-calculator'></i>Penilaian Mahasiswa</a></li>
+                <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasilaporan') }}'><i
+                    class='nav-icon la la-folder'></i>Konfirmasi Laporan</a></li>
+                    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('penilaian-mitra') }}'><i
+                        class='nav-icon la la-calculator'></i>Penilaian Mahasiswa</a></li>
+                        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('riwayat-pendaftar') }}'><i
+                                    class='nav-icon la la-random'></i>Riwayat Pendaftar</a></li>
 @endif
 @if ($level == 'kaprodi')
     <li class="nav-title">Kaprodi</li>
@@ -71,7 +73,7 @@
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('lecturer') }}'><i
                 class='nav-icon la la-user-edit'></i>Dosen</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('manage-student') }}'><i
-                class='nav-icon la la-graduation-cap'></i>Kelolah Mahasiswa</a></li>
+                class='nav-icon la la-graduation-cap'></i>Kelola Mahasiswa</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('progress-mahasiswa') }}'><i
                 class='nav-icon la la-copy'></i>Progres Mahasiswa</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('acc-nilai') }}'><i

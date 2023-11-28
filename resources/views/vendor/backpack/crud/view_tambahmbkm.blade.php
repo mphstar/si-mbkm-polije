@@ -45,8 +45,14 @@
 
                         </div>
                         <div class="form-group">
-                            <label>Untuk Semester </label>
-                            <input type="number" class="form-control" name="semester">
+                            <label>Semester </label>
+                            <select name="semester" class="form-control">
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                            </select>
 
                         </div>
                         <div class="form-group">

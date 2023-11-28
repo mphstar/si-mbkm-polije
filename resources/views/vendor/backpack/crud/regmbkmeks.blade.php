@@ -9,7 +9,6 @@
     // if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs
     $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 @endphp
-
 @section('header')
     <section class="container-fluid d-print-none">
         <a href="javascript: window.print();" class="btn float-right"><i class="la la-print"></i></a>
@@ -17,10 +16,14 @@
 
             @if ($crud->hasAccess('list'))
                 <small class=""><a href="{{ url($crud->route) }}" class="font-sm"><i class="la la-angle-double-left"></i>
-                        {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
-            @endif
         </h2>
+        {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
+        @endif
     </section>
+@endsection
+
+@section('after_styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 @section('content')
     <div class="row">
@@ -65,10 +68,11 @@
                             <div class="row form-group">
                                 <div class="col-md-4">
                                     <label>Nama Mitra dan alamat mitra</label>
-                                    <select class="form-control" name="partner_id[]">
+                                    <select class="form-control js-example-basic-single" name="partner_id[]">
                                         <!-- ... -->
                                         @foreach ($partner as $key)
-                                            <option value="{{ $key->id }}">{{ $key->partner_name }} . Alamat :{{ $key->address }}</option>
+                                            <option value="{{ $key->id }}">{{ $key->partner_name }} . Alamat
+                                                :{{ $key->address }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -91,9 +95,11 @@
             </div>
         </div>
     </div>
+@endsection
 
-
+@section('after_scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
             $(".add-form").click(function() {
@@ -101,10 +107,11 @@
                     <div class="row form-group">
                         <div class="col-md-4">
                             <label>Nama Mitra</label>
-                            <select class="form-control" name="partner_id[]">
+                            <select class="form-control js-example-basic-single" name="partner_id[]">
                                  
                                 @foreach ($partner as $key)
-                                    <option value="{{ $key->id }}">{{ $key->partner_name }}</option>
+                                    <option value="{{ $key->id }}">{{ $key->partner_name }} . Alamat
+                                                :{{ $key->address }}</option>
                                     @endforeach
                             </select>
                         </div>
@@ -117,11 +124,17 @@
                         </div>
                     </div>`;
                 $("#dynamic-forms").append(newForm);
+                 $('.js-example-basic-single').select2();
             });
 
             $(document).on('click', '.remove-form', function() {
                 $(this).closest('.form-group').remove();
             });
+        });
+
+        // In your Javascript (external .js resource or <script> tag)
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2();
         });
     </script>
 @endsection

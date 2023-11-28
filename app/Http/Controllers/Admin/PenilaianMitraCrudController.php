@@ -181,12 +181,12 @@ class PenilaianMitraCrudController extends CrudController
         if ($laporan->isEmpty()) {
             $count = 0;
 
-            Alert::error('Tidak bisa upload nilai karna task dari peserta belum lengkap1')->flash();
+            Alert::error('Tidak bisa upload nilai karna task dari peserta belum lengkap')->flash();
             return redirect('admin/penilaian-mitra');
         } elseif ($acceptedCount == 0) {
             $count = "0";
         } else {
-            $count = round(($acceptedCount / $targetCount) * 100, 2);
+            $count = round(($acceptedCount / $targetCount) * 100);
         }
 
         if (($count == 100)) {
@@ -196,7 +196,7 @@ class PenilaianMitraCrudController extends CrudController
             return view('vendor.backpack.crud.partner_grading', compact('crud'));
         } else {
             session()->flash('status', 'report not complete');
-            Alert::error('Tidak bisa upload nilai karna task dari peserta belum lengkap2')->flash();
+            Alert::error('Tidak bisa upload nilai karna task dari peserta belum lengkap')->flash();
             return redirect('admin/penilaian-mitra');
         }
 
@@ -245,23 +245,30 @@ class PenilaianMitraCrudController extends CrudController
 
     public function unduhtemplate($nama)
     {
+        // dd($nama);
         // Cari data template berdasarkan nama file
         $DataTemplate = DB::table('template')
             ->where('nama', $nama)
             ->first();
-
-        try {
-            //code...
-            $filePath = 'uploads/' . $DataTemplate->file;
-
-            // Mendapatkan nama asli file
-            $originalName = pathinfo($DataTemplate->file, PATHINFO_FILENAME);
-
-            // Membangun response untuk mengirimkan file ke pengguna
-            return response()->download(storage_path("app/{$filePath}"), "{$originalName}.pdf");
-        } catch (\Throwable $th) {
-            throw $th;
+        // dd($DataTemplate);
+        if ($DataTemplate) {
+            try {
+                //code...
+                $filePath = 'uploads/' . $DataTemplate->file;
+    
+                // Mendapatkan nama asli file
+                $originalName = pathinfo($DataTemplate->file, PATHINFO_FILENAME);
+    
+                // Membangun response untuk mengirimkan file ke pengguna
+                return response()->download(storage_path("app/{$filePath}"), "{$originalName}.pdf");
+            } catch (\Throwable $th) {
+                throw $th;
+            }
+        } else {
+            // Handle case when template data is not found
+            return response('File not found', 404);
         }
     }
+    
 
 }

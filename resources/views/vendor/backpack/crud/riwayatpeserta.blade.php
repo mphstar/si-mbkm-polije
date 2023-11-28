@@ -14,7 +14,7 @@
     <section class="container-fluid d-print-none">
         <a href="javascript: window.print();" class="btn float-right"><i class="la la-print"></i></a>
         <h2>
-            <span class="text-capitalize">Fitur validasi Peserta MBKM</span>
+            <span class="text-capitalize">Riwayat Peserta MBKM</span>
             <br>
             <small>untuk download file bisa tekan tombol <i class="las la-download"></i></small>
             @if ($crud->hasAccess('list'))
