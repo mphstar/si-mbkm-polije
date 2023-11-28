@@ -44,10 +44,12 @@
                 class='nav-icon la la-edit'></i>Buat MBKM</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('register-mbkm') }}'><i
                 class='nav-icon la la-random'></i>Konfirmasi Pendaftar</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasilaporan') }}'><i
-                class='nav-icon la la-folder'></i>Konfirmasi Laporan</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('penilaian-mitra') }}'><i
-                class='nav-icon la la-calculator'></i>Penilaian Mahasiswa</a></li>
+                <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasilaporan') }}'><i
+                    class='nav-icon la la-folder'></i>Konfirmasi Laporan</a></li>
+                    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('penilaian-mitra') }}'><i
+                        class='nav-icon la la-calculator'></i>Penilaian Mahasiswa</a></li>
+                        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('riwayat-pendaftar') }}'><i
+                                    class='nav-icon la la-random'></i>Riwayat Pendaftar</a></li>
 @endif
 @if ($level == 'kaprodi')
     <li class="nav-title">Kaprodi</li>
@@ -65,17 +67,30 @@
 
         </ul>
     </li>
-
+    
     {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('departmen') }}'><i
-                class='nav-icon la la-question'></i>Departmens</a></li> --}}
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('lecturer') }}'><i
-                class='nav-icon la la-user-edit'></i>Dosen</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('manage-student') }}'><i
-                class='nav-icon la la-graduation-cap'></i>Kelolah Mahasiswa</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('progress-mahasiswa') }}'><i
-                class='nav-icon la la-copy'></i>Progres Mahasiswa</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('acc-nilai') }}'><i
-                class='nav-icon la la-award'></i>Konfirmasi Nilai</a></li>
+        class='nav-icon la la-question'></i>Departmens</a></li> --}}
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('lecturer') }}'><i
+            class='nav-icon la la-user-edit'></i>Dosen</a></li>
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('manage-student') }}'><i
+                class='nav-icon la la-graduation-cap'></i>Kelola Mahasiswa</a></li>
+              
+                    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('progress-mahasiswa') }}'><i
+                        class='nav-icon la la-copy'></i>Progres Mahasiswa</a></li>
+                        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('acc-nilai') }}'><i
+                            class='nav-icon la la-award'></i>Konfirmasi Nilai</a></li>
+                            <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i
+                                        class="nav-icon la la-lg la-book"></i>Riwayat Mahasiswa MBKM</a>
+                                <ul class="nav-dropdown-items">
+                                    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('riwayatmhs-mbkminternal') }}'><i
+                                                class='nav-icon la la-university'></i>Dalam Kampus</a></li>
+                                    {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi-mbkm-eksternal') }}'><i
+                                                class='nav-icon la la-question'></i>Eksternal</a></li> --}}
+                                    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('riwayatmhs_mbkmeksternal') }}'><i
+                                                class='nav-icon la la-city'></i>Luar Kampus</a></li>
+                        
+                                </ul>
+                            </li>
 @endif
 @if ($level == 'dospem')
     <li class="nav-title">Dosen</li>

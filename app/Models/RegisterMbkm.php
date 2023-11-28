@@ -40,7 +40,7 @@ class RegisterMbkm extends Model
     }
     public function lecturer()
     {
-        return $this->belongsTo(Lecturer::class);
+        return $this->belongsTo(Lecturer::class,'pembimbing','id');
     }
     public function reports()
     {

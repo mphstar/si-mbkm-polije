@@ -8,6 +8,7 @@ use App\Http\Requests\ManageStudentRequest;
 use App\InvolvedCourse;
 use App\Models\Lecturer;
 use App\Models\Nilaimbkm;
+use App\Models\RegisterMbkm;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
@@ -81,6 +82,30 @@ class ManageStudentCrudController extends CrudController
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
+    }
+    public function riwayatmhs_mbkminternal(){
+        $crud = $this->crud;
+        $datakap = backpack_auth()->user();
+        // $datakap = backpack_auth()->user()->with('lecturer')->whereHas('lecturer', function ($query) {
+        //     return $query->where('users_id', backpack_auth()->user()->id);
+        // })->first();
+        $datamhs=RegisterMbkm::with(['lecturer','mbkm','student'])->whereHas('student', function($query) use ($datakap){
+            return $query->where('program_studi', $datakap->lecturer->program_studi);
+        })->where('status','done')->where('program_name',null)->get();
+
+        return view('vendor/backpack/crud/riwayatmhs_mbkminternal', compact('datamhs', 'crud'));
+    }
+    public function riwayatmhs_mbkmeksternal(){
+        $crud = $this->crud;
+        $datakap = backpack_auth()->user();
+        // $datakap = backpack_auth()->user()->with('lecturer')->whereHas('lecturer', function ($query) {
+        //     return $query->where('users_id', backpack_auth()->user()->id);
+        // })->first();
+        $datamhs=RegisterMbkm::with(['lecturer','mbkm','student'])->whereHas('student', function($query) use ($datakap){
+            return $query->where('program_studi', $datakap->lecturer->program_studi);
+        })->where('status','done')->where('mbkm_id',null)->get();
+
+        return view('vendor/backpack/crud/riwayatmhs_mbkbmeksternal', compact('datamhs', 'crud'));
     }
 
     /**

@@ -47,6 +47,7 @@ Route::group([
         Route::post('management-m-b-k-m/updatembkm', 'ManagementMBKMCrudController@updatembkm');
         Route::post('management-m-b-k-m/tambahdatambkm', 'ManagementMBKMCrudController@storeData');
         Route::get('register-mbkm', 'RegisterMbkmCrudController@validasipendaftar');
+        Route::get('riwayat-pendaftar', 'RegisterMbkmCrudController@riwayatpendaftar');
         Route::post('validasi-peserta', 'RegisterMbkmCrudController@validasipeserta');
         Route::crud('validasilaporan', 'ValidasilaporanCrudController');
         Route::get('validasilaporan/{id}/detail_laporan ', 'ValidasilaporanCrudController@detail_laporan')->name("detail_laporan");
@@ -67,10 +68,12 @@ Route::group([
         Route::crud('lecturer', 'LecturerCrudController');
         Route::crud('manage-student', 'ManageStudentCrudController');
         Route::get('manage-student/{id}/edit', 'ManageStudentCrudController@formEdit');
+        Route::get('riwayatmhs-mbkminternal', 'ManageStudentCrudController@riwayatmhs_mbkminternal');
+        Route::get('riwayatmhs_mbkmeksternal', 'ManageStudentCrudController@riwayatmhs_mbkmeksternal');
         Route::post('manage-student/{id}/editDosen', 'ManageStudentCrudController@editDosen');
         Route::post('manage-student/{id}/editMatkul', 'ManageStudentCrudController@editMatkul');
 
-        // Route::get('/acctive-account-mitra', 'AcctiveAccountMitraCrudController@index');
+        Route::get('/acctive-account-mitra', 'AcctiveAccountMitraCrudController@index');
         Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
         Route::crud('acc-nilai', 'AccNilaiCrudController');
         Route::get('acc-nilai/{id}/tolak', 'AccNilaiCrudController@tolaknilai');
