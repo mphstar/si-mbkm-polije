@@ -360,7 +360,7 @@
                     <div><br></div>
                     <div><br></div>
                     <div><br></div>
-                    <div>Pembimbing</div>\
+                    <div>Pembimbing</div>
                     <br><br><br>
                     <div>Bu Arvita</div>
                     <div>NIP. 199002272018032001</div>

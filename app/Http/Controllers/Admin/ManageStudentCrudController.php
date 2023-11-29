@@ -165,9 +165,17 @@ class ManageStudentCrudController extends CrudController
         } else if($semester == 7 || $semester == 8){
             $tahun_kelas = 4;
         } 
+
+        $jenjang = "D4";
+        if($A == "4"){
+            $jenjang = "D4";
+        } else {
+            $jenjang = "D3";
+        }
+
         
 
-        $querycourse = $api->getMatkul($request, "20{$B}", $ganjilGenap, $data->students->program_studi, $tahun_kelas);
+        $querycourse = $api->getMatkul($request, "20{$B}", $ganjilGenap, $data->students->program_studi, $tahun_kelas, $jenjang);
 
         $filteredCourse = array_unique(array_column($querycourse, 'kode_mata_kuliah'));
         $resultCourse = array_values(array_intersect_key($querycourse, array_flip(array_keys($filteredCourse))));

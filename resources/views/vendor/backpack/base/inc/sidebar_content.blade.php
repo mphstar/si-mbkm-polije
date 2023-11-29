@@ -80,7 +80,7 @@
                         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('acc-nilai') }}'><i
                             class='nav-icon la la-award'></i>Konfirmasi Nilai</a></li>
                             <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i
-                                        class="nav-icon la la-lg la-book"></i>Riwayat Mahasiswa MBKM</a>
+                                        class="nav-icon la la-lg la-book"></i>Riwayat MBKM</a>
                                 <ul class="nav-dropdown-items">
                                     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('riwayatmhs-mbkminternal') }}'><i
                                                 class='nav-icon la la-university'></i>Dalam Kampus</a></li>
