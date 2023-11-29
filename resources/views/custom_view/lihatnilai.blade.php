@@ -43,7 +43,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-    
+
                             </tbody>
                         </table>
                     </div>
@@ -58,11 +58,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button {{ $data->status == 'done' ? 'disabled' : '' }} onclick="tolak({{ $data }})" id="reject" class="btn btn-danger"
-                    type="button">Tolak</button>
-                <button {{ $data->status == 'done' ? 'disabled' : '' }} onclick="terima({{ $data }})" class="btn btn-success" id="acc"
-                    type="button">Terima</button>
-                    <button id="btnPrint" class="btn btn-secondary" type="button">Print</button>
+                <button {{ $data->status == 'done' ? 'disabled' : '' }} onclick="tolak({{ $data }})"
+                    id="reject" class="btn btn-danger" type="button">Tolak</button>
+                <button {{ $data->status == 'done' ? 'disabled' : '' }} onclick="terima({{ $data }})"
+                    class="btn btn-success" id="acc" type="button">Terima</button>
+                <a href="/cetak_nilai/{{ $data->id }}" target="_blank"><button id="btnPrint" class="btn btn-secondary" type="button">Print</button></a>
 
             </div>
         </div>
@@ -87,13 +87,13 @@
         window.location.href = `/admin/acc-nilai/${data.id}/terima?keterangan=${btoa(keterangan.value)}`
     }
 
-    btnPrint.addEventListener('click', function () {
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write('<html><head><title>Print</title>');
-        printWindow.document.write('</head><body>');
-        printWindow.document.write(document.getElementById('isitable').innerHTML);
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        printWindow.print();
-    });
+    // btnPrint.addEventListener('click', function () {
+    //     const printWindow = window.open('', '_blank');
+    //     printWindow.document.write('<html><head><title>Print</title>');
+    //     printWindow.document.write('</head><body>');
+    //     printWindow.document.write(document.getElementById('isitable').innerHTML);
+    //     printWindow.document.write('</body></html>');
+    //     printWindow.document.close();
+    //     printWindow.print();
+    // });
 </script>

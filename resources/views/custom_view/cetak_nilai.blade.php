@@ -148,7 +148,7 @@
         /* width: 300px; */
     }
 
-    .footer-ttd .footer-ttd-item:nth-child(3){
+    .footer-ttd .footer-ttd-item:nth-child(3) {
         text-align: center;
         grid-column-start: 1;
         grid-column-end: 3;
@@ -160,9 +160,7 @@
 
 
     /* ... the rest of the rules ... */
-    @media print {
-    }
-
+    @media print {}
 </style>
 
 <body class="">
@@ -186,61 +184,61 @@
             <div>1.</div>
             <div>Nama</div>
             <div>:</div>
-            <div>Mphstar</div>
+            <div>{{ $data->students->name }}</div>
         </div>
         <div class="detail_data">
             <div>2.</div>
             <div>NIM</div>
             <div>:</div>
-            <div>E41210618</div>
+            <div>{{ $data->students->nim }}</div>
         </div>
         <div class="detail_data">
             <div>3.</div>
             <div>Program Studi</div>
             <div>:</div>
-            <div>Teknik Informatika</div>
+            <div>{{ $prodi }}</div>
         </div>
         <div class="detail_data">
             <div>4.</div>
             <div>Jurusan</div>
             <div>:</div>
-            <div>Teknologi Informasi</div>
+            <div>{{ $jurusan }}</div>
         </div>
         <div class="detail_data">
             <div>5.</div>
             <div>Semester</div>
             <div>:</div>
-            <div>Genap Tahun Akademik 2022/2023</div>
+            <div>{{ $data->mbkm_id == null ? $data->semester : $data->mbkm->semester }}</div>
         </div>
         <div class="detail_data">
             <div>6.</div>
             <div>Judul MBKM</div>
             <div>:</div>
-            <div>Bangkit</div>
+            <div>{{ $data->mbkm_id == null ? $data->program_name : $data->mbkm->program_name }}</div>
         </div>
         <div class="detail_data">
             <div>7.</div>
             <div>Mitra MBKM</div>
             <div>:</div>
-            <div>Google</div>
+            <div>{{ $data->mbkm_id == null ? $data->partner->partner_name : $data->mbkm->partner->partner_name }}</div>
         </div>
         <div class="detail_data">
             <div>8.</div>
             <div>Lokasi MBKM</div>
             <div>:</div>
-            <div>Jember</div>
+            <div>{{ $data->mbkm_id == null ? $data->partner->address : $data->mbkm->partner->address }}</div>
         </div>
         <div class="detail_data">
             <div>9.</div>
             <div>Penanggung Jawab</div>
             <div>:</div>
-            <div>Roni</div>
+            <div>{{ $data->mbkm_id == null ? '' : $data->mbkm->nama_penanggung_jawab }}</div>
         </div>
         <div class="detail_data">
             <div>10.</div>
             <div>Dosen Pembimbing</div>
             <div>:</div>
-            <div>Bu Arvita</div>
+            <div>{{ $data->pembimbing == null ? '-' : $data->lecturers->lecturers }}</div>
         </div>
         <div class="detail_data">
             <div>11.</div>
@@ -277,69 +275,32 @@
                 <th>Disetarakan</th>
                 <th>Nilai</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>Wokshop Sistem Tertanam</td>
-                <td>TIF160001</td>
-                <td>4</td>
-                <td>Iya</td>
-                <td>85</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Wokshop Sistem Cerdas</td>
-                <td>TIF160001</td>
-                <td>4</td>
-                <td>Iya</td>
-                <td>85</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Wokshop Pengolahan Citra dan Vision</td>
-                <td>TIF160001</td>
-                <td>4</td>
-                <td>Iya</td>
-                <td>85</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Wokshop Pengolahan Citra dan Vision</td>
-                <td>TIF160001</td>
-                <td>4</td>
-                <td>Iya</td>
-                <td>85</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Wokshop Pengolahan Citra dan Vision</td>
-                <td>TIF160001</td>
-                <td>4</td>
-                <td>Iya</td>
-                <td>85</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Wokshop Pengolahan Citra dan Vision</td>
-                <td>TIF160001</td>
-                <td>4</td>
-                <td>Iya</td>
-                <td>85</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Wokshop Pengolahan Citra dan Vision</td>
-                <td>TIF160001</td>
-                <td>4</td>
-                <td>Iya</td>
-                <td>85</td>
-            </tr>
+            @php
+                $i = 1;
+                $sks = 0;
+            @endphp
+            @foreach ($data->involved as $item)
+                <tr>
+                    <td>{{ $i }}</td>
+                    <td>{{ $item->nama_matkul }}</td>
+                    <td>{{ $item->kode_matkul }}</td>
+                    <td>{{ $item->sks }}</td>
+                    <td>Iya</td>
+                    <td>{{ $item->grade }}</td>
+                </tr>
+                @php
+                    $i++;
+                    $sks = $sks + $item->sks;
+                @endphp
+            @endforeach
+
             <tr>
                 <th>
 
                 </th>
                 <th>Total</th>
                 <th></th>
-                <th>20</th>
+                <th>{{ $sks }}</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -362,8 +323,8 @@
                     <div><br></div>
                     <div>Pembimbing</div>
                     <br><br><br>
-                    <div>Bu Arvita</div>
-                    <div>NIP. 199002272018032001</div>
+                    <div>{{ $data->pembimbing == null ? '-' : $data->lecturers->lecturer_name }}</div>
+                    <div>NIP. {{ $data->pembimbing == null ? '-' : $data->lecturers->nip }}</div>
                 </div>
                 <div class="footer-ttd-item">
                     <div>Menyetujui</div>
@@ -376,7 +337,7 @@
         </div>
     </div>
     <script>
-        // window.print();
+        window.print();
     </script>
 </body>
 
