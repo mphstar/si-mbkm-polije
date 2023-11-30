@@ -39,7 +39,11 @@
                                 <tr>
                                     <th class="text-center">#</th>
                                     <th class="text-center">Nama Mahasiswa</th>
+                           
                                     <th class="text-center">Nama program MBKM</th>
+                                    <th class="text-center">Jenis MBKM</th>
+                                    <th class="text-center">Penanggung Jawab</th>
+                                    <th class="text-center">Dosen Pembimbing</th>
                                     <th class="text-center">Status</th>
                                 
 
@@ -55,20 +59,15 @@
                                         <td class="text-center">{{ $pdftr->student->name }}</th>
 
                                         <td class="text-center">{{ $pdftr->mbkm->program_name }}</td>
+                                        <td class="text-center">{{ $pdftr->mbkm->jenismbkm->jenismbkm}}</td>
+                                        <td class="text-center">{{ $pdftr->mbkm->nama_penanggung_jawab }}</td>
+                                        <td class="text-center">{{ $pdftr->lecturer->lecturer_name }}</td>
                                         <td class="text-center">
 
 
-                                            @if ($pdftr->status === 'accepted')
-                                                <button disabled type="button" class="btn btn-success" data-toggle="modal"
-                                                    data-target="#modaledit{{ $pdftr->id }}">
-                                                diterima
-                                                </button>
-                                            @elseif($pdftr->status === 'pending')
-                                                <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                    data-target="#modaledit"onclick="edit({{  $pdftr }})">Menunggu</button>
-                                            @elseif($pdftr->status === 'rejected')
+                                          @if($pdftr->status === 'rejected')
                                                 <button disabled type="button" class="btn btn-danger" data-toggle="modal"
-                                                    data-target="#modaledit{{ $pdftr->id }}">ditolak</button>
+                                                    data-target="#modaledit{{ $pdftr->id }}">Tidak diterima</button>
                                             @else
                                                 <button disabled type="button" class="btn btn-success" data-toggle="modal"
                                                     data-target="#modaledit{{ $pdftr->id }}">

@@ -35,6 +35,7 @@
                 class='nav-icon la la-copy'></i>Jenis MBKM</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('template-nilai') }}'><i
                 class='nav-icon la la-question'></i> Format File </a></li>
+               
 @endif
 @if ($level == 'mitra')
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('datamitra') }}'><i class='nav-icon la la-user'></i>
@@ -68,6 +69,7 @@
         </ul>
     </li>
     
+
     {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('departmen') }}'><i
         class='nav-icon la la-question'></i>Departmens</a></li> --}}
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('lecturer') }}'><i
@@ -80,17 +82,18 @@
                         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('acc-nilai') }}'><i
                             class='nav-icon la la-award'></i>Konfirmasi Nilai</a></li>
                             <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i
-                                        class="nav-icon la la-lg la-book"></i>Riwayat Mahasiswa MBKM</a>
-                                <ul class="nav-dropdown-items">
-                                    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('riwayatmhs-mbkminternal') }}'><i
-                                                class='nav-icon la la-university'></i>Dalam Kampus</a></li>
-                                    {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi-mbkm-eksternal') }}'><i
-                                                class='nav-icon la la-question'></i>Eksternal</a></li> --}}
-                                    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('riwayatmhs_mbkmeksternal') }}'><i
-                                                class='nav-icon la la-city'></i>Luar Kampus</a></li>
-                        
-                                </ul>
-                            </li>
+                                class="nav-icon la la-lg la-book"></i>Riwayat Mahasiswa MBKM</a>
+                        <ul class="nav-dropdown-items">
+                            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('riwayatmhs-mbkminternal') }}'><i
+                                        class='nav-icon la la-university'></i>Dalam Kampus</a></li>
+                            {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi-mbkm-eksternal') }}'><i
+                                        class='nav-icon la la-question'></i>Eksternal</a></li> --}}
+                            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('riwayatmhs_mbkmeksternal') }}'><i
+                                        class='nav-icon la la-city'></i>Luar Kampus</a></li>
+                
+                        </ul>
+                    </li> 
+                       
 @endif
 @if ($level == 'dospem')
     <li class="nav-title">Dosen</li>
@@ -99,6 +102,18 @@
             Nilai Mahasiswa</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('progress-mahasiswa') }}'><i
                 class='nav-icon la la-copy'></i>Progres Mahasiswa</a></li>
+                <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i
+                    class="nav-icon la la-lg la-book"></i>Riwayat Mahasiswa MBKM</a>
+            <ul class="nav-dropdown-items">
+                <li class='nav-item'><a class='nav-link' href='{{ backpack_url('dospemriwayatmhs-mbkminternal') }}'><i
+                            class='nav-icon la la-university'></i>Dalam Kampus</a></li>
+                {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi-mbkm-eksternal') }}'><i
+                            class='nav-icon la la-question'></i>Eksternal</a></li> --}}
+                <li class='nav-item'><a class='nav-link' href='{{ backpack_url('dospemriwayatmhs_mbkmeksternal') }}'><i
+                            class='nav-icon la la-city'></i>Luar Kampus</a></li>
+    
+            </ul>
+        </li>
 @endif
 @if ($level == 'student')
     <li class="nav-title">Students</li>

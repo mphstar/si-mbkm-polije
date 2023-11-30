@@ -61,11 +61,11 @@ class AcctiveAccountMitra extends Model
         $status = $this->attributes["status"];
         
         if ($status == 'accepted') {
-            return '<span class="badge bg-success">Accept</span>';
+            return '<span class="badge bg-success">Diterima</span>';
         } elseif ($status == 'rejected') {
-            return '<span class="badge bg-danger">Rejected</span>';
+            return '<span class="badge bg-danger">Tidak Diterima</span>';
         } else {
-            return '<span class="badge bg-warning">Pending</span>';
+            return '<span class="badge bg-warning">Meunggu</span>';
         }
     }
 }

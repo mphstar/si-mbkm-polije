@@ -93,6 +93,8 @@ Route::group([
         Route::crud('nilaimbkm', 'NilaimbkmCrudController');
         Route::get('/nilaimbkm/{id}/inputnilai', 'NilaimbkmCrudController@inputNilai');
         Route::post('/nilaimbkm/{id}/prosesNilai', 'NilaimbkmCrudController@prosesNilai');
+        Route::get('dospemriwayatmhs-mbkminternal', 'ManageStudentCrudController@dospemriwayatmhs_mbkminternal');
+        Route::get('dospemriwayatmhs_mbkmeksternal', 'ManageStudentCrudController@dospemriwayatmhs_mbkmeksternal');
     });
 
     Route::middleware([DosenKaprodiMiddleware::class])->group(function () {

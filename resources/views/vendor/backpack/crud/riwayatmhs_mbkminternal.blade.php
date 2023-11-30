@@ -23,6 +23,7 @@
 
 
         <div class="col-md-12">
+            <h2>Riwayat peserta MBKM Internal</h2><br>
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -31,6 +32,7 @@
                                 <tr>
                                     <th class="text-center">#</th>
                                     <th class="text-center">Nama Mahasiswa</th>
+                                    <th class="text-center">NIM</th>
                                     <th class="text-center">Semester</th>
                                     <th class="text-center">Nama Mitra </th>
                                     <th class="text-center">Nama Program MBKM</th>
@@ -49,6 +51,7 @@
                                     <tr>
                                         <td class="text-center">{{ $index }}</td>
                                         <td class="text-center">{{ $pdftr->student->name }}</td>
+                                        <td class="text-center">{{ $pdftr->student->nim }}</td>
                                         <td class="text-center">{{ $pdftr->student->semester }}</td>
 
                                         <td class="text-center">{{ $pdftr->mbkm->partner->partner_name }}</td>

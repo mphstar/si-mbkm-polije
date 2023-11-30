@@ -11,10 +11,10 @@
 @endphp
 
 @section('header')
-    <section class="container-fluid d-print-none">
+    {{-- <section class="container-fluid d-print-none">
         <a href="javascript: window.print();" class="btn float-right"><i class="la la-print"></i></a>
       
-    </section>
+    </section> --}}
 @endsection
 @section('content')
     <div class="row">
@@ -35,6 +35,8 @@
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
+                                <th class="text-center">Nama Mahasiswa</th>
+                                <th class="text-center">NIM</th>
                                 <th class="text-center">Nama Mitra</th>
                                 <th class="text-center">Alamat Mitra</th>
                                 <th class="text-center">Nama Program</th>
@@ -61,6 +63,9 @@
                         
                           <tr>
                             <td class="text-center">{{ $index }}</th>
+                              <td class="text-center">{{ $item->student->name }}</td>
+                              <td class="text-center">{{ $item->student->nim }}</td>
+                         
                               <td class="text-center">{{ $item->partner->partner_name }}</td>
                               <td class="text-center">{{ $item->partner->address }}</td>
                         
