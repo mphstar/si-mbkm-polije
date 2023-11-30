@@ -112,7 +112,7 @@ class ValidasilaporanCrudController extends CrudController
         } elseif ($acceptedCount == 0) {
             $count = "0";
         } else {
-            $count = round(($acceptedCount / $targetCount) * 100);
+            $count = ($acceptedCount / $targetCount) * 100;
             if ($count > 100) {
                 $count=100;
             }else{
