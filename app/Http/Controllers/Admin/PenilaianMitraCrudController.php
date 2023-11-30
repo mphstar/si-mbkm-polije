@@ -187,6 +187,9 @@ class PenilaianMitraCrudController extends CrudController
             $count = "0";
         } else {
             $count = ($acceptedCount / $targetCount) * 100;
+            if ($count > 100) {
+                $count=100;
+            }
         }
 
         if (($count == 100)) {

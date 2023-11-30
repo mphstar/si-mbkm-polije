@@ -63,11 +63,11 @@
                                 <th class="text-center font-weight-normal">{{ $report->file_info }}</th>
                                 <td class="text-center">
                                     @if($report->status === 'accepted')
-                                        <span class="badge badge-success px-2">{{ $report->status }}</span>
+                                        <span class="badge badge-success px-2">diterima</span>
                                     @elseif($report->status === 'pending')
-                                        <span class="badge badge-warning px-2">{{ $report->status }}</span>
+                                        <span class="badge badge-warning px-2">proses</span>
                                     @elseif($report->status === 'rejected')
-                                        <span class="badge badge-danger px-2">{{ $report->status }}</span>
+                                        <span class="badge badge-danger px-2">ditolak</span>
                                     @endif
                                 </td>
                                 <td class="text-center">
