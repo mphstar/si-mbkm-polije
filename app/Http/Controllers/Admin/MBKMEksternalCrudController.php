@@ -173,7 +173,7 @@ $semester_dep=backpack_auth()->user()->student->semester + 1;
 
 
     public function ambileks (Request $request) {
-        $cekdireg_acp=RegisterMbkm::where('student_id',$request->input('student_id'))->whereIn('status',['accepted'])->get();
+        
         if (($request->status == "diterima")||($request->status == "ditolak")) {
             
         $status = [
@@ -181,11 +181,6 @@ $semester_dep=backpack_auth()->user()->student->semester + 1;
             PengajuanEXTRSub::where('id',$request->input('id'))->update($status); 
             Alert::success('Berhasil Mengubah Status!')->flash();
             return back()->withInput();
-        }elseif (count($cekdireg_acp)!= 0) {
-          $messages = "Maaf Anda Sedang Mendaftar Pada Salah satu Program MBKM";
-           
-            Alert::error($messages)->flash();
-            return redirect(backpack_url('m-b-k-m-eksternal'));
         }else{
 
         $validator = Validator::make($request->all(), [

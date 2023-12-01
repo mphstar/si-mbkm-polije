@@ -118,8 +118,12 @@ class MbkmCrudController extends CrudController
         
         
         $dataaa=RegisterMbkm::with(['mbkm.partner.user','student'])->where('id',$user->id)->first();
-
-        Mail::to($dataaa->mbkm->partner->user->email)->send(new daftarmbkm($dataaa));
+try {
+    Mail::to($dataaa->mbkm->partner->user->email)->send(new daftarmbkm($dataaa));
+} catch (\Throwable $th) {
+    Alert::warning('gagal send email')->flash();  
+}
+     
         session()->flash('status', 'success');
         Alert::success('Berhasil Mendaftar!')->flash();
         return redirect('admin/mbkm');

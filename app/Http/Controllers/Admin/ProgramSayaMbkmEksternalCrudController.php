@@ -119,7 +119,7 @@ $siswa=backpack_auth()->user();
             return back();
         }
         if ($regmbkm[0]->semester != $siswa->student->semester ) {
-            Alert::warning('Maaf Anda Semester Anda yang sekarang tidak sesuai dengan mbkm anda yang terdaftar')->flash();
+            Alert::warning('Maaf  semester anda yang sekarang tidak sesuai dengan mbkm anda yang terdaftar')->flash();
             return back();
         }
 

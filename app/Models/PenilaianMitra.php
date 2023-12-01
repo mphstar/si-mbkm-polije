@@ -100,13 +100,13 @@ class PenilaianMitra extends Model
         $status = $this->attributes['status'];
         
         if ($status == 'accepted') {
-            return '<span class="badge bg-success">Accept</span>';
+            return '<span class="badge bg-success">Diterima</span>';
         } elseif ($status == 'rejected') {
-            return '<span class="badge bg-danger">Rejected</span>';
+            return '<span class="badge bg-danger">Ditolak</span>';
         } elseif($status == 'pending'){
-            return '<span class="badge bg-warning">Pending</span>';
+            return '<span class="badge bg-warning">Proses</span>';
         }else {
-            return '<span class="badge bg-success">Done</span>';
+            return '<span class="badge bg-success">Selesai</span>';
         }
     }
 }

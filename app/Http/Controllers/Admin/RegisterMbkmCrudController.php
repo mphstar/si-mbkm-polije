@@ -86,12 +86,12 @@ class RegisterMbkmCrudController extends CrudController
 
 
 
-        $pendaftar = RegisterMbkm::with(['student', 'mbkm'])->whereHas('mbkm', function ($query) use ($id_partner) {
+        $pendaftar = RegisterMbkm::with(['student', 'mbkm','lecturer'])->whereHas('mbkm', function ($query) use ($id_partner) {
             return $query->where('partner_id', '=', $id_partner->partner->id);
         })->whereIn('status',['rejected','done'])->get();
 
         // return $pendaftar;
-
+ 
         $crud = $this->crud;
         return view('vendor/backpack/crud/riwayatpeserta', compact('pendaftar', 'crud'));
     }
