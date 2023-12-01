@@ -37,12 +37,12 @@
                     </div>
 
                     <div class="col-md-6 form-group">
-                        <label class="required">nama template</label>
+                        <label class="required">Nama Format</label>
                         <input required class="form-control" type="text" name="name_template" value="{{ $data->nama }}" readonly>
                     </div>
 
                     <div class="col-md-6 form-group">
-						<label class="required">upload template nilai</label>
+						<label class="required">Upload Format File</label>
 						<input required class="form-control" type="file" name="file" placeholder="file harus berupa pdf" accept=".pdf" value="" >
 						<div class="text-danger">*Jenis file yang diizinkan: .pdf.</div>
 					</div>

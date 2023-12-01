@@ -34,7 +34,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center" hidden>id</th>
-                                <th class="text-center">Nama file</th>
+                                <th class="text-center">Nama File</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>

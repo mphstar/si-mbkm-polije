@@ -66,11 +66,11 @@ class Partner extends Model
         $status = $this->attributes["status"];
 
         if ($status == 'accepted') {
-            return '<span class="badge bg-success">Accept</span>';
+            return '<div class="badge bg-success">Diterima</div>';
         } elseif ($status == 'rejected') {
-            return '<span class="badge bg-danger">Rejected</span>';
+            return '<div class="badge bg-danger">Ditolak</div>';
         } else {
-            return '<span class="badge bg-warning">Pending</span>';
+            return '<div class="badge bg-warning">Menunggu</div>';
         }
     }
 }

@@ -108,7 +108,7 @@ class DbSeeder extends Seeder
 
         // Jenis MBKM
         JenisMbkm::create([
-            'jenismbkm' => "program CF",
+            'jenismbkm' => "Program CF",
             'kategori_jenis' => "internal"
         ]);
         JenisMbkm::create([
@@ -125,12 +125,14 @@ class DbSeeder extends Seeder
         ]);
 
         TemplateNilai::create([
-            "Form Pengajuan MBKM Eksternal",
-            "1701151939-Form Pengajuan MBKM Eksternal.pdf"
+            "id" => 1,
+            "nama" => "Form Pengajuan MBKM Eksternal",
+            "file" => "1701151939-Form Pengajuan MBKM Eksternal.pdf"
         ]);
         TemplateNilai::create([
-            "Template Penilaian Mitra",
-            "1701151939-Template Penilaian Mitra.pdf"
+            "id" => 2,
+            "nama" => "Template Penilaian Mitra",
+            "file" => "1701151939-Template Penilaian Mitra.pdf"
         ]);
     }
 }

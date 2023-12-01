@@ -32,7 +32,7 @@ class TemplateNilaiCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\TemplateNilai::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/template-nilai');
-        CRUD::setEntityNameStrings('template nilai', 'template nilais');
+        CRUD::setEntityNameStrings('Format File', 'Format File');
     }
 
     /**
