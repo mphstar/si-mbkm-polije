@@ -51,7 +51,10 @@ class MbkmCrudController extends CrudController
         ],[
             'name' => 'capacity',
             'label' => 'Kuota',
-        ], 'info']);
+        ], [
+            'name' => 'info',
+            'label' => "Keterangan"
+        ]]);
         $this->crud->addButtonFromView('line', 'reg_mbkm', 'reg_mbkm', 'end');
         CRUD::addClause('where', 'capacity', '>', '0');
         CRUD::addClause('where', 'status_acc', '=', 'accepted');

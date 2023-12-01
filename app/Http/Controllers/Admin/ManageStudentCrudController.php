@@ -37,7 +37,7 @@ class ManageStudentCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Nilaimbkm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/manage-student');
-        CRUD::setEntityNameStrings('manage student', 'manage students');
+        CRUD::setEntityNameStrings('Kelola Mahasiswa', 'Kelola Mahasiswa');
         $this->crud->addColumns([
             [
                 "name" => "lecturers.lecturer_name",

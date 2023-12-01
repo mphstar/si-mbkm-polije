@@ -14,7 +14,7 @@
     <section class="container-fluid d-print-none">
         <a href="javascript: window.print();" class="btn float-right"><i class="la la-print"></i></a>
         <h2>
-            <span class="text-capitalize">Fitur validasi Peserta MBKM</span>
+            <span class="text-capitalize">Konfirmasi Peserta MBKM</span>
             <br>
             <small>untuk download file bisa tekan tombol <i class="las la-download"></i></small>
             @if ($crud->hasAccess('list'))
@@ -41,7 +41,7 @@
                                     <th class="text-center">Nama Mahasiswa</th>
                                     <th class="text-center">Nama program MBKM</th>
                                     <th class="text-center">Status</th>
-                                    <th class="text-center">Action</th>
+                                    <th class="text-center">Aksi</th>
 
                                 </tr>
                             </thead>
@@ -115,17 +115,17 @@
                             <div class="form-group">
                                 <label for="status">Validasi peserta</label>
                                 <select class="form-control" id="status"name="status">
-                                    <option value="accepted">accepted</option>
-                                    <option value="pending">pending</option>
-                                    <option value="rejected">rejected</option>
+                                    <option value="accepted">Diterima</option>
+                                    <option value="pending">Menunggu</option>
+                                    <option value="rejected">Ditolak</option>
                                 </select>
                             </div>
                         </div>
                         <input type="hidden" name="id" class="form-control-file" id="idModal">
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </div>
             </div>

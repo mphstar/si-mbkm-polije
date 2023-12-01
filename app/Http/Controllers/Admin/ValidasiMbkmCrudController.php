@@ -28,7 +28,7 @@ class ValidasiMbkmCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\ValidasiMbkm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/validasi-mbkm');
-        CRUD::setEntityNameStrings('validasi mbkm', 'validasi mbkms');
+        CRUD::setEntityNameStrings('Konfirmasi MBKM', 'Konfirmasi MBKM');
     }
 
     /**
@@ -39,12 +39,26 @@ class ValidasiMbkmCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['partner.partner_name', 'program_name', 'start_date', 'end_date', 'info', [
-            'name'  => 'status_acc',
-            'label' => 'Status ACC', // Table column heading
-            'type'  => 'model_function',
-            'function_name' => 'getStatusSpan'
-        ]]);
+        $this->crud->setColumns([
+            [
+                "name" => 'partner.partner_name',
+                "label" => 'Nama Mitra'
+            ], ["name" => 'program_name', "label" => "Nama Program"], [
+                "name" => 'start_date',
+                "label" => 'Tanggal Dimulai'
+            ], [
+                "name" => 'end_date',
+                "label" => "Tanggal Berakhir"
+            ], [
+                "name" => 'info',
+                "label" => "Keterangan"
+            ], [
+                'name'  => 'status_acc',
+                'label' => 'Status Aktif', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'getStatusSpan'
+            ]
+        ]);
         $this->crud->setColumnLabel('Partner.partner_name', 'NAMA MITRA');
         CRUD::addClause('where', 'status_acc', '=', 'pending');
         CRUD::addClause('where', 'is_active', '=', 'inactive');
@@ -90,15 +104,15 @@ class ValidasiMbkmCrudController extends CrudController
         $this->crud->addField([
             'name' => 'status_acc',
             'type' => 'select_from_array',
-            'label' => 'Status ACC',
-            'options' => ['accepted' => 'Accepted', 'rejected' => 'Rejected'],
+            'label' => 'Status Aktif',
+            'options' => ['accepted' => 'Diterima', 'rejected' => 'Ditolak'],
 
         ]);
         $this->crud->addField([
             'name' => 'is_active',
             'type' => 'select_from_array',
             'label' => 'Status MBKM',
-            'options' => ['active' => 'Active', 'inactive' => 'Inactive'],
+            'options' => ['active' => 'Aktif', 'inactive' => 'Tidak Aktif'],
 
         ]);
     }
@@ -121,7 +135,7 @@ class ValidasiMbkmCrudController extends CrudController
         ]);
         $this->crud->addColumn([
             'name' => 'start_date',
-            'label' => 'Tanggal Mulai program MBKM',
+            'label' => 'Tanggal Mulai Program MBKM',
         ]);
         $this->crud->addColumn([
             'name' => 'end_date',
@@ -129,11 +143,11 @@ class ValidasiMbkmCrudController extends CrudController
         ]);
         $this->crud->addColumn([
             'name' => 'start_reg',
-            'label' => 'Tanggal awal pendaftaran',
+            'label' => 'Tanggal Awal Pendaftaran',
         ]);
         $this->crud->addColumn([
             'name' => 'end_reg',
-            'label' => 'Tanggal terakhir pendaftaran',
+            'label' => 'Tanggal Terakhir Pendaftaran',
         ]);
         $this->crud->addColumn([
             'name' => 'info',
@@ -141,17 +155,17 @@ class ValidasiMbkmCrudController extends CrudController
         ]);
         $this->crud->addColumn([
             'name' => 'semester',
-            'label' => 'Berlaku Bagi semester'
+            'label' => 'Berlaku Bagi Semester'
         ]);
         $this->crud->addColumn([
             'name'  => 'status_acc',
-            'label' => 'Status ACC', // Table column heading
+            'label' => 'Status Akun', // Table column heading
             'type'  => 'model_function',
             'function_name' => 'getStatusSpan'
         ]);
         $this->crud->addColumn([
             'name'  => 'is_active',
-            'label' => 'Status Active', // Table column heading
+            'label' => 'Status Aktif', // Table column heading
             'type'  => 'model_function',
             'function_name' => 'getIsactiveSpan'
         ]);

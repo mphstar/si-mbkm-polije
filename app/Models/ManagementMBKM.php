@@ -89,11 +89,11 @@ class ManagementMBKM extends Model
         $status = $this->attributes['is_active'];
 
         if ($status == 'active') {
-            return '<div class="badge bg-success">Aktif</div>';
+            return '<p class="badge bg-success">Aktif</p>';
         } elseif ($status == 'inactive') {
-            return '<div class="badge bg-danger">Tidak Aktif</div>';
+            return '<p class="badge bg-danger">Tidak Aktif</p>';
         } else {
-            return '<div class="badge bg-warning">Menunggu</div>';
+            return '<p class="badge bg-warning">Menunggu</p>';
         }
     }
 
@@ -105,7 +105,7 @@ class ManagementMBKM extends Model
         $res = 'Tidak diketahui';
 
         foreach ($jurusan as $key => $value) {
-            if($value->uuid == $this->jurusan){
+            if ($value->uuid == $this->jurusan) {
                 $res = $value->unit;
                 break;
             }

@@ -85,13 +85,13 @@ return '<a class="btn btn-sm btn-link" target="_blank" href="/' . $url . '" data
         $status = $this->attributes['status'];
         
         if ($status == 'accepted') {
-            return '<span class="badge bg-success">Diterima</span>';
+            return '<p class="badge bg-success">Diterima</p>';
         } elseif ($status == 'rejected') {
-            return '<span class="badge bg-danger">Ditolak</span>';
+            return '<p class="badge bg-danger">Ditolak</p>';
         } elseif($status == 'pending'){
-            return '<span class="badge bg-warning">Menunggu</span>';
+            return '<p class="badge bg-warning">Menunggu</p>';
         }else {
-            return '<span class="badge bg-success">Selesai</span>';
+            return '<p class="badge bg-success">Selesai</p>';
         }
     }
 }

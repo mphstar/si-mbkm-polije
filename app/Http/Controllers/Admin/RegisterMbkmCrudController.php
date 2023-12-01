@@ -36,7 +36,7 @@ class RegisterMbkmCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\RegisterMbkm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/register-mbkm');
-        CRUD::setEntityNameStrings('register mbkm', 'Validasi Peserta MBKM');
+        CRUD::setEntityNameStrings('register mbkm', 'Konfirmasi Peserta MBKM');
 
         $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
             return $query->where('users_id', backpack_auth()->user()->id);
