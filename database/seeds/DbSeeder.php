@@ -5,6 +5,7 @@ use App\Models\Departmen;
 use App\Models\JenisMbkm;
 use App\Models\Partner;
 use App\Models\Students;
+use App\Models\TemplateNilai;
 use App\ProgramStudy;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -121,6 +122,15 @@ class DbSeeder extends Seeder
         JenisMbkm::create([
             'jenismbkm' => "MSIB Magang",
             'kategori_jenis' => "external"
+        ]);
+
+        TemplateNilai::create([
+            "Form Pengajuan MBKM Eksternal",
+            "1701151939-Form Pengajuan MBKM Eksternal.pdf"
+        ]);
+        TemplateNilai::create([
+            "Template Penilaian Mitra",
+            "1701151939-Template Penilaian Mitra.pdf"
         ]);
     }
 }
