@@ -32,11 +32,15 @@
           <div class="col-md-2 mb-3 mt-3">
           <a href="{{ backpack_url('daftarmbkmexternal') }}" class="btn btn-sm btn-block btn-outline-primary">DAFTAR PROGRAM</a>
           </div>
+          
+          <div class="search-container mr">
+            <input type="text" id="searchInput" placeholder="Cari...">
+        </div>
             <div class="card">
          
                 <div class="card-body">
 
-
+                
 
                   <div class="table-responsive">
                     <table class="table table-striped">

@@ -77,11 +77,11 @@ class ManagementMBKM extends Model
         $status = $this->attributes['status_acc'];
 
         if ($status == 'accepted') {
-            return '<span class="badge bg-success">Diterima</span>';
+            return '<div class="badge bg-success">Diterima</div>';
         } elseif ($status == 'rejected') {
-            return '<span class="badge bg-danger">Ditolak</span>';
+            return '<div class="badge bg-danger">Ditolak</div>';
         } else {
-            return '<span class="badge bg-warning">Menunggu</span>';
+            return '<div class="badge bg-warning">Menunggu</div>';
         }
     }
     public function getIsactiveSpan()
