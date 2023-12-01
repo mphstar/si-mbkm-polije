@@ -59,7 +59,7 @@ class ValidasiMbkm extends Model
         $status = $this->attributes['is_active'];
         
         if ($status == 'active') {
-            return '<span class="badge bg-success">Active</span>';
+            return '<span class="badge bg-success">Aktif</span>';
         } elseif ($status == 'inactive') {
             return '<span class="badge bg-danger">Inactive</span>';
         } else {

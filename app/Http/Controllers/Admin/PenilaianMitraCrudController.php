@@ -209,7 +209,7 @@ class PenilaianMitraCrudController extends CrudController
     public function penilaian(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'file' => 'required|file|mimes:pdf|max:10000'
+            'file' => 'required|file|mimes:pdf|max:5000'
         ], [
             'file.required' => 'File PDF harus diunggah.',
             'file.mimes' => 'File harus berformat PDF.',

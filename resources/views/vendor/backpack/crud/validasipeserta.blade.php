@@ -115,9 +115,9 @@
                             <div class="form-group">
                                 <label for="status">Validasi peserta</label>
                                 <select class="form-control" id="status"name="status">
-                                    <option value="accepted">accepted</option>
-                                    <option value="pending">pending</option>
-                                    <option value="rejected">rejected</option>
+                                    <option value="accepted">Terima</option>
+                                   
+                                    <option value="rejected">Tidak Diterima</option>
                                 </select>
                             </div>
                         </div>

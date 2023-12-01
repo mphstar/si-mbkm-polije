@@ -97,7 +97,7 @@ class MbkmCrudController extends CrudController
     public function addreg(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'file' => 'required|file|mimes:zip,rar'
+            'file' => 'required|file|mimes:zip,rar|max:10000'
         ]);
 
         if ($validator->fails()) {
