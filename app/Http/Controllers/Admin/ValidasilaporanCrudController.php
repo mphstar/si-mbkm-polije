@@ -163,7 +163,7 @@ class ValidasilaporanCrudController extends CrudController
                 Mail::to($dataa->regMbkm->student->users->email)->send(new laporanrevisi($dataa));
             }  
         } catch (\Throwable $th) {
-            Alert::warning('gagal send email')->flash();  
+            Alert::warning('Kirim  email bermasalah')->flash();  
         }
       
         session()->flash('status', 'success');

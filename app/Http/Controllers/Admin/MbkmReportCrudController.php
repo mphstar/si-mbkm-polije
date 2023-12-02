@@ -111,7 +111,13 @@ if ($cek->id_jenis != null) {
   
         // return $tes;
         $email=$tes->regMbkm->mbkm->partner->user->email;
-        Mail::to($email)->send(new pesertauploadlaporan($namamhs));
+        try {
+            Mail::to($email)->send(new pesertauploadlaporan($namamhs));
+        } catch (\Throwable $th) {
+            Alert::warning('Kirim Email bermasalah')->flash();
+        return back();
+        }
+ 
         session()->flash('status', 'success');
         Alert::success('Berhasil upload laporan!')->flash();
         return back();
