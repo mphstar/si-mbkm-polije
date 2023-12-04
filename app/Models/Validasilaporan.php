@@ -60,11 +60,11 @@ return '<a class="btn btn-sm btn-link" target="_blank" href="/' . $url . '" data
         $status = $this->attributes['status'];
         
         if ($status == 'accepted') {
-            return '<span class="badge bg-success">Accept</span>';
+            return '<p class="badge bg-success">Diterima</p>';
         } elseif ($status == 'rejected') {
-            return '<span class="badge bg-danger">Rejected</span>';
+            return '<p class="badge bg-danger">Tidak Diterima</p>';
         } else {
-            return '<span class="badge bg-warning">Pending</span>';
+            return '<p class="badge bg-warning">Menunggu</p>';
         }
     }
     /*

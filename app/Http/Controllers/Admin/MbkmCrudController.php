@@ -51,7 +51,10 @@ class MbkmCrudController extends CrudController
         ],[
             'name' => 'capacity',
             'label' => 'Kuota',
-        ], 'info']);
+        ], [
+            'name' => 'info',
+            'label' => "Keterangan"
+        ]]);
         $this->crud->addButtonFromView('line', 'reg_mbkm', 'reg_mbkm', 'end');
         CRUD::addClause('where', 'capacity', '>', '0');
         CRUD::addClause('where', 'status_acc', '=', 'accepted');
@@ -97,7 +100,7 @@ class MbkmCrudController extends CrudController
     public function addreg(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'file' => 'required|file|mimes:zip,rar'
+            'file' => 'required|file|mimes:zip,rar|max:10000'
         ]);
 
         if ($validator->fails()) {
@@ -118,8 +121,12 @@ class MbkmCrudController extends CrudController
         
         
         $dataaa=RegisterMbkm::with(['mbkm.partner.user','student'])->where('id',$user->id)->first();
-
-        Mail::to($dataaa->mbkm->partner->user->email)->send(new daftarmbkm($dataaa));
+try {
+    Mail::to($dataaa->mbkm->partner->user->email)->send(new daftarmbkm($dataaa));
+} catch (\Throwable $th) {
+    Alert::warning('gagal send email')->flash();  
+}
+     
         session()->flash('status', 'success');
         Alert::success('Berhasil Mendaftar!')->flash();
         return redirect('admin/mbkm');

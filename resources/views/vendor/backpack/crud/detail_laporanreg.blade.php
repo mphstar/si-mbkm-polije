@@ -65,11 +65,11 @@
                                         <th class="text-center">{{ $report->upload_date }}</th>
                                         <td class="text-center">
                                             @if ($report->status === 'accepted')
-                                                <span class="badge badge-success px-2">{{ $report->status }}</span>
+                                                <span class="badge badge-success px-2">diterima</span>
                                             @elseif($report->status === 'pending')
-                                                <span class="badge badge-warning px-2">{{ $report->status }}</span>
+                                                <span class="badge badge-warning px-2">proses</span>
                                             @elseif($report->status === 'rejected')
-                                                <span class="badge badge-danger px-2">{{ $report->status }}</span>
+                                                <span class="badge badge-danger px-2">ditolak</span>
                                             @endif
                                         </td>
                                         <td class="text-center">
@@ -85,14 +85,14 @@
                                                 @if ($report->status === 'accepted')
                                                 <button disabled type="button" class="btn btn-success" data-toggle="modal"
                                                     data-target="#">
-                                                    {{ $report->status }}
+                                                    diterima
                                                 </button>
                                             @elseif($report->status === 'pending')
                                                 <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                    data-target="#modaledit"onclick="edit({{  $report }})">{{ $report->status }}</button>
+                                                    data-target="#modaledit"onclick="edit({{  $report }})">proses</button>
                                             @elseif($report->status === 'rejected')
                                                 <button disabled type="button" class="btn btn-danger" data-toggle="modal"
-                                                    data-target="#modaledit{{ $report->id }}">{{ $report->status }}</button>
+                                                    data-target="#modaledit{{ $report->id }}">ditolak</button>
 
                                                     @endif
                                             </span>

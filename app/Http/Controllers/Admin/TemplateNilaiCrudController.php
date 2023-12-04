@@ -9,6 +9,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class TemplateNilaiCrudController
@@ -32,7 +33,7 @@ class TemplateNilaiCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\TemplateNilai::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/template-nilai');
-        CRUD::setEntityNameStrings('template nilai', 'template nilais');
+        CRUD::setEntityNameStrings('Format File', 'Format File');
     }
 
     /**
@@ -82,19 +83,19 @@ class TemplateNilaiCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-    public function index(){
+    public function index()
+    {
         $crud = $this->crud;
-        $file = TemplateNilai::orderBy('id','desc')->get();
+        $file = TemplateNilai::orderBy('id', 'desc')->get();
 
-        return view('vendor/backpack/crud/Halaman_index_template_nilai',compact('crud','file'));
+        return view('vendor/backpack/crud/Halaman_index_template_nilai', compact('crud', 'file'));
     }
 
-    public function HalamanTambah(){
+    public function HalamanTambah()
+    {
         $crud = $this->crud;
-        $jenisdocument = DB::table('jenis_document')
-                    ->select('id', 'nama_jenis_document')
-                    ->get();
-      return view('vendor/backpack/crud/Halaman_tambah_template_nilai',compact('crud', 'jenisdocument'));
+
+        return view('vendor/backpack/crud/Halaman_tambah_template_nilai', compact('crud'));
     }
 
     public function store(Request $request)
@@ -104,14 +105,14 @@ class TemplateNilaiCrudController extends CrudController
         $request->validate([
             'file' => 'nullable|file|mimes:pdf|max:2048|required',
             'name_template' => 'required',
-            'format'=>'required'
         ]);
+        // dd($request->all());
 
+        // dd($request);
         $name = $request->name_template;
         $file = $request->file('file');
-        $jenisDocument = $request->format;
 
-        // dd($request->all());
+        // dd($request);
         // dd($file);
         // dd($jenisDocument);
 
@@ -130,17 +131,16 @@ class TemplateNilaiCrudController extends CrudController
             TemplateNilai::create([
                 'nama' => $name,
                 'file' => $path,
-                'id_jenis_document'=> $jenisDocument
             ]);
-
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to create record: ' . $e->getMessage());
             // dd($name, $file);
         }
 
-        return redirect(config('backpack.base.route_prefix').'/template-nilai');
+        return redirect(config('backpack.base.route_prefix') . '/template-nilai');
     }
-    public function deleteFile($id){
+    public function deleteFile($id)
+    {
 
         $data = TemplateNilai::findOrFail($id);
 
@@ -149,17 +149,69 @@ class TemplateNilaiCrudController extends CrudController
         return redirect()->back();
     }
 
-    public function unduhfile($id){
-        $file = TemplateNilai::findOrFail($id);
+    public function unduhfile($id, Request $request)
+    {
+        try {
+            $file = TemplateNilai::findOrFail($id);
 
-    // Path ke file di dalam penyimpanan
-    $filePath = 'uploads/' . $file->file;
+            // Path ke file di dalam penyimpanan
+            $filePath = 'uploads/' . $file->file;
 
-    // Mendapatkan nama asli file
-    $originalName = pathinfo($file->file, PATHINFO_FILENAME);
+            // Mendapatkan nama asli file
+            $originalName = pathinfo($file->file, PATHINFO_FILENAME);
 
-    // Membangun response untuk mengirimkan file ke pengguna
-    return response()->download(storage_path("app/{$filePath}"), "{$originalName}.pdf");
+            // Membangun response untuk mengirimkan file ke pengguna
+            return response()->download(storage_path("app/{$filePath}"), "{$originalName}.pdf");
+        } catch (\Throwable $th) {
+            Alert::error('Gagal download', 'Gagal')->flash();
+            return back();
+        }
     }
 
+    public function HalamanEdit($id)
+    {
+        $crud = $this->crud;
+        $data  = TemplateNilai::find($id);
+
+        return view('vendor/backpack/crud/Halaman_edit_template_nilai', compact('crud', 'data'));
+    }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'file' => 'nullable|file|mimes:pdf|max:2048',
+
+        ]);
+
+        $template = TemplateNilai::findOrFail($id);
+
+        // Jika ada file baru diunggah
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+
+            if ($file->getError() > 0) {
+                return redirect()->back()->with('error', 'File upload error: ' . $file->getErrorMessage());
+            }
+
+            $path = time() . '-' . $request->name_template . '.' . $file->getClientOriginalExtension();
+
+            // Hapus file lama sebelum menggantinya
+            Storage::disk('local')->delete('uploads/' . $template->file);
+
+            // Simpan file baru
+            Storage::disk('local')->put('uploads/' . $path, file_get_contents($file));
+
+            // Update record dengan file baru dan nama baru
+            $template->update([
+                'nama' => $request->name_template,
+                'file' => $path,
+            ]);
+        } else {
+            // Jika tidak ada file baru diunggah, hanya update nama
+            $template->update([
+                'nama' => $request->name_template,
+            ]);
+        }
+
+        return redirect(config('backpack.base.route_prefix') . '/template-nilai');
+    }
 }

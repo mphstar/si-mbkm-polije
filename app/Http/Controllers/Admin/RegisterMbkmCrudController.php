@@ -36,7 +36,7 @@ class RegisterMbkmCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\RegisterMbkm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/register-mbkm');
-        CRUD::setEntityNameStrings('register mbkm', 'Validasi Peserta MBKM');
+        CRUD::setEntityNameStrings('register mbkm', 'Konfirmasi Peserta MBKM');
 
         $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
             return $query->where('users_id', backpack_auth()->user()->id);
@@ -71,12 +71,29 @@ class RegisterMbkmCrudController extends CrudController
 
         $pendaftar = RegisterMbkm::with(['student', 'mbkm'])->whereHas('mbkm', function ($query) use ($id_partner) {
             return $query->where('partner_id', '=', $id_partner->partner->id);
-        })->get();
+        })->whereIn('status',['accepted','pending'])->get();
 
         // return $pendaftar;
 
         $crud = $this->crud;
         return view('vendor/backpack/crud/validasipeserta', compact('pendaftar', 'crud'));
+    }
+    public function riwayatpendaftar()
+    {
+        $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+
+
+
+        $pendaftar = RegisterMbkm::with(['student', 'mbkm','lecturer'])->whereHas('mbkm', function ($query) use ($id_partner) {
+            return $query->where('partner_id', '=', $id_partner->partner->id);
+        })->whereIn('status',['rejected','done'])->get();
+
+        // return $pendaftar;
+ 
+        $crud = $this->crud;
+        return view('vendor/backpack/crud/riwayatpeserta', compact('pendaftar', 'crud'));
     }
 
     public function validasipeserta(Request $request)

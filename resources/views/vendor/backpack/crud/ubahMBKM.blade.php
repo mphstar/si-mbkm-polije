@@ -46,13 +46,21 @@
                         </div>
                         <div class="form-group">
                             <label>Untuk Semester </label>
-                            <input type="number" class="form-control" name="semester"value="{{ $data->semester }}">
+                            <select name="semester" class="form-control">
+                                <option value="{{ $data->semester }}">{{ $data->semester }}</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                            </select>
+                            
 
                         </div>
                         <div class="form-group">
                             <label>Jumlah SKS </label>
                             <input type="number"onlyinput="sks()" class="form-control"
-                                name="jumlah_sks"value="{{ $data->semester }}">
+                                name="jumlah_sks"value="{{ $data->jumlah_sks }}">
 
                         </div>
                         <div class="form-group">

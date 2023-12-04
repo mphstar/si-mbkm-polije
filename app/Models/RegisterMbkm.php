@@ -40,7 +40,7 @@ class RegisterMbkm extends Model
     }
     public function lecturer()
     {
-        return $this->belongsTo(Lecturer::class);
+        return $this->belongsTo(Lecturer::class,'pembimbing','id');
     }
     public function reports()
     {
@@ -85,13 +85,13 @@ return '<a class="btn btn-sm btn-link" target="_blank" href="/' . $url . '" data
         $status = $this->attributes['status'];
         
         if ($status == 'accepted') {
-            return '<span class="badge bg-success">Accept</span>';
+            return '<p class="badge bg-success">Diterima</p>';
         } elseif ($status == 'rejected') {
-            return '<span class="badge bg-danger">Rejected</span>';
+            return '<p class="badge bg-danger">Ditolak</p>';
         } elseif($status == 'pending'){
-            return '<span class="badge bg-warning">Pending</span>';
+            return '<p class="badge bg-warning">Menunggu</p>';
         }else {
-            return '<span class="badge bg-success">Done</span>';
+            return '<p class="badge bg-success">Selesai</p>';
         }
     }
 }

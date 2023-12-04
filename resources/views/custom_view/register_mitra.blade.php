@@ -2,11 +2,11 @@
 
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-4">
+        <div class="col-12 col-md-8 col-lg-12">
             <h3 class="text-center mb-4">{{ trans('backpack::base.register') }}</h3>
             <div class="card">
                 <div class="card-body">
-                    <form class="col-md-12 p-t-10" role="form" method="POST" action="/register/mitra/proses">
+                    <form class="col-md-12 w-full  p-t-10" role="form" method="POST" action="/register/mitra/proses">
                         {!! csrf_field() !!}
                         <div class="form-group">
                             <label class="control-label" for="name">Nama</label>

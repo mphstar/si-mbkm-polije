@@ -229,7 +229,7 @@ class PartnerCrudController extends CrudController
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-
+            
             "partner_name" => 'required',
             "address" => 'required',
             "phone" => 'required',
@@ -247,20 +247,27 @@ class PartnerCrudController extends CrudController
         // Check if email and password are provided
     if ($request->filled('email') && $request->filled('password')) {
         // If both email and password are provided, create a user
-        $user = User::create([
-            "name" => $request->partner_name,
-            "email" => $request->email,
-            "password" => bcrypt($request->password),
-            "level" => 'mitra',
-        ]);
+        try {
+            $user = User::create([
+                "name" => $request->partner_name,
+                "email" => $request->email,
+                "password" => bcrypt($request->password),
+                "level" => 'mitra',
+            ]);
+        } catch (\Throwable $th) {
+            Alert::error('Data gagal disimpan')->flash();
+
+            return redirect()->back()
+                ->withInput();
+        }
     }
      // Set the status to "accepted" if jenis_mitra is "luar kampus"
-     $status = $request->jenis_mitra === 'luar kampus' ? 'accepted' : 'pending';
+    //  $status = $request->jenis_mitra === 'luar kampus' ? 'accepted' : 'pending';
         $partner = Partner::create([
             "partner_name" => $request->partner_name,
             "address" => $request->address,
             "phone" => $request->phone,
-            "status" => $status,
+            "status" => "accepted",
             "jenis_mitra" => $request->jenis_mitra,
 
             "users_id" => $user ? $user->id : null, // Use user ID if user is created, otherwise null

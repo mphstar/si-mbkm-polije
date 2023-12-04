@@ -112,7 +112,12 @@ class ValidasilaporanCrudController extends CrudController
         } elseif ($acceptedCount == 0) {
             $count = "0";
         } else {
-            $count = ($acceptedCount / $targetCount) * 100;
+            $count = round(($acceptedCount / $targetCount) * 100);
+            if ($count > 100) {
+                $count=100;
+            }else{
+                $count;
+            }
             // return dd($count);
 
         }
@@ -147,15 +152,20 @@ class ValidasilaporanCrudController extends CrudController
             'status' => $request->input('status'),
             'notes' => $request->input('notes')
         ];
-        $dataa = Validasilaporan::with(['regMbkm.student.users'])->where('id', $request->id)->first();
-
+        
         $id =  $request->input('id');
         Validasilaporan::where('id', $id)->update($data);
-        if ($request->input("status") === "accepted") {
-            Mail::to($dataa->regMbkm->student->users->email)->send(new laporanditerima($dataa));
-        } elseif ($request->input("status") === "rejected") {
-            Mail::to($dataa->regMbkm->student->users->email)->send(new laporanrevisi($dataa));
+        $dataa = Validasilaporan::with(['regMbkm.student.users'])->where('id', $request->id)->first();
+        try {
+            if ($request->input("status") === "accepted") {
+                Mail::to($dataa->regMbkm->student->users->email)->send(new laporanditerima($dataa));
+            } elseif ($request->input("status") === "rejected") {
+                Mail::to($dataa->regMbkm->student->users->email)->send(new laporanrevisi($dataa));
+            }  
+        } catch (\Throwable $th) {
+            Alert::warning('Kirim  email bermasalah')->flash();  
         }
+      
         session()->flash('status', 'success');
         Alert::success('Berhasil Validasi Laporan')->flash();
         return back();

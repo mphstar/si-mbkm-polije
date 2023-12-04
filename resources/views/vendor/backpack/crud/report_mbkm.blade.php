@@ -47,7 +47,7 @@
                                 <th class="text-center align-middle">Informasi Laporan</th>
                                 <th class="text-center align-middle">Status</th>
                                 <th class="text-center align-middle">File</th>
-                                <th class="text-center align-middle">Keterangan Prodi</th>
+                                <th class="text-center align-middle">Keterangan Mitra</th>
                                 <th class="text-center"><button @if($count >= 100)
                                     disabled @endif type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">Upload Laporan</button></th>
                             </tr>
@@ -63,11 +63,11 @@
                                 <th class="text-center font-weight-normal">{{ $report->file_info }}</th>
                                 <td class="text-center">
                                     @if($report->status === 'accepted')
-                                        <span class="badge badge-success px-2">{{ $report->status }}</span>
+                                        <span class="badge badge-success px-2">diterima</span>
                                     @elseif($report->status === 'pending')
-                                        <span class="badge badge-warning px-2">{{ $report->status }}</span>
+                                        <span class="badge badge-warning px-2">proses</span>
                                     @elseif($report->status === 'rejected')
-                                        <span class="badge badge-danger px-2">{{ $report->status }}</span>
+                                        <span class="badge badge-danger px-2">ditolak</span>
                                     @endif
                                 </td>
                                 <td class="text-center">

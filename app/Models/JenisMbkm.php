@@ -56,4 +56,12 @@ class JenisMbkm extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    function getKategoriJenis(){
+        if($this->kategori_jenis == "external"){
+            return "Luar Kampus";
+        } else {
+            return "Dalam Kampus";
+        }
+    }
 }

@@ -70,7 +70,7 @@ class ManagementMBKMCrudController extends CrudController
             ], [
 
                 'name' => 'jenismbkm.jenismbkm',
-                'label' => 'Jenis Mbkm',
+                'label' => 'Jenis MBKM',
             ], [
                 'name'  => 'status_acc',
                 'label' => 'Status Akun', // Table column heading
@@ -276,6 +276,10 @@ class ManagementMBKMCrudController extends CrudController
         $this->crud->addColumn([
             'name' => 'jenismbkm.jenismbkm',
             'label' => 'Jenis MBKM'
+        ]);
+        $this->crud->addColumn([
+            'name' => 'jumlah_sks',
+            'label' => 'Jumlah SKS'
         ]);
         // $this->crud->addColumn([
         //     'name' => 'jurusan',

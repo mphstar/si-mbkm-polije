@@ -8,6 +8,7 @@ use App\Http\Requests\ManageStudentRequest;
 use App\InvolvedCourse;
 use App\Models\Lecturer;
 use App\Models\Nilaimbkm;
+use App\Models\RegisterMbkm;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class ManageStudentCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Nilaimbkm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/manage-student');
-        CRUD::setEntityNameStrings('manage student', 'manage students');
+        CRUD::setEntityNameStrings('Kelola Mahasiswa', 'Kelola Mahasiswa');
         $this->crud->addColumns([
             [
                 "name" => "lecturers.lecturer_name",
@@ -55,8 +56,8 @@ class ManageStudentCrudController extends CrudController
 
         $this->crud->addClause('where', 'status', '=', 'accepted');
         $user = backpack_auth()->user();
-        
-        $this->crud->addClause('whereHas', 'students', function($query) use ($user){
+
+        $this->crud->addClause('whereHas', 'students', function ($query) use ($user) {
             return $query->where('jurusan', $user->lecturer->jurusan);
         });
 
@@ -82,7 +83,60 @@ class ManageStudentCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
+    public function riwayatmhs_mbkminternal()
+    {
+        $crud = $this->crud;
+        $datakap = backpack_auth()->user();
+        
+        // $datakap = backpack_auth()->user()->with('lecturer')->whereHas('lecturer', function ($query) {
+        //     return $query->where('users_id', backpack_auth()->user()->id);
+        // })->first();
+        // if ($datakap->lecturer->level == 'dosen pembimbing') {
+        //     $datamhs = RegisterMbkm::with(['lecturer', 'mbkm', 'student'])->where('status', 'done')->where('program_name', null)->where('dospem',$datakap->lecturer->id)->get();
 
+
+        // }else {
+        $datamhs = RegisterMbkm::with(['lecturer', 'mbkm', 'student'])->whereHas('student', function ($query) use ($datakap) {
+            return $query->where('program_studi', $datakap->lecturer->program_studi);
+        })->where('status', 'done')->where('program_name', null)->get();
+
+        return view('vendor/backpack/crud/riwayatmhs_mbkminternal', compact('datamhs', 'crud'));
+    
+    }
+    public function riwayatmhs_mbkmeksternal()
+    {
+        $crud = $this->crud;
+        $datakap = backpack_auth()->user();
+    
+        $datamhs = RegisterMbkm::with(['lecturer', 'mbkm', 'student'])->whereHas('student', function ($query) use ($datakap) {
+            return $query->where('program_studi', $datakap->lecturer->program_studi);
+        })->where('status', 'done')->where('mbkm_id', null)->get();
+
+     
+        return view('vendor/backpack/crud/riwayatmhs_mbkbmeksternal', compact('datamhs', 'crud'));
+    
+    }
+    public function dospemriwayatmhs_mbkminternal(){
+        $crud = $this->crud;
+        $datakap = backpack_auth()->user();
+        
+        $datakap = backpack_auth()->user()->with('lecturer')->whereHas('lecturer', function ($query) {
+            return $query->where('users_id', backpack_auth()->user()->id);
+        })->first();
+    
+            $datamhs = RegisterMbkm::with(['lecturer', 'mbkm', 'student'])->where('status', 'done')->where('program_name', null)->where('pembimbing',$datakap->lecturer->id)->get();
+            return view('vendor/backpack/crud/riwayatmhs_mbkminternal', compact('datamhs', 'crud'));
+   
+    }
+public function dospemriwayatmhs_mbkmeksternal(){
+    $crud = $this->crud;
+    $datakap = backpack_auth()->user();
+ 
+        $datamhs = RegisterMbkm::with(['lecturer', 'mbkm', 'student'])->where('status', 'done')->where('mbkm_id', null)->where('pembimbing',$datakap->lecturer->id)->get();
+
+        return view('vendor/backpack/crud/riwayatmhs_mbkbmeksternal', compact('datamhs', 'crud'));
+    
+}
     /**
      * Define what happens when the Create operation is loaded.
      *
@@ -117,37 +171,45 @@ class ManageStudentCrudController extends CrudController
     {
         $crud = $this->crud;
         $api = new ClassApi;
-        
+
         $dosen = Lecturer::where('status', 'dosen pembimbing')->get();
-        
+
         $data = Nilaimbkm::with(['involved.course', 'students.program_study', 'mbkm'])->where('id', $id)->first();
         // return $data;
         $nim = $data->students->nim;
         $A = substr($nim, 1, 1);  // Mengambil karakter pada posisi 1 (indeks 0) untuk variabel A
         $B = substr($nim, 3, 2);  // Mengambil karakter pada posisi 3 (indeks 2) untuk variabel B
 
-        
+
         $semester = $data->mbkm_id == null ? $data->semester : $data->mbkm->semester;
         $ganjilGenap = $semester % 2 == 0 ? 'Genap' : 'Ganjil';
-        
+
         $tahun_kelas = 1;
-        if($semester == 1 || $semester == 2){
+        if ($semester == 1 || $semester == 2) {
             $tahun_kelas = 1;
-        } else if($semester == 3 || $semester == 4){
+        } else if ($semester == 3 || $semester == 4) {
             $tahun_kelas = 2;
-        } else if($semester == 5 || $semester == 6){
+        } else if ($semester == 5 || $semester == 6) {
             $tahun_kelas = 3;
-        } else if($semester == 7 || $semester == 8){
+        } else if ($semester == 7 || $semester == 8) {
             $tahun_kelas = 4;
         } 
+
+        $jenjang = "D4";
+        if($A == "4"){
+            $jenjang = "D4";
+        } else {
+            $jenjang = "D3";
+        }
+
         
 
-        $querycourse = $api->getMatkul($request, "20{$B}", $ganjilGenap, $data->students->program_studi, $tahun_kelas);
+        $querycourse = $api->getMatkul($request, "20{$B}", $ganjilGenap, $data->students->program_studi, $tahun_kelas, $jenjang);
 
         $filteredCourse = array_unique(array_column($querycourse, 'kode_mata_kuliah'));
         $resultCourse = array_values(array_intersect_key($querycourse, array_flip(array_keys($filteredCourse))));
 
-        $course = $resultCourse;                                                                                                     
+        $course = $resultCourse;
 
         // return $course;
 
@@ -183,7 +245,7 @@ class ManageStudentCrudController extends CrudController
 
         InvolvedCourse::where('reg_mbkm_id', $id)->delete();
         if ($request->ids) {
-            
+
             # code...
             for ($i = 0; $i < count($request->ids); $i++) {
                 $decodeMatkul = json_decode($request->ids[$i]);

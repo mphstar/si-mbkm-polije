@@ -55,6 +55,9 @@ class StatusRegCrudController extends CrudController
             'name' => 'mbkm.end_date',
             'label' => 'Tanggal Selesai',
         ],[
+            'name' => 'lecturer.lecturer_name',
+            'label' => 'Dosen Pembimbing',
+        ],[
             'name'  => 'status',
             'label' => 'Status', // Table column heading
             'type'  => 'model_function',

@@ -1,1 +1,1 @@
-<a href="{{ url($crud->route.'/'.$entry->getKey().'/reg-mbkm') }} " class="btn btn-xs btn-default"><i class="fa fa-ban"></i> Daftar</a>
+<a href="{{ url($crud->route.'/'.$entry->getKey().'/reg-mbkm') }} " class="btn btn-xs btn-success"><i class="fa fa-ban"></i> Daftar</a>

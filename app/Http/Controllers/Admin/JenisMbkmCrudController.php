@@ -45,6 +45,8 @@ class JenisMbkmCrudController extends CrudController
         ], [
             'name' => 'kategori_jenis',
             'label' => 'Kategori Jenis',
+            'type'  => 'model_function',
+            'function_name' => 'getKategoriJenis'
         ],]); 
 
         /**
@@ -74,7 +76,7 @@ class JenisMbkmCrudController extends CrudController
             'name'            => 'kategori_jenis',
             'label'           => "Kategori Jenis",
             'type'            => 'select_from_array',
-            'options'         => ['external' => 'External', 'internal' => 'Internal'],
+            'options'         => ['external' => 'Luar Kampus', 'internal' => 'Dalam Kampus'],
      
         ]);
         /**

@@ -38,21 +38,8 @@
 						<label class="required">upload template nilai</label>
 						<input required class="form-control" type="file" name="file" placeholder="file harus berupa pdf" accept=".pdf" value="" >
 						<div class="text-danger">*Jenis file yang diizinkan: .pdf.</div>
-
 					</div>
-                    <div class="col-md-6 form-group">
-                        <label class="required">format file </label>
-                        <div class="row">
-                            <div class="col-md-8">
-                                <select class="form-control" name="format">
-                                    <option value="">Pilih format </option>
-                                    @foreach ($jenisdocument as $jenis)
-                                        <option value="{{ $jenis->id }}">{{ $jenis->nama_jenis_document }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>

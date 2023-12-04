@@ -112,11 +112,14 @@ class ProgramSayaMbkmEksternalCrudController extends CrudController
     public function updating($id)
     {
 
-
+$siswa=backpack_auth()->user();
         $regmbkm = RegisterMbkm::where('id', $id)->get();
-
         if($regmbkm[0]->status == 'done'){
             Alert::warning('Anda sudah menyelesaikan program')->flash();
+            return back();
+        }
+        if ($regmbkm[0]->semester != $siswa->student->semester ) {
+            Alert::warning('Maaf  semester anda yang sekarang tidak sesuai dengan mbkm anda yang terdaftar')->flash();
             return back();
         }
 

@@ -33,11 +33,9 @@ Route::group([
         Route::crud('template-nilai', 'TemplateNilaiCrudController');
         Route::get('template-nilai/HalamanTambah','TemplateNilaiCrudController@HalamanTambah')->name('');
         Route::post('template-nilai/HalamanTambah/store',"TemplateNilaiCrudController@store")->name('MenyimpanTemplate');
-        Route::get('template-nilai/HalamanTambah/{id}/delete','TemplateNilaiCrudController@deleteFile')->name('hapusFile');
-        Route::get('template-nilai/HalamanTambah/{id}/unduhfile','TemplateNilaiCrudController@unduhfile')->name('unduhfile');
-
-
-
+        Route::get('template-nilai/{id}/unduhfile','TemplateNilaiCrudController@unduhfile')->name('unduhfile');
+        Route::get('template-nilai/{id}/HalamanEditFile', 'TemplateNilaiCrudController@HalamanEdit')->name('HalamanEditFile');
+        Route::post('template-nilai/{id}/HalamanEditFile/update', 'TemplateNilaiCrudController@update')->name('updatefile');
     });
 
 
@@ -49,6 +47,7 @@ Route::group([
         Route::post('management-m-b-k-m/updatembkm', 'ManagementMBKMCrudController@updatembkm');
         Route::post('management-m-b-k-m/tambahdatambkm', 'ManagementMBKMCrudController@storeData');
         Route::get('register-mbkm', 'RegisterMbkmCrudController@validasipendaftar');
+        Route::get('riwayat-pendaftar', 'RegisterMbkmCrudController@riwayatpendaftar');
         Route::post('validasi-peserta', 'RegisterMbkmCrudController@validasipeserta');
         Route::crud('validasilaporan', 'ValidasilaporanCrudController');
         Route::get('validasilaporan/{id}/detail_laporan ', 'ValidasilaporanCrudController@detail_laporan')->name("detail_laporan");
@@ -56,8 +55,7 @@ Route::group([
         Route::crud('penilaian-mitra', 'PenilaianMitraCrudController');
         Route::get('penilaian-mitra/{id}/updating', 'PenilaianMitraCrudController@updating')->name("grader_partner");
         Route::post('penilaian-mitra/{id}/penilaian ', 'PenilaianMitraCrudController@penilaian');
-        Route::get('penilaian-mitra/unduhtemplate/{id}', 'PenilaianMitraCrudController@unduhtemplate')->name('penilaian-mitra.unduhtemplate');
-
+        Route::get('penilaian-mitra/unduhtemplate/{nama}', 'PenilaianMitraCrudController@unduhtemplate')->name('penilaian-mitra.unduhtemplate');
         Route::get('datamitra', 'PartnerCrudController@biodata');
         Route::post('ubahbiodata', 'PartnerCrudController@ubahbiodata');
     });
@@ -70,10 +68,12 @@ Route::group([
         Route::crud('lecturer', 'LecturerCrudController');
         Route::crud('manage-student', 'ManageStudentCrudController');
         Route::get('manage-student/{id}/edit', 'ManageStudentCrudController@formEdit');
+        Route::get('riwayatmhs-mbkminternal', 'ManageStudentCrudController@riwayatmhs_mbkminternal');
+        Route::get('riwayatmhs_mbkmeksternal', 'ManageStudentCrudController@riwayatmhs_mbkmeksternal');
         Route::post('manage-student/{id}/editDosen', 'ManageStudentCrudController@editDosen');
         Route::post('manage-student/{id}/editMatkul', 'ManageStudentCrudController@editMatkul');
 
-        // Route::get('/acctive-account-mitra', 'AcctiveAccountMitraCrudController@index');
+        Route::get('/acctive-account-mitra', 'AcctiveAccountMitraCrudController@index');
         Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
         Route::crud('acc-nilai', 'AccNilaiCrudController');
         Route::get('acc-nilai/{id}/tolak', 'AccNilaiCrudController@tolaknilai');
@@ -93,6 +93,8 @@ Route::group([
         Route::crud('nilaimbkm', 'NilaimbkmCrudController');
         Route::get('/nilaimbkm/{id}/inputnilai', 'NilaimbkmCrudController@inputNilai');
         Route::post('/nilaimbkm/{id}/prosesNilai', 'NilaimbkmCrudController@prosesNilai');
+        Route::get('dospemriwayatmhs-mbkminternal', 'ManageStudentCrudController@dospemriwayatmhs_mbkminternal');
+        Route::get('dospemriwayatmhs_mbkmeksternal', 'ManageStudentCrudController@dospemriwayatmhs_mbkmeksternal');
     });
 
     Route::middleware([DosenKaprodiMiddleware::class])->group(function () {
