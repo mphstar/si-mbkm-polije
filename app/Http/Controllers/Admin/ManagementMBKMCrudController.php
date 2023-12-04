@@ -70,7 +70,7 @@ class ManagementMBKMCrudController extends CrudController
             ], [
 
                 'name' => 'jenismbkm.jenismbkm',
-                'label' => 'Jenis Mbkm',
+                'label' => 'Jenis MBKM',
             ], [
                 'name'  => 'status_acc',
                 'label' => 'Status Akun', // Table column heading

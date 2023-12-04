@@ -9,6 +9,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class TemplateNilaiCrudController
@@ -32,7 +33,7 @@ class TemplateNilaiCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\TemplateNilai::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/template-nilai');
-        CRUD::setEntityNameStrings('template nilai', 'template nilais');
+        CRUD::setEntityNameStrings('Format File', 'Format File');
     }
 
     /**
@@ -82,17 +83,19 @@ class TemplateNilaiCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-    public function index(){
+    public function index()
+    {
         $crud = $this->crud;
-        $file = TemplateNilai::orderBy('id','desc')->get();
+        $file = TemplateNilai::orderBy('id', 'desc')->get();
 
-        return view('vendor/backpack/crud/Halaman_index_template_nilai',compact('crud','file'));
+        return view('vendor/backpack/crud/Halaman_index_template_nilai', compact('crud', 'file'));
     }
 
-    public function HalamanTambah(){
+    public function HalamanTambah()
+    {
         $crud = $this->crud;
 
-      return view('vendor/backpack/crud/Halaman_tambah_template_nilai',compact('crud'));
+        return view('vendor/backpack/crud/Halaman_tambah_template_nilai', compact('crud'));
     }
 
     public function store(Request $request)
@@ -134,9 +137,10 @@ class TemplateNilaiCrudController extends CrudController
             // dd($name, $file);
         }
 
-        return redirect(config('backpack.base.route_prefix').'/template-nilai');
+        return redirect(config('backpack.base.route_prefix') . '/template-nilai');
     }
-    public function deleteFile($id){
+    public function deleteFile($id)
+    {
 
         $data = TemplateNilai::findOrFail($id);
 
@@ -145,25 +149,31 @@ class TemplateNilaiCrudController extends CrudController
         return redirect()->back();
     }
 
-    public function unduhfile($id ,Request $request)
+    public function unduhfile($id, Request $request)
     {
-        $file = TemplateNilai::findOrFail($id);
+        try {
+            $file = TemplateNilai::findOrFail($id);
 
-    // Path ke file di dalam penyimpanan
-    $filePath = 'uploads/' . $file->file;
+            // Path ke file di dalam penyimpanan
+            $filePath = 'uploads/' . $file->file;
 
-    // Mendapatkan nama asli file
-    $originalName = pathinfo($file->file, PATHINFO_FILENAME);
+            // Mendapatkan nama asli file
+            $originalName = pathinfo($file->file, PATHINFO_FILENAME);
 
-    // Membangun response untuk mengirimkan file ke pengguna
-    return response()->download(storage_path("app/{$filePath}"), "{$originalName}.pdf");
+            // Membangun response untuk mengirimkan file ke pengguna
+            return response()->download(storage_path("app/{$filePath}"), "{$originalName}.pdf");
+        } catch (\Throwable $th) {
+            Alert::error('Gagal download', 'Gagal')->flash();
+            return back();
+        }
     }
 
-    public function HalamanEdit($id){
+    public function HalamanEdit($id)
+    {
         $crud = $this->crud;
         $data  = TemplateNilai::find($id);
 
-        return view('vendor/backpack/crud/Halaman_edit_template_nilai',compact('crud','data'));
+        return view('vendor/backpack/crud/Halaman_edit_template_nilai', compact('crud', 'data'));
     }
     public function update(Request $request, $id)
     {
@@ -202,7 +212,6 @@ class TemplateNilaiCrudController extends CrudController
             ]);
         }
 
-        return redirect(config('backpack.base.route_prefix').'/template-nilai');
+        return redirect(config('backpack.base.route_prefix') . '/template-nilai');
     }
-
 }

@@ -37,7 +37,7 @@ class ManageStudentCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Nilaimbkm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/manage-student');
-        CRUD::setEntityNameStrings('manage student', 'manage students');
+        CRUD::setEntityNameStrings('Kelola Mahasiswa', 'Kelola Mahasiswa');
         $this->crud->addColumns([
             [
                 "name" => "lecturers.lecturer_name",
@@ -193,10 +193,18 @@ public function dospemriwayatmhs_mbkmeksternal(){
             $tahun_kelas = 3;
         } else if ($semester == 7 || $semester == 8) {
             $tahun_kelas = 4;
+        } 
+
+        $jenjang = "D4";
+        if($A == "4"){
+            $jenjang = "D4";
+        } else {
+            $jenjang = "D3";
         }
 
+        
 
-        $querycourse = $api->getMatkul($request, "20{$B}", $ganjilGenap, $data->students->program_studi, $tahun_kelas);
+        $querycourse = $api->getMatkul($request, "20{$B}", $ganjilGenap, $data->students->program_studi, $tahun_kelas, $jenjang);
 
         $filteredCourse = array_unique(array_column($querycourse, 'kode_mata_kuliah'));
         $resultCourse = array_values(array_intersect_key($querycourse, array_flip(array_keys($filteredCourse))));

@@ -13,17 +13,13 @@
 @section('header')
     <section class="container-fluid d-print-none">
         <a href="javascript: window.print();" class="btn float-right"><i class="la la-print"></i></a>
-      
+
     </section>
 @endsection
 @section('content')
     <div class="row">
-
-
-
-
         <div class="col-md-12">
-            <h2>Riwayat peserta MBKM Internal</h2><br>
+            <h2>Riwayat peserta MBKM Dalam Kampus</h2><br>
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -39,7 +35,7 @@
                                     <th class="text-center">Jenis Program MBKM</th>
                                     <th class="text-center">Nama Dosen Pembimbing</th>
                                     <th class="text-center">Status</th>
-                                
+
 
                                 </tr>
                             </thead>
@@ -59,20 +55,20 @@
                                         <td class="text-center">
 
                                             {{ $pdftr->mbkm->jenismbkm->jenismbkm }}
-                                         
+
                                         </td>
                                         <td class="text-center">
 
                                             {{ $pdftr->lecturer->lecturer_name }}
-                                         
+
                                         </td>
                                         <td class="text-center">
 
                                             <span class="badge bg-success">selesai</span>
-                                         
+
                                         </td>
 
-                                    
+
                                     </tr>
                                     @php
                                         $index++;
@@ -85,14 +81,12 @@
             </div>
         </div>
     </div>
-   
 @endsection
 @section('after_styles')
     {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> --}}
     {{-- <link rel="stylesheet" href="{{ asset('packages/backpack/crud/css/show.css').'?v='.config('backpack.base.cachebusting_string') }}"> --}}
 @endsection
 @section('after_scripts')
-   
     <script src="{{ asset('packages/backpack/crud/js/crud.js') . '?v=' . config('backpack.base.cachebusting_string') }}">
     </script>
     <script src="{{ asset('packages/backpack/crud/js/show.js') . '?v=' . config('backpack.base.cachebusting_string') }}">

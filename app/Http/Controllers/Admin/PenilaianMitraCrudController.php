@@ -42,7 +42,7 @@ class PenilaianMitraCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\PenilaianMitra::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/penilaian-mitra');
-        CRUD::setEntityNameStrings('penilaian mitra', 'penilaian mitras');
+        CRUD::setEntityNameStrings('Penilaian Mitra', 'Penilaian Mitra');
 
         $id_partner = backpack_auth()->user()->with('partner')->whereHas('partner', function ($query) {
             return $query->where('users_id', backpack_auth()->user()->id);
@@ -51,7 +51,6 @@ class PenilaianMitraCrudController extends CrudController
         $this->crud->addClause('whereHas', 'mbkm', function ($query) use ($id_partner) {
             return $query->where('partner_id', $id_partner->partner->id);
         });
-
     }
 
     /**
@@ -73,8 +72,8 @@ class PenilaianMitraCrudController extends CrudController
                 "label" => "Keterangan MBKM"
             ],
             [
-                "label" => "Status ACC",
-                'name'=>'status',
+                "label" => "Status Aktif",
+                'name' => 'status',
                 'type' => 'model_function',
                 'function_name' => 'getStatusSpan'
             ],
@@ -92,8 +91,6 @@ class PenilaianMitraCrudController extends CrudController
          */
         $this->crud->addButtonFromView('line', 'partner_grade', 'partner_grade', 'beginning');
         $this->crud->addButtonFromView('top', 'Download_Template', 'Download_Template', 'end');
-
-
     }
     public function penilaianmitra()
     {
@@ -159,8 +156,8 @@ class PenilaianMitraCrudController extends CrudController
             }
         }
         $regmbkm = RegisterMbkm::where('id', $id)->get();
-        $mbkmId = ManagementMBKM::where('id',$regmbkm[0]->mbkm_id)->value('id');
-        $laporan=MbkmReport::where('reg_mbkm_id',$id)->get();
+        $mbkmId = ManagementMBKM::where('id', $regmbkm[0]->mbkm_id)->value('id');
+        $laporan = MbkmReport::where('reg_mbkm_id', $id)->get();
         $acceptedCount = $laporan->where('status', 'accepted')->count();
         $targetCount = Mbkm::where('id', $mbkmId)->value('task_count');
         // $mbkmId = RegisterMbkm::with('mbkm')
@@ -188,7 +185,7 @@ class PenilaianMitraCrudController extends CrudController
         } else {
             $count = ($acceptedCount / $targetCount) * 100;
             if ($count > 100) {
-                $count=100;
+                $count = 100;
             }
         }
 
@@ -238,7 +235,7 @@ class PenilaianMitraCrudController extends CrudController
             $input['partner_grade'] = "storage/uploads/$fileName";
             $input['status'] = "accepted";
         }
-        $namaMBKM=PenilaianMitra::with(['mbkm.partner', 'student.users'])->where('id',$request->id)->first();
+        $namaMBKM = PenilaianMitra::with(['mbkm.partner', 'student.users'])->where('id', $request->id)->first();
         $user = PenilaianMitra::where('id', $id)->update($input);
         session()->flash('status', 'success');
         Alert::success('Berhasil upload nilai')->flash();
@@ -258,20 +255,19 @@ class PenilaianMitraCrudController extends CrudController
             try {
                 //code...
                 $filePath = 'uploads/' . $DataTemplate->file;
-    
+
                 // Mendapatkan nama asli file
                 $originalName = pathinfo($DataTemplate->file, PATHINFO_FILENAME);
-    
+
                 // Membangun response untuk mengirimkan file ke pengguna
                 return response()->download(storage_path("app/{$filePath}"), "{$originalName}.pdf");
             } catch (\Throwable $th) {
-                throw $th;
+                Alert::error('Gagal download', 'Gagal')->flash();
+                return back();
             }
         } else {
             // Handle case when template data is not found
             return response('File not found', 404);
         }
     }
-    
-
 }

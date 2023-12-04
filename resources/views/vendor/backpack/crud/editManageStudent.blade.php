@@ -60,17 +60,28 @@
                 {!! csrf_field() !!}
                 <div class="card">
                     <div class="card-header"><strong>Mata Kuliah</strong>
-                        <p class="text-danger">Butuh minimal <strong>{{ $data->mbkm_id == null ? 20 : $data->mbkm->jumlah_sks }}</strong> SKS</p>
+                        <p class="text-danger">Butuh minimal
+                            <strong>{{ $data->mbkm_id == null ? 20 : $data->mbkm->jumlah_sks }}</strong> SKS
+                        </p>
                     </div>
 
                     <div class="card-body">
                         <div class="form-group">
                             <label for="nf-email">Mata Kuliah</label>
-                            <br>
+
+
                             {{-- @if ($course->isNotEmpty())
                                 <label for="">jumlah sks minimal yang di konversikan = </label>
                             @endif --}}
-                            <div class="col-md-9 col-form-label">
+                            <br>
+
+                            <div class="form-check form-check-inline mr-4">
+                                <input onclick="checkAll(this)" class="form-check-input" id="checkall" type="checkbox">
+
+                                <label class="form-check-label" for="checkall">Pilih Semua
+                                </label>
+                            </div>
+                            <div class=" col-form-label">
                                 @foreach ($course as $itemB)
                                     <?php
                                     $found = false;
@@ -85,13 +96,15 @@
                                         <div class="form-check form-check-inline mr-4">
                                             <input sks="{{ $itemB->sks }}"
                                                 onchange="handleCheck(this, '{{ $itemB->sks }}')" checked name="ids[]"
-                                                class="form-check-input" id="{{ $itemB->kode_mata_kuliah }}" type="checkbox"
-                                                value="{{ json_encode(array(
-                                                    "kode_matkul" => $itemB->kode_mata_kuliah,
-                                                    "nama_matkul" => $itemB->mata_kuliah ? $itemB->mata_kuliah : $itemB->mata_kuliah_praktikum,
-                                                    "sks" => $itemB->sks
-                                                )) }}">
-                                            <label class="form-check-label" for="{{ $itemB->kode_mata_kuliah }}">{{ $itemB->mata_kuliah ? $itemB->mata_kuliah : $itemB->mata_kuliah_praktikum }}
+                                                class="form-check-input" id="{{ $itemB->kode_mata_kuliah }}"
+                                                type="checkbox"
+                                                value="{{ json_encode([
+                                                    'kode_matkul' => $itemB->kode_mata_kuliah,
+                                                    'nama_matkul' => $itemB->mata_kuliah ? $itemB->mata_kuliah : $itemB->mata_kuliah_praktikum,
+                                                    'sks' => $itemB->sks,
+                                                ]) }}">
+                                            <label class="form-check-label"
+                                                for="{{ $itemB->kode_mata_kuliah }}">{{ $itemB->mata_kuliah ? $itemB->mata_kuliah : $itemB->mata_kuliah_praktikum }}
                                                 ({{ $itemB->sks }} SKS)
                                             </label>
                                         </div>
@@ -99,13 +112,15 @@
                                         <div class="form-check form-check-inline mr-4">
                                             <input sks="{{ $itemB->sks }}"
                                                 onchange="handleCheck(this, '{{ $itemB->sks }}')" name="ids[]"
-                                                class="form-check-input" id="{{ $itemB->kode_mata_kuliah }}" type="checkbox"
-                                                value="{{ json_encode(array(
-                                                    "kode_matkul" => $itemB->kode_mata_kuliah,
-                                                    "nama_matkul" => $itemB->mata_kuliah ? $itemB->mata_kuliah : $itemB->mata_kuliah_praktikum,
-                                                    "sks" => $itemB->sks
-                                                )) }}">
-                                            <label class="form-check-label" for="{{ $itemB->kode_mata_kuliah }}">{{ $itemB->mata_kuliah ? $itemB->mata_kuliah : $itemB->mata_kuliah_praktikum }}
+                                                class="form-check-input" id="{{ $itemB->kode_mata_kuliah }}"
+                                                type="checkbox"
+                                                value="{{ json_encode([
+                                                    'kode_matkul' => $itemB->kode_mata_kuliah,
+                                                    'nama_matkul' => $itemB->mata_kuliah ? $itemB->mata_kuliah : $itemB->mata_kuliah_praktikum,
+                                                    'sks' => $itemB->sks,
+                                                ]) }}">
+                                            <label class="form-check-label"
+                                                for="{{ $itemB->kode_mata_kuliah }}">{{ $itemB->mata_kuliah ? $itemB->mata_kuliah : $itemB->mata_kuliah_praktikum }}
                                                 ( {{ $itemB->sks }} SKS )</label>
                                         </div>
                                     @endif
@@ -113,10 +128,11 @@
                             </div>
                         </div>
                         <p><strong>Sks terpilih: <span id="terpilih">6</span></strong></p>
+
                     </div>
                     <div class="card-footer">
-                        <button onclick="submitNilai('{{ $data->mbkm_id == null ? 20 : $data->mbkm->jumlah_sks }}')" class="btn btn-sm btn-primary"
-                            type="button"><i class="fa fa-dot-circle-o"></i>
+                        <button onclick="submitNilai('{{ $data->mbkm_id == null ? 20 : $data->mbkm->jumlah_sks }}')"
+                            class="btn btn-sm btn-primary" type="button"><i class="fa fa-dot-circle-o"></i>
                             Submit</button>
                     </div>
                 </div>
@@ -138,6 +154,23 @@
                 selected += parseInt(checkbox.getAttribute('sks'))
                 terpilih.innerHTML = selected
             }
+        }
+
+        const checkAll = (e) => {
+            if (e.checked) {
+                
+                checkb.forEach(element => {
+                    element.click()
+                });
+            } else {
+                selected = 0
+                terpilih.innerHTML = selected
+
+                checkb.forEach(element => {
+                    element.checked = false
+                });
+            }
+
         }
 
         // if (document.getElementById('checkbox').checked) {
