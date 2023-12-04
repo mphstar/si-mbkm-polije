@@ -1,11 +1,24 @@
 @extends(backpack_view('layouts.plain'))
-
+<style>
+    .custom-image-size {
+        width: 300px;
+        height: 200px;
+        /* Atau atur ukuran responsif */
+        max-width: 100%;
+        /* Maksimum lebar gambar */
+        height: auto;
+        /* Tinggi gambar menyesuaikan lebar sesuai aspek ratio */
+    }
+</style>
 @section('content')
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-12">
-            <h3 class="text-center mb-4">{{ trans('backpack::base.register') }}</h3>
+            <div class="responsive-feature-img text-center">
+                <img src="{{ asset('assets/img/sissmbkm.png') }}" alt="responsive devices" class="custom-image-size">
+            </div>
             <div class="card">
                 <div class="card-body">
+                    <h3 class="text-center mb-4">{{ trans('backpack::base.register') }}</h3>
                     <form class="col-md-12 w-full  p-t-10" role="form" method="POST" action="/register/mitra/proses">
                         {!! csrf_field() !!}
                         <div class="form-group">

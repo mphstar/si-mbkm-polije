@@ -72,7 +72,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<b>SIMBKM Polije</b>',
+    'project_logo'   =>  '<img src="assets/img/simbkm.png" alt="responsive devices" class="custom-image-size">',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,
