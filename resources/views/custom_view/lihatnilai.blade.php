@@ -28,13 +28,19 @@
                                             @if ($item->grade == '')
                                                 -
                                             @else
-                                                @if ($item->grade >= 0 && $item->grade < 60)
+                                                @if ($item->grade >= 0 && $item->grade < 46)
+                                                    E
+                                                @elseif($item->grade >= 46 && $item->grade < 56)
+                                                    D
+                                                @elseif($item->grade >= 56 && $item->grade < 66)
+                                                    C
+                                                @elseif($item->grade >= 66 && $item->grade < 71)
                                                     BC
-                                                @elseif($item->grade >= 60 && $item->grade < 75)
+                                                @elseif($item->grade >= 71 && $item->grade < 76)
                                                     B
-                                                @elseif($item->grade >= 75 && $item->grade < 87)
+                                                @elseif($item->grade >= 76 && $item->grade < 81)
                                                     AB
-                                                @elseif($item->grade >= 87 && $item->grade <= 100)
+                                                @elseif($item->grade >= 81 && $item->grade <= 100)
                                                     A
                                                 @else
                                                     Tidak Diketahui

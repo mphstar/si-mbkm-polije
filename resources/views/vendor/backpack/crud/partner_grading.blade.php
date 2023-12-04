@@ -35,7 +35,7 @@
 		<div class="card padding-10">
 			<div class="card-header">
 				<h4>Penilaian</h4>
-				<p>Download template penilaian <a href="{{ route('penilaian-mitra.unduhtemplate', 'Template Penilaian Mitra') }}">disini</a></p>
+				{{-- <p>Download template penilaian <a href="{{ route('penilaian-mitra.unduhtemplate', 'Template Penilaian Mitra') }}">disini</a></p> --}}
 				{{-- {{ trans('backpack::base.update_account_info') }} --}}
 			</div>
 			<div class="card-body backpack-profile-form bold-labels">

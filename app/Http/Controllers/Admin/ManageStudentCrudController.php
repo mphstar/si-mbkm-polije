@@ -87,7 +87,7 @@ class ManageStudentCrudController extends CrudController
     {
         $crud = $this->crud;
         $datakap = backpack_auth()->user();
-        
+
         // $datakap = backpack_auth()->user()->with('lecturer')->whereHas('lecturer', function ($query) {
         //     return $query->where('users_id', backpack_auth()->user()->id);
         // })->first();
@@ -101,42 +101,40 @@ class ManageStudentCrudController extends CrudController
         })->where('status', 'done')->where('program_name', null)->get();
 
         return view('vendor/backpack/crud/riwayatmhs_mbkminternal', compact('datamhs', 'crud'));
-    
     }
     public function riwayatmhs_mbkmeksternal()
     {
         $crud = $this->crud;
         $datakap = backpack_auth()->user();
-    
+
         $datamhs = RegisterMbkm::with(['lecturer', 'mbkm', 'student'])->whereHas('student', function ($query) use ($datakap) {
             return $query->where('program_studi', $datakap->lecturer->program_studi);
         })->where('status', 'done')->where('mbkm_id', null)->get();
 
-     
+
         return view('vendor/backpack/crud/riwayatmhs_mbkbmeksternal', compact('datamhs', 'crud'));
-    
     }
-    public function dospemriwayatmhs_mbkminternal(){
+    public function dospemriwayatmhs_mbkminternal()
+    {
         $crud = $this->crud;
         $datakap = backpack_auth()->user();
-        
+
         $datakap = backpack_auth()->user()->with('lecturer')->whereHas('lecturer', function ($query) {
             return $query->where('users_id', backpack_auth()->user()->id);
         })->first();
-    
-            $datamhs = RegisterMbkm::with(['lecturer', 'mbkm', 'student'])->where('status', 'done')->where('program_name', null)->where('pembimbing',$datakap->lecturer->id)->get();
-            return view('vendor/backpack/crud/riwayatmhs_mbkminternal', compact('datamhs', 'crud'));
-   
+
+        $datamhs = RegisterMbkm::with(['lecturer', 'mbkm', 'student'])->where('status', 'done')->where('program_name', null)->where('pembimbing', $datakap->lecturer->id)->get();
+        return view('vendor/backpack/crud/riwayatmhs_mbkminternal', compact('datamhs', 'crud'));
     }
-public function dospemriwayatmhs_mbkmeksternal(){
-    $crud = $this->crud;
-    $datakap = backpack_auth()->user();
- 
-        $datamhs = RegisterMbkm::with(['lecturer', 'mbkm', 'student'])->where('status', 'done')->where('mbkm_id', null)->where('pembimbing',$datakap->lecturer->id)->get();
+    public function dospemriwayatmhs_mbkmeksternal()
+    {
+        $crud = $this->crud;
+        $datakap = backpack_auth()->user();
+
+        $datamhs = RegisterMbkm::with(['lecturer', 'mbkm', 'student'])->where('status', 'done')->where('mbkm_id', null)->where('pembimbing', $datakap->lecturer->id)->get();
 
         return view('vendor/backpack/crud/riwayatmhs_mbkbmeksternal', compact('datamhs', 'crud'));
-    
-}
+    }
     /**
      * Define what happens when the Create operation is loaded.
      *
@@ -184,6 +182,7 @@ public function dospemriwayatmhs_mbkmeksternal(){
         $semester = $data->mbkm_id == null ? $data->semester : $data->mbkm->semester;
         $ganjilGenap = $semester % 2 == 0 ? 'Genap' : 'Ganjil';
 
+        
         $tahun_kelas = 1;
         if ($semester == 1 || $semester == 2) {
             $tahun_kelas = 1;
@@ -193,23 +192,28 @@ public function dospemriwayatmhs_mbkmeksternal(){
             $tahun_kelas = 3;
         } else if ($semester == 7 || $semester == 8) {
             $tahun_kelas = 4;
-        } 
+        }
 
         $jenjang = "D4";
-        if($A == "4"){
+        if ($A == "4") {
             $jenjang = "D4";
         } else {
             $jenjang = "D3";
         }
 
         
-
+        
         $querycourse = $api->getMatkul($request, "20{$B}", $ganjilGenap, $data->students->program_studi, $tahun_kelas, $jenjang);
+        
+        // dd($querycourse);
+        $course = [];
+        if($querycourse){
+            $filteredCourse = array_unique(array_column($querycourse, 'kode_mata_kuliah'));
+            $resultCourse = array_values(array_intersect_key($querycourse, array_flip(array_keys($filteredCourse))));
+            
+            $course = $resultCourse;
+        }
 
-        $filteredCourse = array_unique(array_column($querycourse, 'kode_mata_kuliah'));
-        $resultCourse = array_values(array_intersect_key($querycourse, array_flip(array_keys($filteredCourse))));
-
-        $course = $resultCourse;
 
         // return $course;
 
@@ -242,6 +246,9 @@ public function dospemriwayatmhs_mbkmeksternal(){
 
     protected function editMatkul(Request $request, $id)
     {
+        Nilaimbkm::where('id', $id)->update([
+            "pembimbing" => $request->dosen
+        ]);
 
         InvolvedCourse::where('reg_mbkm_id', $id)->delete();
         if ($request->ids) {

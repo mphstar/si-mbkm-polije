@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Nilaimbkm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Prologue\Alerts\Facades\Alert;
 
 class NilaiController extends Controller
 {
@@ -38,5 +40,33 @@ class NilaiController extends Controller
             "jurusan" => $resJurusan,
             "prodi" => $resProdi,
         ]);
+    }
+
+    public function unduhtemplate($nama)
+    {
+        // dd($nama);
+        // Cari data template berdasarkan nama file
+        $DataTemplate = DB::table('template')
+            ->where('nama', $nama)
+            ->first();
+        // dd($DataTemplate);
+        if ($DataTemplate) {
+            try {
+                //code...
+                $filePath = 'uploads/' . $DataTemplate->file;
+
+                // Mendapatkan nama asli file
+                $originalName = pathinfo($DataTemplate->file, PATHINFO_FILENAME);
+
+                // Membangun response untuk mengirimkan file ke pengguna
+                return response()->download(storage_path("app/{$filePath}"), "{$originalName}.pdf");
+            } catch (\Throwable $th) {
+                Alert::error('Gagal download', 'Gagal')->flash();
+                return back();
+            }
+        } else {
+            // Handle case when template data is not found
+            return response('File not found', 404);
+        }
     }
 }

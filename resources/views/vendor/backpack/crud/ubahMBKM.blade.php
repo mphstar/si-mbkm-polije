@@ -45,7 +45,7 @@
 
                         </div>
                         <div class="form-group">
-                            <label>Untuk Semester </label>
+                            <label>Semester </label>
                             <select name="semester" class="form-control">
                                 <option value="{{ $data->semester }}">{{ $data->semester }}</option>
                                 <option value="3">3</option>
@@ -111,7 +111,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>jenis mbkm</label>
+                            <label>Jenis MBKM</label>
 
                             <select class="form-control" name="id_jenis">
                                 @foreach ($jenis_mbkm as $key)

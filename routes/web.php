@@ -42,6 +42,8 @@ Route::redirect('/home', '/admin/dashboard');
 
 Route::get('/cetak_nilai/{id}', 'NilaiController@cetak');
 
+Route::get('unduhtemplate/{nama}', 'NilaiController@unduhtemplate')->name('unduhtemplate');
+
 // Route::get('/auth', 'AuthController@redirectToGoogle')->name('google.login');
 // Route::get('/auth/callback', 'AuthController@handleGoogleCallback');
 

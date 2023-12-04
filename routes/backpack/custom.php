@@ -1,6 +1,7 @@
 
 <?php
 
+use App\Http\Controllers\NilaiController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DosenKaprodiMiddleware;
 use App\Http\Middleware\DosenMiddleware;
@@ -55,7 +56,6 @@ Route::group([
         Route::crud('penilaian-mitra', 'PenilaianMitraCrudController');
         Route::get('penilaian-mitra/{id}/updating', 'PenilaianMitraCrudController@updating')->name("grader_partner");
         Route::post('penilaian-mitra/{id}/penilaian ', 'PenilaianMitraCrudController@penilaian');
-        Route::get('penilaian-mitra/unduhtemplate/{nama}', 'PenilaianMitraCrudController@unduhtemplate')->name('penilaian-mitra.unduhtemplate');
         Route::get('datamitra', 'PartnerCrudController@biodata');
         Route::post('ubahbiodata', 'PartnerCrudController@ubahbiodata');
     });
@@ -87,6 +87,7 @@ Route::group([
         Route::crud('mbkm-external', 'MbkmExternalCrudController');
         Route::get('/mbkm-external/{id}/detail', 'MbkmExternalCrudController@detail');
         Route::post('/mbkm-external/{id}/upload-laporan-ttd', 'MbkmExternalCrudController@upload_laporan_ttd');
+        Route::crud('datambkm', 'DatambkmCrudController');
     });
 
     Route::middleware([DosenMiddleware::class])->group(function () {
@@ -122,10 +123,12 @@ Route::group([
 
         Route::crud('pengajuan-e-x-t-r', 'PengajuanEXTRCrudController');
         Route::crud('pengajuan-e-x-t-r-sub', 'PengajuanEXTRSubCrudController');
+        
     });
 
     Route::get('/download/{name}', 'DownloadController@download');
 
     // Route::crud('user', 'UserCrudController');
 
+    
 }); // this should be the absolute last line of this file

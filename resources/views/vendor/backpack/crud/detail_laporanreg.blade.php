@@ -52,6 +52,7 @@
                                     <th class="text-center">Status</th>
                                     <th class="text-center">File</th>
                                     <th class="text-center">Keteragan dari mitra</th>
+                                    <th class="text-center">Aksi</th>
 
                                 </tr>
                             </thead>
