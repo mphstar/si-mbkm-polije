@@ -62,7 +62,8 @@
                     id="reject" class="btn btn-danger" type="button">Tolak</button>
                 <button {{ $data->status == 'done' ? 'disabled' : '' }} onclick="terima({{ $data }})"
                     class="btn btn-success" id="acc" type="button">Terima</button>
-                <a href="/cetak_nilai/{{ $data->id }}" target="_blank"><button id="btnPrint" class="btn btn-secondary" type="button">Print</button></a>
+                <a href="#"><button id="btnPrint" class="btn btn-secondary" type="button">Print</button></a>
+                {{-- <a href="/cetak_nilai/{{ $data->id }}" target="_blank"><button id="btnPrint" class="btn btn-secondary" type="button">Print</button></a> --}}
 
             </div>
         </div>
