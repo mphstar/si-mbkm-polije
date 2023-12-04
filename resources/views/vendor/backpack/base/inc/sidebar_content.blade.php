@@ -92,6 +92,7 @@
 
         </ul>
     </li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('datambkm') }}'><i class='nav-icon la la-question'></i> Data MBKM</a></li>
 @endif
 @if ($level == 'dospem')
     <li class="nav-title">Dosen</li>
@@ -138,3 +139,4 @@
         </ul>
     </li>
 @endif
+
