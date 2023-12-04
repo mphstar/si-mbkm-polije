@@ -21,21 +21,37 @@ class DbSeeder extends Seeder
     {
         // Create student
         $userStudent = User::create([
-            "name" => "Bintang",
-            "email" => "student@gmail.com",
+            "name" => "Bintang Malindo Eka Putra",
+            "email" => "e41210618@student.polije.ac.id",
             "password" => bcrypt("12345678"),
             "level" => "student"
         ]);
 
         $userStudent->student()->create([
-            "name" => "Bintang",
+            "name" => "Bintang Malindo Eka Putra",
             "address" => "Jln Letjend Panjaitan Gg 10 No 50",
             "phone" => "0895393933040",
             "nim" => "e41210618",
             "jurusan" => "897fc4d4-1073-11ec-96e8-fefcfe8d8c7c",
             "program_studi" => "436b1b62-1130-11ec-b446-fefcfe8d8c7c",
             "semester" => 5,
+        ]);
 
+        $userStudent1 = User::create([
+            "name" => "Muhammad Syahroni",
+            "email" => "e41220142@student.polije.ac.id",
+            "password" => bcrypt("12345678"),
+            "level" => "student"
+        ]);
+
+        $userStudent1->student()->create([
+            "name" => "Muhammad Syahroni",
+            "address" => "Jln Mastrip",
+            "phone" => "0895393933040",
+            "nim" => "e41220142",
+            "jurusan" => "897fc4d4-1073-11ec-96e8-fefcfe8d8c7c",
+            "program_studi" => "436b1b62-1130-11ec-b446-fefcfe8d8c7c",
+            "semester" => 3,
         ]);
 
         // Create Admin
@@ -113,6 +129,14 @@ class DbSeeder extends Seeder
         ]);
         JenisMbkm::create([
             'jenismbkm' => "Matching Fund",
+            'kategori_jenis' => "internal"
+        ]);
+        JenisMbkm::create([
+            'jenismbkm' => "Penelitian",
+            'kategori_jenis' => "internal"
+        ]);
+        JenisMbkm::create([
+            'jenismbkm' => "Pengabdian",
             'kategori_jenis' => "internal"
         ]);
         JenisMbkm::create([

@@ -31,8 +31,7 @@
         <div class="{{ $crud->getCreateContentClass() }}">
             <!-- Default box -->
 
-            @include('crud::inc.grouped_errors')
-            <form action="{{ 'editDosen' }}" method="post">
+            <form id="formNilai" action="{{ 'editMatkul' }}" method="post">
                 {!! csrf_field() !!}
                 <div class="card">
                     <div class="card-header"><strong>Dosen Pembimbing</strong></div>
@@ -49,16 +48,6 @@
                             </select>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-dot-circle-o"></i>
-                            Simpan</button>
-                        {{-- <button class="btn btn-sm btn-danger" type="reset"><i class="fa fa-ban"></i> Reset</button> --}}
-                    </div>
-                </div>
-            </form>
-            <form id="formNilai" action="{{ 'editMatkul' }}" method="post">
-                {!! csrf_field() !!}
-                <div class="card">
                     <div class="card-header"><strong>Mata Kuliah</strong>
                         <p class="text-danger">Butuh minimal
                             <strong>{{ $data->mbkm_id == null ? 20 : $data->mbkm->jumlah_sks }}</strong> SKS
@@ -158,7 +147,7 @@
 
         const checkAll = (e) => {
             if (e.checked) {
-                
+
                 checkb.forEach(element => {
                     element.click()
                 });

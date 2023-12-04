@@ -52,13 +52,19 @@
                                             @if ($item->grade == '')
                                                 -
                                             @else
-                                                @if ($item->grade >= 0 && $item->grade < 60)
+                                                @if ($item->grade >= 0 && $item->grade < 46)
+                                                    E
+                                                @elseif($item->grade >= 46 && $item->grade < 56)
+                                                    D
+                                                @elseif($item->grade >= 56 && $item->grade < 66)
+                                                    C
+                                                @elseif($item->grade >= 66 && $item->grade < 71)
                                                     BC
-                                                @elseif($item->grade >= 60 && $item->grade < 75)
+                                                @elseif($item->grade >= 71 && $item->grade < 76)
                                                     B
-                                                @elseif($item->grade >= 75 && $item->grade < 87)
+                                                @elseif($item->grade >= 76 && $item->grade < 81)
                                                     AB
-                                                @elseif($item->grade >= 87 && $item->grade <= 100)
+                                                @elseif($item->grade >= 81 && $item->grade <= 100)
                                                     A
                                                 @else
                                                     Tidak Diketahui
@@ -85,13 +91,19 @@
             if (e.value == '') {
                 nilai = '-'
             } else {
-                if (e.value >= 0 && e.value < 60) {
+                if (e.value >= 0 && e.value < 46) {
+                    nilai = 'E'
+                } else if (e.value >= 46 && e.value < 56) {
+                    nilai = 'D'
+                } else if (e.value >= 56 && e.value < 66) {
+                    nilai = 'C'
+                } else if (e.value >= 66 && e.value < 71) {
                     nilai = 'BC'
-                } else if (e.value >= 60 && e.value < 75) {
+                } else if (e.value >= 71 && e.value < 76) {
                     nilai = 'B'
-                } else if (e.value >= 75 && e.value < 87) {
+                } else if (e.value >= 76 && e.value < 81) {
                     nilai = 'AB'
-                } else if (e.value >= 87 && e.value <= 100) {
+                } else if (e.value >= 81 && e.value <= 100) {
                     nilai = 'A'
                 } else {
                     nilai = 'Tidak Diketahui'

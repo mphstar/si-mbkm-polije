@@ -105,7 +105,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label >jenis mbkm</label>
+                            <label >Jenis MBKM</label>
                              
                             <select class="form-control" name="id_jenis">
                                 @foreach($jenis_mbkm as $key)

@@ -33,7 +33,7 @@ class AccNilaiCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Nilaimbkm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/acc-nilai');
-        CRUD::setEntityNameStrings('acc nilai', 'acc nilais');
+        CRUD::setEntityNameStrings('Konfirmasi Nilai', 'Konfirmasi Nilai');
     }
 
     /**

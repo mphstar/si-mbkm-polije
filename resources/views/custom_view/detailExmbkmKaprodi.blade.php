@@ -94,7 +94,7 @@
                                     {{-- <td>{{ $item->jumlah_sks }}</td> --}}
                                     <td>
                                         @if ($item->file_diterima)
-                                            <a href="/uploads/{{ $item->file_diterima }}"><button
+                                            <a href="/{{ $item->file_diterima }}"><button
                                                     class="btn btn-block btn-sm btn-link text-left px-0 active">Download
                                                     disini</button></a>
                                         @else
@@ -104,7 +104,7 @@
                                     <td>
                                         @if ($item->status == 'pengajuan')
                                             <span class="badge badge-warning">
-                                                Pending
+                                                Menunggu
                                             </span>
                                         @elseif($item->status == 'diterima')
                                             <span class="badge badge-success">
@@ -112,7 +112,7 @@
                                             </span>
                                         @elseif($item->status == 'diambil')
                                             <span class="badge badge-primary">
-                                                Diterima
+                                                Diambil
                                             </span>
                                         @endif
                                     </td>

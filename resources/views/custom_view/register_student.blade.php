@@ -12,7 +12,7 @@
 </style>
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-4">
+        <div class="col-12 col-md-8 col-lg-12">
             <div class="responsive-feature-img text-center">
                 <img src="{{ asset('assets/img/sissmbkm.png') }}" alt="responsive devices" class="custom-image-size">
             </div>
@@ -61,6 +61,20 @@
                                 @if ($errors->has('nim'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('nim') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="semester">Semester</label>
+
+                            <div>
+                                <input type="text" class="form-control{{ $errors->has('semester') ? ' is-invalid' : '' }}"
+                                    name="semester" id="semester" value="{{ old('semester') }}">
+
+                                @if ($errors->has('semester'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('semester') }}</strong>
                                     </span>
                                 @endif
                             </div>

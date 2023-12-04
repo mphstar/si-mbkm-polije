@@ -33,6 +33,7 @@ class RegisterController extends Controller
             'name' => 'required',
             'phone' => 'required',
             'nim' => 'required',
+            'semester' => 'required',
             'jurusan' => 'required',
             'program_studi' => 'required',
             'address' => 'required',
@@ -59,6 +60,7 @@ class RegisterController extends Controller
                 'address' => $request->address,
                 'phone' => $request->phone,
                 'nim' => $request->nim,
+                'semester' => $request->semester,
                 'program_studi' => $request->program_studi,
                 'jurusan' => $request->jurusan,
                 'users_id' => $user->id

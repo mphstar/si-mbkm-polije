@@ -26,7 +26,7 @@ class DatambkmCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\ManagementMBKM::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/datambkm');
-        CRUD::setEntityNameStrings('datambkm', 'datambkms');
+        CRUD::setEntityNameStrings('Data MBKM', 'Data MBKM');
     }
 
     /**
