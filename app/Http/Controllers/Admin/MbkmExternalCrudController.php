@@ -39,7 +39,7 @@ class MbkmExternalCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\MbkmExternal::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/mbkm-external');
-        CRUD::setEntityNameStrings('mbkm external', 'mbkm externals');
+        CRUD::setEntityNameStrings('MBKM Luar Kampus', 'MBKM Luar Kampus');
     }
 
     /**

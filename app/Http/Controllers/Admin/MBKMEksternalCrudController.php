@@ -52,9 +52,9 @@ class MBKMEksternalCrudController extends CrudController
         $today = Carbon::now()->toDateString();
         $siswa = Students::where('users_id', $id)->value('id');
         $data_sis = Students::where('users_id', $id)->first();
-        $jenjang=substr($data_sis->nim,1,1);// mengambil jenjang
- 
-  
+        $jenjang = substr($data_sis->nim, 1, 1); // mengambil jenjang
+
+
         $crud = $this->crud;
         $jenis_mbkm = JenisMbkm::where('kategori_jenis', '=', 'external')->get();
 
@@ -70,23 +70,22 @@ class MBKMEksternalCrudController extends CrudController
         if ($jenjang == 4) {
             if ($data_sis->semester < 5) {
                 session()->flash('semester', 'error');
-    Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal')->flash();
-    return back();
-            }else{
+                Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal')->flash();
+                return back();
+            } else {
                 return view('vendor/backpack/crud/mbkbmeksternal', compact('crud', 'siswa', 'id', 'extenal_sementara', 'jenis_mbkm'));
             }
-        }else{
+        } else {
             if ($data_sis->semester < 3) {
                 session()->flash('semester', 'error');
                 Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal')->flash();
                 return back();
-            }else{
+            } else {
                 return view('vendor/backpack/crud/mbkbmeksternal', compact('crud', 'siswa', 'id', 'extenal_sementara', 'jenis_mbkm'));
             }
         }
-        
     }
- 
+
     public function regexternal()
     {
 
@@ -94,17 +93,17 @@ class MBKMEksternalCrudController extends CrudController
         $id = backpack_auth()->user()->id;
         $today = Carbon::now()->toDateString();
         $siswa = Students::where('users_id', $id)->first();
-        $cekdireg_acp=RegisterMbkm::where('student_id',$siswa->id)->whereIn('status',['accepted','pending'])->get();//mengecek select di reg mbkm apakah user sudah terdaftar dan statsunya masih acepetd
+        $cekdireg_acp = RegisterMbkm::where('student_id', $siswa->id)->whereIn('status', ['accepted', 'pending'])->get(); //mengecek select di reg mbkm apakah user sudah terdaftar dan statsunya masih acepetd
         $pengajuan = PengajuanEXTR::with(['detail_sementara', 'student'])->whereHas('detail_sementara', function ($query) {
             return $query->where('status', '=', 'diambil');
-        })->where('student_id', $siswa->id)->where('semester',$siswa->semester+1)->get();
-    
-        if (count($pengajuan)!=0) {
+        })->where('student_id', $siswa->id)->where('semester', $siswa->semester + 1)->get();
+
+        if (count($pengajuan) != 0) {
             $messages = "Maaf Anda pernah daftar  Pada Salah satu Program MBKM sebelumnya,silahkan daftar lagi semester berikutnya";
-       
+
             Alert::error($messages)->flash();
             return redirect(backpack_url('m-b-k-m-eksternal'));
-        }else{
+        } else {
             $crud = $this->crud;
             $jenis_mbkm = JenisMbkm::where('kategori_jenis', '=', 'external')->get();
             $partner = Partner::where('jenis_mitra', '=', 'luar kampus')->get();
@@ -114,7 +113,7 @@ class MBKMEksternalCrudController extends CrudController
     }
     public function storeData(Request $request)
     {
-        
+
         // $cek=RegisterMbkm::where('student_id',$request->student_id)->whereIn("status",['accepted','pending'])->first();
         // if ($cek) {
         //     $messages ="Anda masih proses daftar atau sudah terdaftar dalam mbkm";
@@ -136,10 +135,10 @@ class MBKMEksternalCrudController extends CrudController
             Alert::warning($messages[0])->flash();
             return back()->withInput();
         }
-$semester_dep=backpack_auth()->user()->student->semester + 1;
+        $semester_dep = backpack_auth()->user()->student->semester + 1;
         $input = [
             "student_id" => $request->input("student_id"),
-            "semester" =>$semester_dep ,
+            "semester" => $semester_dep,
             "id_jenis" => $request->input("id_jenis"),
             'file_surat' => $request->file('file_surat')->getClientOriginalName()
         ];
@@ -172,57 +171,58 @@ $semester_dep=backpack_auth()->user()->student->semester + 1;
     }
 
 
-    public function ambileks (Request $request) {
-        
-        if (($request->status == "diterima")||($request->status == "ditolak")) {
-            
-        $status = [
-            "status" => $request->input("status")];
-            PengajuanEXTRSub::where('id',$request->input('id'))->update($status); 
+    public function ambileks(Request $request)
+    {
+
+        if (($request->status == "diterima") || ($request->status == "ditolak")) {
+
+            $status = [
+                "status" => $request->input("status")
+            ];
+            PengajuanEXTRSub::where('id', $request->input('id'))->update($status);
             Alert::success('Berhasil Mengubah Status!')->flash();
             return back()->withInput();
-        }else{
+        } else {
 
-        $validator = Validator::make($request->all(), [
-     
-            'file_diterima' => 'required|file|mimes:pdf|max:10000',
-            'status'=>'required'
-          
-        ]);
-        if ($validator->fails()) {
-            $messages = $validator->errors()->all();
-            Alert::warning($messages[0])->flash();
-            return back()->withInput();
+            $validator = Validator::make($request->all(), [
+
+                'file_diterima' => 'required|file|mimes:pdf|max:10000',
+                'status' => 'required'
+
+            ]);
+            if ($validator->fails()) {
+                $messages = $validator->errors()->all();
+                Alert::warning($messages[0])->flash();
+                return back()->withInput();
+            }
+
+            $detail = [
+                "status" => $request->input("status"),
+
+                'file_diterima' => $request->file('file_diterima')->getClientOriginalName()
+            ];
+            $fileName = time() . '.' . $request->file('file_diterima')->getClientOriginalExtension();
+            $request->file('file_diterima')->move(public_path('storage/uploads'), $fileName);
+            $detail['file_diterima'] = "storage/uploads/$fileName";
+
+            $up_bukti = PengajuanEXTRSub::where('id', $request->input('id'))->update($detail);
+            $semster_depan = backpack_auth()->user()->student->semester + 1;
+            $reg_mbkmeks = [
+                "program_name" => $request->input('nama_program'),
+                "id_jenis" => $request->input('id_jenis'),
+                "partner_id" => $request->input('partner_id'),
+                "student_id" => $request->input('student_id'),
+                "status" => "accepted",
+                "semester" => $semster_depan
+            ];
+
+
+
+            RegisterMbkm::create($reg_mbkmeks);
+            Alert::success('Berhasil mengambil program!')->flash();
+
+            return redirect(backpack_url('m-b-k-m-eksternal'));
         }
-
-        $detail = [
-            "status" => $request->input("status"),
-         
-            'file_diterima' => $request->file('file_diterima')->getClientOriginalName()
-        ];
-        $fileName = time() . '.' . $request->file('file_diterima')->getClientOriginalExtension();
-        $request->file('file_diterima')->move(public_path('storage/uploads'), $fileName);
-        $detail['file_diterima'] = "storage/uploads/$fileName";
-
-        $up_bukti=PengajuanEXTRSub::where('id',$request->input('id'))->update($detail);
-        $semster_depan=backpack_auth()->user()->student->semester + 1;
-        $reg_mbkmeks=[
-            "program_name"=>$request->input('nama_program'),
-            "id_jenis"=>$request->input('id_jenis'),
-            "partner_id"=>$request->input('partner_id'),
-            "student_id"=>$request->input('student_id'),
-            "status"=>"accepted",
-            "semester"=> $semster_depan
-        ];
-
-
-        
-        RegisterMbkm::create($reg_mbkmeks);
-        Alert::success('Berhasil mengambil program!')->flash();
- 
-        return redirect(backpack_url('m-b-k-m-eksternal'));
-    }
-
     }
     /**
      * Define what happens when the List operation is loaded.

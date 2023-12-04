@@ -25,116 +25,115 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-     <h2>Data MBKM luar yang anda ajukan</h2><br>
-     <h5>untuk mendaftar MBKM anda cukup tekan tombol <strong>DAFTAR PROGRAM</strong></h5>
-          {{-- <button  type="button" class="btn btn-primary mr-2 mb-5" data-toggle="modal"
+            <h2>Data MBKM luar yang anda ajukan</h2><br>
+            <h5>untuk mendaftar MBKM anda cukup tekan tombol <strong>DAFTAR PROGRAM</strong></h5>
+            {{-- <button  type="button" class="btn btn-primary mr-2 mb-5" data-toggle="modal"
           data-target="#daftarexternal">Daftar PROGRAM </button> --}}
-          <div class="col-md-2 mb-3 mt-3">
-          <a href="{{ backpack_url('daftarmbkmexternal') }}" class="btn btn-sm btn-block btn-outline-primary">DAFTAR PROGRAM</a>
-          </div>
-          
-          <div class="search-container mr">
-            <input type="text" id="searchInput" placeholder="Cari...">
-        </div>
+            <div class="col-md-2 mb-3 mt-3">
+                <a href="{{ backpack_url('daftarmbkmexternal') }}" class="btn btn-sm btn-block btn-outline-primary">DAFTAR
+                    PROGRAM</a>
+            </div>
+
+            {{-- <div class="search-container mr">
+                <input type="text" id="searchInput" placeholder="Cari...">
+            </div> --}}
             <div class="card">
-         
+
                 <div class="card-body">
 
-                
 
-                  <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th class="text-center">#</th>
-                                <th class="text-center">Jenis Program</th>
-                                <th class="text-center">Kategori</th>
-                                <th class="text-center">Semester</th>
-                                <th class="text-center">Detail Program</th>
-                                <th class="text-center">Download File TTD kaprodi</th>
-                              {{-- <th class="text-center">Upload Bukti Terima</th> --}}
 
-                             
-               
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">Jenis Program</th>
+                                    <th class="text-center">Kategori</th>
+                                    <th class="text-center">Semester</th>
+                                    <th class="text-center">Detail Program</th>
+                                    <th class="text-center">Download File TTD kaprodi</th>
+                                    {{-- <th class="text-center">Upload Bukti Terima</th> --}}
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                          @php
-                          $index = 1;
-                      @endphp
-                          @foreach ($extenal_sementara as $item)
-                              
-                        
-                          <tr>
-                            <td class="text-center">{{ $index }}</th>
-                              <td class="text-center">{{ $item->jenismbkm->jenismbkm }}</th>
-                                
-                                <td class="text-center">{{ $item->jenismbkm->kategori_jenis == 'external' ? 'Luar' : 'Dalam' }}</td>
-                                <td class="text-center">{{ $item->semester }}</td>
-                                <td class="text-center"><a href="{{ backpack_url('detailpengajuan/'.$item->id) }}" class="btn btn-sm btn-primary">Detail Program</a></td>
-                              @if ($item->file_surat_ttd === null)
-                              <td class="text-center">-</td> 
-                              @else
-                              <td class="text-center"><a href="/{{ $item->file_surat_ttd }}" class="btn btn-sm btn-primary"><i
-                                class="nav-icon la la-download"></i></a></td>   
-                              @endif
-                            
-                               
-                                {{-- <td class="text-center">
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $index = 1;
+                                @endphp
+                                @foreach ($extenal_sementara as $item)
+                                    <tr>
+                                        <td class="text-center">{{ $index }}</th>
+                                        <td class="text-center">{{ $item->jenismbkm->jenismbkm }}</th>
+
+                                        <td class="text-center">
+                                            {{ $item->jenismbkm->kategori_jenis == 'external' ? 'Luar' : 'Dalam' }}</td>
+                                        <td class="text-center">{{ $item->semester }}</td>
+                                        <td class="text-center"><a href="{{ backpack_url('detailpengajuan/' . $item->id) }}"
+                                                class="btn btn-sm btn-primary">Detail Program</a></td>
+                                        @if ($item->file_surat_ttd === null)
+                                            <td class="text-center">-</td>
+                                        @else
+                                            <td class="text-center"><a href="/{{ $item->file_surat_ttd }}"
+                                                    class="btn btn-sm btn-primary"><i
+                                                        class="nav-icon la la-download"></i></a></td>
+                                        @endif
+
+
+                                        {{-- <td class="text-center">
                            
                                   <button  type="button" class="btn btn-primary mr-2 mb-5" data-toggle="modal"
                                   data-target="#uploadsk">Daftar PROGRAM </button></td> --}}
-                          </tr>
-                          @php
-                          $index++;
-                      @endphp
-                          @endforeach
-                         </tbody>
-                    </table>
-                    
+                                    </tr>
+                                    @php
+                                        $index++;
+                                    @endphp
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
-         </div>
             </div>
         </div>
-        
+
     </div>
-   
+
     <div class="modal fade" id="uploadsk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Upload Pengajuan</h5>
-              <form action="{{ 'tambahData' }}" method="post" enctype="multipart/form-data">
-                @csrf
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                <div class="col-md-6 form-group">
-                    <label class="required">File Penilaian</label>
-                    <input required class="form-control" type="file" name="file_surat" accept=".pdf">
-                    <div class="text-danger">*Jenis file yang diizinkan: .pdf.</div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Upload Pengajuan</h5>
+                    <form action="{{ 'tambahData' }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                 </div>
-                <input type="hidden" name="student_id" value="{{ $siswa }}">
+                <div class="modal-body">
+                    <div class="col-md-6 form-group">
+                        <label class="required">File Penilaian</label>
+                        <input required class="form-control" type="file" name="file_surat" accept=".pdf">
+                        <div class="text-danger">*Jenis file yang diizinkan: .pdf.</div>
+                    </div>
+                    <input type="hidden" name="student_id" value="{{ $siswa }}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                </form>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
-        </form>
-          </div>
         </div>
-      </div>
-    @endsection
-    @section('after_scripts')
+    </div>
+@endsection
+@section('after_scripts')
     <script>
         $(document).on('show.bs.modal', '.modal', function() {
             $(this).appendTo('body');
         });
-
-
-   
     </script>
-    @endsection
+@endsection
