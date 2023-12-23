@@ -11,6 +11,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
+use Prologue\Alerts\Facades\Alert;
 
 class RegisterController extends Controller
 {
@@ -28,11 +29,18 @@ class RegisterController extends Controller
 
     public function registerStudent(Request $request)
     {
+        if (is_numeric($request->semester)) {
+            $semester = (int)$request->semester;
+        } else {
+            // Handle invalid input
+            Alert::error('Maaf terjadi kesalahan saat menambahkan data')->flash();
+            return back();
+        }
         // dd($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'phone' => 'required',
-            'nim' => 'required',
+            'nim' => 'required|unique:students,nim',
             'semester' => 'required',
             'jurusan' => 'required',
             'program_studi' => 'required',
@@ -52,25 +60,31 @@ class RegisterController extends Controller
             'password' => bcrypt($request->password),
             'level' => 'student'
         ]);
+   
+        try {
+            if ($user) {
 
-        if ($user) {
-
-            Student::create([
-                'name' => $request->name,
-                'address' => $request->address,
-                'phone' => $request->phone,
-                'nim' => $request->nim,
-                'semester' => $request->semester,
-                'program_studi' => $request->program_studi,
-                'jurusan' => $request->jurusan,
-                'users_id' => $user->id
-            ]);
-
-            // $this->guard()->login($user);
-            backpack_auth()->login($user);
-
-            return redirect('/admin');
+                Student::create([
+                    'name' => $request->name,
+                    'address' => $request->address,
+                    'phone' => $request->phone,
+                    'nim' => $request->nim,
+                    'program_studi' => $request->program_studi,
+                    'jurusan' => $request->jurusan,
+                    'semester' => $semester,
+                    'users_id' => $user->id
+                ]);
+    
+                // $this->guard()->login($user);
+                backpack_auth()->login($user);
+    
+                return redirect('/admin');
+            } 
+        } catch (\Throwable $th) {
+            Alert::error('Maaf terjadi kesalahan saat menambahkan data')->flash();
+            return back();
         }
+      
     }
     public function mitra()
     {
