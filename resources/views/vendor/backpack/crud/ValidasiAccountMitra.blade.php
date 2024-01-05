@@ -14,7 +14,7 @@
     <section class="container-fluid d-print-none">
         <a href="javascript: window.print();" class="btn float-right"><i class="la la-print"></i></a>
         <h2>
-            <span class="text-capitalize">Fitur accepted nilai</span>
+            <span class="text-capitalize">Fitur Validasi Akun Mitra</span>
             <br>
 
         </h2>
@@ -81,9 +81,9 @@
                                 <label for="newStatus">New Status</label>
                                 <select required class="form-control" id="newStatus" name="newStatus">
                                     <option value="">pilih status</option>
-                                    <option value="accepted">accepted</option>
-                                    <option value="rejected">rejected</option>
-                                    <option value="pending">pending</option>
+                                    <option value="accepted">Terima</option>
+                                    <option value="rejected">Tidak Diterima</option>
+                                    <option value="pending">Menunggu</option>
                                 </select>
                             </div>
                         </div>

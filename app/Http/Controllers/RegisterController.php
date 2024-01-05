@@ -9,6 +9,7 @@ use App\Student;
 use App\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use Prologue\Alerts\Facades\Alert;
@@ -29,13 +30,7 @@ class RegisterController extends Controller
 
     public function registerStudent(Request $request)
     {
-        if (is_numeric($request->semester)) {
-            $semester = (int)$request->semester;
-        } else {
-            // Handle invalid input
-            Alert::error('Maaf terjadi kesalahan saat menambahkan data')->flash();
-            return back();
-        }
+        
         // dd($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -53,17 +48,18 @@ class RegisterController extends Controller
 
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
+        try {
+           
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'level' => 'student'
         ]);
-   
-        try {
+  
+       
             if ($user) {
-
+            
                 Student::create([
                     'name' => $request->name,
                     'address' => $request->address,
@@ -71,9 +67,10 @@ class RegisterController extends Controller
                     'nim' => $request->nim,
                     'program_studi' => $request->program_studi,
                     'jurusan' => $request->jurusan,
-                    'semester' => $semester,
+                    'semester' => $request->semester,
                     'users_id' => $user->id
                 ]);
+                DB::commit();
     
                 // $this->guard()->login($user);
                 backpack_auth()->login($user);
@@ -81,6 +78,7 @@ class RegisterController extends Controller
                 return redirect('/admin');
             } 
         } catch (\Throwable $th) {
+     
             Alert::error('Maaf terjadi kesalahan saat menambahkan data')->flash();
             return back();
         }
@@ -96,7 +94,7 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'phone' => 'required',
-            'jenis' => 'required',
+            // 'jenis' => 'required',
             'address' => 'required',
             'email' => 'required|unique:users,email',
             'password' => 'required|min:6|confirmed',
@@ -113,7 +111,7 @@ class RegisterController extends Controller
             'password' => bcrypt($request->password),
             'level' => 'mitra'
         ]);
-
+$jenismtr="dalam kampus";
         if ($user) {
 
             Partner::create([
@@ -122,7 +120,7 @@ class RegisterController extends Controller
                 'phone' => $request->phone,
                 'users_id' => $user->id,
                 'status' => 'pending',
-                'jenis_mitra' => $request->jenis
+                'jenis_mitra' => $jenismtr
             ]);
 
             // $this->guard()->login($user);

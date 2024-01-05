@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ValidasiMbkmRequest;
+use App\Http\Requests\ListMBKMINTERNRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class ValidasiMbkmCrudController
+ * Class ListMBKMINTERNCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class ValidasiMbkmCrudController extends CrudController
+class ListMBKMINTERNCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,9 @@ class ValidasiMbkmCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\ValidasiMbkm::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/validasi-mbkm');
-        CRUD::setEntityNameStrings('Konfirmasi MBKM', 'Konfirmasi MBKM');
+        CRUD::setModel(\App\Models\ManagementMBKM::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/list-m-b-k-m-i-n-t-e-r-n');
+        CRUD::setEntityNameStrings('list mbkm', 'list mbkm');
     }
 
     /**
@@ -39,35 +39,36 @@ class ValidasiMbkmCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        
         $this->crud->setColumns([
             [
-                "name" => 'partner.partner_name',
-                "label" => 'Nama Mitra'
-            ], ["name" => 'program_name', "label" => "Nama Program"], [
-                "name" => 'start_date',
-                "label" => 'Tanggal Dimulai'
+                'name' => 'program_name',
+                'label' => 'Nama Program',
             ], [
-                "name" => 'end_date',
-                "label" => "Tanggal Berakhir"
+                'name' => 'start_date',
+                'label' => 'Tanggal Mulai',
             ], [
-                "name" => 'info',
-                "label" => "Keterangan"
+                'name' => 'end_date',
+                'label' => 'Tanggal Selesai',
+            ], [
+                'name' => 'capacity',
+                'label' => 'Kuota',
+            ], [
+
+                'name' => 'jenismbkm.jenismbkm',
+                'label' => 'Jenis MBKM',
             ], [
                 'name'  => 'status_acc',
-                'label' => 'Status Aktif', // Table column heading
+                'label' => 'Status Akun', // Table column heading
                 'type'  => 'model_function',
                 'function_name' => 'getStatusSpan'
-            ]
+            ], [
+                'name'  => 'is_active',
+                'label' => 'Status Aktif', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'getIsactiveSpan'
+            ],
         ]);
-        $this->crud->setColumnLabel('Partner.partner_name', 'NAMA MITRA');
-        CRUD::addClause('where', 'status_acc', '=', 'pending');
-        CRUD::addClause('where', 'is_active', '=', 'inactive');
-        $level = backpack_auth()->user()->level;
-if ($level == "kaprodi") {
-    CRUD::addClause('where', 'jurusan', '=', backpack_auth()->user()->lecturer->jurusan);
-}
-    
-
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -83,9 +84,9 @@ if ($level == "kaprodi") {
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(ValidasiMbkmRequest::class);
+        CRUD::setValidation(ListMBKMINTERNRequest::class);
 
-
+        
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -102,9 +103,7 @@ if ($level == "kaprodi") {
      */
     protected function setupUpdateOperation()
     {
-
-
-        $this->crud->addField([
+           $this->crud->addField([
             'name' => 'status_acc',
             'type' => 'select_from_array',
             'label' => 'Status Aktif',
@@ -138,7 +137,7 @@ if ($level == "kaprodi") {
         ]);
         $this->crud->addColumn([
             'name' => 'start_date',
-            'label' => 'Tanggal Mulai Program MBKM',
+            'label' => 'Tanggal Mulai program MBKM',
         ]);
         $this->crud->addColumn([
             'name' => 'end_date',
@@ -146,11 +145,11 @@ if ($level == "kaprodi") {
         ]);
         $this->crud->addColumn([
             'name' => 'start_reg',
-            'label' => 'Tanggal Awal Pendaftaran',
+            'label' => 'Tanggal awal pendaftaran',
         ]);
         $this->crud->addColumn([
             'name' => 'end_reg',
-            'label' => 'Tanggal Terakhir Pendaftaran',
+            'label' => 'Tanggal terakhir pendaftaran',
         ]);
         $this->crud->addColumn([
             'name' => 'info',
@@ -158,17 +157,50 @@ if ($level == "kaprodi") {
         ]);
         $this->crud->addColumn([
             'name' => 'semester',
-            'label' => 'Berlaku Bagi Semester'
+            'label' => 'Berlaku Bagi semester'
         ]);
         $this->crud->addColumn([
+            'name' => 'nama_penanggung_jawab',
+            'label' => 'Nama Penanggung Jawab'
+        ]);
+        $this->crud->addColumn([
+            'name' => 'jenismbkm.jenismbkm',
+            'label' => 'Jenis MBKM'
+        ]);
+        $this->crud->addColumn([
+            'name' => 'jenismbkm.jenismbkm',
+            'label' => 'Jenis MBKM'
+        ]);
+        $this->crud->addColumn([
+            'name' => 'jumlah_sks',
+            'label' => 'Jumlah SKS'
+        ]);
+        $this->crud->addColumn([
+            'name' => 'task_count',
+            'label' => 'Laporan harus dikerjakan'
+        ]);
+        // $this->crud->addColumn([
+        //     'name' => 'jurusan',
+        //     'label' => 'Jurusan'
+        // ]);
+
+        $this->crud->addColumn([
+            'name'  => 'jurusan',
+            'label' => 'Jurusan', // Table column heading
+            'type'  => 'model_function',
+            'function_name' => "getTextJurusan"
+        ]);
+
+
+        $this->crud->addColumn([
             'name'  => 'status_acc',
-            'label' => 'Status Akun', // Table column heading
+            'label' => 'Status ACC', // Table column heading
             'type'  => 'model_function',
             'function_name' => 'getStatusSpan'
         ]);
         $this->crud->addColumn([
             'name'  => 'is_active',
-            'label' => 'Status Aktif', // Table column heading
+            'label' => 'Status Active', // Table column heading
             'type'  => 'model_function',
             'function_name' => 'getIsactiveSpan'
         ]);

@@ -16,6 +16,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Prologue\Alerts\Facades\Alert;
 
 /**
@@ -71,7 +72,7 @@ class MBKMEksternalCrudController extends CrudController
             if ($data_sis->semester < 5) {
           
                 session()->flash('semester', 'error');
-                Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal')->flash();
+                Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal Minimal semester 5')->flash();
                 return back();
             } else {
                 return view('vendor/backpack/crud/mbkbmeksternal', compact('crud', 'siswa', 'id', 'extenal_sementara', 'jenis_mbkm'));
@@ -141,6 +142,7 @@ class MBKMEksternalCrudController extends CrudController
         }
         $semester_dep = backpack_auth()->user()->student->semester + 1;
         try {
+        
             $input = [
                 "student_id" => $request->input("student_id"),
                 "semester" => $semester_dep,
@@ -173,6 +175,7 @@ class MBKMEksternalCrudController extends CrudController
         return back()->withInput();
     }
 } catch (\Throwable $th) {
+ 
     Alert::error('terjadi kesalahan saat input data .')->flash();
     return back()->withInput(); 
 }
