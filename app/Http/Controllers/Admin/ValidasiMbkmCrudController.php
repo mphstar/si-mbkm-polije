@@ -62,8 +62,11 @@ class ValidasiMbkmCrudController extends CrudController
         $this->crud->setColumnLabel('Partner.partner_name', 'NAMA MITRA');
         CRUD::addClause('where', 'status_acc', '=', 'pending');
         CRUD::addClause('where', 'is_active', '=', 'inactive');
-
-        CRUD::addClause('where', 'jurusan', '=', backpack_auth()->user()->lecturer->jurusan);
+        $level = backpack_auth()->user()->level;
+if ($level == "kaprodi") {
+    CRUD::addClause('where', 'jurusan', '=', backpack_auth()->user()->lecturer->jurusan);
+}
+    
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

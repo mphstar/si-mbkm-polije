@@ -69,7 +69,7 @@
                             <label class="control-label" for="semester">Semester</label>
 
                             <div>
-                                <input type="text" class="form-control{{ $errors->has('semester') ? ' is-invalid' : '' }}"
+                                <input type="text" class="form-control"
                                     name="semester" id="semester" value="{{ old('semester') }}">
 
                                 @if ($errors->has('semester'))

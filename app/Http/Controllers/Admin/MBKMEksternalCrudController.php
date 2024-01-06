@@ -16,6 +16,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Prologue\Alerts\Facades\Alert;
 
 /**
@@ -69,14 +70,18 @@ class MBKMEksternalCrudController extends CrudController
         $crud = $this->crud;
         if ($jenjang == 4) {
             if ($data_sis->semester < 5) {
+          
                 session()->flash('semester', 'error');
-                Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal')->flash();
+                Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal Minimal semester 5')->flash();
                 return back();
             } else {
                 return view('vendor/backpack/crud/mbkbmeksternal', compact('crud', 'siswa', 'id', 'extenal_sementara', 'jenis_mbkm'));
             }
-        } else {
+        }elseif ($jenjang == 3) {
+  
+        
             if ($data_sis->semester < 3) {
+               
                 session()->flash('semester', 'error');
                 Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal')->flash();
                 return back();
@@ -136,35 +141,45 @@ class MBKMEksternalCrudController extends CrudController
             return back()->withInput();
         }
         $semester_dep = backpack_auth()->user()->student->semester + 1;
-        $input = [
-            "student_id" => $request->input("student_id"),
-            "semester" => $semester_dep,
-            "id_jenis" => $request->input("id_jenis"),
-            'file_surat' => $request->file('file_surat')->getClientOriginalName()
-        ];
-
-        $fileName = time() . '.' . $request->file('file_surat')->getClientOriginalExtension();
-        $request->file('file_surat')->move(public_path('storage/uploads'), $fileName);
-        $input['file_surat'] = "storage/uploads/$fileName";
-
-        $user = PengajuanEXTR::create($input);
+        try {
+        
+            $input = [
+                "student_id" => $request->input("student_id"),
+                "semester" => $semester_dep,
+                "id_jenis" => $request->input("id_jenis"),
+                'file_surat' => $request->file('file_surat')->getClientOriginalName()
+            ];
+    
+            $fileName = time() . '.' . $request->file('file_surat')->getClientOriginalExtension();
+            $request->file('file_surat')->move(public_path('storage/uploads'), $fileName);
+            $input['file_surat'] = "storage/uploads/$fileName";
+    
+            $user = PengajuanEXTR::create($input);
+     
+   
 
         $partner_ids = $request->input('partner_id');
         $nama_programs = $request->input('nama_program');
 
-        if (is_array($partner_ids) && is_array($nama_programs) && count($partner_ids) === count($nama_programs)) {
-            $count = count($partner_ids);
-            for ($i = 0; $i < $count; $i++) {
-                $detailData = new PengajuanEXTRSub();
-                $detailData->exmbkm_id = $user->id;
-                $detailData->nama_program = $nama_programs[$i];
-                $detailData->partner_id = $partner_ids[$i];
-                $detailData->save();
-            }
-        } else {
-            Alert::error('Data tidak valid.')->flash();
-            return back()->withInput();
+    if (is_array($partner_ids) && is_array($nama_programs) && count($partner_ids) === count($nama_programs)) {
+        $count = count($partner_ids);
+        for ($i = 0; $i < $count; $i++) {
+            $detailData = new PengajuanEXTRSub();
+            $detailData->exmbkm_id = $user->id;
+            $detailData->nama_program = $nama_programs[$i];
+            $detailData->partner_id = $partner_ids[$i];
+            $detailData->save();
         }
+    } else {
+        Alert::error('Data tidak valid.')->flash();
+        return back()->withInput();
+    }
+} catch (\Throwable $th) {
+ 
+    Alert::error('terjadi kesalahan saat input data .')->flash();
+    return back()->withInput(); 
+}
+       
 
         Alert::success('Berhasil daftar!')->flash();
         return redirect(backpack_url('m-b-k-m-eksternal'));

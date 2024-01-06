@@ -22,6 +22,7 @@ class Student extends Model
         'nim',
         'jurusan',
         'program_studi',
+        'semester',
         'users_id'
     ];
 

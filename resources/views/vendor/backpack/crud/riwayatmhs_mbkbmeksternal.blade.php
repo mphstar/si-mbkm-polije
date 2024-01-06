@@ -52,32 +52,9 @@
 
                         </tr>
                     </thead>
-                    <tbody>
-                        @php
-                            $index = 1;
-                        @endphp
-                        @foreach ($datamhs as $item)
+            
+                  
 
-
-                            <tr>
-                                <td class="text-center">{{ $index }}</th>
-                                <td class="text-center">{{ $item->student->name }}</td>
-                                <td class="text-center">{{ $item->student->nim }}</td>
-
-                                <td class="text-center">{{ $item->partner->partner_name }}</td>
-                                <td class="text-center">{{ $item->partner->address }}</td>
-
-                                <td class="text-center">{{ $item->program_name }}</td>
-                                <td class="text-center">{{ $item->jenismbkm->jenismbkm }}</td>
-
-
-                                {{-- <th class="text-center">Upload Bukti Terima</th> --}}
-
-
-
-
-                            </tr>
-                            </thead>
                     <tbody>
                         @php
                             $index = 1;
@@ -119,5 +96,4 @@
 
     </div>
 @endsection
-@section('after_scripts')
-@endsection
+

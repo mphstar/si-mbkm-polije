@@ -27,6 +27,20 @@
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i>
         {{ trans('backpack::base.dashboard') }}</a></li>
 @if ($level == 'admin')
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('acctive-account-mitra') }}'><i
+    class='nav-icon la la-user-check'></i>Konfirmasi Mitra</a></li>
+<li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i
+    class="nav-icon la la-lg la-book"></i>Konfirmasi MBKM</a>
+<ul class="nav-dropdown-items">
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi-mbkm') }}'><i
+            class='nav-icon la la-university'></i>Dalam Kampus</a></li>
+{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('validasi-mbkm-eksternal') }}'><i
+            class='nav-icon la la-question'></i>Eksternal</a></li> --}}
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('mbkm-external') }}'><i
+            class='nav-icon la la-city'></i>Luar Kampus</a></li>
+
+</ul>
+</li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('partner') }}'><i
                 class='nav-icon la la-handshake'></i>Mitra</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('lecturer') }}'><i
@@ -35,6 +49,7 @@
                 class='nav-icon la la-copy'></i>Jenis MBKM</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('template-nilai') }}'><i
                 class='nav-icon la la-file-alt'></i> Format File </a></li>
+                <li class='nav-item'><a class='nav-link' href='{{ backpack_url('list-m-b-k-m-i-n-t-e-r-n') }}'><i class='nav-icon la la-question'></i> List m b k m</a></li>
 @endif
 @if ($level == 'mitra')
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('datamitra') }}'><i class='nav-icon la la-user'></i>
@@ -92,6 +107,7 @@
 
         </ul>
     </li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('list-m-b-k-m-i-n-t-e-r-n') }}'><i class='nav-icon la la-question'></i> List m b k m</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('datambkm') }}'><i class='nav-icon la la-file-alt'></i> Data MBKM</a></li>
 @endif
 @if ($level == 'dospem')
@@ -139,4 +155,5 @@
         </ul>
     </li>
 @endif
+
 

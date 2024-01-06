@@ -20,9 +20,9 @@ class Students extends Model
     protected $table = 'students';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
-    protected $guarded = ['id'];
-    // protected $fillable = [];
-    // protected $hidden = [];
+    protected $guarded = [];
+    // protected $fillable = ['name','address','phone','nim','jurusan','program_studi','semester','users_id','created_at','updated_at'];
+    // protected $hidden = b[];
     // protected $dates = [];
     public function regs()
     {

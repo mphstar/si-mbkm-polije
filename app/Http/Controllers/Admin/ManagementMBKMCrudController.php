@@ -281,6 +281,10 @@ class ManagementMBKMCrudController extends CrudController
             'name' => 'jumlah_sks',
             'label' => 'Jumlah SKS'
         ]);
+        $this->crud->addColumn([
+            'name' => 'task_count',
+            'label' => 'Laporan harus dikerjakan'
+        ]);
         // $this->crud->addColumn([
         //     'name' => 'jurusan',
         //     'label' => 'Jurusan'

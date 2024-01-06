@@ -61,7 +61,13 @@
                                         <td class="text-center">{{ $pdftr->mbkm->program_name }}</td>
                                         <td class="text-center">{{ $pdftr->mbkm->jenismbkm->jenismbkm}}</td>
                                         <td class="text-center">{{ $pdftr->mbkm->nama_penanggung_jawab }}</td>
+                                      
+                                        @if ($pdftr->pembimbing == null)
+                                        <td class="text-center">-</td>
+                                        @else
                                         <td class="text-center">{{ $pdftr->lecturer->lecturer_name }}</td>
+                                        @endif
+                                     
                                         <td class="text-center">
 
 
