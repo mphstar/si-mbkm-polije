@@ -9,6 +9,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Class AcctiveAccountMitraCrudController
@@ -191,6 +192,7 @@ class AcctiveAccountMitraCrudController extends CrudController
         $email = $partner->user->email;
         $password = $partner->user->password;
         Mail::to($email)->send(new AccountAccepted($partner));
+        Alert::success('Berhasil Menyimpan')->flash();
         return redirect()->back();
     }
 }

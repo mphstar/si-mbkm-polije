@@ -2,6 +2,7 @@
 <?php
 
 use App\Http\Controllers\NilaiController;
+use App\Http\Middleware\AdminKaprodi;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DosenKaprodiMiddleware;
 use App\Http\Middleware\DosenMiddleware;
@@ -73,8 +74,7 @@ Route::group([
         Route::post('manage-student/{id}/editDosen', 'ManageStudentCrudController@editDosen');
         Route::post('manage-student/{id}/editMatkul', 'ManageStudentCrudController@editMatkul');
 
-        Route::get('/acctive-account-mitra', 'AcctiveAccountMitraCrudController@index');
-        Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
+
         Route::crud('acc-nilai', 'AccNilaiCrudController');
         Route::get('acc-nilai/{id}/tolak', 'AccNilaiCrudController@tolaknilai');
         Route::get('acc-nilai/{id}/terima', 'AccNilaiCrudController@terimanilai');
@@ -96,6 +96,11 @@ Route::group([
         Route::post('/nilaimbkm/{id}/prosesNilai', 'NilaimbkmCrudController@prosesNilai');
         Route::get('dospemriwayatmhs-mbkminternal', 'ManageStudentCrudController@dospemriwayatmhs_mbkminternal');
         Route::get('dospemriwayatmhs_mbkmeksternal', 'ManageStudentCrudController@dospemriwayatmhs_mbkmeksternal');
+    });
+    Route::middleware([AdminKaprodi::class])->group(function () {
+        Route::crud('validasi-mbkm', 'ValidasiMbkmCrudController');
+        Route::get('/acctive-account-mitra', 'AcctiveAccountMitraCrudController@index');
+        Route::post('/acctive-account-mitra/{id}/ubah-status', 'AcctiveAccountMitraCrudController@ubah_status')->name('ubah_status');
     });
 
     Route::middleware([DosenKaprodiMiddleware::class])->group(function () {
@@ -131,4 +136,5 @@ Route::group([
     // Route::crud('user', 'UserCrudController');
 
     
+    Route::crud('list-m-b-k-m-i-n-t-e-r-n', 'ListMBKMINTERNCrudController');
 }); // this should be the absolute last line of this file

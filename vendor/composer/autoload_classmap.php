@@ -91,6 +91,7 @@ return array(
     'App\\Http\\Requests\\ValidasiMbkmEksternalRequest' => $baseDir . '/app/Http/Requests/ValidasiMbkmEksternalRequest.php',
     'App\\Http\\Requests\\ValidasiMbkmRequest' => $baseDir . '/app/Http/Requests/ValidasiMbkmRequest.php',
     'App\\Http\\Requests\\ValidasilaporanRequest' => $baseDir . '/app/Http/Requests/ValidasilaporanRequest.php',
+    'App\\Imports\\Partnerimport' => $baseDir . '/app/Imports/Partnerimport.php',
     'App\\InvolvedCourse' => $baseDir . '/app/InvolvedCourse.php',
     'App\\Mail\\AccountAccepted' => $baseDir . '/app/Mail/AccountAccepted.php',
     'App\\Mail\\daftarmbkm' => $baseDir . '/app/Mail/daftarmbkm.php',

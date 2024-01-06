@@ -703,6 +703,7 @@ class ComposerStaticInit61abe9c9ab89ac92e53e2a0a0c098602
         'App\\Http\\Requests\\ValidasiMbkmEksternalRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ValidasiMbkmEksternalRequest.php',
         'App\\Http\\Requests\\ValidasiMbkmRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ValidasiMbkmRequest.php',
         'App\\Http\\Requests\\ValidasilaporanRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ValidasilaporanRequest.php',
+        'App\\Imports\\Partnerimport' => __DIR__ . '/../..' . '/app/Imports/Partnerimport.php',
         'App\\InvolvedCourse' => __DIR__ . '/../..' . '/app/InvolvedCourse.php',
         'App\\Mail\\AccountAccepted' => __DIR__ . '/../..' . '/app/Mail/AccountAccepted.php',
         'App\\Mail\\daftarmbkm' => __DIR__ . '/../..' . '/app/Mail/daftarmbkm.php',

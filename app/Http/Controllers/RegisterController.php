@@ -9,6 +9,7 @@ use App\ProgramStudy;
 use App\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use Prologue\Alerts\Facades\Alert;
@@ -67,6 +68,8 @@ class RegisterController extends Controller
                         'users_id' => $user->id
                     ]);
 
+                    DB::commit();
+
                     // $this->guard()->login($user);
                     backpack_auth()->login($user);
 
@@ -95,7 +98,7 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'phone' => 'required',
-            'jenis' => 'required',
+            // 'jenis' => 'required',
             'address' => 'required',
             'email' => 'required|unique:users,email',
             'password' => 'required|min:6|confirmed',
@@ -112,7 +115,7 @@ class RegisterController extends Controller
             'password' => bcrypt($request->password),
             'level' => 'mitra'
         ]);
-
+        $jenismtr = "dalam kampus";
         if ($user) {
 
             Partner::create([
@@ -121,7 +124,7 @@ class RegisterController extends Controller
                 'phone' => $request->phone,
                 'users_id' => $user->id,
                 'status' => 'pending',
-                'jenis_mitra' => $request->jenis
+                'jenis_mitra' => $jenismtr
             ]);
 
             // $this->guard()->login($user);
