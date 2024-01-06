@@ -174,9 +174,8 @@
         </div>
     </div>
     <div class="content">
-        <p class="text-center"><b>FORMULIR PENDAFTARAN</b></p>
-        <p class="text-center"><b>PROGRAM MAGANG DAN STUDI INDEPENDEN BERSERTIFIKAT (MSIB)</b></p>
-        <p class="text-center"><b>MERDEKA BELAJAR-KAMPUS MERDEKA</b></p>
+        <p class="text-center"><b>FORMULIR PENYETARAAN</b></p>
+        <p class="text-center"><b>PROGRAM MERDEKA BELAJAR-KAMPUS MERDEKA</b></p>
         <p class="text-center"><b>POLITEKNIK NEGERI JEMBER</b></p>
         <br>
 
@@ -212,54 +211,60 @@
         </div>
         <div class="detail_data">
             <div>6.</div>
+            <div>Aktifitas MBKM</div>
+            <div>:</div>
+            <div>-</div>
+        </div>
+        <div class="detail_data">
+            <div>7.</div>
             <div>Judul MBKM</div>
             <div>:</div>
             <div>{{ $data->mbkm_id == null ? $data->program_name : $data->mbkm->program_name }}</div>
         </div>
         <div class="detail_data">
-            <div>7.</div>
+            <div>8.</div>
             <div>Mitra MBKM</div>
             <div>:</div>
             <div>{{ $data->mbkm_id == null ? $data->partner->partner_name : $data->mbkm->partner->partner_name }}</div>
         </div>
         <div class="detail_data">
-            <div>8.</div>
+            <div>9.</div>
             <div>Lokasi MBKM</div>
             <div>:</div>
             <div>{{ $data->mbkm_id == null ? $data->partner->address : $data->mbkm->partner->address }}</div>
         </div>
         <div class="detail_data">
-            <div>9.</div>
-            <div>Penanggung Jawab</div>
+            <div>10.</div>
+            <div>Pendamping Mitra</div>
             <div>:</div>
             <div>{{ $data->mbkm_id == null ? '' : $data->mbkm->nama_penanggung_jawab }}</div>
         </div>
         <div class="detail_data">
-            <div>10.</div>
+            <div>11.</div>
             <div>Dosen Pembimbing</div>
             <div>:</div>
-            <div>{{ $data->pembimbing == null ? '-' : $data->lecturers->lecturers }}</div>
+            <div>{{ $data->pembimbing == null ? '-' : $data->lecturers->lecturer_name }}</div>
         </div>
         <div class="detail_data">
-            <div>11.</div>
+            <div>12.</div>
             <div>No SK Tugas</div>
             <div>:</div>
             <div></div>
         </div>
         <div class="detail_data">
-            <div>12.</div>
+            <div>13.</div>
             <div>Tanggal SK Tugas</div>
             <div>:</div>
             <div></div>
         </div>
         <div class="detail_data">
-            <div>13.</div>
+            <div>14.</div>
             <div>Durasi</div>
             <div>:</div>
             <div>1 (Satu) Semester</div>
         </div>
         <div class="detail_data">
-            <div>14.</div>
+            <div>15.</div>
             <div>Nilai Penyetaraan</div>
             <div>:</div>
             <div></div>
@@ -269,10 +274,10 @@
         <table>
             <tr>
                 <th>No.</th>
-                <th>Nama Mata Kuliah</th>
+                <th>Nama Mata Kuliah / Soft Skill / Hard Skill</th>
                 <th>Kode Mata Kuliah</th>
                 <th>SKS</th>
-                <th>Disetarakan</th>
+                <th>Bentuk Penyetaraan</th>
                 <th>Nilai</th>
             </tr>
             @php
@@ -285,7 +290,7 @@
                     <td>{{ $item->nama_matkul }}</td>
                     <td>{{ $item->kode_matkul }}</td>
                     <td>{{ $item->sks }}</td>
-                    <td>Iya</td>
+                    <td>Bentuk Bebas</td>
                     <td>{{ $item->grade }}</td>
                 </tr>
                 @php
