@@ -32,9 +32,6 @@ class NilaiController extends Controller
             }
         }
 
-        // return $resJurusan;
-
-        // return $data;
         return view('custom_view.cetak_nilai', [
             "data" => $data,
             "jurusan" => $resJurusan,

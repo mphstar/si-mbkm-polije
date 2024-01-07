@@ -44,11 +44,12 @@ class MBKMEksternalCrudController extends CrudController
         CRUD::setEntityNameStrings('m b k m eksternal', 'MBKM Luar');
     }
 
-    public function daftareksternal()
+    public function daftareksternal(Request $request)
     {
         // $id_student = backpack_auth()->user()->with('partner')->whereHas('partner', function($query){
         //         return $query->where('users_id', backpack_auth()->user()->id);
         //     })->first();
+        $request->session()->put('pernah', 'oyiii');
         $id = backpack_auth()->user()->id;
         $today = Carbon::now()->toDateString();
         $siswa = Students::where('users_id', $id)->value('id');
@@ -69,10 +70,10 @@ class MBKMEksternalCrudController extends CrudController
         })->where('student_id', $siswa)->get();
         $crud = $this->crud;
         if ($jenjang == 4) {
-            if ($data_sis->semester < 5) {
+            if (($data_sis->semester < 2)||($data_sis->semester > 7)) {
           
                 session()->flash('semester', 'error');
-                Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal Minimal semester 5')->flash();
+                Alert::error('Maaf Anda Tidak Bisa Daftar MBKM Eksternal Minimal semester 2 dan max semester 7')->flash();
                 return back();
             } else {
                 return view('vendor/backpack/crud/mbkbmeksternal', compact('crud', 'siswa', 'id', 'extenal_sementara', 'jenis_mbkm'));
@@ -80,10 +81,10 @@ class MBKMEksternalCrudController extends CrudController
         }elseif ($jenjang == 3) {
   
         
-            if ($data_sis->semester < 3) {
+            if (($data_sis->semester < 2)||($data_sis->semester > 5)) {
                
                 session()->flash('semester', 'error');
-                Alert::error('Maaf Anda Belum Bisa Daftar MBKM Eksternal')->flash();
+                Alert::error('Maaf Anda Tidak Bisa Daftar MBKM Eksternal Minimal semester 2 dan max semester 5')->flash();
                 return back();
             } else {
                 return view('vendor/backpack/crud/mbkbmeksternal', compact('crud', 'siswa', 'id', 'extenal_sementara', 'jenis_mbkm'));
@@ -91,9 +92,11 @@ class MBKMEksternalCrudController extends CrudController
         }
     }
 
-    public function regexternal()
+    public function regexternal(Request $request)
     {
+        if ($request->session()->has('pernah')) {
 
+        
 
         $id = backpack_auth()->user()->id;
         $today = Carbon::now()->toDateString();
@@ -103,6 +106,7 @@ class MBKMEksternalCrudController extends CrudController
             return $query->where('status', '=', 'diambil');
         })->where('student_id', $siswa->id)->where('semester', $siswa->semester + 1)->get();
 
+        
         if (count($pengajuan) != 0) {
             $messages = "Maaf Anda pernah daftar  Pada Salah satu Program MBKM sebelumnya,silahkan daftar lagi semester berikutnya";
 
@@ -115,6 +119,9 @@ class MBKMEksternalCrudController extends CrudController
 
             return view('vendor/backpack/crud/regmbkmeks', compact('crud', 'siswa', 'id', 'jenis_mbkm', 'partner'));
         }
+    }else {
+        return back();
+    }
     }
     public function storeData(Request $request)
     {
