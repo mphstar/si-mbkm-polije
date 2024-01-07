@@ -9,9 +9,9 @@ class ClassApi {
     public function generateToken()
     {
 
-        $grant_type = 'client_credentials';
-        $client_id = '39';
-        $client_secreet = 'OY1PSZcSJn4G0TTmm063Gqjj726z2emrJBagWwZ3';
+        $grant_type = env('API_GRANT_TYPE');
+        $client_id = env('API_CLIENT_ID');
+        $client_secreet = env('API_CLIENT_SECRET');
 
         if (!isset($grant_type) || !isset($client_id) || !isset($client_secreet)) {
             throw new Exception('ops , your env not included the token');
@@ -84,10 +84,18 @@ class ClassApi {
                     ->view('errors.403', 403);
             }
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             abort($e->getCode());
         }
     }
+
+    
+    public function getNamaKetuaJurusan(Request $request){
+        return $this->hitAPI('http://api.polije.ac.id/resources/kepegawaian/pegawai', [
+            "debug" => true,
+        ], $request);
+    }
+    
 
     public function getJurusan(Request $request){
         return $this->hitAPI('http://api.polije.ac.id/resources/global/unit', [

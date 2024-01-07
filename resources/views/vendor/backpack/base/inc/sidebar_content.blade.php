@@ -107,7 +107,7 @@
 
         </ul>
     </li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('list-m-b-k-m-i-n-t-e-r-n') }}'><i class='nav-icon la la-question'></i> List m b k m</a></li>
+    {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('list-m-b-k-m-i-n-t-e-r-n') }}'><i class='nav-icon la la-question'></i> List m b k m</a></li> --}}
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('datambkm') }}'><i class='nav-icon la la-file-alt'></i> Data MBKM</a></li>
 @endif
 @if ($level == 'dospem')
