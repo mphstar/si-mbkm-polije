@@ -31,7 +31,7 @@ class MbkmCrudController extends CrudController
     }
     public function setup()
     {
-        CRUD::setModel(\App\Models\Mbkm::class);
+        CRUD::setModel(\App\Models\ManagementMBKM::class);
         CRUD::setRoute('admin/mbkm');
         CRUD::setEntityNameStrings('MBKM', 'Program MBKM');
     }
