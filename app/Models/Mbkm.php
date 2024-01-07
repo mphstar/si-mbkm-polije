@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\ClassApi;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -74,6 +75,23 @@ class Mbkm extends Model
         } else {
             return '<span class="badge bg-warning">Menunggu</span>';
         }
+    }
+
+    public function getTextJurusan()
+    {
+        $ap = new ClassApi;
+        $jurusan = $ap->getJurusan(request());
+
+        $res = 'Tidak diketahui';
+
+        foreach ($jurusan as $key => $value) {
+            if($value->uuid == $this->jurusan){
+                $res = $value->unit;
+                break;
+            }
+        }
+
+        return $res;
     }
     /*
     |--------------------------------------------------------------------------

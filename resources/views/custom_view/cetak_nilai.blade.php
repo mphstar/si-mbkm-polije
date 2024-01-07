@@ -195,13 +195,13 @@
             <div>3.</div>
             <div>Program Studi</div>
             <div>:</div>
-            <div>{{ $prodi }}</div>
+            <div>{{ ucwords(strtolower($prodi)) }}</div>
         </div>
         <div class="detail_data">
             <div>4.</div>
             <div>Jurusan</div>
             <div>:</div>
-            <div>{{ $jurusan }}</div>
+            <div>{{ ucwords(strtolower($jurusan)) }}</div>
         </div>
         <div class="detail_data">
             <div>5.</div>
@@ -317,10 +317,10 @@
                     <div>Jember, 24 Juli 2023</div>
                     <div>Mengetahui</div>
                     <div>Koord. Program Studi</div>
-                    <div>D4 Teknik Informatika</div>
+                    <div>{{ ucwords(strtolower($ttd_kaprodi->unit)) }}</div>
                     <br><br><br>
-                    <div>Bety Etikasari S.kom, M.Cs</div>
-                    <div>NIP. 199002272018032001</div>
+                    <div>{{ $ttd_kaprodi->nama_gelar }}</div>
+                    <div>NIP. {{ $ttd_kaprodi->nip }}</div>
                 </div>
                 <div class="footer-ttd-item">
                     <div><br></div>
@@ -333,10 +333,10 @@
                 </div>
                 <div class="footer-ttd-item">
                     <div>Menyetujui</div>
-                    <div>Ketua Jurusan Teknologi Informasi</div>
+                    <div>Ketua Jurusan {{ ucwords(strtolower($ttd_kajur->unit)) }}</div>
                     <br><br><br>
-                    <div>Hendra Yufit Riskiawan, S.Kom, M.Cs</div>
-                    <div>NIP. 199002272018032001</div>
+                    <div>{{ $ttd_kajur->nama_gelar }}</div>
+                    <div>NIP. {{ $ttd_kajur->nip }}</div>
                 </div>
             </div>
         </div>

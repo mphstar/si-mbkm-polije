@@ -91,8 +91,20 @@ class ClassApi {
 
     
     public function getNamaKetuaJurusan(Request $request){
-        return $this->hitAPI('http://api.polije.ac.id/resources/kepegawaian/pegawai', [
+        return $this->hitAPI('http://api.polije.ac.id/resources/kepegawaian/manajemen-pegawai', [
             "debug" => true,
+            "limit" => 1000,
+            "offset" => 1,
+            "jab_pengelola" => "Ketua Jurusan",
+        ], $request);
+    }
+
+    public function getNamaKetuaProdi(Request $request){
+        return $this->hitAPI('http://api.polije.ac.id/resources/kepegawaian/manajemen-pegawai', [
+            "debug" => true,
+            "limit" => 1000,
+            "offset" => 1,
+            "jab_pengelola" => "Ketua Program Studi",
         ], $request);
     }
     

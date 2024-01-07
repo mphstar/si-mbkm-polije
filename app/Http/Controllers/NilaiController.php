@@ -10,7 +10,8 @@ use Prologue\Alerts\Facades\Alert;
 
 class NilaiController extends Controller
 {
-    public function cetak($id){
+    public function cetak($id, Request $request)
+    {
         $data = Nilaimbkm::with(['students', 'involved.course', 'mbkm', 'partner', 'lecturers'])->where('id', $id)->first();
         $ap = new ClassApi;
         $jurusan = $ap->getJurusan(request());
@@ -19,23 +20,48 @@ class NilaiController extends Controller
         $resJurusan = '-';
         $resProdi = '-';
 
+
+
         foreach ($jurusan as $key => $value) {
-            if($value->uuid == $data->students->jurusan){
+            if ($value->uuid == $data->students->jurusan) {
                 $resJurusan = $value->unit;
                 break;
             }
         }
         foreach ($prodi as $key => $value) {
-            if($value->uuid == $data->students->program_studi){
+            if ($value->uuid == $data->students->program_studi) {
                 $resProdi = $value->unit;
                 break;
             }
         }
 
+        $resNamaJurusan = array();
+        $resNamaProdi = array();
+
+
+        $ketuajurusan = $ap->getNamaKetuaJurusan($request);
+        foreach ($ketuajurusan as $key => $value) {
+            if ($value->unit == str_replace("JURUSAN ", "", $resJurusan)) {
+                $resNamaJurusan = $value;
+                break;
+            }
+        }
+
+        $ketuaprodi = $ap->getNamaKetuaProdi($request);
+        foreach ($ketuaprodi as $key => $value) {
+            if ($value->unit == str_replace("PROGRAM STUDI ", "", $resProdi)) {
+                $resNamaProdi = $value;
+                break;
+            }
+        }
+
+
         return view('custom_view.cetak_nilai', [
             "data" => $data,
             "jurusan" => $resJurusan,
             "prodi" => $resProdi,
+            "ttd_kajur" => $resNamaJurusan,
+            "ttd_kaprodi" => $resNamaProdi,
         ]);
     }
 
