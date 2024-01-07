@@ -62,6 +62,9 @@
                         @foreach ($datamhs as $item)
                             <tr>
                                 <td class="text-center">{{ $index }}</th>
+                                <td class="text-center">{{ $item->student->name }}</td>
+                                <td class="text-center">{{ $item->student->nim }}</td>
+                               
                                 <td class="text-center">{{ $item->partner->partner_name }}</td>
                                 <td class="text-center">{{ $item->partner->address }}</td>
 
